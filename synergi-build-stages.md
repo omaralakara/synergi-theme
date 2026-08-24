@@ -76,19 +76,36 @@ Every prompt below assumes Claude has read `CLAUDE.md` in this folder first. Sta
 
 ---
 
-## Stage 3 — Base layout: one real page, measured
+## Stage 3 — Header, footer, nav and one real page, measured
 
-**Goal:** header, footer, `page.php` — one complete real page, end to end, under budget. If one page can't hit budget, 48 won't.
+**Goal:** header, footer, navigation and `page.php` — one complete real page, end to end, under budget. If one page can't hit budget, 48 won't.
 
-**Before starting:** Stage 2 verified. **You must have frozen which prototype direction wins** — no layout work before that decision.
+**Before starting:** Stage 2 verified. The design is frozen (`design-source/`), so nothing else gates this.
+
+### The header and footer are built HERE — and this is why
+
+The design source contains **no header or footer markup**: `homepage-content.html` starts at `<main>`. But the design CSS fully styles both. Verified class inventory:
+
+- **Header:** `.site-header`, `.header-inner`, `.header-cta`, `.nav-list`, `.menu-toggle`, `.menu-open`, `.submenu`, `.submenu-toggle`, `.submenu-wide`
+- **Footer:** `.site-footer`, `.footer-grid`, `.footer-brand`, `.footer-heading`, `.footer-conversation`, `.footer-links`, `.footer-email`, `.footer-bottom`
+
+So this is **markup work against an existing CSS contract**, not a design exercise. Write HTML that matches those class names exactly and the design applies itself.
+
+They belong in Stage 3 rather than earlier or later because: every page needs them to render at all, Stage 3's whole gate is "measure one real page" and you cannot measure a page with no header, and they are the most-reused code in the theme — everything built after Stage 3 inherits them. Building them later would make every earlier measurement invalid.
+
+**Nav specifics:** the design has **no mega-menu**. `.submenu-wide` is a `21rem` two-column dropdown collapsing to one column — build a plain accessible dropdown with a two-column variant. `main.js` already handles `menu-toggle` and `submenuToggles`; port that behaviour rather than reinventing it.
+
+**Footer content** comes from the current Elementor Pro footer template (#9031) on staging — lift the content, not the markup. The CSS class names tell you the structure: brand block, a "conversation"/CTA block, link columns, an email, and a bottom bar.
 
 **Prompt for Claude:**
-> Stage 3. Build header.php, footer.php, parts/nav.php and page.php from the frozen prototype direction, per CLAUDE.md. Mobile-first, logical properties, skip link, one h1 from the template, all JS deferred and vanilla. Then apply it to the About Us page content on staging and measure: total weight, requests, CSS, JS, blocking scripts. Report the numbers against the §6 budget.
+> Stage 3. Build header.php, parts/nav.php, footer.php and page.php per CLAUDE.md. There is no header/footer HTML in design-source — the CSS is the contract, so write markup matching exactly these classes: [paste the two lists above]. Mobile-first, logical properties only, skip link to #main-content, one h1 from the template, all JS deferred and vanilla, nav behaviour ported from design-source/assets/js/main.js. Nav is a simple dropdown with a two-column `.submenu-wide` variant — no mega-menu. Pull the footer's content from the current site's footer. Then apply it to the About Us page on staging and measure total weight, requests, CSS, JS and blocking scripts against the §6 budget.
 
 **Verify:**
 - [ ] About-style page measured: < 1 MB, < 40 requests, 0 blocking scripts, CSS/JS inside budget
-- [ ] Keyboard walk-through: skip link, nav fully operable, focus visible everywhere
-- [ ] Renders correctly with JS disabled
+- [ ] Header and footer render with the design's styling applied — no unstyled elements, meaning every class name matched the CSS contract
+- [ ] Dropdown opens, closes, and the two-column `.submenu-wide` variant displays correctly
+- [ ] Keyboard walk-through: skip link, nav fully operable (open/close/escape), focus visible everywhere
+- [ ] Renders correctly with JS disabled — nav must still be usable
 - [ ] Page looks right on 360px, 768px, 1440px widths
 - [ ] Tagged `stage-3-done`
 
