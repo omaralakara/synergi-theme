@@ -181,3 +181,32 @@ function syn_print_asset_debug_comment() {
 	}
 	echo "-->\n";
 }
+
+add_filter( 'wp_preload_resources', 'syn_preload_brand_font' );
+/**
+ * Preloads the one font file the theme ships (CLAUDE.md §6).
+ *
+ * Montserrat is declared in theme.json, which emits the @font-face rule inside
+ * the global-styles inline CSS. Without a preload the browser cannot discover
+ * the file until it has parsed that CSS, which costs a round trip on the LCP
+ * text. Uses core's wp_preload_resources filter so the link prints at wp_head
+ * priority 1, ahead of every stylesheet.
+ *
+ * The href must match theme.json's resolved src byte for byte — no version
+ * query string — or the browser treats them as two files and downloads both.
+ * crossorigin is mandatory even same-origin: fonts are always fetched in CORS
+ * mode, and a preload without it is discarded and refetched.
+ *
+ * @param array[] $resources Resources core will preload.
+ * @return array[] The list with the brand font appended.
+ */
+function syn_preload_brand_font( $resources ) {
+	$resources[] = array(
+		'href'        => SYN_URI . 'assets/fonts/montserrat-latin.woff2',
+		'as'          => 'font',
+		'type'        => 'font/woff2',
+		'crossorigin' => 'anonymous',
+	);
+
+	return $resources;
+}
