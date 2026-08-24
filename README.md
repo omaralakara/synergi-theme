@@ -11,6 +11,7 @@ Everything needed to build the new synergi.ae theme, in the order you'd read it.
 | `synergi-build-plan.md` | The full plan (v2 + 23 Aug amendments): problem, trade-offs, phases, SEO, security, rollback | You want the complete reasoning and evidence |
 | `CLAUDE.md` | The build rules: hard restrictions, theme structure, tokens, security / performance / SEO / accessibility standards | **Every build session starts by reading this** |
 | `synergi-build-stages.md` | Stages 0–9 with copy-paste prompts, verification gates and rollbacks | Doing the actual build, one stage at a time |
+| `design-source/` | The approved homepage design as built by Synergi's own developer — HTML, CSS, JS, icons. **Input to the build, never shipped.** Snapshot from staging, 24 Aug; see its `SOURCE.md` | Stage 5 |
 | `reference/theme.json` | The corrected design tokens as working code (from the 20 Aug scaffold — values verified against the live design) | Stage 2 |
 | `reference/montserrat-latin.woff2` | The design's only font, copied from the server, SHA-1 verified | Stage 2 |
 | `reference/token-notes.md` | Verified notes on the token values: cascade quirks, decisions needing eyeballing on staging | Stage 2 and the CSS split |
