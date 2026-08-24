@@ -1,16 +1,349 @@
 /*
  * base.css — the theme's only always-on stylesheet.
- * Contents (filled in Stage 2): reset · base typography · utility custom
- * properties that theme.json does not own (border, focus ring, success,
- * shadows, easing) · layout primitives.
+ * Contents: token alias layer · reset · base typography · media defaults ·
+ * layout primitives · accessibility (focus ring, skip link) · reduced motion.
  *
  * Loaded by inc/assets.php as the "synergi-base" handle, and registered as the
  * block editor stylesheet in inc/setup.php. Every section stylesheet depends on
- * this handle.
+ * this handle, so anything declared here is available to all of them.
  *
- * Rules: no hard-coded design values — colours, sizes and spacing come from the
- * theme.json custom properties (CLAUDE.md §2.7). Logical properties only, never
- * left/right (CLAUDE.md §2.11).
+ * Rules: no hard-coded design values — every colour, size, radius and duration
+ * resolves to a theme.json custom property (CLAUDE.md §2.7). Logical properties
+ * only, never left/right (CLAUDE.md §2.11). Selectors stay flat, two levels max.
  *
- * Stage 1: deliberately empty. An unstyled but readable page is the goal.
+ * What this file deliberately does NOT do: set body font, colour, line-height or
+ * heading sizes. The "styles" block in theme.json owns those and emits them as
+ * global-styles inline CSS. Restating them here would create exactly the
+ * override layer CLAUDE.md §4 exists to prevent.
  */
+
+/* ==========================================================================
+   1. Token alias layer
+   The single place the theme.json naming (--wp--preset--*, --wp--custom--*)
+   meets the short names every other stylesheet uses. Values originate in
+   theme.json; nothing new is defined here. Two reasons this layer exists:
+   the design source (main.min.css) is written against short names, so the
+   Stage 5 split becomes a mechanical rename rather than a rewrite; and it
+   gives one file to open when asking where a value came from.
+   ========================================================================== */
+
+:root {
+	/* Palette — the 11 editor colours. */
+	--syn-navy: var(--wp--preset--color--navy);
+	--syn-navy-deep: var(--wp--preset--color--navy-deep);
+	--syn-ink: var(--wp--preset--color--ink);
+	--syn-cyan: var(--wp--preset--color--cyan);
+	--syn-cyan-soft: var(--wp--preset--color--cyan-soft);
+	--syn-mint: var(--wp--preset--color--mint);
+	--syn-text: var(--wp--preset--color--text);
+	--syn-text-soft: var(--wp--preset--color--text-soft);
+	--syn-white: var(--wp--preset--color--white);
+	--syn-paper: var(--wp--preset--color--paper);
+	--syn-paper-blue: var(--wp--preset--color--paper-blue);
+
+	/* Utility colours — kept out of the editor picker on purpose (CLAUDE.md §3). */
+	--syn-border: var(--wp--custom--color--border);
+	--syn-border-dark: var(--wp--custom--color--border-dark);
+	--syn-focus: var(--wp--custom--color--focus);
+	--syn-success: var(--wp--custom--color--success);
+
+	--syn-gradient-brand: var(--wp--preset--gradient--brand);
+	--syn-gradient-brand-deep: var(--wp--preset--gradient--brand-deep);
+
+	/* Type scale — steps -1 to 4, matching the design source's --step-* names. */
+	--syn-step--1: var(--wp--preset--font-size--sm);
+	--syn-step-0: var(--wp--preset--font-size--base);
+	--syn-step-1: var(--wp--preset--font-size--lg);
+	--syn-step-2: var(--wp--preset--font-size--xl);
+	--syn-step-3: var(--wp--preset--font-size--2xl);
+	--syn-step-4: var(--wp--preset--font-size--3xl);
+
+	--syn-font-brand: var(--wp--preset--font-family--brand);
+
+	/* Spacing steps 1–8. Step 8 is the section rhythm. */
+	--syn-space-1: var(--wp--preset--spacing--20);
+	--syn-space-2: var(--wp--preset--spacing--30);
+	--syn-space-3: var(--wp--preset--spacing--40);
+	--syn-space-4: var(--wp--preset--spacing--50);
+	--syn-space-5: var(--wp--preset--spacing--60);
+	--syn-space-6: var(--wp--preset--spacing--70);
+	--syn-space-7: var(--wp--preset--spacing--80);
+	--syn-section-space: var(--wp--preset--spacing--90);
+
+	/* Layout. --syn-container mirrors the wideSize in theme.json; keep them equal. */
+	--syn-container: 82rem;
+	--syn-container-narrow: var(--wp--custom--container-narrow);
+	--syn-gutter: var(--wp--custom--gutter);
+	--syn-header-height: var(--wp--custom--header-height);
+
+	--syn-radius-sm: var(--wp--custom--radius--sm);
+	--syn-radius-md: var(--wp--custom--radius--md);
+	--syn-radius-lg: var(--wp--custom--radius--lg);
+	--syn-radius-xl: var(--wp--custom--radius--xl);
+
+	--syn-shadow-soft: var(--wp--preset--shadow--soft);
+	--syn-shadow-card: var(--wp--preset--shadow--card);
+
+	--syn-ease-out: var(--wp--custom--motion--ease-out);
+	--syn-duration-fast: var(--wp--custom--motion--duration-fast);
+	--syn-duration: var(--wp--custom--motion--duration);
+	--syn-duration-slow: var(--wp--custom--motion--duration-slow);
+}
+
+/*
+ * Two responsive token overrides carried over from the design source, which
+ * sets them inside media queries that theme.json cannot express.
+ * The source has a third step (--gutter: 0.85rem below 22rem/352px); it is
+ * dropped because the narrow clamp already resolves to about 16px there — a 2px
+ * difference, below every width the theme is tested at.
+ */
+@media (max-width: 74rem) {
+
+	:root {
+		--syn-header-height: var(--wp--custom--header-height-compact);
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	:root {
+		--syn-gutter: var(--wp--custom--gutter-narrow);
+	}
+}
+
+/* ==========================================================================
+   2. Reset
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	min-block-size: 100vh;
+	-webkit-font-smoothing: antialiased;
+}
+
+/*
+ * Headings and paragraphs arrive with user-agent margins that fight blockGap
+ * and the section rhythm. Vertical spacing is set by whichever container owns
+ * the element, never inherited from the browser.
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ol,
+ul {
+	margin-block: 0;
+}
+
+ol,
+ul {
+	padding-inline-start: 0;
+}
+
+/* Lists inside editor-authored content (.syn-entry-content, set by page.php and
+   index.php) keep their markers and their indent. */
+.syn-entry-content ol,
+.syn-entry-content ul {
+	padding-inline-start: var(--syn-space-4);
+}
+
+/* ==========================================================================
+   3. Base typography
+   theme.json sets family, size, weight, colour and line-height. Only the rules
+   it cannot express live here.
+   ========================================================================== */
+
+h1,
+h2,
+h3 {
+	text-wrap: balance;
+}
+
+p {
+	text-wrap: pretty;
+}
+
+::selection {
+	background-color: var(--syn-cyan-soft);
+	color: var(--syn-ink);
+}
+
+hr {
+	border: 0;
+	border-block-start: 1px solid var(--syn-border);
+	margin-block: var(--syn-space-5);
+}
+
+code,
+pre,
+kbd,
+samp {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.9em;
+}
+
+/* ==========================================================================
+   4. Media and form defaults
+   ========================================================================== */
+
+img,
+picture,
+video,
+canvas,
+svg,
+iframe {
+	display: block;
+	max-inline-size: 100%;
+}
+
+img,
+video,
+canvas {
+	block-size: auto;
+}
+
+/* Inherit the brand font rather than the user agent's control font. */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+textarea {
+	resize: vertical;
+}
+
+/* ==========================================================================
+   5. Layout primitives
+   The only two width containers the theme has. Sections and templates compose
+   from these; no section defines a max-width of its own.
+   ========================================================================== */
+
+.syn-container {
+	inline-size: 100%;
+	max-inline-size: var(--syn-container);
+	margin-inline: auto;
+	padding-inline: var(--syn-gutter);
+}
+
+.syn-container--narrow {
+	max-inline-size: var(--syn-container-narrow);
+}
+
+/*
+ * Core alignments for editor-authored content. alignleft and alignright are
+ * left to core: they are float-based and physical by definition, so the theme
+ * does not restate them (CLAUDE.md §2.11).
+ */
+.syn-entry-content > .alignwide {
+	max-inline-size: var(--syn-container);
+	margin-inline: auto;
+}
+
+.syn-entry-content > .alignfull {
+	max-inline-size: none;
+	/* Cancels the container gutter so a full-bleed block reaches the viewport edge. */
+	margin-inline: calc(var(--syn-gutter) * -1);
+}
+
+.syn-entry-content > .aligncenter {
+	margin-inline: auto;
+}
+
+/* ==========================================================================
+   6. Accessibility
+   ========================================================================== */
+
+/*
+ * One visible focus ring for everything (CLAUDE.md §9). theme.json declares the
+ * same ring on links and buttons; this catches every other focusable element.
+ * :focus-visible only, so a mouse click never paints a ring — but the ring is
+ * never removable: outline: none without a replacement is a bug here.
+ */
+:focus-visible {
+	outline: 3px solid var(--syn-focus);
+	outline-offset: 2px;
+	border-radius: var(--syn-radius-sm);
+}
+
+/*
+ * Skip link — the first focusable element on every page, targeting
+ * #main-content in header.php. Off-screen until focused, then pinned to the
+ * start of the viewport.
+ */
+.syn-skip-link {
+	position: absolute;
+	inset-block-start: -100%;
+	inset-inline-start: var(--syn-gutter);
+	z-index: 999;
+	padding: var(--syn-space-2) var(--syn-space-4);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+	border-radius: var(--syn-radius-md);
+	text-decoration: none;
+}
+
+.syn-skip-link:focus {
+	inset-block-start: var(--syn-space-2);
+}
+
+/* Screen-reader-only text, for labels that must exist but not be seen. */
+.syn-visually-hidden {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* ==========================================================================
+   7. Reduced motion
+   Applied theme-wide so no section has to remember it (CLAUDE.md §6). Content
+   stays visible — reduced motion means no movement, never hidden content.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	html {
+		scroll-behavior: auto;
+	}
+
+	/*
+	 * !important is required here: this rule has to beat every animation
+	 * declaration in every section stylesheet, including ones written later.
+	 * It is the only !important the theme ships (CLAUDE.md §2.12).
+	 */
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
