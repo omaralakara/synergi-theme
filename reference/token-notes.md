@@ -21,9 +21,18 @@ The prototype CSS contains 79 distinct hex values across 51 custom properties. F
 | `--radius-md` | `1rem` | `6px` | **6px** |
 | `--radius-lg` | `1.5rem` | `8px` | **8px** |
 | `--radius-xl` | `2rem` | `8px` | **8px** |
-| `--section-space` | `clamp(5rem, 9vw, 8.5rem)` | `7.5rem` | **7.5rem** |
+| `--section-space` | `clamp(5rem, 9vw, 8.5rem)` | `7.5rem` | **~~7.5rem~~ see below** |
 
-`reference/theme.json` uses the effective values. One deliberate improvement: section spacing is restored to a single clamp — `clamp(2.8rem, 4.5vw + 1rem, 7.5rem)` — matching both desktop and mobile without a media query. **Eyeball on staging.**
+**Correction, 24 Aug (Stage 2).** This audit stopped at the sixth `:root`. There are **eight**, and two more follow the ones tabled above — both unconditional, neither inside a media query:
+
+- block 7 (after the `prefers-reduced-motion` group) declares `--gradient-brand` and `--gradient-brand-deep`
+- block 8, the **last rule in the file**, declares `--section-space: clamp(2.8rem, 4.5vw, 4.9rem)`
+
+Block 8 wins everywhere, so the effective section spacing is `clamp(2.8rem, 4.5vw, 4.9rem)` — 44.8px at 360px, 78.4px from 1089px up. Neither `7.5rem` nor the "deliberate improvement" clamp `clamp(2.8rem, 4.5vw + 1rem, 7.5rem)` proposed here ever renders in the design; both were dropped at Stage 2 and `CLAUDE.md` §3 corrected. Same failure applies to `--shadow-card`: the effective value is the sixth block's `0 1rem 2.5rem rgba(7,26,49,0.09)`, not the first block's `0 0.8rem 2.2rem rgba(7,26,49,0.08)` that §3 carried.
+
+The general lesson for the Stage 5 split: resolve a token by reading the **last unconditional declaration in file order**, not by reading down a table.
+
+`reference/theme.json` uses the effective values, with the two corrections above applied in `synergi/theme.json`.
 
 ## Two open eyeball checks for staging
 

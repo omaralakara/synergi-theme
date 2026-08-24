@@ -56,7 +56,9 @@ These are verified from the approved design's `main.min.css` and the Elementor g
 
 **Utility values** (CSS variables in base.css, NOT in the editor palette): border `#d7e1e9`, focus ring `#ffd15c`, success `#8dd8b4`.
 
-**Layout:** container `82rem`, narrow container `68rem`, gutter `clamp(1.25rem, 4vw, 3.5rem)`, header height `5.25rem`, section spacing `7.5rem`, radius `4px / 6px / 8px / 8px` (sm/md/lg/xl).
+**Layout:** container `82rem`, narrow container `68rem`, gutter `clamp(1.25rem, 4vw, 3.5rem)`, header height `5.25rem`, section spacing `clamp(2.8rem, 4.5vw, 4.9rem)`, radius `4px / 6px / 8px / 8px` (sm/md/lg/xl).
+
+> **Corrected 24 Aug, Stage 2.** Section spacing previously read `7.5rem` here. That was the sixth `:root` block's value; the design source declares `:root` **eight** times, and the eighth — unconditional, last in the file — sets `--section-space: clamp(2.8rem, 4.5vw, 4.9rem)`, which therefore wins at every width. `7.5rem` (120px) never renders anywhere; the clamp tops out at 4.9rem (78px). The `reference/token-notes.md` audit that produced the old value stopped at the sixth block.
 
 **Type scale — verified from the design's own CSS, 24 Aug. Use these exact clamps; do not invent a scale.**
 
@@ -69,7 +71,7 @@ These are verified from the approved design's `main.min.css` and the Elementor g
 | step 3 | `clamp(2.1rem, 1.45rem + 2.2vw, 3.5rem)` |
 | step 4 | `clamp(2.8rem, 1.7rem + 3.8vw, 5.8rem)` |
 
-**Other verified tokens** (base.css, not the editor palette): shadow-soft `0 1.5rem 4rem rgba(7,26,49,0.12)`, shadow-card `0 0.8rem 2.2rem rgba(7,26,49,0.08)`, border-dark `rgba(255,255,255,0.16)`, gradient-brand `linear-gradient(45deg, #1d4e89 0%, #28abe5 100%)`, ease-out `cubic-bezier(0.2,0.75,0.25,1)`, duration `320ms`, duration-fast `160ms`.
+**Other verified tokens** (base.css, not the editor palette): shadow-soft `0 1.5rem 4rem rgba(7,26,49,0.12)`, shadow-card `0 1rem 2.5rem rgba(7,26,49,0.09)` (corrected 24 Aug — `0 0.8rem 2.2rem rgba(7,26,49,0.08)` is the first `:root`'s value and is overridden by the sixth), border-dark `rgba(255,255,255,0.16)`, gradient-brand `linear-gradient(45deg, #1d4e89 0%, #28abe5 100%)`, ease-out `cubic-bezier(0.2,0.75,0.25,1)`, duration `320ms`, duration-fast `160ms`.
 
 Five tokens in the source are aliases and must NOT become separate values: `--color-signal` → secondary, `--color-mint-soft` → surface-blue, `--color-charcoal` → primary-ink, `--color-paper` → surface-soft, `--color-line` → border. Collapse them.
 
