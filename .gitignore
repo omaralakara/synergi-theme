@@ -1,0 +1,35 @@
+# Synergi theme repo — what never gets committed
+
+# Credentials and environment — never in Git, no exceptions
+*.env
+.env*
+wp-config.php
+*credentials*
+*.pem
+*.key
+
+# Database — content is migrated, not committed
+*.sql
+*.sql.gz
+*.wpress
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/
+
+# Build scratch (none should exist — the theme has no build step)
+node_modules/
+vendor/
+*.log
+
+# Local staging exports and backups
+backups/
+*.zip
+!reference/**
+
+# Superseded files awaiting manual deletion (if moved rather than deleted)
+_to_delete/
