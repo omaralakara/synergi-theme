@@ -1,0 +1,16 @@
+/*
+ * base.css — the theme's only always-on stylesheet.
+ * Contents (filled in Stage 2): reset · base typography · utility custom
+ * properties that theme.json does not own (border, focus ring, success,
+ * shadows, easing) · layout primitives.
+ *
+ * Loaded by inc/assets.php as the "synergi-base" handle, and registered as the
+ * block editor stylesheet in inc/setup.php. Every section stylesheet depends on
+ * this handle.
+ *
+ * Rules: no hard-coded design values — colours, sizes and spacing come from the
+ * theme.json custom properties (CLAUDE.md §2.7). Logical properties only, never
+ * left/right (CLAUDE.md §2.11).
+ *
+ * Stage 1: deliberately empty. An unstyled but readable page is the goal.
+ */
