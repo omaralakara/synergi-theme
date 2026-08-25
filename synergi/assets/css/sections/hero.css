@@ -1,0 +1,400 @@
+/*
+ * hero.css — section 01, the homepage hero.
+ * Contents: 1 shell · 2 photograph and shade · 3 layout · 4 heading ·
+ * 5 lead · 6 the animated line · 7 button row · 8 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-hero", only on pages that
+ * declare the hero through syn_use_sections(). Markup: sections/hero.php.
+ * Behaviour: assets/js/sections/hero.js.
+ *
+ * main.min.css styles this section across SEVEN passes and the later ones
+ * reverse the earlier ones outright — the first pass builds a gradient
+ * background with a CSS grid overlay and a huge ringed circle, and a later pass
+ * sets `.hero::before,.hero::after{display:none}` and replaces the gradient with
+ * a flat colour behind a photograph. None of that first pass renders. What is
+ * here is only what survives the cascade, resolved once.
+ *
+ * Two other rules in the source are dead and are not carried across: an
+ * `@media (max-height:40rem) and (orientation:landscape)` block that a later
+ * unconditional rule overrides, and a `body.page-id-10479` rule tied to the
+ * previous developer's draft page.
+ *
+ * Class map, design source -> theme:
+ *   .hero        -> .syn-hero            .hero-media  -> .syn-hero__media
+ *   .hero-shade  -> .syn-hero__shade     .hero-layout -> .syn-hero__layout
+ *   .hero-copy   -> .syn-hero__copy      .hero-lead   -> .syn-hero__lead
+ *   .hero-motion-line   -> .syn-hero__motion
+ *   .hero-motion-visual -> .syn-hero__motion-visual
+ *   .hero-motion-slot   -> .syn-hero__motion-slot
+ *   .hero-typeword      -> .syn-hero__typeword
+ *   .hero-caret         -> .syn-hero__caret
+ *   .button-row         -> .syn-button-row   (shared, defined in base.css)
+ *
+ * The design paints the shade and the copy in ink and white at many opacities.
+ * All of them are derived with color-mix() from palette tokens rather than
+ * written as rgba() literals (CLAUDE.md §2.7).
+ */
+
+.syn-hero {
+	/* One source for the highlight blue used by the animated line. The design
+	   hard-codes #76d0f1, which is not in the §3 palette; mixing cyan toward
+	   white reproduces it to within a shade and keeps the value tokenised. */
+	--syn-hero-highlight: color-mix(in srgb, var(--syn-cyan) 62%, var(--syn-white));
+	--syn-hero-ink-90: color-mix(in srgb, var(--syn-ink) 90%, transparent);
+	--syn-hero-copy: color-mix(in srgb, var(--syn-white) 78%, transparent);
+}
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-hero {
+	position: relative;
+	display: block;
+	block-size: min(49rem, 92svh);
+	min-block-size: 41rem;
+	overflow: hidden;
+	background-color: var(--syn-ink);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. Photograph and shade
+   Two stacked gradients: one across the inline axis so the copy always has a
+   dark bed to sit on, one down the block axis so the section joins the one
+   below it instead of ending on a hard edge.
+   ========================================================================== */
+
+.syn-hero__media,
+.syn-hero__shade {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.syn-hero__media {
+	object-fit: cover;
+	object-position: 52% 52%;
+}
+
+.syn-hero__shade {
+	z-index: 1;
+	background-image:
+		linear-gradient(
+			90deg,
+			color-mix(in srgb, var(--syn-ink) 97%, transparent) 0%,
+			color-mix(in srgb, var(--syn-ink) 86%, transparent) 38%,
+			color-mix(in srgb, var(--syn-ink) 42%, transparent) 68%,
+			color-mix(in srgb, var(--syn-ink) 20%, transparent) 100%
+		),
+		linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--syn-ink) 10%, transparent) 34%,
+			var(--syn-hero-ink-90) 100%
+		);
+}
+
+/* ==========================================================================
+   3. Layout
+   The block-start padding clears the fixed site header, which is transparent
+   over this section — the hero is the one place on the site that has no
+   parts/page-header.php band reserving that space.
+   ========================================================================== */
+
+.syn-hero__layout {
+	position: relative;
+	z-index: 2;
+	display: grid;
+	block-size: 100%;
+	min-block-size: inherit;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: 1fr;
+	gap: 2.5rem 4rem;
+	align-items: center;
+	padding-block-start: calc(var(--syn-header-height) + 3.5rem);
+	padding-block-end: 3.5rem;
+}
+
+.syn-hero__copy {
+	inline-size: min(100%, 61rem);
+	align-self: center;
+}
+
+/* ==========================================================================
+   4. Heading
+   The one <h1> on the homepage. Sized in rem rather than from the type scale
+   because the design tunes it per breakpoint well past step 4.
+   ========================================================================== */
+
+.syn-hero__title {
+	max-inline-size: none;
+	margin-block-end: 1.4rem;
+	color: var(--syn-white);
+	font-size: 4.15rem;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0;
+	text-wrap: balance;
+}
+
+.syn-hero__title span {
+	display: block;
+	color: var(--syn-cyan);
+}
+
+/* ==========================================================================
+   5. Lead
+   ========================================================================== */
+
+.syn-hero__lead {
+	max-inline-size: none;
+	margin-block-end: 0;
+	color: var(--syn-hero-copy);
+	font-size: 1.05rem;
+	line-height: 1.62;
+}
+
+/* ==========================================================================
+   6. The animated line
+   A typewriter cycling four words. The slot is a fixed 21ch so the line does
+   not reflow on every keystroke and shove the buttons around.
+   ========================================================================== */
+
+.syn-hero__motion {
+	max-inline-size: 43rem;
+	min-block-size: 1.65rem;
+	margin-block: 1rem 0;
+	color: color-mix(in srgb, var(--syn-white) 82%, transparent);
+	font-size: 0.92rem;
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+.syn-hero__motion-visual {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	column-gap: 0.38em;
+}
+
+.syn-hero__motion-visual > span:first-child {
+	color: var(--syn-hero-copy);
+}
+
+.syn-hero__motion-slot {
+	display: inline-flex;
+	inline-size: 21ch;
+	align-items: baseline;
+	color: var(--syn-hero-highlight);
+}
+
+.syn-hero__typeword {
+	display: inline;
+	min-inline-size: 0;
+	color: var(--syn-hero-highlight);
+	white-space: nowrap;
+}
+
+.syn-hero__caret {
+	display: inline-block;
+	inline-size: 0.08em;
+	block-size: 0.85em;
+	margin-inline-start: 0.08em;
+	background-color: var(--syn-cyan);
+	transform: translateY(0.08em);
+	animation: syn-hero-caret-blink 920ms steps(1) infinite;
+}
+
+@keyframes syn-hero-caret-blink {
+
+	0%,
+	49% {
+		opacity: 1;
+	}
+
+	50%,
+	100% {
+		opacity: 0;
+	}
+}
+
+/*
+ * Reduced motion stops the blink outright. base.css already collapses the
+ * duration globally, but an infinite steps() animation still flickers at 0.01ms
+ * — it has to be switched off, not shortened. The typewriter itself never
+ * starts: hero.js checks the same preference before its first tick, so the line
+ * stays on the word the server rendered.
+ */
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-hero__caret {
+		animation: none;
+	}
+}
+
+/* ==========================================================================
+   7. Button row
+   Shared with the closing CTA; the buttons themselves live in base.css.
+   ========================================================================== */
+
+.syn-button-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.85rem;
+	margin-block-start: 2rem;
+}
+
+/* ==========================================================================
+   8. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 74rem) {
+
+	.syn-hero__layout {
+		gap: 2rem 2.5rem;
+	}
+
+	.syn-hero__title {
+		font-size: 3.9rem;
+	}
+
+	.syn-hero__lead {
+		max-inline-size: 43rem;
+	}
+}
+
+@media (max-width: 61.25rem) {
+
+	.syn-hero {
+		block-size: min(46rem, 92svh);
+		min-block-size: 39rem;
+	}
+
+	.syn-hero__layout {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		gap: 1.5rem;
+		align-content: stretch;
+		padding-block-start: calc(var(--syn-header-height) + 2.5rem);
+		padding-block-end: 2.5rem;
+	}
+
+	.syn-hero__title {
+		max-inline-size: 17ch;
+		font-size: 3.45rem;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-hero {
+		min-block-size: min(43rem, 94svh);
+	}
+
+	.syn-hero__media {
+		object-position: 61% 50%;
+	}
+
+	/* Darker and reaching further across: at this width the copy sits over the
+	   middle of the photograph rather than clear of the subject. */
+	.syn-hero__shade {
+		background-image:
+			linear-gradient(
+				90deg,
+				color-mix(in srgb, var(--syn-ink) 96%, transparent) 0%,
+				color-mix(in srgb, var(--syn-ink) 80%, transparent) 64%,
+				color-mix(in srgb, var(--syn-ink) 50%, transparent) 100%
+			),
+			linear-gradient(
+				180deg,
+				color-mix(in srgb, var(--syn-ink) 20%, transparent) 18%,
+				color-mix(in srgb, var(--syn-ink) 92%, transparent) 100%
+			);
+	}
+
+	.syn-hero__layout {
+		min-block-size: min(43rem, 94svh);
+		inline-size: min(calc(100% - (2 * var(--syn-gutter))), var(--syn-container));
+		gap: 1.75rem;
+		padding-block-start: calc(var(--syn-header-height) + 2rem);
+		padding-block-end: 2rem;
+	}
+
+	.syn-hero__copy {
+		max-inline-size: 100%;
+		align-self: center;
+	}
+
+	.syn-hero__title {
+		max-inline-size: 100%;
+		margin-block-end: 1rem;
+		font-size: clamp(2.35rem, 11.4vw, 3.05rem);
+	}
+
+	.syn-hero__lead {
+		max-inline-size: 34rem;
+		font-size: 0.88rem;
+		line-height: 1.55;
+	}
+
+	.syn-hero__motion {
+		max-inline-size: 34rem;
+		/* Two lines' worth: the sentence wraps here, and without the reserved
+		   height the buttons jump when it does. */
+		min-block-size: 2.625rem;
+		margin-block-start: 0.8rem;
+		font-size: 0.82rem;
+	}
+
+	.syn-hero__motion-visual,
+	.syn-hero__motion-slot {
+		max-inline-size: 100%;
+	}
+
+	.syn-button-row {
+		display: grid;
+		inline-size: 100%;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.5rem;
+		margin-block-start: 1.25rem;
+	}
+
+	.syn-button-row .syn-button {
+		inline-size: 100%;
+		min-block-size: 3.1rem;
+		gap: 0.4rem;
+		padding-inline: 0.6rem;
+		font-size: 0.69rem;
+	}
+}
+
+@media (max-width: 32rem) {
+
+	.syn-button-row {
+		grid-template-columns: 1fr;
+	}
+
+	.syn-button-row .syn-button {
+		min-block-size: 3rem;
+	}
+}
+
+@media (max-width: 27rem) {
+
+	.syn-hero__title {
+		font-size: clamp(2.05rem, 10.8vw, 2.55rem);
+	}
+
+	/* The slot drops onto its own line rather than squeezing 21ch beside the
+	   lead-in, which would hyphenate "unnecessary overhead" mid-word. */
+	.syn-hero__motion-visual {
+		display: block;
+	}
+
+	.syn-hero__motion-slot {
+		display: flex;
+		inline-size: 100%;
+		margin-block-start: 0.12rem;
+	}
+}

@@ -87,7 +87,19 @@ function syn_enqueue_part_assets() {
 		|| is_search()
 		|| is_404();
 
-	if ( $syn_has_band ) {
+	/*
+	 * Except a template whose first section is a hero. The hero reserves the
+	 * space under the fixed header itself, so the band never renders and its
+	 * stylesheet would be a download for nothing.
+	 *
+	 * The template check is temporary scaffolding: while Stage 5 is in progress
+	 * the homepage is being built on a draft page, so is_front_page() is false
+	 * for it. Once front-page.php lands, is_front_page() covers this on its own
+	 * and the array below can go.
+	 */
+	$syn_hero_templates = array( 'templates/homepage.php' );
+
+	if ( $syn_has_band && ! in_array( get_page_template_slug(), $syn_hero_templates, true ) ) {
 		$parts[] = 'page-header';
 	}
 

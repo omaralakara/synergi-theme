@@ -394,3 +394,73 @@ textarea {
 		scroll-behavior: auto !important;
 	}
 }
+
+/* ==========================================================================
+   8. Buttons
+   The design's shared button, promoted here in Stage 5 because sections need
+   it and it also appears in editor content and on 404.php. Stage 3 wrote the
+   header CTA's geometry out inline rather than inventing this early; that CTA
+   has since been removed, so this is the only copy.
+
+   The asymmetric radius (square leading edge, rounded trailing edge) is the
+   design's, not a mistake — it is what makes the brand's buttons recognisable.
+   It is written logically so it mirrors correctly in Arabic.
+   ========================================================================== */
+
+.syn-button {
+	display: inline-flex;
+	min-block-size: 3.25rem;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	padding-block: 0.8rem;
+	padding-inline: 1.35rem;
+	border: 1px solid transparent;
+	border-start-start-radius: 0;
+	border-end-start-radius: 0;
+	border-start-end-radius: 1.25rem;
+	border-end-end-radius: 1.25rem;
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.025em;
+	line-height: 1.2;
+	text-align: center;
+	text-decoration: none;
+	transition:
+		transform var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration-fast),
+		background-color var(--syn-duration-fast),
+		border-color var(--syn-duration-fast),
+		color var(--syn-duration-fast),
+		filter var(--syn-duration-fast);
+}
+
+.syn-button:hover {
+	transform: translateY(-2px);
+}
+
+/* Solid brand gradient. The primary action in any group. */
+.syn-button--primary {
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+	box-shadow: 0 0.5rem 1.4rem color-mix(in srgb, var(--syn-navy) 28%, transparent);
+}
+
+.syn-button--primary:hover {
+	color: var(--syn-white);
+	box-shadow: 0 0.7rem 1.8rem color-mix(in srgb, var(--syn-navy) 34%, transparent);
+	filter: brightness(1.12);
+}
+
+/* Outlined, for use on a dark surface — the hero and the closing CTA. */
+.syn-button--light {
+	border-color: color-mix(in srgb, var(--syn-white) 55%, transparent);
+	background-color: transparent;
+	color: var(--syn-white);
+}
+
+.syn-button--light:hover {
+	border-color: var(--syn-white);
+	background-color: var(--syn-white);
+	color: var(--syn-navy);
+}

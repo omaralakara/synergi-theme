@@ -39,5 +39,6 @@ defined( 'SYN_DEBUG' ) || define( 'SYN_DEBUG', defined( 'WP_DEBUG' ) && WP_DEBUG
 require_once SYN_DIR . 'inc/setup.php';
 require_once SYN_DIR . 'inc/assets.php';
 require_once SYN_DIR . 'inc/nav.php';
+require_once SYN_DIR . 'inc/sections.php';
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
