@@ -32,7 +32,13 @@
 .syn-site-footer {
 	--syn-footer-text: color-mix(in srgb, var(--syn-white) 86%, transparent);
 	--syn-footer-muted: color-mix(in srgb, var(--syn-white) 76%, transparent);
-	--syn-footer-faint: color-mix(in srgb, var(--syn-white) 45%, transparent);
+	/*
+	 * 65%, not the design's 45%. The bottom bar is not decoration — it holds the
+	 * Terms and Privacy links, so §9's 4.5:1 applies to it like any other body
+	 * text. 45% white on navy measures 3.04:1; 65% is the first step that clears
+	 * the floor, at 4.57:1. Still visibly quieter than the columns above it.
+	 */
+	--syn-footer-faint: color-mix(in srgb, var(--syn-white) 65%, transparent);
 	--syn-footer-rule: color-mix(in srgb, var(--syn-white) 12%, transparent);
 }
 
@@ -40,9 +46,23 @@
    1. Footer shell
    ========================================================================== */
 
+/*
+ * Solid navy rather than the design's --gradient-brand-deep, decided 25 Aug.
+ *
+ * That gradient runs navy to cyan at 45deg, which puts its lightest point in the
+ * top-right — exactly where the last column's heading sits. Measured against
+ * white: 8.39:1 at the navy end, 4.48:1 at the midpoint, 2.61:1 at the cyan end,
+ * against the 4.5:1 floor in CLAUDE.md §9. Roughly half the footer failed, and
+ * the links failed further into it than the headings did.
+ *
+ * A navy scrim over the gradient was the alternative and reached only 4.78:1 —
+ * passing by 0.28, and muting the gradient so far that it barely read as one.
+ * Navy is an approved §3 token, passes at every position and every viewport, and
+ * matches what the header already becomes once it is scrolled.
+ */
 .syn-site-footer {
 	padding-block-start: clamp(4rem, 8vw, 7rem);
-	background-image: var(--syn-gradient-brand-deep);
+	background-color: var(--syn-navy);
 	color: var(--syn-white);
 }
 
