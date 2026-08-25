@@ -1,8 +1,10 @@
 # Stage 4 — post migration checklist
 
-Audited on staging, 25 August 2026, against `_elementor_data` and `post_content`
-as they stand. Nothing in this file has been changed on staging; it is the
-worklist, not a record of work done.
+Audited on staging, 25 August 2026, against `_elementor_data` and `post_content`.
+
+**This file has two halves.** Everything down to the horizontal rule is the
+worklist as it was found. Everything after "What was actually done" is the
+record of the changes made, with the postmeta key holding each backup.
 
 **25 posts, not the 22 the build plan expected** — 23 published plus 2 drafts.
 The extra posts were published after the plan was written. Group A matches the
@@ -146,3 +148,104 @@ identical (§2.8 holds) but replaces the Elementor content with the post listing
 
 That is one of the nine structural decisions the plan assigns to Stage 7, so it
 is recorded here rather than decided.
+
+---
+
+# What was actually done — 25 August 2026
+
+Everything below was executed on **staging only**. `_elementor_data` was not
+touched on any post; every content change kept a backup in postmeta.
+
+## 1. `/blog/` is now a real post archive
+
+`page_for_posts` set to page #136 "Our Blog".
+
+- The URL is unchanged: `https://staging.synergi.ae/blog/` (§2.8 holds).
+- It now renders `archive.php`: one `h1` ("Our Blog"), 10 post cards at `h2`,
+  pagination, no heading skips, no Elementor markup.
+- Page #136's old Elementor content is preserved twice over — in
+  `_elementor_data`, and copied to postmeta `_syn_content_before_posts_page`.
+- **To reverse:** Settings → Reading → set "Posts page" back to "— Select —".
+  The old page content returns immediately.
+
+## 2. Heading hierarchy fixed on 8 posts
+
+Each post's headings were shifted as a block so the shallowest becomes `h2`,
+which preserves the relative structure instead of flattening it. Original
+content saved to postmeta `_syn_heading_backup_2026_08_25` on every post touched.
+
+| ID | Shift | Before | After |
+|---|---|---|---|
+| 102 *(draft)* | −2 | 4 | 2 |
+| 8617 | −2 | 4,4,4,4 | 2,2,2,2 |
+| 8785 | −2 | 4×8 | 2×8 |
+| 8918 | −1 | 3,3,3,3,4,4,4,4,3,3 | 2,2,2,2,3,3,3,3,2,2 |
+| 9290 | −2 | 4×8 | 2×8 |
+| 9525 | −2 | 4×6 | 2×6 |
+| 9631 | −2 | 4×5 | 2×5 |
+| 9650 | −2 | 4×6 | 2×6 |
+
+Byte counts are identical before and after — only tag names changed. The script
+aborted on any post whose non-heading content would have shifted, or whose
+heading count changed. Note 8918: it had two real levels and kept both.
+
+## 3. The two suspected-truncation posts
+
+- **9927 — clean.** Zero sentences present in Elementor but missing from
+  `post_content` (3,799 vs 3,800 characters).
+- **9975 — clean, but it exposed a different defect.** The two sentences that
+  looked missing were present all along; the comparison failed because the
+  content contained a literal `&lt;/a &gt;` — a broken closing tag that rendered
+  as visible `</a >` text on the page.
+
+## 4. Broken markup artifacts removed
+
+| ID | Removed | Bytes |
+|---|---|---|
+| 9975 | 4 × `&lt;/a &gt;` | 9,646 → 9,602 |
+| 10124 | 1 × `&lt;/a &gt;` | 29,346 → 29,335 |
+
+Backups in postmeta `_syn_artifact_backup_2026_08_25`.
+
+Post **8946** carries `data-elementor-lightbox-*` attributes on a working image
+link. With Elementor deactivated nothing reads them, so the link behaves as an
+ordinary link — cosmetic cruft for Stage 9, not a defect.
+
+## 5. The missing `syn-card` image size
+
+`add_image_size( 'syn-card', 720, 405 )` was registered in Stage 1, but every
+image had been uploaded before that, so the derivative never existed. Card
+`src` attributes were therefore falling back to the full-size original — up to
+1,672px wide for a 22rem box.
+
+24 derivatives generated with `wp_get_image_editor()` and registered in each
+attachment's metadata. One image is smaller than the crop and falls back
+gracefully. Nothing was deleted or overwritten.
+
+`/blog/` card images: **~775 KB → 346 KB** of `src`, and every card is
+lazy-loaded with a working `srcset`, so real first-load is a fraction of that.
+
+## 6. Verification
+
+All **23 published posts** fetched and checked: HTTP 200, exactly one `h1`, no
+heading skips, no Elementor markup, no stray anchors. Zero exceptions.
+
+| Route | Status | CSS | Requests | Blocking JS | Excl. third party |
+|---|---|---|---|---|---|
+| `/blog/` | 200 | 19.6 KB | 25 | 2 | 585 KB |
+| single post | 200 | 19.6 KB | 16 | 2 | 284 KB |
+| category | 200 | 19.6 KB | 15 | 2 | 222 KB |
+| search | 200 | 19.6 KB | 24 | 2 | 649 KB |
+| 404 | **404** | 19.6 KB | 15 | 2 | 222 KB |
+
+The two blocking scripts are jQuery and a plugin bundle; no theme code
+contributes to either. Total page weight and JavaScript still exceed §6 for the
+unchanged third-party reason recorded in the `stage-3-done` tag.
+
+## Still open
+
+- **ASE snippet #10379** ("SEO: single post title H3 to H1") is still published
+  and still buffering every single-post response. It is inert now — every post
+  has a real `h1` — and it is safe to retire.
+- **Duplicate GA4**: `G-F8BHKGB935` in ASE snippet #8607 alongside Site Kit's
+  `GT-TXBFKV55`. Left untouched by request.
