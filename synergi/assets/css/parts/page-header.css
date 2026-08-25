@@ -41,6 +41,26 @@
 	line-height: 1.5;
 }
 
+/*
+ * The category above the title and the date below it. Mint rather than a faded
+ * white: on navy it measures 5.27:1, where white at the 65% these would
+ * otherwise want sits at 4.57:1 and anything lighter fails §9 outright.
+ */
+.syn-page-header__eyebrow {
+	margin-block-end: var(--syn-space-2);
+	color: var(--syn-mint);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.syn-page-header__meta {
+	margin-block-start: var(--syn-space-3);
+	color: color-mix(in srgb, var(--syn-white) 78%, transparent);
+	font-size: var(--syn-step--1);
+}
+
 /* ==========================================================================
    2. Narrow screens
    Where the header stops being fixed (narrow, no scripting — see header.css §9)

@@ -79,8 +79,22 @@ function syn_enqueue_part_assets() {
 
 	$parts = array( 'header', 'footer' );
 
-	if ( is_singular() && ! is_front_page() ) {
+	// Every view that renders the title band: singular pages and posts, plus
+	// the listing templates, which put the archive title in the same band.
+	$syn_has_band = ( is_singular() && ! is_front_page() )
+		|| is_home()
+		|| is_archive()
+		|| is_search()
+		|| is_404();
+
+	if ( $syn_has_band ) {
 		$parts[] = 'page-header';
+	}
+
+	// The blog's own layer: cards, pagination, post navigation. A designed page
+	// never renders any of it, so it never downloads it (CLAUDE.md §6).
+	if ( is_singular( 'post' ) || is_home() || is_archive() || is_search() || is_404() ) {
+		$parts[] = 'post';
 	}
 
 	foreach ( $parts as $part ) {

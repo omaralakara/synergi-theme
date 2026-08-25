@@ -1,0 +1,272 @@
+/*
+ * post.css — everything the blog adds on top of a page.
+ * Contents: 1 single post media · 2 previous/next · 3 card grid · 4 the card ·
+ * 5 pagination · 6 the 404 list.
+ *
+ * Loaded by inc/assets.php as "synergi-post", on single posts, archives, the
+ * posts page, search results and 404s only, depending on the "synergi-base"
+ * handle. Markup: single.php, archive.php, search.php, 404.php and
+ * parts/post-card.php.
+ *
+ * No counterpart in design-source: the approved design covers the homepage and
+ * says nothing about the blog. Everything here is built from theme.json tokens,
+ * and the shapes follow what the header and footer already established — the
+ * card radius, shadow and border are the same ones the design uses elsewhere,
+ * rather than a second visual language for the blog.
+ */
+
+/* ==========================================================================
+   1. Single post media
+   Pulled up into the title band so the image overlaps it, which is what stops
+   a post opening with two stacked full-width blocks of flat colour.
+   ========================================================================== */
+
+.syn-post-media {
+	margin: 0;
+	transform: translateY(calc(var(--syn-space-6) * -1));
+}
+
+.syn-post-media__image {
+	inline-size: 100%;
+	border-radius: var(--syn-radius-lg);
+	box-shadow: var(--syn-shadow-card);
+	/* A tall portrait upload would otherwise push the article off the screen. */
+	max-block-size: 32rem;
+	object-fit: cover;
+}
+
+/*
+ * The pull-up above removes the image's own height from the flow, so without
+ * this the content would collide with it. Kept next to the rule that causes it.
+ */
+.syn-post-media + .syn-container .syn-entry-content {
+	padding-block-start: var(--syn-space-5);
+}
+
+/* ==========================================================================
+   2. Previous / next
+   ========================================================================== */
+
+.syn-post-nav {
+	display: grid;
+	gap: var(--syn-space-4);
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	padding-block: var(--syn-space-6);
+	border-block-start: 1px solid var(--syn-border);
+}
+
+.syn-post-nav__link {
+	display: grid;
+	gap: var(--syn-space-1);
+	padding: var(--syn-space-4);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	color: inherit;
+	text-decoration: none;
+	transition:
+		border-color var(--syn-duration-fast),
+		box-shadow var(--syn-duration-fast),
+		transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-post-nav__link:hover {
+	border-color: var(--syn-cyan);
+	box-shadow: var(--syn-shadow-card);
+	transform: translateY(-2px);
+}
+
+.syn-post-nav__label {
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.syn-post-nav__title {
+	color: var(--syn-ink);
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+/* ==========================================================================
+   3. Card grid
+   auto-fill rather than auto-fit: with auto-fit a single result would stretch
+   to the full container width and look like a mistake next to a full page.
+   ========================================================================== */
+
+.syn-card-grid {
+	display: grid;
+	gap: clamp(1.5rem, 3vw, 2.5rem);
+	grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+	padding-block: var(--syn-space-7);
+}
+
+/* ==========================================================================
+   4. The card
+   ========================================================================== */
+
+.syn-card {
+	display: flex;
+	min-inline-size: 0;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	transition:
+		border-color var(--syn-duration-fast),
+		box-shadow var(--syn-duration-fast),
+		transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-card:hover {
+	border-color: var(--syn-cyan);
+	box-shadow: var(--syn-shadow-card);
+	transform: translateY(-3px);
+}
+
+/*
+ * The whole card lifts on hover, so the focus ring has to sit on the card, not
+ * only on the title link inside it — otherwise keyboard users get a ring around
+ * two words of an element that is visibly moving as a unit.
+ */
+.syn-card:focus-within {
+	border-color: var(--syn-cyan);
+	box-shadow: var(--syn-shadow-card);
+}
+
+.syn-card__media {
+	display: block;
+	overflow: hidden;
+	background-color: var(--syn-paper-blue);
+	/* Reserves the 16:9 box before the image arrives, so the grid never jumps. */
+	aspect-ratio: 16 / 9;
+}
+
+.syn-card__image {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.syn-card__body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--syn-space-2);
+	padding: var(--syn-space-4);
+}
+
+.syn-card__eyebrow {
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.syn-card__title {
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+}
+
+.syn-card__title a {
+	color: var(--syn-ink);
+	text-decoration: none;
+}
+
+.syn-card__title a:hover {
+	color: var(--syn-navy);
+}
+
+.syn-card__excerpt {
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+}
+
+/* Pushed to the bottom so dates line up across cards of differing text length. */
+.syn-card__meta {
+	margin-block-start: auto;
+	padding-block-start: var(--syn-space-2);
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+}
+
+/* ==========================================================================
+   5. Pagination
+   Core emits .navigation.pagination with .nav-links inside; those class names
+   are core's, not the theme's, which is why they are the only unprefixed
+   selectors in this file.
+   ========================================================================== */
+
+.pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--syn-space-2);
+	padding-block-end: var(--syn-space-7);
+}
+
+.pagination .page-numbers {
+	display: grid;
+	min-inline-size: 2.75rem;
+	min-block-size: 2.75rem;
+	place-items: center;
+	padding-inline: var(--syn-space-2);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-md);
+	color: var(--syn-ink);
+	text-decoration: none;
+	transition:
+		background-color var(--syn-duration-fast),
+		border-color var(--syn-duration-fast),
+		color var(--syn-duration-fast);
+}
+
+.pagination .page-numbers:hover {
+	border-color: var(--syn-navy);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+}
+
+.pagination .page-numbers.current {
+	border-color: var(--syn-navy);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+}
+
+.pagination .page-numbers.dots {
+	border-color: transparent;
+}
+
+/* ==========================================================================
+   6. The 404 list
+   ========================================================================== */
+
+.syn-404-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--syn-space-3);
+	padding-inline-start: 0;
+	list-style: none;
+}
+
+.syn-404-links a {
+	display: inline-flex;
+	min-block-size: 2.75rem;
+	align-items: center;
+	padding-inline: var(--syn-space-4);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-md);
+	color: var(--syn-navy);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.syn-404-links a:hover {
+	border-color: var(--syn-navy);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+}
