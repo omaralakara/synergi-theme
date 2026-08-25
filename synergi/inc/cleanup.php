@@ -187,10 +187,30 @@ function syn_audit_jquery_dependents() {
 /**
  * The Instagram Feed Pro stylesheet handles this file manages.
  *
+ * ONLY the front-end feed stylesheet. "sbi-blocks-styles" was in this list
+ * until 25 Aug and must never come back: it is the block EDITOR's chrome for
+ * the Instagram block, and the plugin registers it as
+ *
+ *     wp_register_style( 'sbi-blocks-styles', 'css/sb-blocks.css',
+ *                        array( 'wp-edit-blocks' ), SBIVER );
+ *
+ * That dependency chains — wp-edit-blocks pulls wp-block-editor-content, which
+ * pulls wp-reset-editor-styles, which pulls wp-admin's own common.css and
+ * forms.css. common.css carries
+ *
+ *     body { font-family: -apple-system, BlinkMacSystemFont, ...; font-size: 13px }
+ *
+ * which loads after global styles and beats Montserrat on equal specificity.
+ * The plugin only ever enqueues this handle on enqueue_block_editor_assets, so
+ * it never reaches the front end on its own; restoring it here is what put it
+ * there, and it cost the homepage 91 KB of admin CSS and its brand font.
+ *
+ * The front-end feed is painted entirely by sbi_styles.
+ *
  * @return string[] Style handles.
  */
 function syn_instagram_style_handles() {
-	return array( 'sbi_styles', 'sbi-blocks-styles' );
+	return array( 'sbi_styles' );
 }
 
 /**
