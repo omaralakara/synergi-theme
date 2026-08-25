@@ -70,8 +70,8 @@
 				{ "slug": "base", "name": "Body",      "size": "clamp(1rem, 0.95rem + 0.2vw, 1.12rem)" },
 				{ "slug": "lg",   "name": "Lede",      "size": "clamp(1.2rem, 1.05rem + 0.55vw, 1.55rem)" },
 				{ "slug": "xl",   "name": "Heading 3", "size": "clamp(1.55rem, 1.2rem + 1.1vw, 2.25rem)" },
-				{ "slug": "2xl",  "name": "Heading 2", "size": "clamp(2.1rem, 1.45rem + 2.2vw, 3.5rem)" },
-				{ "slug": "3xl",  "name": "Heading 1", "size": "clamp(2.8rem, 1.7rem + 3.8vw, 5.8rem)" }
+				{ "slug": "xxl",  "name": "Heading 2", "size": "clamp(2.1rem, 1.45rem + 2.2vw, 3.5rem)" },
+				{ "slug": "xxxl", "name": "Heading 1", "size": "clamp(2.8rem, 1.7rem + 3.8vw, 5.8rem)" }
 			]
 		},
 
@@ -169,8 +169,8 @@
 				},
 				"color": { "text": "var(--wp--preset--color--ink)" }
 			},
-			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--3xl)", "lineHeight": "1.05" } },
-			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--2xl)" } },
+			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--xxxl)", "lineHeight": "1.05" } },
+			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--xxl)" } },
 			"h3": { "typography": { "fontSize": "var(--wp--preset--font-size--xl)" } },
 			"h4": { "typography": { "fontSize": "var(--wp--preset--font-size--lg)" } },
 			"h5": { "typography": { "fontSize": "var(--wp--preset--font-size--base)", "fontWeight": "700" } },

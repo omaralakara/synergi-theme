@@ -59,8 +59,11 @@ function syn_setup() {
 	add_theme_support( 'align-wide' );
 
 	// The block editor should render content with the same base rules as the
-	// front end. base.css is an empty placeholder until Stage 2 — registering it
-	// now means Stage 2 only has to fill the file, not wire it up.
+	// front end. Both calls are required: without the editor-styles support flag
+	// core ignores every registered editor stylesheet, so the --syn-* alias layer
+	// in base.css never reaches the canvas (Stage 1 carry-forward, wired up here
+	// in Stage 2 now that base.css has real content).
+	add_theme_support( 'editor-styles' );
 	add_editor_style( 'assets/css/base.css' );
 
 	register_nav_menus(
@@ -79,4 +82,48 @@ function syn_setup() {
 	 */
 	set_post_thumbnail_size( 1200, 675, true );
 	add_image_size( 'syn-card', 720, 405, true );
+}
+
+add_filter( 'block_editor_settings_all', 'syn_add_editor_font_faces' );
+/**
+ * Injects the theme.json @font-face rules into the block editor canvas.
+ *
+ * Core prints font faces for the front end on wp_head (wp_print_font_faces at
+ * priority 50) but registers no admin or editor equivalent. A classic/hybrid
+ * theme's canvas therefore inherits the global-styles rule
+ * "font-family: var(--wp--preset--font-family--brand)" with no matching
+ * @font-face, so Montserrat cannot load and the canvas silently falls down the
+ * fallback stack. Verified on staging 25 Aug: none of the eight editor style
+ * entries contained an @font-face rule.
+ *
+ * The styles array is the channel used because it is the only one that reaches
+ * the canvas in both the iframed and the non-iframed editor; admin_print_styles
+ * lands in the admin document head, which an iframed canvas never sees.
+ *
+ * No values are restated here — the CSS comes from core's own font-face printer
+ * reading theme.json, so the font stays single-sourced (CLAUDE.md §2.7).
+ *
+ * Side effects: appends one entry to the block editor styles array. Runs only
+ * in the editor; the front end is untouched.
+ *
+ * @param array $settings Block editor settings.
+ * @return array Settings with the font-face CSS appended.
+ */
+function syn_add_editor_font_faces( $settings ) {
+
+	ob_start();
+	wp_print_font_faces();
+	$style_tag = ob_get_clean();
+
+	// wp_print_font_faces() emits a wrapped <style> element; the editor styles
+	// array expects bare CSS.
+	$css = trim( (string) preg_replace( '#</?style[^>]*>#i', '', $style_tag ) );
+
+	if ( '' === $css ) {
+		return $settings;
+	}
+
+	$settings['styles'][] = array( 'css' => $css );
+
+	return $settings;
 }

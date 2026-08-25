@@ -50,13 +50,23 @@
 	--syn-gradient-brand: var(--wp--preset--gradient--brand);
 	--syn-gradient-brand-deep: var(--wp--preset--gradient--brand-deep);
 
-	/* Type scale — steps -1 to 4, matching the design source's --step-* names. */
+	/*
+	 * Type scale — steps -1 to 4, matching the design source's --step-* names.
+	 *
+	 * The two largest slugs are "xxl"/"xxxl", not "2xl"/"3xl": core runs every
+	 * preset slug through _wp_to_kebab_case() when it builds the custom property,
+	 * which inserts a dash between a digit and a letter. A "2xl" slug therefore
+	 * emits --wp--preset--font-size--2-xl, and every reference written as
+	 * --wp--preset--font-size--2xl silently resolves to nothing. Verified on
+	 * staging 25 Aug: h1 and h2 were rendering at the browser default size
+	 * because of exactly that. Never start a preset slug with a digit.
+	 */
 	--syn-step--1: var(--wp--preset--font-size--sm);
 	--syn-step-0: var(--wp--preset--font-size--base);
 	--syn-step-1: var(--wp--preset--font-size--lg);
 	--syn-step-2: var(--wp--preset--font-size--xl);
-	--syn-step-3: var(--wp--preset--font-size--2xl);
-	--syn-step-4: var(--wp--preset--font-size--3xl);
+	--syn-step-3: var(--wp--preset--font-size--xxl);
+	--syn-step-4: var(--wp--preset--font-size--xxxl);
 
 	--syn-font-brand: var(--wp--preset--font-family--brand);
 

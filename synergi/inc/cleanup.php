@@ -74,6 +74,11 @@ add_action( 'init', 'syn_remove_oembed_cruft' );
  * @return void
  */
 function syn_remove_oembed_cruft() {
+	// Core registers the discovery links TWICE in default-filters.php: once at
+	// priority 4 and once at the default 10. Removing only the default leaves
+	// the priority-4 copy printing, which is what happened until 25 Aug — both
+	// have to go, and a bare remove_action() only ever matches priority 10.
+	remove_action( 'wp_head', 'wp_oembed_add_discovery_links', 4 );
 	remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
 	remove_action( 'wp_head', 'wp_oembed_add_host_js' );
 }
