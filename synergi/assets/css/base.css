@@ -464,3 +464,103 @@ textarea {
 	background-color: var(--syn-white);
 	color: var(--syn-navy);
 }
+
+/* ==========================================================================
+   9. Scroll reveal
+   Shared by every homepage section; assets/js/main.js drives it.
+
+   The resting state is applied only inside (scripting: enabled), the same guard
+   header.css uses for the nav panel. Without it a browser with JavaScript off
+   would be left holding the whole homepage permanently invisible, which is the
+   worst failure a decorative animation can have. Gating on a class set by
+   main.js would not do: the script is deferred, so the class lands after first
+   paint and the content would visibly flash in and then hide.
+   ========================================================================== */
+
+@media (scripting: enabled) {
+
+	.syn-reveal {
+		opacity: 0;
+		transform: translateY(1.25rem);
+		transition:
+			opacity var(--syn-duration-slow) var(--syn-ease-out),
+			transform var(--syn-duration-slow) var(--syn-ease-out);
+	}
+
+	.syn-reveal.syn-is-visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Already on screen when it was reached: no fade, just present. */
+	.syn-reveal.syn-is-instant {
+		transition: none;
+	}
+}
+
+/* Reduced motion: present, in place, no movement (CLAUDE.md §6). */
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-reveal {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* ==========================================================================
+   10. Shared section elements
+   The eyebrow label and the arrow text link appear in most homepage sections,
+   so they are defined once here rather than repeated in each section file.
+   A section that needs a variant overrides it in its own stylesheet — which is
+   a component being adjusted in context, not the override layer CLAUDE.md §4
+   warns about, because there is still exactly one place these are defined.
+   ========================================================================== */
+
+/* Small uppercase label above a section heading, with a cyan rule before it. */
+.syn-eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-block-end: 1rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	line-height: 1.3;
+	text-transform: uppercase;
+}
+
+.syn-eyebrow::before {
+	inline-size: 2.25rem;
+	block-size: 2px;
+	background-color: var(--syn-cyan);
+	content: "";
+}
+
+/* "Explore X →" — the arrow slides on hover. */
+.syn-text-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.syn-text-link span {
+	transition: transform var(--syn-duration-fast);
+}
+
+.syn-text-link:hover span {
+	transform: translateX(0.25rem);
+}
+
+/*
+ * Section rhythm. The design applies this to every section except the hero,
+ * which sets its own full-viewport height — expressed here as an opt-out class
+ * rather than :not(.syn-hero), so a future section can decline it too.
+ */
+.syn-section {
+	padding-block: var(--syn-section-space);
+}

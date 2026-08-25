@@ -100,10 +100,9 @@ defined( 'ABSPATH' ) || exit;
 				 * The five service lines lead, because they are what the site
 				 * sells and the old footer did not list a single one of them —
 				 * reaching Accounting from the footer meant going via Our
-				 * Services. Project Management is listed alongside them on
-				 * request even though no page exists yet; the null path renders
-				 * it unlinked rather than pointing the whole site at a 404.
-				 * See parts/footer-links.php.
+				 * Services. Project Management has no page of its own yet and
+				 * points at the hub, which is exactly what the approved homepage
+				 * does with its sixth service card.
 				 */
 				array(
 					'heading' => __( 'Services', 'synergi' ),
@@ -113,7 +112,10 @@ defined( 'ABSPATH' ) || exit;
 						__( 'Accounting', 'synergi' )        => '/our-services/accounting/',
 						__( 'Marketing', 'synergi' )         => '/our-services/marketing/',
 						__( 'Procurement', 'synergi' )       => '/our-services/procurement/',
-						__( 'Project Management', 'synergi' ) => null,
+						// The approved homepage links this to the services hub, since the
+						// page itself does not exist yet. Matching that here beats both a
+						// 404 and an unlinked item.
+						__( 'Project Management', 'synergi' ) => '/our-services/',
 					),
 				),
 				array(

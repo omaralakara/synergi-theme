@@ -403,3 +403,127 @@
 
 	syncNavigationInteractivity();
 }() );
+
+/*
+ * ---------------------------------------------------------------------------
+ * Scroll reveal
+ *
+ * Shared by every homepage section, which is why it lives here rather than in
+ * any one of them. An element with .syn-reveal starts faded and slightly low;
+ * .syn-is-visible puts it in place. hero.css and each section stylesheet only
+ * have to name the class.
+ *
+ * Ported from design-source/assets/js/main.js, including its failsafe sweep,
+ * whose reasoning is worth keeping: IntersectionObserver alone left two holes.
+ * A fast scroll outruns its callbacks, so a section could sit blank for over a
+ * second; and anything already scrolled past at load never intersects at all,
+ * so on a refresh with a restored scroll position those sections stayed
+ * invisible permanently. Re-running the geometry test on each scroll frame
+ * closes both.
+ *
+ * Under prefers-reduced-motion, or with no IntersectionObserver, everything is
+ * marked visible immediately — reduced motion means no movement, never hidden
+ * content (CLAUDE.md §6).
+ * ---------------------------------------------------------------------------
+ */
+
+( function () {
+	'use strict';
+
+	var items = Array.prototype.slice.call( document.querySelectorAll( '.syn-reveal' ) );
+
+	if ( ! items.length ) {
+		return;
+	}
+
+	var reduced = window.matchMedia( '(prefers-reduced-motion: reduce)' );
+
+	if ( reduced.matches || ! ( 'IntersectionObserver' in window ) ) {
+		items.forEach( function ( item ) {
+			item.classList.add( 'syn-is-visible' );
+		} );
+
+		return;
+	}
+
+	var pending = new Set( items );
+	var frame = 0;
+	var lastY = window.scrollY;
+
+	function show( item, instant ) {
+		if ( ! pending.has( item ) ) {
+			return;
+		}
+
+		pending.delete( item );
+
+		// Already well inside the viewport: the fade would only ever be
+		// perceived as a blank gap, so the content is simply there.
+		if ( instant ) {
+			item.classList.add( 'syn-is-instant' );
+		}
+
+		item.classList.add( 'syn-is-visible' );
+		observer.unobserve( item );
+	}
+
+	var observer = new IntersectionObserver(
+		function ( entries ) {
+			entries.forEach( function ( entry ) {
+				if ( entry.isIntersecting ) {
+					show( entry.target, false );
+				}
+			} );
+		},
+		{ rootMargin: '0px 0px -5% 0px', threshold: 0 }
+	);
+
+	function sweep() {
+		frame = 0;
+
+		if ( ! pending.size ) {
+			return;
+		}
+
+		var viewport = window.innerHeight;
+
+		// Past roughly a third of a screen between frames the scroll is a
+		// fling: a fade would land mid-screen and read as a blank block.
+		var travelled = Math.abs( window.scrollY - lastY );
+		var flinging = travelled > viewport * 0.3;
+		lastY = window.scrollY;
+
+		var limit = viewport * ( flinging ? 1.6 : 0.95 );
+
+		Array.prototype.slice.call( pending ).forEach( function ( item ) {
+			var rect = item.getBoundingClientRect();
+
+			if ( rect.top >= limit ) {
+				return;
+			}
+
+			show( item, flinging || rect.top < viewport * 0.6 );
+		} );
+
+		if ( ! pending.size ) {
+			window.removeEventListener( 'scroll', schedule );
+			window.removeEventListener( 'resize', schedule );
+		}
+	}
+
+	function schedule() {
+		if ( frame ) {
+			return;
+		}
+
+		frame = window.requestAnimationFrame( sweep );
+	}
+
+	items.forEach( function ( item ) {
+		observer.observe( item );
+	} );
+
+	window.addEventListener( 'scroll', schedule, { passive: true } );
+	window.addEventListener( 'resize', schedule );
+	schedule();
+}() );
