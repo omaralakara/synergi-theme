@@ -197,16 +197,48 @@
 .syn-nav-list__link:hover::before,
 .syn-submenu-toggle:hover::before,
 .syn-nav-list__link[aria-current="page"]::before,
+.syn-has-submenu:focus-within > .syn-submenu-toggle::before,
 .syn-has-submenu.syn-is-open > .syn-submenu-toggle::before {
 	opacity: 1;
+}
+
+/*
+ * Hover colour.
+ *
+ * Without this, global styles from theme.json win: it sets a:hover to cyan,
+ * which on the navy bar measures 3.3:1 and reads as the text dissolving into
+ * the header — reported against Home, 25 Aug. Mint is the palette's light blue
+ * and lands at 5.6:1 on navy, so the item brightens instead of vanishing and
+ * still clears the 4.5:1 floor in CLAUDE.md §9.
+ *
+ * Named on the toggle too, so a parent item and a plain link behave alike.
+ */
+.syn-nav-list__link:hover,
+.syn-nav-list__link:focus-visible,
+.syn-submenu-toggle:hover,
+.syn-submenu-toggle:focus-visible {
+	color: var(--syn-mint);
 }
 
 .syn-submenu-toggle__chevron {
 	transition: transform var(--syn-duration-fast);
 }
 
+/*
+ * The chevron points at whatever the panel is actually doing. aria-expanded
+ * covers the tap route and is kept accurate by main.js for assistive tech; the
+ * hover block covers the pointer route without waiting on script.
+ */
 .syn-submenu-toggle[aria-expanded="true"] .syn-submenu-toggle__chevron {
 	transform: rotate(180deg);
+}
+
+@media (hover: hover) {
+
+	.syn-has-submenu:not(.syn-is-suppressed):hover .syn-submenu-toggle__chevron,
+	.syn-has-submenu:not(.syn-is-suppressed):focus-within .syn-submenu-toggle__chevron {
+		transform: rotate(180deg);
+	}
 }
 
 /* ==========================================================================
@@ -270,19 +302,12 @@
 }
 
 /*
- * Where scripting is available, the toggle button is the ONLY thing that opens
- * a submenu.
+ * Three routes in, scoped so that no two of them are ever live at once. That
+ * separation is the whole point: when hover and a click-toggle both governed
+ * the same panel, hover won the race and the button became decoration -- it
+ * spun its chevron while the panel, held open by :hover, never moved.
  *
- * It used to open on hover and on focus-within as well, and that made the
- * button meaningless on desktop: the pointer was already over the button, so
- * hover had opened the panel before the click landed. Clicking flipped
- * aria-expanded and spun the chevron while the panel — held open by :hover —
- * did not move. Reported 25 Aug as "the arrow changes and nothing happens".
- *
- * :focus-within had the same defect one step later: clicking focuses the
- * button, so the second click removed .syn-is-open and :focus-within kept the
- * panel open anyway. One state, set in one place, is the fix. main.js closes on
- * Escape, on focus leaving the item, and on a click outside it.
+ * 1. Tap. The only route on a touch screen, at any width.
  */
 .syn-has-submenu.syn-is-open > .syn-submenu {
 	visibility: visible;
@@ -291,8 +316,33 @@
 }
 
 /*
- * Without scripting nothing can set that class, so hover and focus-within are
- * the only ways in — and there is no button state to contradict them.
+ * 2. Hover and keyboard focus, on pointers that can actually hover. Opens
+ *    immediately, closes when the pointer leaves the item -- the submenu is a
+ *    child of that item, so travelling from the toggle down into the panel
+ *    never crosses outside it and never triggers a close.
+ *
+ *    The (hover: hover) guard is what keeps a touch device out of here. A tablet
+ *    in landscape is wider than 74rem and would otherwise get a desktop nav it
+ *    could not open, since tapping only emulates hover for a single frame.
+ *
+ *    :not(.syn-is-suppressed) is how Escape dismisses a panel while the pointer
+ *    is still resting on it -- WCAG 1.4.13 requires hover content be dismissible
+ *    without moving the pointer. main.js sets the class and clears it as soon as
+ *    the pointer leaves or focus moves on.
+ */
+@media (hover: hover) {
+
+	.syn-has-submenu:not(.syn-is-suppressed):hover > .syn-submenu,
+	.syn-has-submenu:not(.syn-is-suppressed):focus-within > .syn-submenu {
+		visibility: visible;
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/*
+ * 3. No scripting at all. Nothing can set a class, so hover and focus are all
+ *    that is left -- and there is no button state for them to contradict.
  */
 @media (not (scripting: enabled)) {
 
@@ -303,7 +353,6 @@
 		transform: translateY(0);
 	}
 }
-
 /* ==========================================================================
    6. Menu toggle
    Hidden by default and shown only where it does something: narrow screens with

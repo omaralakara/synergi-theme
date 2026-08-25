@@ -32,7 +32,6 @@
 .syn-site-footer {
 	--syn-footer-text: color-mix(in srgb, var(--syn-white) 86%, transparent);
 	--syn-footer-muted: color-mix(in srgb, var(--syn-white) 76%, transparent);
-	--syn-footer-label: color-mix(in srgb, var(--syn-white) 72%, transparent);
 	--syn-footer-faint: color-mix(in srgb, var(--syn-white) 45%, transparent);
 	--syn-footer-rule: color-mix(in srgb, var(--syn-white) 12%, transparent);
 }
@@ -147,11 +146,19 @@
 	min-inline-size: 0;
 }
 
+/*
+ * Full white and a heavier weight, so a column heading reads as a heading
+ * rather than as the first, slightly faded item in its own list. The design had
+ * these at 72% white against links at 86% — the label was quieter than the
+ * things it labelled, which inverted the hierarchy. Changed on request, 25 Aug.
+ * No new colour: white is already in the §3 palette, and the family is still
+ * inherited Montserrat.
+ */
 .syn-footer-heading {
 	margin-block-end: 1.2rem;
-	color: var(--syn-footer-label);
-	font-size: 0.7rem;
-	font-weight: 600;
+	color: var(--syn-white);
+	font-size: 0.72rem;
+	font-weight: 700;
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 }

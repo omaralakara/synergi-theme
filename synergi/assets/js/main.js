@@ -31,9 +31,13 @@
 	var submenuToggles = Array.prototype.slice.call(
 		document.querySelectorAll( '.syn-submenu-toggle' )
 	);
+	var submenuItems = Array.prototype.slice.call(
+		document.querySelectorAll( '.syn-has-submenu' )
+	);
 
 	// Must match the breakpoint header.css switches the nav to a panel at.
 	var narrowScreen = window.matchMedia( '(max-width: 74rem)' );
+	var hoverCapable = window.matchMedia( '(hover: hover)' );
 	var reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' );
 
 	function log( message ) {
@@ -82,8 +86,34 @@
 		} );
 	}
 
+	/**
+	 * Whether this pointer opens submenus by hovering rather than by tapping.
+	 *
+	 * Both halves matter. (hover: hover) keeps touch devices out — a tablet in
+	 * landscape is wider than the breakpoint but only emulates hover for a
+	 * single frame, so a hover-driven menu would be unopenable there. The width
+	 * check keeps a narrow desktop window on the tap path, because below the
+	 * breakpoint the nav is a full-screen panel, not a bar.
+	 *
+	 * @return {boolean}
+	 */
+	function usesHoverMenus() {
+		return hoverCapable.matches && ! narrowScreen.matches;
+	}
+
 	submenuToggles.forEach( function ( toggle ) {
 		toggle.addEventListener( 'click', function () {
+			/*
+			 * On a hovering pointer the panel is already open — hover opened it
+			 * before the click could land, and header.css governs it from there.
+			 * Toggling a class here would fight :hover and produce the bug this
+			 * replaced: a chevron that spins while the panel does not move.
+			 * Keyboard users reach the same open state through :focus-within.
+			 */
+			if ( usesHoverMenus() ) {
+				return;
+			}
+
 			var isOpen = toggle.getAttribute( 'aria-expanded' ) === 'true';
 
 			closeSubmenus( toggle );
@@ -97,6 +127,75 @@
 		} );
 	} );
 
+	/*
+	 * Keep aria-expanded truthful while hover is doing the opening.
+	 *
+	 * CSS opens the panel on its own, but a screen reader only knows what the
+	 * attribute says — without this it would announce "collapsed" over an open
+	 * menu. mouseenter/mouseleave rather than mouseover/mouseout because the
+	 * former do not fire again for every child element crossed.
+	 */
+	submenuItems.forEach( function ( item ) {
+		var toggle = item.querySelector( '.syn-submenu-toggle' );
+
+		item.addEventListener( 'mouseenter', function () {
+			if ( ! usesHoverMenus() ) {
+				return;
+			}
+
+			item.classList.remove( 'syn-is-suppressed' );
+
+			if ( toggle ) {
+				toggle.setAttribute( 'aria-expanded', 'true' );
+			}
+		} );
+
+		item.addEventListener( 'mouseleave', function () {
+			if ( ! usesHoverMenus() ) {
+				return;
+			}
+
+			// Clearing on the way out is what lets a panel dismissed with
+			// Escape open again the next time the pointer arrives.
+			item.classList.remove( 'syn-is-suppressed' );
+
+			if ( toggle ) {
+				toggle.setAttribute( 'aria-expanded', 'false' );
+			}
+		} );
+	} );
+
+	/**
+	 * Dismisses whichever submenu is open without moving pointer or focus.
+	 *
+	 * WCAG 1.4.13 requires content shown on hover to be dismissible in place.
+	 * :hover cannot be cancelled from script, so the class is what cancels it —
+	 * header.css hangs its hover rules off :not(.syn-is-suppressed).
+	 *
+	 * @return {void}
+	 */
+	function suppressSubmenus() {
+		submenuItems.forEach( function ( item ) {
+			var isOpen =
+				item.classList.contains( 'syn-is-open' ) ||
+				item.contains( document.activeElement ) ||
+				( item.matches && item.matches( ':hover' ) );
+
+			if ( ! isOpen ) {
+				return;
+			}
+
+			item.classList.add( 'syn-is-suppressed' );
+			item.classList.remove( 'syn-is-open' );
+
+			var toggle = item.querySelector( '.syn-submenu-toggle' );
+
+			if ( toggle ) {
+				toggle.setAttribute( 'aria-expanded', 'false' );
+			}
+		} );
+	}
+
 	// A click anywhere outside a submenu closes whichever one is open.
 	document.addEventListener( 'click', function ( event ) {
 		if ( ! event.target.closest( '.syn-has-submenu' ) ) {
@@ -105,13 +204,13 @@
 	} );
 
 	/*
-	 * Tabbing out of an open submenu closes it.
+	 * Tabbing out of an open submenu tidies up after it.
 	 *
-	 * header.css used to open submenus on :focus-within, which handled this for
-	 * free but also fought the button — see the note in its section 5. Now that
-	 * .syn-is-open is the only thing that opens a submenu, closing on focus
-	 * leaving is this script's job, or a keyboard user tabs past an open panel
-	 * that never shuts.
+	 * On a hovering pointer :focus-within already closes the panel the moment
+	 * focus leaves, so this is not what shuts it there — it clears the Escape
+	 * suppression and resets aria-expanded, which CSS cannot do. On the tap path
+	 * there is no :focus-within rule and this IS what closes the panel, so a
+	 * keyboard user on a touch device does not tab past one that never shuts.
 	 *
 	 * relatedTarget is where focus is going. It is null when focus leaves the
 	 * document entirely (another window, the browser chrome), and closing in
@@ -125,6 +224,7 @@
 		}
 
 		if ( ! item.contains( event.relatedTarget ) ) {
+			item.classList.remove( 'syn-is-suppressed' );
 			closeSubmenus();
 		}
 	} );
@@ -241,6 +341,7 @@
 			!! menuToggle && menuToggle.getAttribute( 'aria-expanded' ) === 'true';
 
 		if ( event.key === 'Escape' ) {
+			suppressSubmenus();
 			closeSubmenus();
 
 			if ( menuIsOpen ) {
