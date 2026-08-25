@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * Theme version. Bumped by hand, once per stage tag.
  * Used as the asset cache-busting fallback in inc/assets.php.
  */
-define( 'SYN_VERSION', '0.2.0' );
+define( 'SYN_VERSION', '0.3.0' );
 
 /** Absolute filesystem path to the theme root, with trailing slash. */
 define( 'SYN_DIR', trailingslashit( get_template_directory() ) );
@@ -38,5 +38,6 @@ defined( 'SYN_DEBUG' ) || define( 'SYN_DEBUG', defined( 'WP_DEBUG' ) && WP_DEBUG
 
 require_once SYN_DIR . 'inc/setup.php';
 require_once SYN_DIR . 'inc/assets.php';
+require_once SYN_DIR . 'inc/nav.php';
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';

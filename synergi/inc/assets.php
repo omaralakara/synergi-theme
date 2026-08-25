@@ -57,6 +57,51 @@ function syn_enqueue_base_assets() {
 	syn_asset_debug_note( 'base: synergi-base, synergi-main' );
 }
 
+add_action( 'wp_enqueue_scripts', 'syn_enqueue_part_assets', 10 );
+/**
+ * Enqueues the stylesheets belonging to the template parts in parts/.
+ *
+ * Parts are not sections and do not go through the Stage 5 section registry:
+ * they are the site chrome, and which ones a request needs is decided by the
+ * template hierarchy rather than by what a page happens to contain.
+ *
+ * header and footer are unconditional because every template calls
+ * get_header() and get_footer() — declaring them conditional would be a fiction
+ * with a file_exists() check attached. page-header is genuinely conditional:
+ * only singular views render that band, and the homepage never will, because
+ * its hero occupies the same space (CLAUDE.md §6, conditional loading).
+ *
+ * Side effects: enqueues one style handle per part listed below.
+ *
+ * @return void
+ */
+function syn_enqueue_part_assets() {
+
+	$parts = array( 'header', 'footer' );
+
+	if ( is_singular() && ! is_front_page() ) {
+		$parts[] = 'page-header';
+	}
+
+	foreach ( $parts as $part ) {
+		$path = 'assets/css/parts/' . $part . '.css';
+
+		if ( ! file_exists( SYN_DIR . $path ) ) {
+			syn_asset_debug_note( 'part css MISSING: ' . $path );
+			continue;
+		}
+
+		wp_enqueue_style(
+			'synergi-' . $part,
+			SYN_URI . $path,
+			array( 'synergi-base' ),
+			syn_asset_version( $path )
+		);
+
+		syn_asset_debug_note( 'part css: ' . $part );
+	}
+}
+
 add_action( 'wp_enqueue_scripts', 'syn_enqueue_section_assets', 20 );
 /**
  * Enqueues the CSS and JS belonging to the sections this page renders.

@@ -33,6 +33,23 @@ function syn_setup() {
 	add_theme_support( 'title-tag' );
 
 	add_theme_support( 'post-thumbnails' );
+
+	/*
+	 * The wordmark is an editable setting rather than a file in the theme: it
+	 * appears on a dark surface in both the header and the footer, so one white
+	 * logo serves both, and parts/brand.php falls back to the site name as text
+	 * when none is set. Sized generously because header.css scales it down with
+	 * inline-size and a small source would be soft on a high-density screen.
+	 */
+	add_theme_support(
+		'custom-logo',
+		array(
+			'height'      => 96,
+			'width'       => 480,
+			'flex-height' => true,
+			'flex-width'  => true,
+		)
+	);
 	add_theme_support( 'automatic-feed-links' );
 
 	// Semantic markup from core-generated output (search form, comment list,

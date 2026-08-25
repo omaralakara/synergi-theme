@@ -1,0 +1,270 @@
+/*
+ * footer.css — the site footer.
+ * Contents: 1 footer shell · 2 brand column · 3 social links · 4 link columns ·
+ * 5 bottom bar · 6 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-footer", on every page, depending on the
+ * "synergi-base" handle. Markup: footer.php and parts/footer-links.php.
+ * Needs no JavaScript.
+ *
+ * As in header.css, these are the design source's rules consolidated to the
+ * value that actually wins. main.min.css sets .footer-grid's columns seven
+ * times; the last unconditional pass beats five of them outright, so only two
+ * of its breakpoints ever fire. Those two are what is written here.
+ *
+ * Class map, design source -> theme:
+ *   .site-footer  -> .syn-site-footer     .footer-grid    -> .syn-footer-grid
+ *   .footer-brand -> .syn-footer-brand    .footer-email   -> .syn-footer-email
+ *   .social-links -> .syn-social-links    .footer-heading -> .syn-footer-heading
+ *   .footer-links -> .syn-footer-links    .footer-bottom  -> .syn-footer-bottom
+ *
+ * Two classes differ from the source on purpose.
+ *
+ * .footer-conversation is not carried across. Its only rules in main.min.css
+ * were grid-column overrides inside media queries that a later unconditional
+ * pass beats, so they never fire at any width — the class is dead weight there
+ * and would be a class with no rule here, which CLAUDE.md §13 forbids.
+ *
+ * .syn-footer-column is new. The design styles three columns that happen to be
+ * identical; naming them once gives them one place to change.
+ */
+
+.syn-site-footer {
+	--syn-footer-text: color-mix(in srgb, var(--syn-white) 86%, transparent);
+	--syn-footer-muted: color-mix(in srgb, var(--syn-white) 76%, transparent);
+	--syn-footer-label: color-mix(in srgb, var(--syn-white) 72%, transparent);
+	--syn-footer-faint: color-mix(in srgb, var(--syn-white) 45%, transparent);
+	--syn-footer-rule: color-mix(in srgb, var(--syn-white) 12%, transparent);
+}
+
+/* ==========================================================================
+   1. Footer shell
+   ========================================================================== */
+
+.syn-site-footer {
+	padding-block-start: clamp(4rem, 8vw, 7rem);
+	background-image: var(--syn-gradient-brand-deep);
+	color: var(--syn-white);
+}
+
+.syn-footer-grid {
+	display: grid;
+	min-inline-size: 0;
+	grid-template-columns: minmax(16rem, 1.35fr) repeat(3, minmax(0, 0.8fr));
+	gap: clamp(2rem, 4.5vw, 4rem);
+	padding-block-end: 4rem;
+}
+
+/* ==========================================================================
+   2. Brand column
+   ========================================================================== */
+
+.syn-footer-brand .syn-brand {
+	margin-block-end: 1.5rem;
+}
+
+.syn-footer-brand .syn-brand__logo {
+	inline-size: 10rem;
+}
+
+.syn-footer-brand > p {
+	max-inline-size: 24rem;
+	color: var(--syn-footer-muted);
+	font-size: 0.82rem;
+}
+
+.syn-footer-email {
+	display: inline-block;
+	margin-block-start: 0.35rem;
+	padding-block-end: 0.15rem;
+	border-block-end: 1px solid color-mix(in srgb, var(--syn-white) 40%, transparent);
+	color: var(--syn-white);
+	font-size: 0.82rem;
+	font-weight: 700;
+	text-decoration: none;
+	transition: border-color var(--syn-duration-fast);
+}
+
+.syn-footer-email:hover {
+	border-block-end-color: var(--syn-white);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   3. Social links
+   ========================================================================== */
+
+.syn-social-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	margin-block: 1.75rem 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-social-links a {
+	display: grid;
+	inline-size: 2.4rem;
+	block-size: 2.4rem;
+	place-items: center;
+	border: 1px solid color-mix(in srgb, var(--syn-white) 34%, transparent);
+	border-radius: 50%;
+	color: var(--syn-white);
+	text-decoration: none;
+	transition:
+		background-color var(--syn-duration-fast),
+		border-color var(--syn-duration-fast),
+		color var(--syn-duration-fast),
+		transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-social-links a:hover,
+.syn-social-links a:focus-visible {
+	border-color: var(--syn-white);
+	background-color: var(--syn-white);
+	color: var(--syn-navy);
+	transform: translateY(-2px);
+}
+
+.syn-social-links svg {
+	inline-size: 1.05rem;
+	block-size: 1.05rem;
+	fill: currentColor;
+}
+
+/* ==========================================================================
+   4. Link columns
+   ========================================================================== */
+
+/*
+ * min-inline-size: 0 stops a long unbreakable link text ("BPO Services in
+ * Saudi Arabia") from forcing the grid track wider than its share and pushing
+ * the whole footer into a horizontal scroll. Grid items default to auto, which
+ * means "at least as wide as my content".
+ */
+.syn-footer-column {
+	min-inline-size: 0;
+}
+
+.syn-footer-heading {
+	margin-block-end: 1.2rem;
+	color: var(--syn-footer-label);
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
+.syn-footer-links {
+	display: grid;
+	gap: 0.65rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-footer-links a {
+	color: var(--syn-footer-text);
+	font-size: 0.8rem;
+	text-decoration: none;
+	transition: color var(--syn-duration-fast);
+}
+
+.syn-footer-links a:hover {
+	color: var(--syn-white);
+}
+
+/*
+ * An entry whose page does not exist yet (parts/footer-links.php renders it as
+ * a <span>). Dimmed so it does not read as a link that failed to work, and it
+ * carries no hover or pointer affordance at all.
+ */
+.syn-footer-links__pending {
+	color: var(--syn-footer-faint);
+	font-size: 0.8rem;
+}
+
+/* ==========================================================================
+   5. Bottom bar
+   ========================================================================== */
+
+.syn-footer-bottom {
+	display: flex;
+	min-block-size: 5rem;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	border-block-start: 1px solid var(--syn-footer-rule);
+	color: var(--syn-footer-faint);
+	font-size: 0.68rem;
+}
+
+.syn-footer-bottom p {
+	margin: 0;
+}
+
+.syn-footer-bottom div {
+	display: flex;
+	gap: 1.5rem;
+}
+
+.syn-footer-bottom a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.syn-footer-bottom a:hover {
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   6. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-footer-grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+
+	.syn-footer-brand {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-footer-bottom,
+	.syn-footer-bottom > div {
+		max-inline-size: 100%;
+		flex-wrap: wrap;
+	}
+
+	.syn-footer-bottom {
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		padding-block: 1.25rem;
+	}
+}
+
+@media (max-width: 34rem) {
+
+	.syn-footer-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2.25rem clamp(1.25rem, 6vw, 2rem);
+	}
+}
+
+@media (max-width: 27rem) {
+
+	.syn-footer-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.syn-footer-bottom div {
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+}

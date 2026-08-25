@@ -1,0 +1,55 @@
+/*
+ * page-header.css — the title band at the top of a singular view.
+ * Contents: 1 the band · 2 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-page-header", on singular views only,
+ * depending on the "synergi-base" handle. Markup: parts/page-header.php.
+ * Needs no JavaScript.
+ *
+ * This band has no counterpart in design-source: the approved design covers the
+ * homepage, whose hero fills this role. It is built from tokens only and does
+ * nothing the header does not require — the site header is fixed and
+ * transparent, so without a dark band of its own reserving that space, a page's
+ * first line of content would sit underneath white header text.
+ */
+
+/* ==========================================================================
+   1. The band
+   The block-start padding is the header's own height plus a step of the section
+   rhythm, so the title clears the header by the same distance at every width
+   that --syn-header-height changes at.
+   ========================================================================== */
+
+.syn-page-header {
+	padding-block-start: calc(var(--syn-header-height) + var(--syn-space-6));
+	padding-block-end: var(--syn-space-6);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+}
+
+.syn-page-header__title {
+	color: var(--syn-white);
+	font-size: var(--syn-step-3);
+	text-wrap: balance;
+}
+
+.syn-page-header__lede {
+	max-inline-size: 46rem;
+	margin-block-start: var(--syn-space-4);
+	color: color-mix(in srgb, var(--syn-white) 78%, transparent);
+	font-size: var(--syn-step-1);
+	line-height: 1.5;
+}
+
+/* ==========================================================================
+   2. Narrow screens
+   Where the header stops being fixed (narrow, no scripting — see header.css §9)
+   the reserved space is no longer needed and would read as a gap.
+   ========================================================================== */
+
+@media (max-width: 74rem) and (not (scripting: enabled)) {
+
+	.syn-page-header {
+		padding-block-start: var(--syn-space-6);
+	}
+}

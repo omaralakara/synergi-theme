@@ -281,6 +281,43 @@ textarea {
 	margin-inline: auto;
 }
 
+/*
+ * Vertical rhythm for editor-authored content.
+ *
+ * theme.json's blockGap cannot do this job here: core only emits blockGap rules
+ * for the block-layout wrappers a block theme generates, and a classic template
+ * calling the_content() has none of them. The reset above stripped the user
+ * agent's margins, so without these rules post content would run together.
+ *
+ * Headings take a larger step above than below, so a heading reads as attached
+ * to the text it introduces rather than floating between two blocks.
+ */
+.syn-entry-content {
+	padding-block: var(--syn-space-6);
+}
+
+.syn-entry-content > * + * {
+	margin-block-start: var(--syn-space-4);
+}
+
+.syn-entry-content > * + h2,
+.syn-entry-content > * + h3,
+.syn-entry-content > * + h4 {
+	margin-block-start: var(--syn-space-6);
+}
+
+.syn-entry-content > :first-child {
+	margin-block-start: 0;
+}
+
+/* Multi-page posts and pages, from wp_link_pages(). */
+.syn-page-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--syn-space-2);
+	margin-block-start: var(--syn-space-5);
+}
+
 /* ==========================================================================
    6. Accessibility
    ========================================================================== */

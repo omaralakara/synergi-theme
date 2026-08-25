@@ -1,0 +1,501 @@
+/*
+ * header.css — the site header.
+ * Contents: 1 header shell · 2 brand · 3 nav shell · 4 nav list · 5 submenus ·
+ * 6 menu toggle · 7 narrow screens · 8 no-scripting fallback.
+ *
+ * Loaded by inc/assets.php as "synergi-header", on every page, depending on the
+ * "synergi-base" handle. Markup: header.php, parts/brand.php, parts/nav.php and
+ * inc/nav.php. Behaviour: assets/js/main.js.
+ *
+ * These rules are the design source consolidated into one layer. main.min.css
+ * styles the header across four passes and later passes silently reset earlier
+ * ones (the header ends up with no border and a transparent background, not the
+ * bordered translucent bar the first pass describes). What is written here is
+ * the value that actually wins in the browser, resolved once, so there is no
+ * override layer to trace through — CLAUDE.md §4.
+ *
+ * Class map, design source -> theme (CLAUDE.md §13 prefixes everything "syn-"):
+ *   .site-header    -> .syn-site-header        .header-inner  -> .syn-site-header__inner
+ *   .brand          -> .syn-brand              .primary-nav   -> .syn-primary-nav
+ *   .nav-list       -> .syn-nav-list           .has-submenu   -> .syn-has-submenu
+ *   .submenu        -> .syn-submenu            .submenu-wide  -> .syn-submenu--wide
+ *   .submenu-toggle -> .syn-submenu-toggle
+ *   .menu-toggle    -> .syn-menu-toggle        .is-scrolled   -> .syn-is-scrolled
+ *   .is-open        -> .syn-is-open            .is-menu-open  -> .syn-is-menu-open
+ *
+ * The design paints white at a dozen different opacities on the navy bar. Those
+ * are derived with color-mix() from the palette rather than written as rgba()
+ * literals, so no colour is hard-coded and changing the palette still changes
+ * the header — CLAUDE.md §2.7.
+ */
+
+.syn-site-header {
+	--syn-on-dark-strong: color-mix(in srgb, var(--syn-white) 80%, transparent);
+	--syn-on-dark-muted: color-mix(in srgb, var(--syn-white) 68%, transparent);
+	--syn-on-dark-hairline: color-mix(in srgb, var(--syn-white) 14%, transparent);
+	--syn-on-dark-divider: color-mix(in srgb, var(--syn-white) 12%, transparent);
+	--syn-on-dark-outline: color-mix(in srgb, var(--syn-white) 25%, transparent);
+}
+
+/* ==========================================================================
+   1. Header shell
+   Fixed and fully transparent until scrolled: the homepage hero is designed to
+   run underneath it. Every other template reserves the space with
+   parts/page-header.php, which is why nothing here adds a body offset.
+   ========================================================================== */
+
+.syn-site-header {
+	position: fixed;
+	z-index: 100;
+	inset-block-start: 0;
+	inset-inline: 0;
+	background-color: transparent;
+	color: var(--syn-white);
+	transition:
+		background-color var(--syn-duration),
+		box-shadow var(--syn-duration);
+}
+
+.syn-site-header.syn-is-scrolled,
+.syn-site-header.syn-is-menu-open {
+	background-color: var(--syn-navy);
+	box-shadow: 0 0.4rem 1.6rem color-mix(in srgb, var(--syn-ink) 22%, transparent);
+}
+
+.syn-site-header__inner {
+	display: flex;
+	inline-size: min(100% - (2 * var(--syn-gutter)), var(--syn-container));
+	min-block-size: var(--syn-header-height);
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	margin-inline: auto;
+}
+
+/* ==========================================================================
+   2. Brand
+   parts/brand.php is included by BOTH header.php and footer.php, so anything
+   set on .syn-brand alone lands on the footer wordmark too. Only the shared
+   appearance belongs here; everything positional is scoped to the header.
+   ========================================================================== */
+
+.syn-brand {
+	display: inline-flex;
+	flex: 0 0 auto;
+	align-items: center;
+	text-decoration: none;
+	color: inherit;
+}
+
+/*
+ * Lifts the header wordmark above the navigation panel, which covers the
+ * viewport on narrow screens and would otherwise hide it.
+ *
+ * Scoped to the header child on purpose. Applied to .syn-brand unqualified it
+ * also stacked the FOOTER wordmark at z-index 102 — above the fixed header's
+ * z-index of 100 — so scrolling to the bottom of a page on a phone drew the
+ * footer logo straight through the header bar. Reported 25 Aug; the design
+ * source scopes it the same way (.header-inner > .brand).
+ */
+.syn-site-header__inner > .syn-brand {
+	position: relative;
+	z-index: 102;
+}
+
+.syn-brand__logo {
+	inline-size: 9rem;
+	block-size: auto;
+}
+
+.syn-brand__name {
+	font-size: var(--syn-step-1);
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   3. Navigation shell
+   ========================================================================== */
+
+/*
+ * The design put a "Start a Conversation" button at the end of this list. It
+ * was removed on request, 25 Aug — Contact Us is already the last item in the
+ * menu, so the button repeated a link that sits two centimetres to its left.
+ * Nothing else changes: the panel below 74rem still centres its one child.
+ */
+.syn-primary-nav {
+	display: flex;
+	align-items: center;
+	gap: 1.2rem;
+}
+
+/* ==========================================================================
+   4. Nav list
+   ========================================================================== */
+
+.syn-nav-list {
+	display: flex;
+	align-items: center;
+	gap: clamp(0.9rem, 2vw, 2.15rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-nav-list__item {
+	position: relative;
+}
+
+.syn-nav-list__link,
+.syn-submenu-toggle {
+	display: inline-flex;
+	min-block-size: 2.75rem;
+	align-items: center;
+	gap: 0.35rem;
+	padding-block: 0.25rem;
+	padding-inline: 0;
+	border: 0;
+	background-color: transparent;
+	color: inherit;
+	cursor: pointer;
+	font-size: 0.78rem;
+	font-weight: 500;
+	letter-spacing: 0.06em;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+/*
+ * The hover underline. Positioned against .syn-nav-list__item, which is the
+ * nearest positioned ancestor — the link itself is inline-flex and static.
+ */
+.syn-nav-list__link::after,
+.syn-submenu-toggle::after {
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 0.25rem;
+	block-size: 2px;
+	background-color: var(--syn-cyan);
+	content: "";
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform var(--syn-duration-fast);
+}
+
+.syn-nav-list__link:hover::after,
+.syn-submenu-toggle:hover::after,
+.syn-has-submenu:focus-within > .syn-submenu-toggle::after {
+	transform: scaleX(1);
+}
+
+/* The pointer under the item for the page currently being viewed. */
+.syn-nav-list__link[aria-current="page"]::before {
+	position: absolute;
+	inset-block-end: -1.15rem;
+	inset-inline-start: 50%;
+	inline-size: 0;
+	block-size: 0;
+	border-inline: 0.45rem solid transparent;
+	border-block-end: 0.42rem solid var(--syn-white);
+	content: "";
+	transform: translateX(-50%);
+}
+
+.syn-submenu-toggle__chevron {
+	transition: transform var(--syn-duration-fast);
+}
+
+.syn-submenu-toggle[aria-expanded="true"] .syn-submenu-toggle__chevron {
+	transform: rotate(180deg);
+}
+
+/* ==========================================================================
+   5. Submenus
+   Opened three ways so the nav works without JavaScript: hover, focus-within,
+   and the .syn-is-open class main.js sets on click.
+   ========================================================================== */
+
+.syn-submenu {
+	position: absolute;
+	inset-block-start: calc(100% + 0.5rem);
+	inset-inline-start: -1rem;
+	inline-size: 15rem;
+	margin: 0;
+	padding: 0.75rem;
+	border: 1px solid var(--syn-on-dark-hairline);
+	border-radius: var(--syn-radius-lg);
+	visibility: hidden;
+	background-color: var(--syn-navy);
+	box-shadow: var(--syn-shadow-soft);
+	list-style: none;
+	opacity: 0;
+	transform: translateY(-0.5rem);
+	transition:
+		opacity var(--syn-duration-fast),
+		transform var(--syn-duration-fast),
+		visibility var(--syn-duration-fast);
+}
+
+.syn-submenu--wide {
+	display: grid;
+	inline-size: 21rem;
+	grid-template-columns: 1fr 1fr;
+}
+
+/*
+ * In the two-column variant these are grid items, which default to being at
+ * least as wide as their content — "Human Resources" on one line would push
+ * the column past its half and break the pair. Everywhere else this is inert.
+ */
+.syn-submenu__item {
+	min-inline-size: 0;
+}
+
+.syn-submenu__link {
+	display: block;
+	padding-block: 0.7rem;
+	padding-inline: 0.75rem;
+	border-radius: var(--syn-radius-sm);
+	color: var(--syn-on-dark-strong);
+	font-size: 0.78rem;
+	font-weight: 600;
+	text-decoration: none;
+	text-transform: none;
+}
+
+.syn-submenu__link:hover,
+.syn-submenu__link:focus-visible {
+	background-color: color-mix(in srgb, var(--syn-cyan) 12%, transparent);
+	color: var(--syn-white);
+}
+
+.syn-has-submenu.syn-is-open > .syn-submenu,
+.syn-has-submenu:hover > .syn-submenu,
+.syn-has-submenu:focus-within > .syn-submenu {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ==========================================================================
+   6. Menu toggle
+   Hidden by default and shown only where it does something: narrow screens with
+   scripting available. Without JavaScript it would be a button with no effect.
+   ========================================================================== */
+
+.syn-menu-toggle {
+	display: none;
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   The navigation becomes a full-screen panel. Everything that hides it is
+   inside "scripting: enabled", so a browser with JavaScript off never reaches a
+   state only JavaScript can undo (CLAUDE.md §10, definition of done).
+   ========================================================================== */
+
+@media (max-width: 74rem) {
+
+	.syn-site-header__inner {
+		gap: 1rem;
+	}
+
+	.syn-brand {
+		min-inline-size: 0;
+		flex: 0 1 auto;
+	}
+
+	.syn-nav-list {
+		display: grid;
+		inline-size: min(100%, 38rem);
+		gap: 0;
+		align-self: center;
+	}
+
+	.syn-nav-list__item {
+		border-block-end: 1px solid var(--syn-on-dark-divider);
+	}
+
+	.syn-nav-list__link,
+	.syn-submenu-toggle {
+		inline-size: 100%;
+		min-block-size: 3.75rem;
+		justify-content: space-between;
+		font-size: 0.9rem;
+	}
+
+	.syn-nav-list__link::after,
+	.syn-submenu-toggle::after,
+	.syn-nav-list__link[aria-current="page"]::before {
+		display: none;
+	}
+
+	.syn-submenu {
+		position: static;
+		inline-size: 100%;
+		padding-block: 0 0.8rem;
+		padding-inline-start: 1rem;
+		padding-inline-end: 0;
+		border: 0;
+		visibility: visible;
+		background-color: transparent;
+		box-shadow: none;
+		opacity: 1;
+		transform: none;
+	}
+
+	.syn-submenu--wide {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.syn-submenu__link {
+		color: var(--syn-on-dark-muted);
+	}
+
+}
+
+@media (max-width: 74rem) and (scripting: enabled) {
+
+	.syn-menu-toggle {
+		position: relative;
+		z-index: 102;
+		display: grid;
+		inline-size: 3rem;
+		block-size: 3rem;
+		place-content: center;
+		gap: 0.45rem;
+		padding: 0;
+		border: 1px solid var(--syn-on-dark-outline);
+		border-radius: 50%;
+		background-color: transparent;
+		color: var(--syn-white);
+		cursor: pointer;
+	}
+
+	.syn-menu-toggle span[aria-hidden] {
+		display: block;
+		inline-size: 1.15rem;
+		block-size: 1px;
+		background-color: currentColor;
+		transition: transform var(--syn-duration-fast);
+	}
+
+	.syn-menu-toggle[aria-expanded="true"] span[aria-hidden]:nth-of-type(1) {
+		transform: translateY(0.25rem) rotate(45deg);
+	}
+
+	.syn-menu-toggle[aria-expanded="true"] span[aria-hidden]:nth-of-type(2) {
+		transform: translateY(-0.2rem) rotate(-45deg);
+	}
+
+	.syn-primary-nav {
+		position: fixed;
+		z-index: 101;
+		inset: 0;
+		flex-direction: column;
+		align-items: stretch;
+		justify-content: center;
+		gap: 2rem;
+		min-block-size: 100svh;
+		padding-block: calc(var(--syn-header-height) + 2rem) 2rem;
+		padding-inline: var(--syn-gutter);
+		overflow-y: auto;
+		visibility: hidden;
+		background-color: var(--syn-navy);
+		opacity: 0;
+		transform: translateY(-1rem);
+		transition:
+			opacity var(--syn-duration),
+			transform var(--syn-duration),
+			visibility var(--syn-duration);
+	}
+
+	.syn-primary-nav.syn-is-open {
+		visibility: visible;
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Collapsed until tapped — the click handler in main.js sets .syn-is-open. */
+	.syn-submenu {
+		display: none;
+	}
+
+	.syn-has-submenu:hover > .syn-submenu,
+	.syn-has-submenu:focus-within > .syn-submenu {
+		display: none;
+	}
+
+	.syn-has-submenu.syn-is-open > .syn-submenu {
+		display: grid;
+	}
+
+	/* The panel is fixed and scrolls internally; the page behind it must not. */
+	body.syn-menu-open {
+		overflow: hidden;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-brand__logo {
+		inline-size: 7.9rem;
+	}
+}
+
+@media (max-width: 27rem) {
+
+	.syn-submenu--wide {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 22rem) {
+
+	.syn-brand__logo {
+		inline-size: 7rem;
+	}
+
+	.syn-menu-toggle {
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
+	}
+}
+
+/* Never smaller than the minimum touch target on a touch device. */
+@media (pointer: coarse) {
+
+	.syn-menu-toggle {
+		min-inline-size: 2.75rem;
+		min-block-size: 2.75rem;
+	}
+}
+
+/* ==========================================================================
+   8. No-scripting fallback
+   A fixed header cannot hold a stacked navigation without covering the page, so
+   on narrow screens without scripting the header stops being fixed and the nav
+   flows underneath it. Browsers too old to understand the scripting feature
+   land here too, which is the safe direction to fail in: a longer page rather
+   than a nav that cannot be opened.
+   ========================================================================== */
+
+@media (max-width: 74rem) and (not (scripting: enabled)) {
+
+	.syn-site-header {
+		position: static;
+		background-color: var(--syn-navy);
+	}
+
+	.syn-site-header__inner {
+		flex-wrap: wrap;
+		padding-block-end: 1.5rem;
+	}
+
+	.syn-primary-nav {
+		flex: 1 0 100%;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 1.5rem;
+	}
+}
