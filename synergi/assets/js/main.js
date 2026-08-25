@@ -104,6 +104,31 @@
 		}
 	} );
 
+	/*
+	 * Tabbing out of an open submenu closes it.
+	 *
+	 * header.css used to open submenus on :focus-within, which handled this for
+	 * free but also fought the button — see the note in its section 5. Now that
+	 * .syn-is-open is the only thing that opens a submenu, closing on focus
+	 * leaving is this script's job, or a keyboard user tabs past an open panel
+	 * that never shuts.
+	 *
+	 * relatedTarget is where focus is going. It is null when focus leaves the
+	 * document entirely (another window, the browser chrome), and closing in
+	 * that case would be wrong — the panel should still be there on return.
+	 */
+	document.addEventListener( 'focusout', function ( event ) {
+		var item = event.target.closest( '.syn-has-submenu' );
+
+		if ( ! item || ! event.relatedTarget ) {
+			return;
+		}
+
+		if ( ! item.contains( event.relatedTarget ) ) {
+			closeSubmenus();
+		}
+	} );
+
 	/* ------------------------------------------------------------------
 	 * Narrow-screen navigation panel
 	 * ------------------------------------------------------------------ */

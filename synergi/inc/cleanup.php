@@ -156,3 +156,136 @@ function syn_audit_jquery_dependents() {
 	echo "\n<!-- syn-jquery-audit: " . esc_html( $report ) . " -->\n";
 	error_log( '[synergi] jQuery dependents on ' . $request . ': ' . $report );
 }
+
+/*
+ * ---------------------------------------------------------------------------
+ * Instagram Feed Pro — load its stylesheet only where a feed renders.
+ *
+ * Measured on staging 25 Aug: sbi-styles.min.css is 93.7 KB and loads on every
+ * page. The CSS budget is 120 KB (CLAUDE.md §6), so one plugin was spending 78%
+ * of it — on About Us, which has no feed. Exactly one page on the site embeds a
+ * feed at all: the front page.
+ *
+ * The plugin already loads its JAVASCRIPT this way; only the stylesheet is
+ * unconditional. So this is not a new pattern being imposed on the plugin, it
+ * is the plugin's own pattern applied to the one asset that missed it.
+ *
+ * How it stays safe. Nothing here inspects post content or guesses where a feed
+ * might be — guessing is what breaks feeds embedded through a widget, a
+ * template call or a shortcode inside meta. Instead the stylesheet is dropped
+ * before the head is printed and re-enqueued the moment an Instagram feed
+ * actually renders, whatever renders it. A style enqueued that late prints in
+ * the footer (core's print_late_styles()), so a feed can never end up unstyled;
+ * the worst case is that its CSS arrives slightly after the markup, on the one
+ * page that has one.
+ *
+ * To turn the whole thing off:
+ *     add_filter( 'syn_conditional_instagram_assets', '__return_false' );
+ * ---------------------------------------------------------------------------
+ */
+
+/**
+ * The Instagram Feed Pro stylesheet handles this file manages.
+ *
+ * @return string[] Style handles.
+ */
+function syn_instagram_style_handles() {
+	return array( 'sbi_styles', 'sbi-blocks-styles' );
+}
+
+/**
+ * Whether the theme should defer the plugin's stylesheet on this request.
+ *
+ * @return bool
+ */
+function syn_should_defer_instagram_styles() {
+	if ( is_admin() || is_customize_preview() ) {
+		return false;
+	}
+
+	/**
+	 * Filters whether Instagram Feed Pro's CSS is deferred until a feed renders.
+	 *
+	 * @param bool $enabled Default true.
+	 */
+	return (bool) apply_filters( 'syn_conditional_instagram_assets', true );
+}
+
+add_action( 'wp_enqueue_scripts', 'syn_defer_instagram_styles', 100 );
+/**
+ * Dequeues the Instagram stylesheet before the document head is printed.
+ *
+ * Priority 100 so it runs after the plugin has enqueued.
+ *
+ * Side effects: dequeues style handles; writes to the SYN_DEBUG asset report.
+ *
+ * @return void
+ */
+function syn_defer_instagram_styles() {
+	if ( ! syn_should_defer_instagram_styles() ) {
+		return;
+	}
+
+	foreach ( syn_instagram_style_handles() as $handle ) {
+		if ( wp_style_is( $handle, 'enqueued' ) ) {
+			wp_dequeue_style( $handle );
+			syn_asset_debug_note( 'deferred until used: ' . $handle );
+		}
+	}
+}
+
+/**
+ * Puts the Instagram stylesheet back, to print in the footer.
+ *
+ * Called the moment a feed renders. Safe to call repeatedly — wp_enqueue_style()
+ * on an already-enqueued handle is a no-op.
+ *
+ * Side effects: enqueues style handles.
+ *
+ * @return void
+ */
+function syn_restore_instagram_styles() {
+	foreach ( syn_instagram_style_handles() as $handle ) {
+		if ( wp_style_is( $handle, 'registered' ) && ! wp_style_is( $handle, 'enqueued' ) ) {
+			wp_enqueue_style( $handle );
+			syn_asset_debug_note( 'restored, feed rendered: ' . $handle );
+		}
+	}
+}
+
+add_filter( 'do_shortcode_tag', 'syn_restore_instagram_styles_for_shortcode', 10, 2 );
+/**
+ * Restores the stylesheet when an Instagram shortcode runs.
+ *
+ * Covers every route a shortcode can take — post content, a text widget, a
+ * do_shortcode() call in a template — because this filter fires for all of them.
+ *
+ * @param string $output The shortcode's output.
+ * @param string $tag    The shortcode name.
+ * @return string The output, unchanged.
+ */
+function syn_restore_instagram_styles_for_shortcode( $output, $tag ) {
+	if ( 'instagram-feed' === $tag || 0 === strpos( $tag, 'instagram-feed' ) ) {
+		syn_restore_instagram_styles();
+	}
+
+	return $output;
+}
+
+add_filter( 'render_block', 'syn_restore_instagram_styles_for_block', 10, 2 );
+/**
+ * Restores the stylesheet when an Instagram block renders.
+ *
+ * @param string $content The block's rendered output.
+ * @param array  $block   The parsed block.
+ * @return string The content, unchanged.
+ */
+function syn_restore_instagram_styles_for_block( $content, $block ) {
+	$name = $block['blockName'] ?? '';
+
+	if ( is_string( $name ) && ( 0 === strpos( $name, 'sbi/' ) || false !== strpos( $name, 'instagram-feed' ) ) ) {
+		syn_restore_instagram_styles();
+	}
+
+	return $content;
+}

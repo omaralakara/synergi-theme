@@ -166,30 +166,21 @@
 }
 
 /*
- * The hover underline. Positioned against .syn-nav-list__item, which is the
- * nearest positioned ancestor — the link itself is inline-flex and static.
+ * The pointer under a top-level item. It sits at the bottom edge of the header
+ * bar, positioned against .syn-nav-list__item — the nearest positioned
+ * ancestor, since the link itself is inline-flex and static.
+ *
+ * The design used this shape only to mark the current page, and marked hover
+ * with a cyan underline that swept in from the left. The underline was dropped
+ * on request, 25 Aug: one shape doing both jobs means hovering an item shows
+ * you exactly what being on that page would look like, and the nav stops having
+ * two unrelated visual languages for "this one".
+ *
+ * Opacity rather than display, so it can fade rather than snap, and so the
+ * geometry is declared once.
  */
-.syn-nav-list__link::after,
-.syn-submenu-toggle::after {
-	position: absolute;
-	inset-inline: 0;
-	inset-block-end: 0.25rem;
-	block-size: 2px;
-	background-color: var(--syn-cyan);
-	content: "";
-	transform: scaleX(0);
-	transform-origin: left;
-	transition: transform var(--syn-duration-fast);
-}
-
-.syn-nav-list__link:hover::after,
-.syn-submenu-toggle:hover::after,
-.syn-has-submenu:focus-within > .syn-submenu-toggle::after {
-	transform: scaleX(1);
-}
-
-/* The pointer under the item for the page currently being viewed. */
-.syn-nav-list__link[aria-current="page"]::before {
+.syn-nav-list__link::before,
+.syn-submenu-toggle::before {
 	position: absolute;
 	inset-block-end: -1.15rem;
 	inset-inline-start: 50%;
@@ -198,7 +189,16 @@
 	border-inline: 0.45rem solid transparent;
 	border-block-end: 0.42rem solid var(--syn-white);
 	content: "";
+	opacity: 0;
 	transform: translateX(-50%);
+	transition: opacity var(--syn-duration-fast);
+}
+
+.syn-nav-list__link:hover::before,
+.syn-submenu-toggle:hover::before,
+.syn-nav-list__link[aria-current="page"]::before,
+.syn-has-submenu.syn-is-open > .syn-submenu-toggle::before {
+	opacity: 1;
 }
 
 .syn-submenu-toggle__chevron {
@@ -211,8 +211,8 @@
 
 /* ==========================================================================
    5. Submenus
-   Opened three ways so the nav works without JavaScript: hover, focus-within,
-   and the .syn-is-open class main.js sets on click.
+   Opened by the toggle button when scripting is available, and by hover or
+   focus-within when it is not. Never by both at once - see below.
    ========================================================================== */
 
 .syn-submenu {
@@ -269,12 +269,39 @@
 	color: var(--syn-white);
 }
 
-.syn-has-submenu.syn-is-open > .syn-submenu,
-.syn-has-submenu:hover > .syn-submenu,
-.syn-has-submenu:focus-within > .syn-submenu {
+/*
+ * Where scripting is available, the toggle button is the ONLY thing that opens
+ * a submenu.
+ *
+ * It used to open on hover and on focus-within as well, and that made the
+ * button meaningless on desktop: the pointer was already over the button, so
+ * hover had opened the panel before the click landed. Clicking flipped
+ * aria-expanded and spun the chevron while the panel — held open by :hover —
+ * did not move. Reported 25 Aug as "the arrow changes and nothing happens".
+ *
+ * :focus-within had the same defect one step later: clicking focuses the
+ * button, so the second click removed .syn-is-open and :focus-within kept the
+ * panel open anyway. One state, set in one place, is the fix. main.js closes on
+ * Escape, on focus leaving the item, and on a click outside it.
+ */
+.syn-has-submenu.syn-is-open > .syn-submenu {
 	visibility: visible;
 	opacity: 1;
 	transform: translateY(0);
+}
+
+/*
+ * Without scripting nothing can set that class, so hover and focus-within are
+ * the only ways in — and there is no button state to contradict them.
+ */
+@media (not (scripting: enabled)) {
+
+	.syn-has-submenu:hover > .syn-submenu,
+	.syn-has-submenu:focus-within > .syn-submenu {
+		visibility: visible;
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 /* ==========================================================================
@@ -324,9 +351,8 @@
 		font-size: 0.9rem;
 	}
 
-	.syn-nav-list__link::after,
-	.syn-submenu-toggle::after,
-	.syn-nav-list__link[aria-current="page"]::before {
+	.syn-nav-list__link::before,
+	.syn-submenu-toggle::before {
 		display: none;
 	}
 
@@ -418,11 +444,6 @@
 
 	/* Collapsed until tapped — the click handler in main.js sets .syn-is-open. */
 	.syn-submenu {
-		display: none;
-	}
-
-	.syn-has-submenu:hover > .syn-submenu,
-	.syn-has-submenu:focus-within > .syn-submenu {
 		display: none;
 	}
 
