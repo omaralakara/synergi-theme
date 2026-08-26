@@ -187,3 +187,113 @@ function syn_print_section_debug_comment() {
 
 	echo "-->\n";
 }
+
+/**
+ * Prints one of the theme's own SVG icons inline.
+ *
+ * Inline rather than <img src>: the six service icons together are under 1.5 KB,
+ * so inlining costs less than six HTTP requests (CLAUDE.md §6, requests budget),
+ * and an inline SVG inherits currentColor — which is what lets the same file be
+ * cyan on a light surface and white on a dark card without the design source's
+ * `filter: brightness(0) invert(1)` trick.
+ *
+ * $slug is checked against an explicit list rather than sanitised into a path.
+ * A whitelist cannot be walked out of, which is what CLAUDE.md §5's "no
+ * user-controlled file paths" is protecting against; sanitize_key() alone is a
+ * filter, not a guarantee.
+ *
+ * Side effects: echoes markup. Reads each file once per request.
+ *
+ * @param string $slug  Icon name, matching a file in assets/icons/.
+ * @param string $class Optional. Class for the wrapping <span>.
+ * @return void
+ */
+function syn_inline_icon( $slug, $class = '' ) {
+	static $cache = array();
+
+	$allowed = array(
+		'accounting',
+		'human-resources',
+		'marketing',
+		'procurement',
+		'project-management',
+		'technology-ai',
+	);
+
+	if ( ! in_array( $slug, $allowed, true ) ) {
+		if ( SYN_DEBUG ) {
+			echo "\n<!-- syn-icon: \"" . esc_html( $slug ) . "\" is not in the allowed icon list -->\n";
+		}
+
+		return;
+	}
+
+	if ( ! isset( $cache[ $slug ] ) ) {
+		$file = SYN_DIR . 'assets/icons/' . $slug . '.svg';
+
+		if ( ! file_exists( $file ) ) {
+			if ( SYN_DEBUG ) {
+				echo "\n<!-- syn-icon MISSING: assets/icons/" . esc_html( $slug ) . ".svg -->\n";
+			}
+
+			return;
+		}
+
+		$cache[ $slug ] = trim( (string) file_get_contents( $file ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- reading a theme file from a fixed whitelist, not a remote request.
+	}
+
+	/*
+	 * The icons are decorative next to a visible service name, so they are
+	 * hidden from assistive technology rather than given a label that would
+	 * make a screen reader read the service name twice (CLAUDE.md §8).
+	 */
+	printf(
+		'<span class="%s" aria-hidden="true">%s</span>',
+		esc_attr( $class ),
+		wp_kses( $cache[ $slug ], syn_allowed_svg_tags() )
+	);
+}
+
+/**
+ * The tag and attribute whitelist wp_kses() needs to pass an inline SVG through.
+ *
+ * wp_kses() strips <svg> entirely by default. This lists only the shapes the
+ * theme's own icons use — no <script>, no <foreignObject>, no href — so the
+ * escaping still holds if an icon file is ever edited carelessly.
+ *
+ * @return array[] Shape expected by wp_kses().
+ */
+function syn_allowed_svg_tags() {
+	$shape = array(
+		'd'                 => true,
+		'x'                 => true,
+		'y'                 => true,
+		'cx'                => true,
+		'cy'                => true,
+		'r'                 => true,
+		'rx'                => true,
+		'width'             => true,
+		'height'            => true,
+		'fill'              => true,
+		'stroke'            => true,
+		'stroke-width'      => true,
+		'stroke-linecap'    => true,
+		'stroke-linejoin'   => true,
+	);
+
+	return array(
+		'svg'    => array_merge(
+			$shape,
+			array(
+				'xmlns'   => true,
+				'viewbox' => true,
+				'class'   => true,
+				'focusable' => true,
+			)
+		),
+		'path'   => $shape,
+		'rect'   => $shape,
+		'circle' => $shape,
+		'g'      => $shape,
+	);
+}

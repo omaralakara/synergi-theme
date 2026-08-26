@@ -127,6 +127,14 @@
 				"durationFast": "160ms",
 				"duration": "320ms",
 				"durationSlow": "650ms"
+			},
+			"serviceAccent": {
+				"accounting": "linear-gradient(155deg, #3f9ed0 0%, #205d8d 34%, #071a31 100%)",
+				"humanResources": "linear-gradient(155deg, #36a58f 0%, #146b65 34%, #081f2e 100%)",
+				"procurement": "linear-gradient(155deg, #c18d43 0%, #80592f 34%, #0a192c 100%)",
+				"technologyAi": "linear-gradient(155deg, #7764d7 0%, #493b9a 34%, #09162d 100%)",
+				"marketing": "linear-gradient(155deg, #c55d78 0%, #8c405a 34%, #0a192d 100%)",
+				"projectManagement": "linear-gradient(155deg, #3869a2 0%, #24436f 34%, #08172c 100%)"
 			}
 		}
 	},

@@ -98,6 +98,23 @@
 	--syn-duration-fast: var(--wp--custom--motion--duration-fast);
 	--syn-duration: var(--wp--custom--motion--duration);
 	--syn-duration-slow: var(--wp--custom--motion--duration-slow);
+
+	/*
+	 * One accent gradient per service line. These are the only design values in
+	 * the theme that cannot be derived from the §3 palette — their hues (teal,
+	 * gold, violet, rose) are deliberately outside it, so a section stylesheet
+	 * cannot reach them with color-mix() the way it reaches every white and ink
+	 * shade. They live in theme.json under settings.custom rather than in the
+	 * colour palette, so they are tokens without being offered to editors.
+	 * Used by the services deck (section 02) and, from Stage 6, by the service
+	 * page templates.
+	 */
+	--syn-service-accounting: var(--wp--custom--service-accent--accounting);
+	--syn-service-human-resources: var(--wp--custom--service-accent--human-resources);
+	--syn-service-procurement: var(--wp--custom--service-accent--procurement);
+	--syn-service-technology-ai: var(--wp--custom--service-accent--technology-ai);
+	--syn-service-marketing: var(--wp--custom--service-accent--marketing);
+	--syn-service-project-management: var(--wp--custom--service-accent--project-management);
 }
 
 /*
@@ -562,5 +579,14 @@ textarea {
  * rather than :not(.syn-hero), so a future section can decline it too.
  */
 .syn-section {
+	position: relative;
 	padding-block: var(--syn-section-space);
+
+	/*
+	 * The header is fixed, so a jump to #services would otherwise land with the
+	 * section's first line underneath it. The design source only does this
+	 * below 48rem, which leaves the same bug on every larger screen; the header
+	 * is fixed at every width, so this is too.
+	 */
+	scroll-margin-block-start: var(--syn-header-height);
 }
