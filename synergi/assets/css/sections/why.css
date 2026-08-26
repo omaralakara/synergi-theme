@@ -368,10 +368,29 @@
 		transform: translateY(0.8rem);
 	}
 
+	/*
+	 * Asymmetric on purpose, and this is the whole of the ghost-title fix. A
+	 * transition belongs to the state being entered, so this rule is the one
+	 * that runs when a card stops being the front one: its words go at once,
+	 * while it is still square on and before it crosses the card coming
+	 * forward. The source delayed both directions by 180ms, which left the
+	 * outgoing heading fully legible for the first third of the turn — and
+	 * because two cards intersect in 3D mid-turn, it showed through the new
+	 * card as a second title appearing under the deck and fading out.
+	 */
 	.syn-why__card-copy {
 		transition:
-			opacity 400ms ease 180ms,
-			transform 500ms ease 180ms;
+			opacity var(--syn-duration-fast) ease,
+			transform var(--syn-duration-fast) ease;
+	}
+
+	/* Arriving is the other way round: the card lands, then it speaks. The
+	   delay outlasts the crossing, so nothing is readable while two cards
+	   occupy the same space. */
+	.syn-why__card.syn-is-active .syn-why__card-copy {
+		transition:
+			opacity 400ms ease 300ms,
+			transform 500ms ease 300ms;
 	}
 
 	/*

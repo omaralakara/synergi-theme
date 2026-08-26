@@ -409,6 +409,14 @@ textarea {
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
+		/*
+		 * The delays go too, or a zero-duration transition still waits. why.css
+		 * holds a 300ms delay before a card's words appear and shared-services
+		 * staggers its float by up to 2.6s; without these two lines reduced motion
+		 * turns those into blank pauses instead of removing them.
+		 */
+		animation-delay: -1ms !important;
+		transition-delay: 0ms !important;
 	}
 }
 
