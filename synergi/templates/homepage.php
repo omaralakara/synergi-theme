@@ -41,14 +41,24 @@ get_header();
 
 /*
  * The hero photograph is a real attachment rather than a path, so it goes
- * through core and gets srcset and sizes for free (CLAUDE.md §6). Passing 0
- * renders the hero on its flat ink background, which is a legitimate fallback
- * rather than a broken image.
+ * through core and gets srcset, sizes and the attachment's own alt text for
+ * free (CLAUDE.md §6 and §8).
+ *
+ * It comes from the page's Featured Image. That is deliberate: the photograph
+ * is content, so it belongs in the database and in reach of someone who does
+ * not edit PHP (CLAUDE.md §1) — and the Featured Image box is already in the
+ * editor sidebar, so it needs no UI of its own. Stage 6's hero field, when it
+ * exists, passes image_id explicitly and takes precedence over this.
+ *
+ * get_queried_object_id() rather than the loop, because this runs outside it.
+ * With no Featured Image set the call returns 0 and sections/hero.php renders
+ * the hero on its flat ink background — a legitimate fallback, not a broken
+ * image.
  */
 syn_section(
 	'hero',
 	array(
-		'image_id' => (int) apply_filters( 'syn_hero_image_id', 0 ),
+		'image_id' => (int) apply_filters( 'syn_hero_image_id', get_post_thumbnail_id( get_queried_object_id() ) ),
 	)
 );
 
