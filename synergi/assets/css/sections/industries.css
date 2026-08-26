@@ -1,0 +1,602 @@
+/*
+ * industries.css — section 04, the industries queue.
+ * Contents: 1 local tokens · 2 shell · 3 heading · 4 the queue and its rail ·
+ * 5 the card, its photograph and its label · 6 the card copy · 7 controls ·
+ * 8 the queue proper (needs JavaScript) · 9 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-industries", only on pages that
+ * declare the section. Markup: sections/industries.php.
+ * Behaviour: assets/js/sections/industries.js.
+ *
+ * Six photographs in a rail. The first is wide and shows its heading and
+ * description; the rest narrow into strips queued behind it. Widths come from
+ * flex-grow keyed off a position attribute, which is what lets the whole rail
+ * animate — flex-grow is interpolable, so the queue advances without anything
+ * measuring or positioning in JavaScript.
+ *
+ * ONE STRUCTURAL DEPARTURE, and it is the important one:
+ *
+ *   In the source, the card copy is `height: 0; opacity: 0` and only
+ *   `.js .industry-queue-card.is-active .industry-queue-card-copy` opens it.
+ *   With JavaScript off, the `.js` class is never set — so every heading and
+ *   every description in this section is collapsed to nothing, on all six
+ *   cards, permanently. Six photographs with no text.
+ *
+ *   Here the open state is the default and the queue's collapsing is what needs
+ *   scripting, not the reverse. With JavaScript off the section is a plain grid
+ *   of six captioned photographs — all the content, no interaction — and the
+ *   controls are hidden, because a button that cannot move anything is worse
+ *   than no button (CLAUDE.md §10, renders correctly with JavaScript disabled).
+ *
+ * Three smaller deviations:
+ *
+ * 1. The focus ring is the theme's (#ffd15c via --syn-focus, base.css), not the
+ *    source's `outline: 3px solid #36b9ed`. A cyan ring on these photographs is
+ *    both off-palette and lower contrast than the amber (CLAUDE.md §9). The
+ *    source's 3px offset is kept — the ring has to clear the image corner.
+ * 2. The source's hover zoom on the photograph is dropped because it never
+ *    runs: `transform: scale(1.035)` is written inside
+ *    `@media (hover:hover) and (pointer:fine)`, and a later `min-width: 48rem`
+ *    block re-declares the same transform as `translateX(-50%)` at equal
+ *    specificity, cancelling it everywhere a mouse exists. The brightness lift
+ *    on hover, which does survive, is kept.
+ * 3. No !important anywhere. The source needs four — three to make `.is-exiting`
+ *    beat the position rules, one to hide the placeholder on phones — purely
+ *    because of the order eight passes left things in. Written once, in order,
+ *    the same rules win on their own (CLAUDE.md §2.12).
+ *
+ * Class map, design source -> theme:
+ *   .industries-queue-section -> .syn-industries    .industries-queue-heading -> __heading
+ *   .industry-queue           -> __queue            .industry-queue-rail  -> __rail
+ *   .industry-queue-card      -> __card             .industry-queue-image -> __image
+ *   .industry-queue-scrim     -> __scrim            .industry-queue-preview -> __preview
+ *   .industry-queue-card-copy -> __copy             .industry-queue-toolbar -> __toolbar
+ *   .industry-queue-control   -> __control          .industry-queue-placeholder -> __placeholder
+ *   .is-active -> .syn-is-active   .is-exiting -> .syn-is-exiting
+ *   .is-mobile-changing -> .syn-is-changing
+ *
+ * Colours are derived from the §3 palette with color-mix(); the source writes
+ * this section in rgba and two raw hexes.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-industries {
+	/*
+	 * The photograph's own height, referenced in five places — the image
+	 * minimum, the placeholder, the rail's minimum, the toolbar's offset and
+	 * the oversized image width. One value so they cannot drift apart.
+	 */
+	--syn-industries-photo: clamp(21.5rem, 27vw, 25rem);
+
+	/* How far the copy drops open under the active card. */
+	--syn-industries-copy: 8.75rem;
+
+	/* The bed behind a photograph that has not loaded, and behind a ghost. */
+	--syn-industries-bed: color-mix(in srgb, var(--syn-navy) 30%, var(--syn-ink));
+
+	/* The scrim over every photograph: light at the top, heavy at the bottom,
+	   so the label sitting on it clears 4.5:1 (CLAUDE.md §9). */
+	--syn-industries-scrim: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--syn-ink) 14%, transparent),
+		color-mix(in srgb, var(--syn-ink) 72%, transparent)
+	);
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-industries {
+	background-color: var(--syn-white);
+	color: var(--syn-ink);
+	/*
+	 * Half the usual closing space. The section below it opens with its own
+	 * full rhythm, and the source trims this one so the two do not add up to a
+	 * gap twice the size of every other join on the page.
+	 */
+	padding-block-end: calc(var(--syn-section-space) * 0.5);
+}
+
+/* ==========================================================================
+   3. Heading
+   ========================================================================== */
+
+.syn-industries__heading {
+	display: grid;
+	justify-items: start;
+	gap: 0.5rem;
+	min-inline-size: 0;
+	text-align: start;
+}
+
+.syn-industries__title {
+	max-inline-size: 30ch;
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: clamp(2.05rem, 3vw, 2.7rem);
+	letter-spacing: 0;
+	line-height: 1.12;
+}
+
+/* ==========================================================================
+   4. The queue and its rail
+   Without JavaScript this is where it stops: a plain grid of six captioned
+   photographs. Section 8 turns it into the queue.
+   ========================================================================== */
+
+.syn-industries__queue {
+	position: relative;
+	min-inline-size: 0;
+	max-inline-size: 100%;
+	margin-block-start: clamp(0.9rem, 1.8vw, 1.4rem);
+}
+
+.syn-industries__rail {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1rem;
+	min-inline-size: 0;
+}
+
+.syn-industries__card {
+	display: grid;
+	align-content: start;
+	gap: 0;
+	min-inline-size: 0;
+}
+
+/* ==========================================================================
+   5. The card, its photograph and its label
+   ========================================================================== */
+
+.syn-industries__image {
+	position: relative;
+	display: block;
+	inline-size: 100%;
+	min-block-size: var(--syn-industries-photo);
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	border-radius: 0.65rem;
+	background-color: var(--syn-industries-bed);
+	color: var(--syn-white);
+	cursor: pointer;
+	text-align: start;
+}
+
+.syn-industries__image:focus-visible {
+	/* Further out than the theme default so the ring clears the image corner. */
+	outline-offset: 3px;
+}
+
+.syn-industries__photo {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+	object-position: center;
+}
+
+.syn-industries__scrim {
+	position: absolute;
+	inset: 0;
+	background-image: var(--syn-industries-scrim);
+}
+
+.syn-industries__preview {
+	position: absolute;
+	z-index: 1;
+	inset-block-end: clamp(1.1rem, 2.4vw, 1.75rem);
+	inset-inline: clamp(1rem, 2vw, 1.5rem);
+	color: var(--syn-white);
+	font-size: clamp(1.15rem, 2vw, 1.6rem);
+	font-weight: 650;
+	letter-spacing: -0.035em;
+	line-height: 1.12;
+}
+
+/* ==========================================================================
+   6. The card copy
+   Open by default — see the note in the file header. Section 8 is what closes
+   it on the cards that are not at the front.
+   ========================================================================== */
+
+.syn-industries__copy {
+	padding-block-start: 1rem;
+	overflow: hidden;
+}
+
+.syn-industries__card-title {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+	letter-spacing: -0.03em;
+	line-height: 1.18;
+}
+
+.syn-industries__card-text {
+	max-inline-size: 48rem;
+	margin-block: 0.65rem 0;
+	color: color-mix(in srgb, var(--syn-ink) 66%, transparent);
+	font-size: 0.78rem;
+	line-height: 1.62;
+}
+
+/* ==========================================================================
+   7. Controls
+   Hidden until JavaScript can move the rail.
+   ========================================================================== */
+
+.syn-industries__toolbar {
+	display: none;
+}
+
+.syn-industries__controls {
+	display: flex;
+	gap: 0.55rem;
+}
+
+.syn-industries__control {
+	display: inline-grid;
+	inline-size: 3rem;
+	block-size: 3rem;
+	padding: 0;
+	place-items: center;
+	border: 1px solid var(--syn-border);
+	border-radius: 0.45rem;
+	background-color: var(--syn-white);
+	color: var(--syn-navy);
+	cursor: pointer;
+	transition:
+		color var(--syn-duration-fast),
+		border-color var(--syn-duration-fast),
+		background-color var(--syn-duration-fast),
+		transform var(--syn-duration-fast);
+}
+
+.syn-industries__control:hover {
+	border-color: var(--syn-navy);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+	transform: translateY(-2px);
+}
+
+.syn-industries__control:focus-visible {
+	outline-offset: 3px;
+}
+
+.syn-industries__control svg {
+	inline-size: 1.35rem;
+	block-size: 1.35rem;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+/* ==========================================================================
+   8. The queue proper
+   Everything that turns the grid above into a rail. Gated on scripting because
+   only industries.js can move it.
+
+   The widths are flex-grow values keyed off data-syn-industries-position, and
+   flex-grow interpolates — so advancing the queue is one attribute change per
+   card and the browser animates the rest. Nothing here is measured or
+   positioned from script.
+   ========================================================================== */
+
+@media (scripting: enabled) {
+
+	.syn-industries__rail {
+		--syn-industries-gap: clamp(0.38rem, 0.7vw, 0.65rem);
+		--syn-industries-step-duration: 1100ms;
+		--syn-industries-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		gap: var(--syn-industries-gap);
+		/* Room for the tallest state: a photograph plus the open copy. Without
+		   it the section's height would pump as the copy opens and closes. */
+		min-block-size: calc(var(--syn-industries-photo) + var(--syn-industries-copy));
+		overflow: hidden;
+	}
+
+	.syn-industries__toolbar {
+		position: absolute;
+		inset-block-start: calc(var(--syn-industries-photo) + 0.85rem);
+		inset-inline-end: 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	.syn-industries__card {
+		flex: 1 1 0;
+		min-inline-size: 0;
+		margin-inline-end: 0;
+		opacity: 1;
+		transform: translateX(0);
+		transition:
+			flex-grow var(--syn-industries-step-duration) var(--syn-industries-ease),
+			flex-basis var(--syn-industries-step-duration) var(--syn-industries-ease),
+			min-inline-size var(--syn-industries-step-duration) var(--syn-industries-ease),
+			margin-inline-end var(--syn-industries-step-duration) var(--syn-industries-ease),
+			transform var(--syn-industries-step-duration) var(--syn-industries-ease);
+		will-change: flex-grow, flex-basis;
+	}
+
+	/*
+	 * The queue's shape. Position 0 is at the front and takes most of the rail;
+	 * each one behind it gets a smaller share, and everything from the fourth
+	 * back is a sliver.
+	 */
+	.syn-industries__card[data-syn-industries-position="0"] {
+		flex-grow: 16;
+	}
+
+	.syn-industries__card[data-syn-industries-position="1"] {
+		flex-grow: 4;
+	}
+
+	.syn-industries__card[data-syn-industries-position="2"] {
+		flex-grow: 2;
+	}
+
+	.syn-industries__card[data-syn-industries-position="3"],
+	.syn-industries__card[data-syn-industries-position="4"],
+	.syn-industries__card[data-syn-industries-position="5"] {
+		flex-grow: 0.3;
+		min-inline-size: 0.8rem;
+	}
+
+	/*
+	 * A card on its way to the back of the queue. Declared after the position
+	 * rules on purpose: it has to beat them, and coming later at equal
+	 * specificity is what does that — the source reaches for !important here
+	 * only because its passes left these in the opposite order.
+	 *
+	 * The negative margin swallows the rail's gap as the card collapses, so the
+	 * remaining cards do not visibly hitch over a gap that is closing.
+	 */
+	.syn-industries__card.syn-is-exiting {
+		flex-basis: 0;
+		flex-grow: 0;
+		min-inline-size: 0;
+		margin-inline-end: calc(-1 * var(--syn-industries-gap));
+		clip-path: inset(0 var(--syn-industries-gap) 0 0);
+		pointer-events: none;
+	}
+
+	/*
+	 * The ghost. industries.js appends one per departing card, carrying that
+	 * card's photograph as a background, and grows it at the tail while the real
+	 * card collapses at the front — so the rail's width never changes and the
+	 * queue looks like it wrapped around rather than reflowed.
+	 */
+	.syn-industries__placeholder {
+		display: block;
+		flex: 0 0 0;
+		inline-size: auto;
+		min-inline-size: 0;
+		block-size: var(--syn-industries-photo);
+		overflow: hidden;
+		border-radius: 0.65rem;
+		background-color: var(--syn-industries-bed);
+		background-position: center;
+		background-size: calc(var(--syn-industries-photo) * 2.3) auto;
+		pointer-events: none;
+		transition: flex-basis var(--syn-industries-step-duration) var(--syn-industries-ease);
+	}
+
+	.syn-industries__placeholder::after {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+		background-image: var(--syn-industries-scrim);
+		content: "";
+	}
+
+	/* Only the card at the front is captioned; the rest are photographs. */
+	.syn-industries__copy {
+		block-size: 0;
+		max-block-size: 0;
+		padding-block-start: 0;
+		opacity: 0;
+		transition:
+			block-size 560ms cubic-bezier(0.16, 1, 0.3, 1),
+			max-block-size 560ms cubic-bezier(0.16, 1, 0.3, 1),
+			padding-block-start 560ms cubic-bezier(0.16, 1, 0.3, 1),
+			opacity 320ms ease 140ms;
+	}
+
+	.syn-industries__card.syn-is-active .syn-industries__copy {
+		block-size: var(--syn-industries-copy);
+		max-block-size: var(--syn-industries-copy);
+		padding-block-start: 1rem;
+		opacity: 1;
+	}
+
+	/* The burnt-in label belongs to the strips. The card at the front has its
+	   heading below the photograph instead, so it does not need both. */
+	.syn-industries__card.syn-is-active .syn-industries__preview {
+		opacity: 0;
+	}
+}
+
+/*
+ * Above phone width the photograph is drawn far wider than its card and pulled
+ * back to centre, so a card narrowing to a sliver crops its picture instead of
+ * squashing it. The width is the only reason --syn-industries-photo is a token.
+ */
+@media (scripting: enabled) and (min-width: 48rem) {
+
+	.syn-industries__photo {
+		inset-inline-start: 50%;
+		inset-inline-end: auto;
+		inline-size: calc(var(--syn-industries-photo) * 2.3);
+		min-inline-size: 100%;
+		max-inline-size: none;
+		transform: translateX(-50%) translateZ(0);
+		backface-visibility: hidden;
+		will-change: transform;
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+
+	.syn-industries__card:not(.syn-is-active):hover .syn-industries__image,
+	.syn-industries__card:not(.syn-is-active):focus-within .syn-industries__image {
+		filter: brightness(1.1) saturate(1.06);
+	}
+}
+
+/* ==========================================================================
+   9. Narrow screens
+   Three steps. At the last one the rail stops being a rail: one card at a time,
+   crossfading, with the strips gone entirely.
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-industries {
+		--syn-industries-photo: clamp(20rem, 61vw, 24rem);
+	}
+
+	.syn-industries__rail {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (scripting: enabled) and (max-width: 61.25rem) {
+
+	.syn-industries__rail {
+		--syn-industries-gap: 0.4rem;
+	}
+
+	/*
+	 * Below this width there is not enough room for flex-grow to share out
+	 * sensibly, so the queue switches to fixed shares of the viewport.
+	 */
+	.syn-industries__card {
+		flex: 0 0 1.25rem;
+		min-inline-size: 1.25rem;
+	}
+
+	.syn-industries__card[data-syn-industries-position="0"] {
+		flex-basis: min(54vw, 30rem);
+		flex-grow: 0;
+	}
+
+	.syn-industries__card[data-syn-industries-position="1"] {
+		flex-basis: min(18vw, 10rem);
+		flex-grow: 0;
+	}
+
+	.syn-industries__card[data-syn-industries-position="2"] {
+		flex-basis: min(10vw, 6rem);
+		flex-grow: 0;
+	}
+
+	.syn-industries__card[data-syn-industries-position="3"],
+	.syn-industries__card[data-syn-industries-position="4"],
+	.syn-industries__card[data-syn-industries-position="5"] {
+		flex-basis: 1.25rem;
+		flex-grow: 0;
+	}
+
+	.syn-industries__card.syn-is-exiting {
+		flex-basis: 0;
+		flex-grow: 0;
+		min-inline-size: 0;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-industries {
+		--syn-industries-photo: clamp(18.5rem, 68vw, 21.5rem);
+		--syn-industries-copy: 8.5rem;
+	}
+
+	.syn-industries__title {
+		max-inline-size: 100%;
+		font-size: clamp(2.05rem, 9vw, 2.75rem);
+	}
+
+	.syn-industries__rail {
+		grid-template-columns: 1fr;
+	}
+
+	.syn-industries__card-text {
+		max-inline-size: 100%;
+	}
+}
+
+@media (scripting: enabled) and (max-width: 47.99rem) {
+
+	.syn-industries__rail {
+		display: block;
+		min-block-size: calc(var(--syn-industries-photo) + var(--syn-industries-copy));
+		overflow: visible;
+		/* Vertical scrolling stays with the page; horizontal is the queue's. */
+		touch-action: pan-y;
+	}
+
+	.syn-industries__toolbar {
+		position: static;
+		justify-content: center;
+		min-block-size: 3rem;
+		margin-block-start: 0.85rem;
+	}
+
+	.syn-industries__controls {
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	/* One card at a time, crossfading. The strips have nowhere to go on a
+	   phone, so they are not drawn at all. */
+	.syn-industries__card,
+	.syn-industries__card[data-syn-industries-position] {
+		display: none;
+		inline-size: 100%;
+		min-inline-size: 0;
+		flex: none;
+		opacity: 0;
+		transform: scale(0.985);
+		transition:
+			opacity 260ms ease,
+			transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.syn-industries__card.syn-is-active {
+		display: grid;
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.syn-industries__rail.syn-is-changing .syn-industries__card.syn-is-active {
+		opacity: 0;
+		transform: scale(0.985);
+	}
+
+	.syn-industries__card.syn-is-active .syn-industries__copy {
+		padding-block-start: 0.9rem;
+	}
+
+	.syn-industries__placeholder {
+		display: none;
+	}
+
+	.syn-industries__photo {
+		inline-size: 100%;
+		max-inline-size: 100%;
+	}
+}

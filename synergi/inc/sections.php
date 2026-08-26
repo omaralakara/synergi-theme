@@ -310,3 +310,48 @@ function syn_allowed_svg_tags() {
 		'g'      => $shape,
 	);
 }
+
+/**
+ * Finds an attachment by its slug.
+ *
+ * A Stage 5 bridge. Sections that show photographs need attachment IDs, and
+ * until Stage 6's fields exist there is nowhere for an editor to put one. The
+ * upload filename becomes the attachment slug, so a section can name the
+ * picture it expects and get it out of the media library — no path, no date
+ * folder, no domain (CLAUDE.md §12).
+ *
+ * Once the fields land, sections receive real IDs and these defaults stop being
+ * reached. Nothing here needs removing at that point; it just goes quiet.
+ *
+ * Returns 0 rather than throwing when the attachment is missing: a section with
+ * no photograph must still render (CLAUDE.md §13, fail gracefully). With
+ * SYN_DEBUG on it says which slug it could not find, so "why is that image
+ * blank" is answered in view-source.
+ *
+ * @param string $slug Attachment slug, i.e. the upload filename without its
+ *                     extension.
+ * @return int Attachment ID, or 0.
+ */
+function syn_attachment_id_by_slug( $slug ) {
+	static $cache = array();
+
+	$slug = sanitize_title( $slug );
+
+	if ( ! $slug ) {
+		return 0;
+	}
+
+	if ( isset( $cache[ $slug ] ) ) {
+		return $cache[ $slug ];
+	}
+
+	$attachment = get_page_by_path( $slug, OBJECT, 'attachment' );
+
+	$cache[ $slug ] = $attachment ? (int) $attachment->ID : 0;
+
+	if ( ! $cache[ $slug ] && SYN_DEBUG ) {
+		echo "\n<!-- syn-attachment: no attachment with the slug \"" . esc_html( $slug ) . "\". Upload it, or check the media library for a -1 suffix on the slug. -->\n";
+	}
+
+	return $cache[ $slug ];
+}
