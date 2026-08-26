@@ -1,0 +1,175 @@
+{
+  "envs": [
+    { "name": "desktop (wide)", "width": 90 },
+    { "name": "<=74rem", "width": 70 },
+    { "name": "<=67.5rem", "width": 64 },
+    { "name": "<=61.25rem", "width": 55 },
+    { "name": "<=47.99rem", "width": 40 },
+    { "name": "<=32rem", "width": 30 },
+    { "name": "<=27rem", "width": 25 },
+    { "name": "<=22rem", "width": 21 }
+  ],
+  "elements": [
+    { "name": "section.services-section", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" }, { "tag": "main" },
+      { "tag": "section", "classes": ["section", "services-section"] } ] },
+
+    { "name": ".service-carousel", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" }, { "tag": "main" },
+      { "tag": "section", "classes": ["section", "services-section"] },
+      { "tag": "div", "classes": ["syg-container"] },
+      { "tag": "div", "classes": ["service-carousel", "reveal"] } ] },
+
+    { "name": ".service-deck-copy", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-carousel"] },
+      { "tag": "div", "classes": ["service-deck-copy"] } ] },
+
+    { "name": ".service-deck-copy h2", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-carousel"] },
+      { "tag": "div", "classes": ["service-deck-copy"] },
+      { "tag": "h2" } ] },
+
+    { "name": ".service-deck-lead", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-carousel"] },
+      { "tag": "div", "classes": ["service-deck-copy"] },
+      { "tag": "p", "classes": ["service-deck-lead"] } ] },
+
+    { "name": ".service-controls", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-carousel"] },
+      { "tag": "div", "classes": ["service-deck-copy"] },
+      { "tag": "div", "classes": ["service-controls"] } ] },
+
+    { "name": ".service-controls button", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-controls"] },
+      { "tag": "button" } ] },
+
+    { "name": ".service-controls button:hover", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-controls"] },
+      { "tag": "button", "states": ["hover"] } ] },
+
+    { "name": ".service-deck-stage", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-carousel"] },
+      { "tag": "div", "classes": ["service-deck-stage"] } ] },
+
+    { "name": ".service-deck-stage::before", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-carousel"] },
+      { "tag": "div", "classes": ["service-deck-stage"], "pseudoEl": "before" } ] },
+
+    { "name": ".service-viewport", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-deck-stage"] },
+      { "tag": "div", "classes": ["service-viewport"] } ] },
+
+    { "name": ".service-track", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-viewport"] },
+      { "tag": "div", "classes": ["service-track"] } ] },
+
+    { "name": ".service-card (accounting, active)", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-track"] },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting", "is-active"], "attrs": { "data-deck-position": "0" } } ] },
+
+    { "name": ".service-card::before", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-track"] },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"], "attrs": { "data-deck-position": "0" }, "pseudoEl": "before" } ] },
+
+    { "name": ".service-card::after", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-track"] },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"], "attrs": { "data-deck-position": "0" }, "pseudoEl": "after" } ] },
+
+    { "name": ".service-card-intro", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-intro"] } ] },
+
+    { "name": ".service-card-kicker", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-intro"] },
+      { "tag": "div", "classes": ["service-card-kicker"] } ] },
+
+    { "name": ".service-card-label", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-card-kicker"] },
+      { "tag": "div", "classes": ["service-card-label"] } ] },
+
+    { "name": ".service-card-index", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-card-kicker"] },
+      { "tag": "div", "classes": ["service-card-label"] },
+      { "tag": "span", "classes": ["service-card-index"] } ] },
+
+    { "name": ".service-card-label p", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-card-kicker"] },
+      { "tag": "div", "classes": ["service-card-label"] },
+      { "tag": "p" } ] },
+
+    { "name": ".service-card-kicker img", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-kicker"] },
+      { "tag": "img" } ] },
+
+    { "name": ".service-card h3", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-intro"] },
+      { "tag": "h3" } ] },
+
+    { "name": ".service-card-summary", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-intro"] },
+      { "tag": "p", "classes": ["service-card-summary"] } ] },
+
+    { "name": ".service-card .text-link", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-intro"] },
+      { "tag": "a", "classes": ["text-link"] } ] },
+
+    { "name": ".service-card .text-link:hover", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-intro"] },
+      { "tag": "a", "classes": ["text-link"], "states": ["hover"] } ] },
+
+    { "name": ".service-card-capabilities", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-capabilities"] } ] },
+
+    { "name": ".service-card-capabilities > p", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "article", "classes": ["service-card", "service-card-accounting"] },
+      { "tag": "div", "classes": ["service-card-capabilities"] },
+      { "tag": "p", "states": ["first-of-type"] } ] },
+
+    { "name": ".service-card-capabilities ul", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-card-capabilities"] },
+      { "tag": "ul" } ] },
+
+    { "name": ".service-card-capabilities li", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-card-capabilities"] },
+      { "tag": "ul" }, { "tag": "li" } ] },
+
+    { "name": ".service-card-capabilities li::before", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["service-card-capabilities"] },
+      { "tag": "ul" }, { "tag": "li", "pseudoEl": "before" } ] }
+  ]
+}
