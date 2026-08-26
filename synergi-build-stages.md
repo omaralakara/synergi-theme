@@ -154,24 +154,48 @@ They belong in Stage 3 rather than earlier or later because: every page needs th
 
 ---
 
-## Stage 6 — Templates and custom fields
+## Stage 6 — Fields, and the templates they feed
 
-**Goal:** `templates/service.php`, `templates/market.php`, `templates/guide.php`, plus the hand-built fields (CLAUDE.md §7). Proven by building HR fully, then Accounting with content only.
+**Goal:** the hand-built fields engine, the homepage retrofitted onto it, and the page templates. **Scope was revised 26 Aug** after the stakeholder content structure arrived — read `stage-6-scope.md` first; it holds the reasoning, the four open decisions, and what changed.
 
-**Before starting:** Stage 5 verified.
+**Before starting:** Stage 5 verified, and decisions D1–D4 in `stage-6-scope.md` answered.
 
-**Prompt for Claude:**
-> Stage 6. First inc/fields.php per CLAUDE.md §7: eyebrow and lede as simple fields; capabilities and quick facts as JSON repeaters with a vanilla-JS admin UI (add/remove/up/down). Nonces, capability checks, per-leaf sanitize on save and escape on render. Boxes appear only on the matching template. Then templates/service.php composing sections + fields. We fill in Human Resources completely on staging, verify, then do Accounting entering only content — if Accounting needs any code change, the template isn't done. Then market.php and guide.php.
+**What changed from the original Stage 6:** six service lines, not five (CLAUDE.md §12a is now answered). A new group of five Solutions pages. Fields split into page fields and site records (CLAUDE.md §7a), because the business asked for "one set of numbers, used everywhere". Images move from slug lookups to media-picker fields. And the homepage is retrofitted onto fields before any new template is built.
+
+### 6a — the fields engine
+
+> Stage 6a. Build `inc/fields.php` per CLAUDE.md §7, and nothing else — no templates yet. Four field types: simple text, a JSON repeater with a vanilla-JS add/remove/up/down UI, an image field using the core media modal, and a link field storing url plus label. Then the site-record store: one `syn_records` option, one Settings screen, same repeater UI, holding the key figures, the locations, the partners and the service lines. Nonces, `current_user_can`, bail on autosave and revisions, per-leaf sanitise on save, escape on render, an admin notice naming anything rejected. Admin assets under `assets/admin/`, enqueued only on the screens that use them. Show me the admin screens before we put any template on top of this.
+
+### 6b — retrofit the homepage
+
+> Stage 6b. Turn every `$args` default in the twelve homepage partials into a real field, and every `syn_attachment_id_by_slug()` call into an image field with the slug lookup kept as the empty-value fallback. The key figures, locations and partners read from `syn_records`, not from postmeta. Nothing about the rendered homepage may change: same markup, same classes, same measured payload. Prove it by diffing the rendered HTML before and after.
+
+### 6c — the service template
+
+> Stage 6c. `templates/service.php`, composing section partials plus fields. Build Human Resources completely on staging and verify. Then build **Project Management** entering content only — it is the sixth line and has no existing page, so it proves the template can create a page as well as re-skin one. If Project Management needs a single code change, the template is not done.
+
+### 6d — the solutions template
+
+> Stage 6d. Per decision D1 in `stage-6-scope.md`: either extend `templates/service.php` to carry the five Solutions pages, or add `templates/solution.php`. Build "Shared services design & set-up" first. Then `market.php` and, if it survives the cut list, `guide.php`.
+
+### 6e — the homepage changes the structure asked for
+
+> Stage 6e. The four changes in `stage-6-scope.md` §2d, now that fields exist to carry them: the hero loses its legacy keyword paragraph, the figures gain a date, the partner logos link to the partners page, and the locations show entity and function delivered. Then the Upcoming events section, which has no design in the source and needs one.
 
 **Verify:**
+- [ ] Every field: nonce, capability check, autosave/revision bail, per-leaf sanitise, escape on render
+- [ ] Repeater: add/remove/reorder works, saves survive reload, weird input (quotes, emoji, HTML, a 5,000-word paste) is stored and displayed safely
+- [ ] Site records: changing a key figure once changes it on the homepage **and** About Us
+- [ ] Images: a photograph can be replaced by someone who has never heard of a slug
+- [ ] Homepage after 6b renders byte-identical markup to before it, and the same measured payload
 - [ ] HR page matches the service prototype; fields editable by a non-developer
-- [ ] Accounting built with zero code changes
-- [ ] Repeater: add/remove/reorder works, saves survive reload, weird input (quotes, emoji, HTML) is stored and displayed safely
+- [ ] Project Management built with zero code changes
+- [ ] No field can change a colour, a width, a spacing value or a section order (CLAUDE.md §7c)
 - [ ] Fields invisible on ordinary pages
-- [ ] All service/market pages under budget
+- [ ] All service, solution and market pages under budget
 - [ ] Tagged `stage-6-done`
 
-**Rollback:** field data lives in postmeta and survives code reverts; templates revert via git.
+**Rollback:** field data lives in postmeta and options and survives code reverts; templates revert via git. 6b is the risky step — one commit per section, so a bad retrofit reverts alone.
 
 ---
 

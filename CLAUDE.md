@@ -157,13 +157,41 @@ How the theme stays inside them:
 
 ## 7. Custom fields — hand-built, no plugin
 
-`inc/fields.php` implements the fields with core WordPress APIs (`add_meta_box`), because no-subscription is a project decision.
+`inc/fields.php` implements the fields with core WordPress APIs (`add_meta_box`), because no-subscription is a project decision. The build plan says "Meta Box fields" throughout; plan §1 note 2 already overrides that — read it as "hand-built fields", and Meta Box is uninstalled with the retired plugins.
+
+### 7a. Two kinds of editable data, and the rule for choosing
+
+> **Added 26 Aug**, after the stakeholder content structure arrived. It asks for
+> "key figures — **same numbers as the homepage, one set, used everywhere**",
+> and the same is true of locations (homepage, Contact Us, Global Locations) and
+> partners (homepage band, partners page). Postmeta cannot express that: it
+> would put a separate copy on every page and they would drift apart within a
+> month. This is the failure the whole project exists to escape, in a new place.
+
+**Page fields — postmeta.** Copy that belongs to exactly one page and would be wrong anywhere else: a page's eyebrow, its lede, its capability list, its own hero image.
+
+**Site records — one shared store.** Anything that appears on more than one page, or that is a *fact about the business* rather than words on a page: the key figures, the locations, the partners, the service lines. Stored once and read wherever needed.
+
+The test is one question: **if this changes, how many pages should change with it?** More than one means it is a site record, and putting it in postmeta is a bug.
+
+Site records live in the Options API under a single `syn_records` option, edited on one Settings screen, with the same JSON-array-plus-repeater shape as the postmeta groups below. Options, not a custom post type, because these records need no URL, no template and no SEO of their own — a CPT would create URLs nobody asked for, and §2.8 is about not inventing URLs carelessly. Content that genuinely *needs* its own URL (case studies, podcast episodes, events) is a different question, decided in `stage-6-scope.md`, not here.
+
+### 7b. Field types
 
 - **Simple fields** (eyebrow, lede): plain inputs in a meta box, one postmeta each.
 - **Repeatable groups** (capabilities: title + description + tags; quick facts: label + value): a vanilla-JS repeater UI (add / remove / reorder rows) storing ONE JSON array per group in a single postmeta key (e.g. `_syn_capabilities`). Sanitize per-leaf on save, `wp_json_encode` for storage, escape per-leaf on render.
+- **Image fields** store an attachment ID and are chosen through the core media modal (`wp.media`), which is already in WordPress and needs no build step. A field shows a thumbnail, a "Choose image" button and a "Remove" button.
+- **Link fields** store a URL and a label as two keys, so a card can point somewhere without an editor touching markup.
+
+**Images are never resolved by slug once Stage 6 exists.** Stage 5 uses `syn_attachment_id_by_slug()` in six sections, which was right for building against a fixed set of uploads and is wrong for handing over: it means changing a photograph requires knowing what a slug is and uploading a file that produces the right one. Every one of those call sites becomes an image field, with the slug lookup kept only as the fallback when a field is empty, so nothing breaks on the day the fields ship.
+
+### 7c. Rules that apply to all of them
+
 - Field boxes appear only on pages using the matching template (check `_wp_page_template` in the meta box registration; fall back to a page-ID list if needed).
 - Admin-side JS/CSS for the repeater lives in `assets/` under an `admin/` subfolder and is enqueued only on the relevant edit screens.
 - Keep it boring: no drag libraries, no frameworks — up/down buttons are acceptable reordering.
+- **Fields carry copy and pictures, never layout.** No field may set a colour, a width, a spacing value, an alignment or a section order. An editor changing words must not be able to change the design — that is the point of the whole architecture (§1), and a "background colour" field is how it gets lost.
+- Every field has a default. A page with an empty field renders the default, never an empty heading, an empty list or a broken image.
 
 ## 8. SEO rules
 
@@ -227,7 +255,7 @@ The approved homepage design already exists as real HTML/CSS/JS inside the **`sy
 Three things to know before touching it:
 
 1. **39 `.bak*` files sit alongside the live ones** (the previous dev versioned by copying filenames). Copy only the files in the table. Never copy a `.bak`.
-2. **There are 7 icons but only 5 service pages** — a `project-management` icon exists with no matching page. Ask before assuming a sixth service line; do not invent the page.
+2. ~~There are 7 icons but only 5 service pages~~ — **ANSWERED 26 Aug.** The stakeholder content structure lists **six** service lines: HR, Technology & AI, Marketing, Procurement, Accounting and **Project Management**. The seventh icon is the favicon. Homepage section 02 already renders all six; Stage 6 must therefore build six service pages, not five, and every count of "the 5 service lines" in the build plan is out by one.
 3. `main.min.css` declares `:root` **8 times**; the table in §3 already holds the values that actually win. Consolidate to one layer — never carry the eight blocks across.
 
 ## 13. Write code that is easy to debug
