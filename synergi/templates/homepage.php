@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
  * 05 why synergi, 06 numbers, 07 partners, 08 locations, 09 blog,
  * 10 instagram, 11 podcast, 12 final CTA.
  */
-syn_use_sections( array( 'hero', 'services' ) );
+syn_use_sections( array( 'hero', 'services', 'shared-services' ) );
 
 get_header();
 
@@ -62,7 +62,9 @@ syn_section(
 	)
 );
 
-// Section 02. All copy defaults live in the partial until Stage 6's fields.
+// Sections 02 and 03. All copy defaults live in the partials until Stage 6's
+// fields; neither takes arguments yet.
 syn_section( 'services' );
+syn_section( 'shared-services' );
 
 get_footer();

@@ -1,0 +1,556 @@
+/*
+ * shared-services.css — section 03, the shared-services hub.
+ * Contents: 1 local tokens · 2 shell and dot grid · 3 layout · 4 copy ·
+ * 5 delivery steps · 6 CTA row and markets · 7 benefit chips ·
+ * 8 the stage and connectors · 9 bubbles · 10 the core · 11 the orbs ·
+ * 12 specks · 13 closing note · 14 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-shared-services", only on pages
+ * that declare the section through syn_use_sections(). Markup:
+ * sections/shared-services.php. No JavaScript — the hub drifts on a CSS
+ * animation and nothing here reacts to input.
+ *
+ * Unlike section 02, the source styles this one in essentially a single pass:
+ * about forty rules, only `.ssb-chips`, `.ssb-chips li` and its ::before appear
+ * twice, and the second of each wins outright. The one non-obvious cascade
+ * result is the heading colour — `.ssb-copy h2` sets `--color-primary-ink`, but
+ * a later shared rule listing `.ssb-copy h2` among eighteen selectors sets
+ * `--color-primary` at equal specificity and therefore wins. The heading is
+ * navy, not ink.
+ *
+ * TWO DEVIATIONS, both small:
+ *
+ * 1. The section id is `shared-services`, not the source's `shared-services-v2`.
+ *    The suffix is a leftover from the previous developer's second attempt, and
+ *    nothing links to it — the only in-page anchor anywhere in the design is
+ *    `#services`. Worth a glance at the WordPress menus before launch in case
+ *    one points at the old id.
+ * 2. `overflow: clip` rather than `overflow: hidden`, matching section 02 and
+ *    the rest of the theme: it clips the same way without creating a scroll
+ *    container.
+ *
+ * Class map, design source -> theme:
+ *   .ssb-section    -> .syn-shared-services        .ssb-layout -> __layout
+ *   .ssb-copy       -> __copy                      .ssb-lead   -> __lead
+ *   .ssb-ministeps  -> __steps                     .ssb-ministep-arrow -> __step-arrow
+ *   .ssb-cta-row    -> __cta-row                   .ssb-markets -> __markets
+ *   .ssb-chips      -> __chips                     .ssb-stage  -> __stage
+ *   .ssb-links      -> __links                     .ssb-bubble -> __bubble
+ *   .ssb-core       -> __core                      .ssb-orb    -> __orb
+ *   .ssb-o1 … .ssb-o6 -> __orb--1 … __orb--6       .ssb-dot    -> __dot
+ *   .ssb-d1 … .ssb-d4 -> __dot--1 … __dot--4       .ssb-note   -> __note
+ *   .eyebrow -> .syn-eyebrow   .button -> .syn-button   (both shared, base.css)
+ *
+ * The source writes this section in raw hex and rgba throughout. Every value is
+ * derived here from the §3 palette with color-mix() instead (CLAUDE.md §2.7).
+ * Six of them are approximations rather than exact matches — the source's
+ * bubble gradients use blues that are not in the palette, and mixing the
+ * palette's own navy, mint and cyan-soft reproduces each to within a shade.
+ * They are collected in section 1 so the whole approximation is in one place;
+ * the same approach hero.css takes for its one off-palette highlight.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-shared-services {
+	/* The glass bubbles: a white highlight at the top, cyan-soft through the
+	   middle, mint at the rim. */
+	--syn-shared-services-orb-top: color-mix(in srgb, var(--syn-white) 55%, var(--syn-cyan-soft));
+	--syn-shared-services-orb-mid: color-mix(in srgb, var(--syn-mint) 55%, var(--syn-cyan-soft));
+	--syn-shared-services-orb-rim: var(--syn-mint);
+
+	/* The core bubble is the same shape in reverse: lit from the upper left in a
+	   blue that sits between navy and mint, falling to ink. */
+	--syn-shared-services-core-lit: color-mix(in srgb, var(--syn-navy) 62%, var(--syn-mint));
+	--syn-shared-services-core-label: color-mix(in srgb, var(--syn-mint) 88%, var(--syn-white));
+
+	/* The deepest of the drifting specks. */
+	--syn-shared-services-speck-deep: color-mix(in srgb, var(--syn-mint) 92%, var(--syn-navy));
+
+	/* Ink and navy at the handful of opacities this section reuses. */
+	--syn-shared-services-ink-32: color-mix(in srgb, var(--syn-ink) 32%, transparent);
+	--syn-shared-services-ink-55: color-mix(in srgb, var(--syn-ink) 55%, transparent);
+	--syn-shared-services-navy-16: color-mix(in srgb, var(--syn-navy) 16%, transparent);
+	--syn-shared-services-navy-28: color-mix(in srgb, var(--syn-navy) 28%, transparent);
+}
+
+/* ==========================================================================
+   2. Shell and dot grid
+   Three stacked background layers, then a masked dot grid over the top.
+   ========================================================================== */
+
+.syn-shared-services {
+	/* Clip, not hidden: same effect, no scroll container (CLAUDE.md §6). */
+	overflow: clip;
+	background-image:
+		radial-gradient(38rem 26rem at 86% 8%, color-mix(in srgb, var(--syn-cyan-soft) 85%, transparent), transparent 62%),
+		radial-gradient(32rem 24rem at 4% 96%, color-mix(in srgb, var(--syn-paper-blue) 90%, transparent), transparent 58%),
+		linear-gradient(180deg, var(--syn-white) 0%, var(--syn-paper) 100%);
+	color: var(--syn-ink);
+}
+
+/*
+ * The dot grid, faded out towards the edges by a mask so it never meets the
+ * section border as a hard rectangle. Black and transparent here are mask
+ * alpha, not colours — nothing paints them.
+ */
+.syn-shared-services::before {
+	position: absolute;
+	inset: 0;
+	background-image: radial-gradient(color-mix(in srgb, var(--syn-navy) 11%, transparent) 1px, transparent 1.5px);
+	background-size: 1.4rem 1.4rem;
+	mask-image: radial-gradient(72rem 42rem at 62% 42%, black 25%, transparent 88%);
+	content: "";
+	pointer-events: none;
+}
+
+.syn-shared-services > .syn-container {
+	position: relative;
+	/* Above the dot grid. */
+	z-index: 1;
+}
+
+/* ==========================================================================
+   3. Layout
+   ========================================================================== */
+
+.syn-shared-services__layout {
+	display: grid;
+	grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+	gap: clamp(2.5rem, 5vw, 5rem);
+	align-items: center;
+}
+
+/* ==========================================================================
+   4. Copy
+   ========================================================================== */
+
+/*
+ * A grid item's automatic minimum size is its content, so one long unbroken
+ * string — a URL pasted into the lead, once these become editable fields — would
+ * push this column wider than its track and take the hub off the screen with it.
+ * The design source covers this with a blanket min-width rule across a dozen
+ * selectors; one rule where it matters does the same job.
+ */
+.syn-shared-services__copy {
+	min-inline-size: 0;
+}
+
+.syn-shared-services__title {
+	max-inline-size: 18ch;
+	margin-block: 0 1.1rem;
+	color: var(--syn-navy);
+	font-size: clamp(2.15rem, 3.4vw, 3.05rem);
+	letter-spacing: -0.03em;
+	line-height: 1.08;
+}
+
+.syn-shared-services__lead {
+	max-inline-size: 34rem;
+	margin-block: 0;
+	color: var(--syn-text-soft);
+	font-size: 0.96rem;
+	line-height: 1.68;
+}
+
+.syn-shared-services__lead a,
+.syn-shared-services__note a {
+	color: var(--syn-navy);
+	font-weight: 650;
+}
+
+/* ==========================================================================
+   5. Delivery steps
+   Understand → Design → Deliver.
+   ========================================================================== */
+
+.syn-shared-services__steps {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.9rem;
+	margin-block: 1.5rem 0;
+	padding: 0;
+	list-style: none;
+	color: var(--syn-ink);
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.syn-shared-services__steps li {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+}
+
+.syn-shared-services__step-number {
+	color: var(--syn-cyan);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+}
+
+.syn-shared-services__step-arrow {
+	color: var(--syn-shared-services-ink-32);
+	font-weight: 500;
+}
+
+/* ==========================================================================
+   6. CTA row and markets
+   ========================================================================== */
+
+.syn-shared-services__cta-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 1.4rem;
+	margin-block-start: 1.6rem;
+}
+
+.syn-shared-services__markets {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	margin-block: 0;
+	color: var(--syn-shared-services-ink-55);
+	font-size: 0.7rem;
+	font-weight: 750;
+	letter-spacing: 0.14em;
+}
+
+.syn-shared-services__market-dot {
+	inline-size: 0.3rem;
+	block-size: 0.3rem;
+	border-radius: 50%;
+	background-color: var(--syn-cyan);
+}
+
+/* ==========================================================================
+   7. Benefit chips
+   ========================================================================== */
+
+.syn-shared-services__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	margin-block: 1.7rem 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-shared-services__chips li {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding-block: 0.5rem;
+	padding-inline: 0.55rem 1.15rem;
+	border: 1px solid var(--syn-shared-services-navy-16);
+	/* Deliberately larger than the §3 radius scale: this is a pill, so the
+	   value only has to exceed half the chip's height. */
+	border-radius: 10rem;
+	background-color: var(--syn-white);
+	box-shadow: 0 2px 10px color-mix(in srgb, var(--syn-navy) 7%, transparent);
+	color: var(--syn-navy);
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.01em;
+}
+
+.syn-shared-services__chips li::before {
+	display: grid;
+	inline-size: 1.4rem;
+	block-size: 1.4rem;
+	border-radius: 50%;
+	background: var(--syn-gradient-brand);
+	place-items: center;
+	color: var(--syn-white);
+	content: "✓";
+	font-size: 0.62rem;
+	font-weight: 900;
+}
+
+/* ==========================================================================
+   8. The stage and connectors
+   A square that carries its own container context, so everything inside is
+   sized in cqw and the hub scales as one piece instead of needing a breakpoint
+   for each part of it.
+   ========================================================================== */
+
+.syn-shared-services__stage {
+	position: relative;
+	inline-size: min(100%, 35rem);
+	aspect-ratio: 1;
+	margin-inline: auto;
+	container-type: inline-size;
+}
+
+.syn-shared-services__links {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.syn-shared-services__links line {
+	stroke: var(--syn-shared-services-navy-28);
+	stroke-dasharray: 1.5 1.9;
+	/* In viewBox units, not pixels — the SVG is 100 wide however big it draws. */
+	stroke-width: 0.32;
+}
+
+/* ==========================================================================
+   9. Bubbles
+   Shared between the core and the six orbs: a circle, centred content, a
+   specular highlight, and a slow drift out of step with its neighbours.
+
+   The drift is a transform, so it runs on the compositor and never triggers
+   layout (CLAUDE.md §6). base.css stops it under prefers-reduced-motion for
+   the whole theme, so no section has to remember to.
+   ========================================================================== */
+
+.syn-shared-services__bubble {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1.1cqw;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	text-align: center;
+	animation: syn-shared-services-float 7s ease-in-out infinite alternate;
+}
+
+/* The highlight, as if lit from the upper left. */
+.syn-shared-services__bubble::before {
+	position: absolute;
+	inset-block-start: 9%;
+	inset-inline-start: 16%;
+	inline-size: 34%;
+	block-size: 22%;
+	border-radius: 50%;
+	background-image: radial-gradient(closest-side, color-mix(in srgb, var(--syn-white) 85%, transparent), transparent);
+	content: "";
+	transform: rotate(-24deg);
+	pointer-events: none;
+}
+
+@keyframes syn-shared-services-float {
+
+	from {
+		transform: translateY(-1.5cqw);
+	}
+
+	to {
+		transform: translateY(1.5cqw);
+	}
+}
+
+/* ==========================================================================
+   10. The core
+   ========================================================================== */
+
+.syn-shared-services__core {
+	inset-block-start: 33.5%;
+	inset-inline-start: 33.5%;
+	inline-size: 33%;
+	background-image: radial-gradient(
+		circle at 31% 26%,
+		var(--syn-shared-services-core-lit) 0%,
+		var(--syn-navy) 46%,
+		var(--syn-navy-deep) 78%,
+		var(--syn-ink) 100%
+	);
+	box-shadow:
+		inset -1.2cqw -1.6cqw 3cqw color-mix(in srgb, var(--syn-ink) 55%, transparent),
+		inset 1cqw 1.2cqw 2.4cqw color-mix(in srgb, var(--syn-mint) 35%, transparent),
+		0 2.4cqw 4.5cqw color-mix(in srgb, var(--syn-ink) 38%, transparent);
+	color: var(--syn-white);
+	/* Slower than the orbs, so the middle of the hub reads as the steady one. */
+	animation-duration: 9s;
+}
+
+.syn-shared-services__core::before {
+	background-image: radial-gradient(closest-side, color-mix(in srgb, var(--syn-white) 50%, transparent), transparent);
+}
+
+.syn-shared-services__core-label {
+	color: var(--syn-shared-services-core-label);
+	font-size: 2.15cqw;
+	font-weight: 750;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.syn-shared-services__core-title {
+	font-size: 3.55cqw;
+	letter-spacing: -0.01em;
+	line-height: 1.25;
+}
+
+/* ==========================================================================
+   11. The orbs
+   ========================================================================== */
+
+.syn-shared-services__orb {
+	background-image: radial-gradient(
+		circle at 30% 24%,
+		var(--syn-white) 0%,
+		var(--syn-shared-services-orb-top) 38%,
+		var(--syn-cyan-soft) 62%,
+		var(--syn-shared-services-orb-mid) 88%,
+		var(--syn-shared-services-orb-rim) 100%
+	);
+	box-shadow:
+		inset -1cqw -1.4cqw 2.6cqw color-mix(in srgb, var(--syn-navy) 22%, transparent),
+		inset 0.8cqw 1cqw 2cqw color-mix(in srgb, var(--syn-white) 90%, transparent),
+		0 1.8cqw 3.4cqw color-mix(in srgb, var(--syn-ink) 16%, transparent);
+	transition: scale var(--syn-duration) var(--syn-ease-out);
+}
+
+.syn-shared-services__orb:hover {
+	scale: 1.06;
+}
+
+/*
+ * The icon inherits currentColor, which is the whole reason it is inlined
+ * rather than linked — see syn_inline_icon() in inc/sections.php.
+ */
+.syn-shared-services__orb-icon {
+	inline-size: 27%;
+	aspect-ratio: 1;
+	color: var(--syn-navy);
+}
+
+.syn-shared-services__orb-icon svg {
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.syn-shared-services__orb-title {
+	color: var(--syn-navy-deep);
+	font-size: 2.6cqw;
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+}
+
+/*
+ * Six points around the core, starting at the top and going clockwise. These
+ * percentages are the same ones the connector lines in
+ * sections/shared-services.php are drawn to — move one and the line moves too.
+ */
+.syn-shared-services__orb--1 {
+	inset-block-start: 0%;
+	inset-inline-start: 40%;
+	inline-size: 20%;
+	animation-delay: 0.5s;
+}
+
+.syn-shared-services__orb--2 {
+	inset-block-start: 18.5%;
+	inset-inline-start: 73.1%;
+	inline-size: 23%;
+	animation-delay: 1.3s;
+}
+
+.syn-shared-services__orb--3 {
+	inset-block-start: 60.5%;
+	inset-inline-start: 75.1%;
+	inline-size: 19%;
+	animation-delay: 2s;
+}
+
+.syn-shared-services__orb--4 {
+	inset-block-start: 77.5%;
+	inset-inline-start: 39.5%;
+	inline-size: 21%;
+	animation-delay: 0.2s;
+}
+
+.syn-shared-services__orb--5 {
+	inset-block-start: 61%;
+	inset-inline-start: 6.4%;
+	inline-size: 18%;
+	animation-delay: 1.7s;
+}
+
+.syn-shared-services__orb--6 {
+	inset-block-start: 19%;
+	inset-inline-start: 4.4%;
+	inline-size: 22%;
+	animation-delay: 2.6s;
+}
+
+/* ==========================================================================
+   12. Specks
+   ========================================================================== */
+
+.syn-shared-services__dot {
+	position: absolute;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	animation: syn-shared-services-float 6s ease-in-out infinite alternate;
+}
+
+.syn-shared-services__dot--1 {
+	inset-block-start: 87%;
+	inset-inline-start: 24%;
+	inline-size: 4.6%;
+	background-image: radial-gradient(circle at 32% 28%, var(--syn-cyan-soft), var(--syn-mint));
+	animation-delay: 0.9s;
+}
+
+.syn-shared-services__dot--2 {
+	inset-block-start: 5%;
+	inset-inline-start: 27%;
+	inline-size: 3.2%;
+	background-image: radial-gradient(circle at 32% 28%, var(--syn-white), var(--syn-shared-services-orb-mid));
+	animation-delay: 1.6s;
+}
+
+.syn-shared-services__dot--3 {
+	inset-block-start: 46%;
+	inset-inline-start: 95%;
+	inline-size: 2.6%;
+	background-image: radial-gradient(circle at 32% 28%, var(--syn-cyan-soft), var(--syn-shared-services-speck-deep));
+	animation-delay: 2.4s;
+}
+
+.syn-shared-services__dot--4 {
+	inset-block-start: 12%;
+	inset-inline-start: 92%;
+	inline-size: 2.2%;
+	background-image: radial-gradient(circle at 32% 28%, var(--syn-white), var(--syn-mint));
+	animation-delay: 0.3s;
+}
+
+/* ==========================================================================
+   13. Closing note
+   ========================================================================== */
+
+.syn-shared-services__note {
+	max-inline-size: 56rem;
+	margin-block: clamp(2rem, 3.5vw, 2.75rem) 0;
+	color: var(--syn-text-soft);
+	font-size: 0.82rem;
+	line-height: 1.65;
+}
+
+/* ==========================================================================
+   14. Narrow screens
+   One step. Everything inside the hub is sized against the stage, so shrinking
+   the stage is all that is needed — no breakpoint per bubble.
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-shared-services__layout {
+		grid-template-columns: 1fr;
+	}
+
+	.syn-shared-services__stage {
+		inline-size: min(100%, 26rem);
+	}
+}

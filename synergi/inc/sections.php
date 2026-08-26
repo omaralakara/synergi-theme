@@ -211,6 +211,13 @@ function syn_print_section_debug_comment() {
 function syn_inline_icon( $slug, $class = '' ) {
 	static $cache = array();
 
+	/*
+	 * Two sets for the same six services, because the design draws them twice:
+	 * the flat 32px pair-of-lines set for the service cards (section 02), and a
+	 * rounder 48px set for the bubble hub (section 03). Three of the six are
+	 * genuinely different drawings, not the same file rescaled, so they are
+	 * kept apart rather than merged.
+	 */
 	$allowed = array(
 		'accounting',
 		'human-resources',
@@ -218,6 +225,12 @@ function syn_inline_icon( $slug, $class = '' ) {
 		'procurement',
 		'project-management',
 		'technology-ai',
+		'hub-accounting',
+		'hub-human-resources',
+		'hub-marketing',
+		'hub-procurement',
+		'hub-project-management',
+		'hub-technology-ai',
 	);
 
 	if ( ! in_array( $slug, $allowed, true ) ) {
