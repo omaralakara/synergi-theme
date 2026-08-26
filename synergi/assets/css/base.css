@@ -477,6 +477,26 @@ textarea {
 	filter: brightness(1.12);
 }
 
+/*
+ * Outlined, for use on a LIGHT surface — the Instagram section's "Follow
+ * Synergi". Its opposite number is --light below; the two are not
+ * interchangeable, and the source proves why: it puts its light-surface
+ * outline button on the closing CTA's near-black panel, where navy text on ink
+ * measures 1.3:1 and the button is effectively invisible. Section 12 uses
+ * --light instead.
+ */
+.syn-button--outline {
+	border-color: var(--syn-navy);
+	background-color: transparent;
+	color: var(--syn-navy);
+}
+
+.syn-button--outline:hover {
+	border-color: transparent;
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+}
+
 /* Outlined, for use on a dark surface — the hero and the closing CTA. */
 .syn-button--light {
 	border-color: color-mix(in srgb, var(--syn-white) 55%, transparent);

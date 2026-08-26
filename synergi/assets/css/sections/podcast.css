@@ -1,0 +1,234 @@
+/*
+ * podcast.css — section 11, The Synergi Executive Podcast.
+ * Contents: 1 local tokens · 2 shell · 3 layout · 4 copy · 5 the note strip ·
+ * 6 the cover art · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-podcast", only on pages that
+ * declare the section. Markup: sections/podcast.php. No behaviour file.
+ *
+ * TWO COLOURWAYS IN THE SOURCE, ONE HERE. main.min.css styles this section
+ * twice: first as a dark ink panel with a decorative SVG field behind it, then
+ * — later in the file, so this is what renders — as a pale blue band with the
+ * field switched off and every colour inverted. Only the pale one is ported.
+ * Resolved with tools/diff.js; reading the file top to bottom gives the dark
+ * version, which appears nowhere on the site.
+ *
+ * That also means connection-field.svg is NOT needed by this section. The
+ * source loads it here and then hides it with `.podcast-section::after {
+ * display: none }`, so porting it would have cost a request for an image that
+ * is never painted.
+ *
+ * Class map, design source -> theme:
+ *   .podcast-section -> .syn-podcast       .podcast-grid  -> __grid
+ *   .podcast-copy    -> __copy             .podcast-lead  -> __lead
+ *   .podcast-copy > p -> __body            .episode-placeholder -> __note
+ *   .episode-placeholder span -> __note-label
+ *   .episode-placeholder strong -> __note-value
+ *   .podcast-art     -> __art              .podcast-art img -> __image
+ *   .media-badge     -> __badge
+ *   .eyebrow-light -> .syn-eyebrow (shared; recoloured here, see section 4)
+ *   .button.button-primary -> .syn-button.syn-button--primary (base.css)
+ *
+ * Colours are derived from the §3 palette with color-mix(); the source writes
+ * this section in rgba.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-podcast {
+	/* The note strip's own panel: white, thinned so the band shows through. */
+	--syn-podcast-note-bed: color-mix(in srgb, var(--syn-white) 64%, transparent);
+
+	/* The chip over the artwork is dark on a light picture, so it carries its
+	   own near-solid ink bed and a white hairline. */
+	--syn-podcast-badge-bed: color-mix(in srgb, var(--syn-ink) 84%, transparent);
+	--syn-podcast-badge-rim: color-mix(in srgb, var(--syn-white) 22%, transparent);
+	--syn-podcast-badge-text: color-mix(in srgb, var(--syn-white) 80%, transparent);
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-podcast {
+	overflow: hidden;
+	border-block-end: 1px solid var(--syn-border);
+	background-color: var(--syn-paper-blue);
+	color: var(--syn-ink);
+}
+
+/* ==========================================================================
+   3. Layout
+   The copy is the narrower column, so the artwork carries the section.
+   ========================================================================== */
+
+.syn-podcast__grid {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	grid-template-columns: minmax(23rem, 0.92fr) minmax(0, 1.08fr);
+	gap: 6rem;
+	align-items: center;
+	min-inline-size: 0;
+}
+
+.syn-podcast__copy {
+	min-inline-size: 0;
+}
+
+/* ==========================================================================
+   4. Copy
+   ========================================================================== */
+
+/* The shared eyebrow is navy already; this section's variant in the source is
+   the same navy, so only the source's dark colourway needed a rule here. */
+
+.syn-podcast__title {
+	max-inline-size: 13ch;
+	margin: 0;
+	color: var(--syn-ink);
+	font-size: 3rem;
+	letter-spacing: 0;
+	line-height: 1.08;
+}
+
+.syn-podcast__lead {
+	margin-block: 1.1rem 0;
+	margin-inline: 0;
+	color: var(--syn-ink);
+	font-size: 1.2rem;
+	line-height: 1.45;
+}
+
+.syn-podcast__body {
+	margin-block: 1rem 0;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+}
+
+/* ==========================================================================
+   5. The note strip
+   A rule down the leading edge rather than a box, so it reads as an aside to
+   the copy rather than as a card competing with the artwork.
+   ========================================================================== */
+
+.syn-podcast__note {
+	display: grid;
+	gap: 0.25rem;
+	margin-block: 1.8rem;
+	padding: 1rem;
+	border-inline-start: 2px solid var(--syn-cyan);
+	background-color: var(--syn-podcast-note-bed);
+}
+
+.syn-podcast__note-label {
+	color: var(--syn-cyan);
+	font-size: 0.63rem;
+	font-weight: 750;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+.syn-podcast__note-value {
+	font-size: 0.74rem;
+	font-weight: 600;
+}
+
+/* ==========================================================================
+   6. The cover art
+   ========================================================================== */
+
+.syn-podcast__art {
+	position: relative;
+	margin: 0;
+	overflow: hidden;
+	border-radius: var(--syn-radius-lg);
+	/* Shows through while the photograph is still loading, so the column has a
+	   shape from first paint rather than appearing all at once. */
+	background-color: var(--syn-cyan-soft);
+	box-shadow: var(--syn-shadow-card);
+}
+
+.syn-podcast__image {
+	display: block;
+	inline-size: 100%;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+	filter: saturate(0.88) contrast(1.03);
+}
+
+.syn-podcast__badge {
+	position: absolute;
+	inset-block-start: 1rem;
+	inset-inline-end: 1rem;
+	padding: 0.55rem 0.8rem;
+	border: 1px solid var(--syn-podcast-badge-rim);
+	border-radius: var(--syn-radius-sm);
+	background-color: var(--syn-podcast-badge-bed);
+	color: var(--syn-podcast-badge-text);
+	font-size: 0.65rem;
+	font-weight: 700;
+	letter-spacing: 0;
+	text-transform: uppercase;
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 74rem) {
+
+	.syn-podcast__grid {
+		gap: 4.5rem;
+	}
+}
+
+@media (max-width: 61.25rem) {
+
+	.syn-podcast__grid {
+		grid-template-columns: 1fr;
+		inline-size: 100%;
+		max-inline-size: 100%;
+	}
+
+	.syn-podcast__art {
+		inline-size: min(100%, 44rem);
+	}
+
+	.syn-podcast__title {
+		font-size: 3.15rem;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-podcast__title {
+		max-inline-size: 100%;
+		font-size: 2.6rem;
+	}
+
+	.syn-podcast__lead {
+		font-size: 1.05rem;
+	}
+
+	/* Taller on a phone: a 3:2 crop of cover art at 90vw is a letterbox. */
+	.syn-podcast__image {
+		aspect-ratio: 4 / 3;
+	}
+}
+
+@media (max-width: 32rem) {
+
+	.syn-podcast__title {
+		font-size: clamp(2rem, 9.5vw, 2.55rem);
+	}
+}
+
+@media (max-width: 27rem) {
+
+	.syn-podcast__title {
+		font-size: 2.3rem;
+	}
+}

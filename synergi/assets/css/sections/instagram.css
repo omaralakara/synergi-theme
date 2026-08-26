@@ -1,0 +1,139 @@
+/*
+ * instagram.css — section 10, Recent From Instagram.
+ * Contents: 1 shell · 2 heading · 3 the feed plugin's own markup ·
+ * 4 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-instagram", only on pages that
+ * declare the section. Markup: sections/instagram.php. No behaviour file.
+ *
+ * THIS IS THE ONE FILE IN THE THEME THAT STYLES MARKUP THE THEME DID NOT
+ * WRITE. Section 3 reaches into the feed plugin's output (#sb_instagram and
+ * its sbi_* classes) to make a third party's grid sit inside our page without
+ * looking bolted on. That is a deliberate exception, and it comes with three
+ * conditions:
+ *
+ *   - Every such selector is scoped under .syn-instagram__feed, so nothing
+ *     here can affect the plugin anywhere else on the site.
+ *   - Those selectors are the plugin's contract with us, and it is a contract
+ *     it has not signed. If a plugin update renames sbi_item, this section
+ *     loses its polish and nothing else breaks — which is why none of the
+ *     rules below carry layout the section depends on.
+ *   - The two !important declarations are the plugin's own doing: it prints
+ *     those two properties inline from its settings screen, and an inline
+ *     style cannot be beaten any other way (CLAUDE.md §2.12).
+ *
+ * The section renders correctly with no plugin at all: instagram.php omits the
+ * feed wrapper entirely rather than leaving an empty frame.
+ *
+ * Class map, design source -> theme:
+ *   .syg-social-section -> .syn-instagram    .syg-social-heading -> __heading
+ *   .syg-social-heading-copy -> __heading-copy
+ *   .syg-social-feed -> __feed
+ *   .button.button-outline -> .syn-button.syn-button--outline (base.css)
+ *
+ * Colours are derived from the §3 palette with color-mix(); the source writes
+ * this section's one shadow in rgba and its focus ring as a raw hex, which is
+ * dropped in favour of the theme's focus token (CLAUDE.md §9).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-instagram {
+	background-color: var(--syn-paper);
+}
+
+/* ==========================================================================
+   2. Heading
+   Title on one side, follow button on the other, sitting on the same baseline.
+   ========================================================================== */
+
+.syn-instagram__heading {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1.5rem;
+	margin-block-end: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.syn-instagram__title {
+	margin-block: 0.55rem 0;
+	margin-inline: 0;
+	color: var(--syn-navy);
+}
+
+.syn-instagram__follow {
+	flex-shrink: 0;
+}
+
+/* ==========================================================================
+   3. The feed plugin's own markup
+   See the note at the top of this file before changing anything here.
+   ========================================================================== */
+
+.syn-instagram__feed #sb_instagram {
+	/*
+	 * The plugin prints this inline from its settings screen, and an inline
+	 * style yields to nothing but !important. Written logically even so: a
+	 * logical property resolves to the physical one and still wins, so there is
+	 * no reason to leave a physical direction in the theme (CLAUDE.md §2.11).
+	 */
+	padding-block-end: 0 !important;
+}
+
+.syn-instagram__feed #sb_instagram #sbi_images {
+	/* As above — inline, so unreachable without this. */
+	gap: clamp(0.75rem, 1.4vw, 1.15rem) !important;
+}
+
+/* The plugin's own header and "load more" duplicate the heading and the follow
+   button above, so they are not shown twice. */
+.syn-instagram__feed #sb_instagram .sbi_header_link,
+.syn-instagram__feed #sb_instagram #sbi_load {
+	display: none;
+}
+
+.syn-instagram__feed #sb_instagram .sbi_item {
+	overflow: hidden;
+	border-radius: 0.65rem;
+	background-color: var(--syn-white);
+	box-shadow: 0 14px 34px color-mix(in srgb, var(--syn-ink) 9%, transparent);
+}
+
+.syn-instagram__feed #sb_instagram .sbi_photo_wrap,
+.syn-instagram__feed #sb_instagram .sbi_photo {
+	border-radius: 0.65rem;
+}
+
+.syn-instagram__feed #sb_instagram .sbi_photo img {
+	transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.syn-instagram__feed #sb_instagram .sbi_item:hover .sbi_photo img,
+.syn-instagram__feed #sb_instagram .sbi_item:focus-within .sbi_photo img {
+	transform: scale(1.04);
+}
+
+/*
+ * Holds the section's height while the feed is still loading, so the rest of
+ * the page does not jump when the pictures arrive.
+ */
+.syn-instagram__feed #sb_instagram #sbi_images:empty {
+	min-block-size: clamp(9rem, 18vw, 15rem);
+}
+
+/* ==========================================================================
+   4. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-instagram__heading {
+		display: block;
+	}
+
+	.syn-instagram__follow {
+		margin-block-start: 1.1rem;
+	}
+}

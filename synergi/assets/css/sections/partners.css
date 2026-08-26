@@ -179,20 +179,24 @@
 }
 
 /*
- * Pointing at one logo dims the rest, so the row answers "which one is that?"
+ * Pointing at one logo greys the rest, so the row answers "which one is that?"
  * without any of them being clickable. Written on the marquee with :has()
- * rather than on each logo, because the effect is on the logo's SIBLINGS.
+ * rather than on each logo, because the effect is on the logo's SIBLINGS — and
+ * the strip holds three copies of the track, so :has() on their shared parent
+ * is what dims the copies as well as the original.
+ *
+ * One rule, with :not(:hover) doing the exclusion, rather than a dim-everything
+ * rule plus an undo. The undo version does not work: :has() takes the
+ * specificity of its most specific argument, so "dim them all" scored (0,4,0)
+ * and beat "except this one" at (0,3,0), and the logo under the pointer went
+ * grey with the others. Selecting only the ones to grey leaves nothing to
+ * outrank.
  */
 @media (hover: hover) {
 
-	.syn-partners__marquee:has(.syn-partners__logo:hover) .syn-partners__logo-image {
+	.syn-partners__marquee:has(.syn-partners__logo:hover) .syn-partners__logo:not(:hover) .syn-partners__logo-image {
 		filter: grayscale(1);
 		opacity: 0.45;
-	}
-
-	.syn-partners__logo:hover .syn-partners__logo-image {
-		filter: none;
-		opacity: 1;
 	}
 }
 

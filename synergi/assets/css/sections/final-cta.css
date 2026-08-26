@@ -1,0 +1,201 @@
+/*
+ * final-cta.css — section 12, the closing call to action.
+ * Contents: 1 local tokens · 2 shell · 3 the ring · 4 layout · 5 copy ·
+ * 6 actions · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-final-cta", only on pages that
+ * declare the section. Markup: sections/final-cta.php. No behaviour file.
+ *
+ * A near-black panel closing the homepage, opened by a thick cyan rule and lit
+ * from the trailing edge by one faint ring.
+ *
+ * FOUR THINGS THE SOURCE DOES THAT ARE NOT CARRIED ACROSS:
+ *
+ * 1. The section is declared three times. The first sets a background image
+ *    (connection-field.svg) over navy; the last replaces it with flat ink and
+ *    a 6px cyan top border. Only the last renders, so the SVG is not ported —
+ *    the source pays for an image this section never shows.
+ * 2. ::before, a 38rem ring at the top of the panel, is set to display:none by
+ *    the same later pass. ::after, a 34rem ring at the foot, is what survives.
+ *    Resolved with tools/diff.js.
+ * 3. The secondary button. The source gives it the LIGHT-SURFACE outline
+ *    variant — navy border, navy text — on this near-black panel, which
+ *    measures about 1.3:1 and is effectively an invisible button. The markup
+ *    uses .syn-button--light instead; see the comment in final-cta.php.
+ * 4. `top`/`right` on the ring. Written logically here, so the ring stays on
+ *    the trailing edge when the page turns over for Arabic (CLAUDE.md §2.11).
+ *
+ * Class map, design source -> theme:
+ *   .final-cta       -> .syn-final-cta      .final-cta-inner -> __inner
+ *   .final-cta h2    -> __title             .final-cta p     -> __body
+ *   .cta-actions     -> __actions           .cta-actions small -> __note
+ *   .button.button-primary -> .syn-button.syn-button--primary (base.css)
+ *   .button.button-outline -> .syn-button.syn-button--light   (see note 3)
+ *
+ * Colours are derived from the §3 palette with color-mix(); the source writes
+ * this section in rgba.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-final-cta {
+	--syn-final-cta-body: color-mix(in srgb, var(--syn-white) 72%, transparent);
+	--syn-final-cta-note: color-mix(in srgb, var(--syn-white) 58%, transparent);
+
+	/* The ring and the two haloes around it. All three are barely there on
+	   purpose: they lift the flat panel without becoming a shape. */
+	--syn-final-cta-ring: color-mix(in srgb, var(--syn-mint) 20%, transparent);
+	--syn-final-cta-halo-near: color-mix(in srgb, var(--syn-cyan) 3%, transparent);
+	--syn-final-cta-halo-far: color-mix(in srgb, var(--syn-cyan) 2%, transparent);
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-final-cta {
+	overflow: hidden;
+	border-block-start: 6px solid var(--syn-cyan);
+	background-color: var(--syn-ink);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   3. The ring
+   One circle, mostly off the panel, with two very wide soft shadows standing in
+   for a glow. Decoration only, so it never takes a pointer event.
+   ========================================================================== */
+
+.syn-final-cta::after {
+	position: absolute;
+	inset-block-end: -16rem;
+	inset-inline-end: -8rem;
+	inline-size: 34rem;
+	block-size: 34rem;
+	border: 1px solid var(--syn-final-cta-ring);
+	border-radius: 50%;
+	box-shadow:
+		0 0 0 4rem var(--syn-final-cta-halo-near),
+		0 0 0 8rem var(--syn-final-cta-halo-far);
+	content: "";
+	pointer-events: none;
+}
+
+/* ==========================================================================
+   4. Layout
+   Copy takes the room; the actions take a fixed-ish column beside it, aligned
+   to the foot so the buttons sit level with the last line of the paragraph.
+   ========================================================================== */
+
+.syn-final-cta__inner {
+	position: relative;
+	/* Above the ring, which is painted on the section itself. */
+	z-index: 1;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.32fr);
+	gap: 6rem;
+	align-items: end;
+}
+
+/* ==========================================================================
+   5. Copy
+   ========================================================================== */
+
+.syn-final-cta__title {
+	max-inline-size: 14ch;
+	color: var(--syn-white);
+	font-size: 4.1rem;
+	letter-spacing: 0;
+	line-height: 1.04;
+}
+
+.syn-final-cta__body {
+	max-inline-size: 51rem;
+	margin-block-end: 0;
+	color: var(--syn-final-cta-body);
+}
+
+/* ==========================================================================
+   6. Actions
+   ========================================================================== */
+
+.syn-final-cta__actions {
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+	min-inline-size: 15rem;
+}
+
+.syn-final-cta__note {
+	margin: 0;
+	color: var(--syn-final-cta-note);
+	font-size: var(--syn-step--1);
+	line-height: 1.5;
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   The actions stop being a column beside the copy and become a row under it,
+   then a two-up grid, then one full-width button per line.
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-final-cta__inner {
+		grid-template-columns: 1fr;
+		gap: 2.5rem;
+		inline-size: 100%;
+		max-inline-size: 100%;
+	}
+
+	.syn-final-cta__title {
+		font-size: 3.55rem;
+	}
+
+	.syn-final-cta__actions {
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-final-cta__title {
+		max-inline-size: 100%;
+		font-size: 2.75rem;
+	}
+
+	.syn-final-cta__actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.syn-final-cta__actions .syn-button {
+		inline-size: 100%;
+		padding-inline: 0.75rem;
+		font-size: 0.7rem;
+	}
+
+	/* The note spans both buttons rather than squeezing into one column. */
+	.syn-final-cta__note {
+		grid-column: 1 / -1;
+	}
+}
+
+@media (max-width: 32rem) {
+
+	.syn-final-cta__title {
+		font-size: clamp(2rem, 9.5vw, 2.55rem);
+	}
+
+	.syn-final-cta__actions {
+		grid-template-columns: 1fr;
+	}
+
+	.syn-final-cta__actions .syn-button {
+		min-block-size: 3rem;
+	}
+}
