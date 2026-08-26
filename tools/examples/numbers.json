@@ -1,0 +1,88 @@
+{
+  "envs": [
+    { "name": "desktop (wide)", "width": 90 },
+    { "name": "<=74rem", "width": 70 },
+    { "name": "<=61.25rem", "width": 55 },
+    { "name": "<=47.99rem", "width": 40 },
+    { "name": "<=32rem", "width": 30 },
+    { "name": "<=27rem", "width": 25 },
+    { "name": "<=22rem", "width": 21 }
+  ],
+  "elements": [
+    { "name": "section.scale-section.scale-section-brand", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" }, { "tag": "main" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"], "attrs": { "id": "syg-numbers" } } ] },
+
+    { "name": "canvas.scale-particles", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "canvas", "classes": ["scale-particles"] } ] },
+
+    { "name": ".syg-container.scale-content", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["syg-container", "scale-content"] } ] },
+
+    { "name": ".scale-heading", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["syg-container", "scale-content"] },
+      { "tag": "div", "classes": ["scale-heading", "reveal", "is-visible"] } ] },
+
+    { "name": ".scale-heading .eyebrow", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-heading", "reveal", "is-visible"] },
+      { "tag": "p", "classes": ["eyebrow"] } ] },
+
+    { "name": ".scale-heading .eyebrow::before", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-heading", "reveal", "is-visible"] },
+      { "tag": "p", "classes": ["eyebrow"], "pseudoEl": "before" } ] },
+
+    { "name": ".scale-heading h2", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-heading", "reveal", "is-visible"] },
+      { "tag": "h2", "attrs": { "id": "scale-title" } } ] },
+
+    { "name": ".scale-lead", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-heading", "reveal", "is-visible"] },
+      { "tag": "p", "classes": ["scale-lead"] } ] },
+
+    { "name": ".scale-stats", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["syg-container", "scale-content"] },
+      { "tag": "div", "classes": ["scale-stats", "reveal", "is-visible"] } ] },
+
+    { "name": ".scale-stat", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-stats", "reveal", "is-visible"] },
+      { "tag": "div", "classes": ["scale-stat"] } ] },
+
+    { "name": ".scale-stat::before", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-stats", "reveal", "is-visible"] },
+      { "tag": "div", "classes": ["scale-stat"], "pseudoEl": "before" } ] },
+
+    { "name": ".scale-stat strong", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-stats", "reveal", "is-visible"] },
+      { "tag": "div", "classes": ["scale-stat"] },
+      { "tag": "strong" } ] },
+
+    { "name": ".scale-stat span", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "scale-section", "scale-section-brand"] },
+      { "tag": "div", "classes": ["scale-stats", "reveal", "is-visible"] },
+      { "tag": "div", "classes": ["scale-stat"] },
+      { "tag": "span" } ] }
+  ]
+}

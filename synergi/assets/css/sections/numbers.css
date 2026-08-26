@@ -1,0 +1,272 @@
+/*
+ * numbers.css — section 06, Synergi in Numbers.
+ * Contents: 1 local tokens · 2 shell · 3 the particle field · 4 heading ·
+ * 5 the four figures · 6 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-numbers", only on pages that
+ * declare the section. Markup: sections/numbers.php. Behaviour:
+ * assets/js/sections/numbers.js.
+ *
+ * A brand-blue band, edge to edge, with a canvas particle field behind the
+ * copy. The two custom properties in section 1 that name particle colours are
+ * read by numbers.js at start-up — that is the whole reason they are declared
+ * here rather than written into the script: the colours stay derived from the
+ * §3 palette even though a canvas draws them (CLAUDE.md §2.7).
+ *
+ * Everything here is static text. There are no controls, so nothing needs
+ * (scripting: enabled) except the canvas itself, which cannot paint without a
+ * script and is therefore not in the document at all when there isn't one.
+ *
+ * THREE THINGS THE SOURCE DOES THAT ARE NOT CARRIED ACROSS:
+ *
+ * 1. `.scale-stats` gets `gap: 1.7rem 1rem` at <=32rem and
+ *    `grid-template-columns: 1fr` at <=22rem. Neither ever renders: both sit in
+ *    an early pass and are outranked by the <=61.25rem block later in the file,
+ *    which re-declares the same two properties at every width below 61.25rem.
+ *    Checked with tools/diff.js, not read off the file. Two columns is what the
+ *    approved design shows at every width, including 320px, and two columns is
+ *    what this file does.
+ * 2. The dark `.scale-section` variant. The source carries two colourways of
+ *    this section and the homepage uses the brand one; the other has no user,
+ *    so it is not ported. If a second colourway is ever wanted it is a modifier
+ *    class on .syn-numbers, not a fork of this file.
+ * 3. `text-align: left` on the heading — base.css already starts text, and a
+ *    physical direction would have to be undone for Arabic (CLAUDE.md §2.11).
+ *
+ * ONE DEVIATION: the section id. The source calls it `syg-numbers`; it is
+ * `numbers` here, matching the slug and every other section.
+ *
+ * Class map, design source -> theme:
+ *   .scale-section   -> .syn-numbers        .scale-particles -> __particles
+ *   .scale-content   -> __content           .scale-heading   -> __heading
+ *   .scale-heading h2 -> __title            .scale-lead      -> __lead
+ *   .scale-stats     -> __stats             .scale-stat      -> __stat
+ *   .scale-stat strong -> __figure          .scale-stat span -> __label
+ *   .eyebrow -> .syn-eyebrow (shared, defined in base.css)
+ *
+ * Colours are derived from the §3 palette with color-mix(); the source writes
+ * this section in rgba and four raw hexes.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-numbers {
+	/*
+	 * The three hexes in the source's background gradient. #235a9c and #173f70
+	 * are navy carried towards cyan and towards navy-deep respectively; the
+	 * second is exact, the first is within one step of the original and is the
+	 * closest the palette reaches.
+	 */
+	--syn-numbers-band-top: color-mix(in srgb, var(--syn-navy) 83%, var(--syn-cyan));
+	--syn-numbers-band-base: color-mix(in srgb, var(--syn-navy) 65%, var(--syn-navy-deep));
+
+	/*
+	 * White with a little of the section's own blue in it — the source's
+	 * #dfecf9, used at two opacities for the lead paragraph and the figure
+	 * labels. Measured against the band behind it, the lead clears 4.5:1 at
+	 * every gradient stop (CLAUDE.md §9).
+	 */
+	--syn-numbers-pale: color-mix(in srgb, var(--syn-paper) 90%, var(--syn-cyan));
+	--syn-numbers-lead-color: color-mix(in srgb, var(--syn-numbers-pale) 88%, transparent);
+	--syn-numbers-label-color: color-mix(in srgb, var(--syn-numbers-pale) 92%, transparent);
+
+	--syn-numbers-eyebrow-color: color-mix(in srgb, var(--syn-white) 78%, transparent);
+	--syn-numbers-rule: color-mix(in srgb, var(--syn-white) 24%, transparent);
+
+	/*
+	 * Read by numbers.js, not used by any rule in this file. The script resolves
+	 * them through a probe element and hands the resulting colour to the canvas,
+	 * which is why they are whole colours rather than channel lists.
+	 */
+	--syn-numbers-link-color: var(--syn-cyan-soft);
+	--syn-numbers-dot-color: color-mix(in srgb, var(--syn-cyan-soft) 52%, var(--syn-white));
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-numbers {
+	overflow: hidden;
+	/*
+	 * Its own rhythm, roughly half again the theme's section spacing. A band
+	 * that changes the page's background colour needs more room inside it than
+	 * a section that shares the page's, or the colour reads as a stripe behind
+	 * the text rather than as a section of its own.
+	 */
+	padding-block: clamp(4.75rem, 8vw, 7rem);
+	background-image:
+		radial-gradient(58rem 30rem at 88% 112%, color-mix(in srgb, var(--syn-navy-deep) 55%, transparent), transparent 62%),
+		radial-gradient(44rem 24rem at 4% -12%, color-mix(in srgb, var(--syn-cyan) 22%, transparent), transparent 60%),
+		linear-gradient(180deg, var(--syn-numbers-band-top) 0%, var(--syn-navy) 48%, var(--syn-numbers-band-base) 100%);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   3. The particle field
+   Absent unless a script can paint it. Sized and drawn entirely by
+   numbers.js, which also stops it the moment the section leaves the screen
+   (CLAUDE.md §6).
+   ========================================================================== */
+
+.syn-numbers__particles {
+	display: none;
+}
+
+@media (scripting: enabled) {
+
+	.syn-numbers__particles {
+		position: absolute;
+		z-index: 0;
+		display: block;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		/* Decoration: it must never take a click meant for the copy above it. */
+		pointer-events: none;
+	}
+}
+
+.syn-numbers__content {
+	position: relative;
+	z-index: 1;
+}
+
+/* ==========================================================================
+   4. Heading
+   ========================================================================== */
+
+.syn-numbers__heading {
+	display: grid;
+	justify-items: start;
+	margin-block-end: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+/* The shared eyebrow, recoloured for a dark band. Its cyan rule already reads
+   against this background and is left alone. */
+.syn-numbers .syn-eyebrow {
+	color: var(--syn-numbers-eyebrow-color);
+}
+
+.syn-numbers__title {
+	max-inline-size: 20ch;
+	margin: 0;
+	color: var(--syn-white);
+	font-size: clamp(2.45rem, 3.7vw, 3.35rem);
+	letter-spacing: 0;
+	line-height: 1.06;
+}
+
+.syn-numbers__lead {
+	max-inline-size: 36rem;
+	margin-block: 1.15rem 0;
+	margin-inline: 0;
+	color: var(--syn-numbers-lead-color);
+	font-size: 0.95rem;
+	line-height: 1.65;
+}
+
+/* ==========================================================================
+   5. The four figures
+   Sized from the viewport rather than from their own column, deliberately.
+   Two columns on a tablet are each WIDER than four columns on a desktop, so a
+   container unit would make the figures grow as the screen shrinks — the
+   opposite of what sections 02 and 04 needed. The clamp's ceiling is what
+   stops these running away on a very wide screen.
+   ========================================================================== */
+
+.syn-numbers__stats {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: clamp(1.75rem, 4vw, 3.25rem);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-numbers__stat {
+	position: relative;
+	display: grid;
+	align-content: start;
+	gap: 0.65rem;
+	padding-block-start: 1.45rem;
+	border-block-start: 1px solid var(--syn-numbers-rule);
+}
+
+/* The cyan tick that sits on the rule, at the start of each figure. */
+.syn-numbers__stat::before {
+	position: absolute;
+	inset-block-start: -1px;
+	inset-inline-start: 0;
+	inline-size: 2.25rem;
+	block-size: 2px;
+	background-color: var(--syn-cyan);
+	content: "";
+}
+
+.syn-numbers__figure {
+	color: var(--syn-white);
+	font-size: clamp(2.4rem, 3.5vw, 3.35rem);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	letter-spacing: -0.05em;
+	/* tabular-nums so the digits do not jostle sideways while they count. */
+	line-height: 0.95;
+}
+
+.syn-numbers__label {
+	max-inline-size: 14rem;
+	color: var(--syn-numbers-label-color);
+	font-size: 0.8rem;
+	font-weight: 500;
+	line-height: 1.5;
+}
+
+/* ==========================================================================
+   6. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-numbers__title {
+		font-size: clamp(2.35rem, 5vw, 3rem);
+	}
+
+	.syn-numbers__stats {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2.25rem clamp(1.5rem, 5vw, 3rem);
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-numbers__title {
+		max-inline-size: 100%;
+		font-size: 2.55rem;
+	}
+
+	.syn-numbers__lead {
+		font-size: 0.88rem;
+	}
+
+	.syn-numbers__figure {
+		font-size: clamp(2.2rem, 9vw, 2.8rem);
+	}
+
+	.syn-numbers__label {
+		font-size: 0.72rem;
+	}
+}
+
+@media (max-width: 27rem) {
+
+	.syn-numbers__title {
+		font-size: 2.3rem;
+	}
+
+	.syn-numbers__stats {
+		gap: 1.9rem 1.4rem;
+	}
+}
