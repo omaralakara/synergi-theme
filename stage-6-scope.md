@@ -121,46 +121,41 @@ because these need no URL, template or SEO of their own.
 
 ---
 
-## 4. Decisions I need before building
+## 4. The four decisions — all answered 26 Aug
 
-These are cheap to answer now and expensive to reverse later, because they
-determine URLs and template count.
+Two were answered by the business; two were delegated to me and decided in
+`sitemap-and-navigation.md`, which is now the authority on structure. Kept here
+as the record of what was asked and what was settled.
 
-**D1 — Are Solutions and Services the same shape?**
-A solution page and a service page may want the same template with different
-content, or genuinely different layouts. If the same: one `templates/service.php`
-serves eleven pages. If different: two templates, and Stage 6 grows by about a
-day. *My recommendation: start them on one template. Splitting later is cheap;
-maintaining two near-identical templates is not.*
+**D1 — one template.** `templates/service.php` carries both the six service
+lines and the five solutions. Splitting later is cheap; maintaining two
+near-identical templates is not.
 
-**D2 — Does "Shared services design & set-up" replace the Shared Services UAE
-market page, or sit beside it?**
-There is already a "Shared Services UAE" market page in the inventory, and
-homepage section 03 is about shared services. Three things with the same name is
-a navigation problem, not a template problem, but it changes what Stage 6
-builds. *This one I cannot decide — it is a content decision.*
+**D2 — combine, at the existing URL.** Decided after reading the live page.
+`/shared-services-uae/` is 459 words, holds the Yoast focus keyword *"Shared
+Services UAE"*, and its headings ("Our Capabilities", "Get Started with Shared
+Services UAE") are already offer content. **It is the solution page, thin, not a
+different page.** Building a second one would put two pages on the site
+competing for the same query — cannibalising what the structure itself calls
+*"our strongest offer and the one buyers search for"*. It is rebuilt on the
+solution template at its existing URL, and folds into `/our-solutions/` with a
+301 at the domain move, which is a redirect event anyway. Full reasoning:
+`sitemap-and-navigation.md` §4.
 
-**D3 — Is the homepage structure a change list or a replacement?**
-If the sections it does not mention (shared services, why Synergi, blog,
-podcast, final CTA) are meant to be removed, the homepage shrinks and some
-Stage 5 work is dropped. *My reading is that it is a change list and everything
-stays, but confirm before I act on it.*
+**D3 — a change list.** Nothing is removed from the built homepage. Shared
+services (03), why Synergi (05), blog (09), podcast (11) and the closing CTA
+(12) all stay.
 
-**D4 — Case studies, episodes and events: real pages or records?**
-My recommendation, on the "does it need its own URL?" test:
-- **Case studies → custom post type.** They are read on their own, linked from
-  two places, and will grow in number.
-- **Podcast episodes → custom post type.** Guest bios and transcripts are a
-  page's worth of content each.
-- **Events → site record**, not a post type. An event is a date, a title, a
-  place and a link; the structure says it "leads to Media" rather than to an
-  event page.
+**D4 — as recommended.** Case studies and podcast episodes become custom post
+types; events become a site record. The requirement that a case study have *one
+central source* and appear under both a service and Media without duplication is
+met by a `syn_case_service` taxonomy: the service page queries its own term, the
+Media hub queries all of them. One record, three surfaces, nothing copied. See
+`sitemap-and-navigation.md` §3.
 
-Note that CPTs add URLs. §2.8 forbids *changing* existing URLs; adding new ones
-for genuinely new content is allowed, but they should be created **after** the
-domain move if there is any doubt, so nothing is published twice at two domains.
-
----
+**Still open, and not blocking:** whether all five Solutions pages have copy
+written. It decides whether 6d builds five pages or one template and one page —
+the template is identical either way, so 6a, 6b and 6c proceed regardless.
 
 ## 5. Can the homepage be edited from WordPress after Stage 6?
 

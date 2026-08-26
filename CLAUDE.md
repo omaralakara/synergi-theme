@@ -3,6 +3,9 @@
 This file governs every Claude session that works on the Synergi theme. Read it fully before writing any code. If an instruction in a chat conflicts with this file, stop and ask — do not silently break a rule.
 
 Companion documents in this folder:
+- `sitemap-and-navigation.md` — the sitemap, menus and content architecture (26 Aug). What is a page, a section, a record or a post type, and why.
+- `stage-6-scope.md` — what the stakeholder content structure changed about Stage 6.
+- `stage-5-measurement.md` — the measured homepage payload.
 - `synergi-build-plan.md` — the full plan (v2, 20 Aug 2026). The "why".
 - `synergi-architecture-explained.md` — the approach in plain language.
 - `synergi-build-stages.md` — the stage-by-stage build guide with prompts. The "when".
