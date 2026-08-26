@@ -40,7 +40,12 @@
  *    block re-declares the same transform as `translateX(-50%)` at equal
  *    specificity, cancelling it everywhere a mouse exists. The brightness lift
  *    on hover, which does survive, is kept.
- * 3. No !important anywhere. The source needs four — three to make `.is-exiting`
+ * 3. The label burnt onto a strip is sized from its card, not from the viewport,
+ *    and hides itself on a strip too narrow to read it. The source sizes it with
+ *    a vw clamp, so a 26-character label sat at 1.6rem inside a 7rem strip and
+ *    spilled out of its corner. It also never appears on the card at the front,
+ *    which carries the same words under its photograph already.
+ * 4. No !important anywhere. The source needs four — three to make `.is-exiting`
  *    beat the position rules, one to hide the placeholder on phones — purely
  *    because of the order eight passes left things in. Written once, in order,
  *    the same rules win on their own (CLAUDE.md §2.12).
@@ -147,6 +152,10 @@
 	align-content: start;
 	gap: 0;
 	min-inline-size: 0;
+	/* The width the burnt-in label is sized and hidden against. Safe on a flex
+	   item and a grid item alike: both take their width from their parent, not
+	   from their contents, which is what inline-size containment requires. */
+	container-type: inline-size;
 }
 
 /* ==========================================================================
@@ -188,16 +197,39 @@
 	background-image: var(--syn-industries-scrim);
 }
 
+/*
+ * The label burnt onto a strip's photograph, so you know what you are about to
+ * click on. It belongs to the strips only:
+ *
+ *   - the card at the front already carries its heading under the photograph,
+ *     so a second copy on top of it would just be the same words twice;
+ *   - a strip narrower than about 11rem cannot hold a readable label at any
+ *     size, so it shows the photograph alone.
+ *
+ * Both of those are decided by the card's own width through a container query
+ * rather than by which position it happens to be in — the queue can then be any
+ * length without this needing to know.
+ *
+ * Sizing it from the card is the fix for what it used to do: the source sizes it
+ * with `clamp(1.15rem, 2vw, 1.6rem)`, which is the VIEWPORT's width, so a
+ * 26-character label sat at 1.6rem in a 7rem strip and spilled out of its
+ * corner. 9cqi is 9% of the card, so it shrinks with the card it is written on.
+ * The viewport clamp stays as the fallback for browsers without container
+ * query units, where the label is hidden anyway (see the @container rule).
+ */
 .syn-industries__preview {
+	display: none;
 	position: absolute;
 	z-index: 1;
 	inset-block-end: clamp(1.1rem, 2.4vw, 1.75rem);
 	inset-inline: clamp(1rem, 2vw, 1.5rem);
 	color: var(--syn-white);
 	font-size: clamp(1.15rem, 2vw, 1.6rem);
+	font-size: min(1.6rem, 9cqi);
 	font-weight: 650;
 	letter-spacing: -0.035em;
 	line-height: 1.12;
+	overflow-wrap: anywhere;
 }
 
 /* ==========================================================================
@@ -322,14 +354,11 @@
 		min-inline-size: 0;
 		margin-inline-end: 0;
 		opacity: 1;
-		transform: translateX(0);
 		transition:
 			flex-grow var(--syn-industries-step-duration) var(--syn-industries-ease),
 			flex-basis var(--syn-industries-step-duration) var(--syn-industries-ease),
 			min-inline-size var(--syn-industries-step-duration) var(--syn-industries-ease),
-			margin-inline-end var(--syn-industries-step-duration) var(--syn-industries-ease),
-			transform var(--syn-industries-step-duration) var(--syn-industries-ease);
-		will-change: flex-grow, flex-basis;
+			margin-inline-end var(--syn-industries-step-duration) var(--syn-industries-ease);
 	}
 
 	/*
@@ -392,7 +421,21 @@
 		background-position: center;
 		background-size: calc(var(--syn-industries-photo) * 2.3) auto;
 		pointer-events: none;
-		transition: flex-basis var(--syn-industries-step-duration) var(--syn-industries-ease);
+		/*
+		 * A ghost arrives with zero width but it is still a flex item, so the
+		 * rail grows a gap for it the moment it is appended — three ghosts means
+		 * three gaps' worth of extra width, taken out of the cards, before the
+		 * animation has started. That is the jolt you feel on press.
+		 *
+		 * So a ghost starts with its own gap cancelled and gives it back over
+		 * the same duration, while the departing cards do the reverse with
+		 * margin-inline-end. The number of gaps the rail actually pays for stays
+		 * at five from the first frame to the last.
+		 */
+		margin-inline-start: calc(-1 * var(--syn-industries-gap));
+		transition:
+			flex-basis var(--syn-industries-step-duration) var(--syn-industries-ease),
+			margin-inline-start var(--syn-industries-step-duration) var(--syn-industries-ease);
 	}
 
 	.syn-industries__placeholder::after {
@@ -423,10 +466,18 @@
 		opacity: 1;
 	}
 
-	/* The burnt-in label belongs to the strips. The card at the front has its
-	   heading below the photograph instead, so it does not need both. */
+	/*
+	 * The label only exists for the strips, so it is only turned on here — with
+	 * JavaScript off every card already carries its heading underneath and this
+	 * would be the same words twice.
+	 */
+	.syn-industries__preview {
+		display: block;
+	}
+
+	/* Which is also why the card at the front never shows it. */
 	.syn-industries__card.syn-is-active .syn-industries__preview {
-		opacity: 0;
+		display: none;
 	}
 }
 
@@ -445,7 +496,23 @@
 		max-inline-size: none;
 		transform: translateX(-50%) translateZ(0);
 		backface-visibility: hidden;
-		will-change: transform;
+	}
+}
+
+/*
+ * A strip narrower than this cannot hold a readable label at any size, so it
+ * shows the photograph on its own. Written as a container query against the
+ * card rather than as a list of positions, so it holds however long the queue
+ * is and at every breakpoint without being told about either.
+ *
+ * Last of the three rules that decide this, so it wins over the display: block
+ * above at equal specificity. The active card is more specific still and stays
+ * hidden either way.
+ */
+@container (max-width: 11rem) {
+
+	.syn-industries__preview {
+		display: none;
 	}
 }
 

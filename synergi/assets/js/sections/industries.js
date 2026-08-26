@@ -28,6 +28,15 @@
  * function and its own comments record a bug ("end-of-animation shake") being
  * chased through it.
  *
+ * One thing is done differently, and it is why pressing a card no longer
+ * hitches. The source works out the tail widths by reordering all six cards
+ * into the new order, forcing a layout, reading the widths, reordering them all
+ * back and forcing another — twelve DOM moves and two full layouts of a flex
+ * rail holding six photographs, inside the click handler, before anything has
+ * moved. None of it is necessary: the queue's shape is fixed per position, so
+ * the width a card will have at position 3 is the width of whoever is standing
+ * at position 3 right now. See tailWidthsFor().
+ *
  * Below 48rem none of that applies: one card shows at a time and moving is a
  * crossfade, which is the branch at the top of moveTo().
  *
@@ -184,40 +193,31 @@
 	}
 
 	/**
-	 * Measures how wide each departing card will be once it reaches the back.
+	 * Works out how wide each departing card will be once it reaches the back.
 	 *
-	 * Done by briefly applying the new order, reading the widths, and putting
-	 * everything back — all with transitions off, so none of it is seen. The
-	 * ghosts need these numbers before the animation starts.
+	 * No measuring of the future is needed, because the queue's shape is fixed:
+	 * position 3 is always the same share of the rail whichever card is sitting
+	 * in it. So the width a departing card will have at position 3 is simply the
+	 * width the card at position 3 has right now.
 	 *
-	 * @param {Element[]} nextOrder The order the queue is moving to.
-	 * @param {Element[]} departing Cards leaving the front.
-	 * @return {number[]} A width in pixels per departing card.
+	 * The design source instead reorders all six cards into the new order, forces
+	 * a layout, reads the widths, reorders them all back, and forces another —
+	 * twelve DOM moves and two full layouts of a flex rail holding six
+	 * photographs, all inside the click handler, before a single pixel has
+	 * moved. That is the hitch you feel on press. This reads six numbers.
+	 *
+	 * @param {number} selected Index in the running order of the chosen card.
+	 * @param {number} count    How many cards are leaving the front.
+	 * @return {number[]} A width in pixels per departing card, in order.
 	 */
-	function measureTailWidths( nextOrder, departing ) {
-		var previousOrder = order;
+	function tailWidthsFor( selected, count ) {
+		var widths = [];
+		var index;
 
-		freezeTransitions( cards );
-
-		order = nextOrder;
-		order.forEach( function ( card ) {
-			rail.append( card );
-		} );
-		sync();
-		void rail.offsetWidth;
-
-		var widths = departing.map( function ( card ) {
-			return card.getBoundingClientRect().width;
-		} );
-
-		order = previousOrder;
-		order.forEach( function ( card ) {
-			rail.append( card );
-		} );
-		sync();
-		void rail.offsetWidth;
-
-		thawTransitions( cards );
+		for ( index = 0; index < count; index++ ) {
+			// Where this card lands, and therefore who is standing there now.
+			widths.push( order[ order.length - selected + index ].getBoundingClientRect().width );
+		}
 
 		return widths;
 	}
@@ -324,7 +324,7 @@
 			return;
 		}
 
-		var tailWidths = measureTailWidths( nextOrder, departing );
+		var tailWidths = tailWidthsFor( selected, departing.length );
 		var ghosts = makeGhosts( departing );
 		var stepMs = duration( STEP_MS );
 
@@ -341,6 +341,10 @@
 
 			ghosts.forEach( function ( ghost, index ) {
 				ghost.style.flexBasis = tailWidths[ index ] + 'px';
+				// Hands back the flex gap the ghost started out cancelling, in step
+				// with the departing cards taking theirs away. See the note on
+				// .syn-industries__placeholder in industries.css.
+				ghost.style.marginInlineStart = '0px';
 			} );
 
 			/*
