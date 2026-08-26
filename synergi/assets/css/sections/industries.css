@@ -476,10 +476,18 @@
 	 * is taken off the screen — but left in the document, because it is still
 	 * this card's heading in the outline, still what the button borrows through
 	 * aria-labelledby, and still what a screen reader should read (CLAUDE.md §8).
-	 * Same technique as .syn-visually-hidden in base.css; it cannot simply use
-	 * that class because which card is open changes at runtime.
+	 * Same technique as .syn-visually-hidden in base.css; it cannot use that
+	 * class because the queue is only one of this section's two layouts and
+	 * with JavaScript off the heading has to be visible (see the block below).
+	 *
+	 * Every card, not just the open one. Scoping this to .syn-is-active is what
+	 * put a blue heading on screen for half a second every time a card was
+	 * pressed: the card being CLOSED lost the class at once and un-clipped its
+	 * heading immediately, while its copy took the full 560ms to collapse. In
+	 * the queue the name belongs to the photograph at every moment, open or
+	 * shut, so there is no state to toggle.
 	 */
-	.syn-industries__card.syn-is-active .syn-industries__card-title {
+	.syn-industries__card-title {
 		position: absolute;
 		inline-size: 1px;
 		block-size: 1px;
