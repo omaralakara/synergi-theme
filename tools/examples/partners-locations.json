@@ -1,0 +1,204 @@
+{
+  "envs": [
+    { "name": "desktop (wide)", "width": 90 },
+    { "name": "<=61.25rem", "width": 55 },
+    { "name": "<=47.99rem", "width": 40 },
+    { "name": "<=27rem", "width": 25 }
+  ],
+  "elements": [
+    { "name": "07 section", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" }, { "tag": "main" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] } ] },
+
+    { "name": "07 .partners-heading", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] },
+      { "tag": "div", "classes": ["syg-container", "partners-heading", "reveal", "is-visible"] } ] },
+
+    { "name": "07 .partners-heading-main h2", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["partners-heading"] },
+      { "tag": "div", "classes": ["partners-heading-main"] },
+      { "tag": "h2" } ] },
+
+    { "name": "07 .partners-heading-aside", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["partners-heading"] },
+      { "tag": "div", "classes": ["partners-heading-aside"] } ] },
+
+    { "name": "07 .partners-heading-aside p", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["partners-heading"] },
+      { "tag": "div", "classes": ["partners-heading-aside"] },
+      { "tag": "p" } ] },
+
+    { "name": "07 .partner-marquee", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] },
+      { "tag": "div", "classes": ["partner-marquee"] } ] },
+
+    { "name": "07 .partner-marquee-strip", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["partner-marquee"] },
+      { "tag": "div", "classes": ["partner-marquee-strip"] } ] },
+
+    { "name": "07 .partner-marquee-track", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["partner-marquee"] },
+      { "tag": "div", "classes": ["partner-marquee-strip"] },
+      { "tag": "div", "classes": ["partner-marquee-track"] } ] },
+
+    { "name": "07 logo link", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] },
+      { "tag": "div", "classes": ["partner-marquee"] },
+      { "tag": "div", "classes": ["partner-marquee-strip"] },
+      { "tag": "div", "classes": ["partner-marquee-track"] },
+      { "tag": "a", "states": ["first-child"] } ] },
+
+    { "name": "07 logo link:hover", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] },
+      { "tag": "div", "classes": ["partner-marquee"] },
+      { "tag": "div", "classes": ["partner-marquee-strip"] },
+      { "tag": "div", "classes": ["partner-marquee-track"] },
+      { "tag": "a", "states": ["hover"] } ] },
+
+    { "name": "07 logo img", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] },
+      { "tag": "div", "classes": ["partner-marquee"] },
+      { "tag": "div", "classes": ["partner-marquee-track"] },
+      { "tag": "a" },
+      { "tag": "img" } ] },
+
+    { "name": "07 logo caption span", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["partner-marquee-section", "partner-marquee-slim", "partners-showcase"] },
+      { "tag": "div", "classes": ["partner-marquee"] },
+      { "tag": "div", "classes": ["partner-marquee-track"] },
+      { "tag": "a" },
+      { "tag": "span" } ] },
+
+    { "name": "08 section", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" }, { "tag": "main" },
+      { "tag": "section", "classes": ["section", "region-section"] } ] },
+
+    { "name": "08 .region-heading", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "region-section"] },
+      { "tag": "div", "classes": ["syg-container"] },
+      { "tag": "div", "classes": ["region-heading", "reveal", "is-visible"] } ] },
+
+    { "name": "08 .region-heading-aside p", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["region-heading"] },
+      { "tag": "div", "classes": ["region-heading-aside"] },
+      { "tag": "p" } ] },
+
+    { "name": "08 .location-explorer", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "section", "classes": ["section", "region-section"] },
+      { "tag": "div", "classes": ["syg-container"] },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] } ] },
+
+    { "name": "08 .location-list", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] } ] },
+
+    { "name": "08 .location-card", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"] } ] },
+
+    { "name": "08 .location-card:hover", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"], "states": ["hover"] } ] },
+
+    { "name": "08 .location-card-soon", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card", "location-card-soon"], "states": ["last-child"] } ] },
+
+    { "name": "08 card > a", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "a" } ] },
+
+    { "name": "08 card img", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "a" },
+      { "tag": "img" } ] },
+
+    { "name": "08 .location-shade", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "a" },
+      { "tag": "span", "classes": ["location-shade"] } ] },
+
+    { "name": "08 .location-index", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "a" },
+      { "tag": "span", "classes": ["location-index"] } ] },
+
+    { "name": "08 .location-copy", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "ol", "classes": ["location-list"] },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "a" },
+      { "tag": "div", "classes": ["location-copy"] } ] },
+
+    { "name": "08 .location-copy h3", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "div", "classes": ["location-copy"] },
+      { "tag": "h3" } ] },
+
+    { "name": "08 .location-copy h3 (card hovered)", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "li", "classes": ["location-card"], "states": ["hover"] },
+      { "tag": "div", "classes": ["location-copy"] },
+      { "tag": "h3" } ] },
+
+    { "name": "08 .location-country", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "div", "classes": ["location-copy"] },
+      { "tag": "p", "classes": ["location-country"] } ] },
+
+    { "name": "08 .location-action", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "li", "classes": ["location-card"] },
+      { "tag": "div", "classes": ["location-copy"] },
+      { "tag": "span", "classes": ["location-action"] } ] },
+
+    { "name": "08 .location-action (card hovered)", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "li", "classes": ["location-card"], "states": ["hover"] },
+      { "tag": "div", "classes": ["location-copy"] },
+      { "tag": "span", "classes": ["location-action"] } ] },
+
+    { "name": "08 .location-badge", "chain": [
+      { "tag": "html", "classes": ["js"] }, { "tag": "body" },
+      { "tag": "div", "classes": ["location-explorer", "reveal", "is-visible"] },
+      { "tag": "li", "classes": ["location-card", "location-card-soon"] },
+      { "tag": "div", "classes": ["location-copy"] },
+      { "tag": "span", "classes": ["location-badge"] } ] }
+  ]
+}

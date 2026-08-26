@@ -1,0 +1,449 @@
+/*
+ * locations.css — section 08, Our Locations.
+ * Contents: 1 local tokens · 2 shell · 3 heading · 4 the explorer ·
+ * 5 the card · 6 the card's copy · 7 the hub that is not open yet ·
+ * 8 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-locations", only on pages that
+ * declare the section. Markup: sections/locations.php. No script: widening a
+ * card is :hover and :focus-within, which CSS does by itself, so this section
+ * has no .js file and needs none.
+ *
+ * Five photographs in a row inside one rounded, clipped frame. Pointing at one
+ * grows it to more than twice its neighbours and brings its call to action up
+ * from nothing. Below 48rem the row becomes a swipeable, snapping strip,
+ * because a five-across fan needs width a phone has not got.
+ *
+ * FOUR THINGS THE SOURCE DOES THAT ARE NOT CARRIED ACROSS:
+ *
+ * 1. The action line stays hover-gated on phones. A touchscreen has no hover,
+ *    so "Explore location ↗" never appeared on the device where the cards are
+ *    hardest to read as links. It is permanent below 48rem here.
+ * 2. The "coming soon" card's action line is hover-gated too — and that card is
+ *    not a link, so it cannot be focused either. Its line is permanent at every
+ *    width: it is a statement, not an invitation.
+ * 3. Three !important declarations, all of them fighting the source's own
+ *    earlier passes over the same properties. Nothing here needs one
+ *    (CLAUDE.md §2.12).
+ * 4. A .location-list grid layout, a set of li/span/strong/small rules and a
+ *    .region-visual from an earlier version of this section. .location-explorer
+ *    overrides every one of them; resolved with tools/diff.js. Two of those
+ *    stray rules were landing on the empty <span> elements — the scrim was
+ *    inheriting a font size and a navy colour it has no text to use.
+ *
+ * Class map, design source -> theme:
+ *   .region-section   -> .syn-locations        .region-heading -> __heading
+ *   .region-heading-main  -> __heading-main    .region-heading-aside -> __heading-aside
+ *   .location-explorer -> __explorer           .location-list  -> __list
+ *   .location-card    -> __card                .location-shade -> __shade
+ *   .location-index   -> __index               .location-copy  -> __copy
+ *   .location-copy h3 -> __city                .location-country -> __country
+ *   .location-action  -> __action              .location-badge -> __badge
+ *   .location-card-soon -> .syn-locations__card--soon
+ *   .text-link -> .syn-text-link (shared, defined in base.css)
+ *
+ * Colours are derived from the §3 palette with color-mix(). The source's scrim
+ * is rgba(5,20,38,…), two steps darker than ink and indistinguishable from it
+ * under a 22–92% veil, so ink is what it uses.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-locations {
+	/* The hairline between cards, and the one round each card on a phone. */
+	--syn-locations-seam: color-mix(in srgb, var(--syn-white) 18%, transparent);
+	--syn-locations-rim: color-mix(in srgb, var(--syn-white) 12%, transparent);
+	--syn-locations-card-rim: color-mix(in srgb, var(--syn-navy) 16%, transparent);
+	--syn-locations-chip-rim: color-mix(in srgb, var(--syn-white) 42%, transparent);
+	--syn-locations-badge-rim: color-mix(in srgb, var(--syn-white) 45%, transparent);
+	--syn-locations-action-rule: color-mix(in srgb, var(--syn-white) 24%, transparent);
+
+	/*
+	 * Two scrims. The resting one is heavier, because the card is narrow and the
+	 * words sit over whatever the photograph happens to be doing; the lifted one
+	 * lets more of the picture through, since a card wide enough to point at is
+	 * a card worth looking at. Both reach near-solid at the foot, which is what
+	 * keeps the white copy over 4.5:1 (CLAUDE.md §9).
+	 */
+	--syn-locations-shade: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--syn-ink) 22%, transparent),
+			color-mix(in srgb, var(--syn-ink) 18%, transparent) 35%,
+			color-mix(in srgb, var(--syn-ink) 92%, transparent)
+		),
+		linear-gradient(90deg, color-mix(in srgb, var(--syn-ink) 28%, transparent), transparent);
+
+	--syn-locations-shade-lifted: linear-gradient(
+			180deg,
+			color-mix(in srgb, var(--syn-ink) 8%, transparent),
+			color-mix(in srgb, var(--syn-ink) 10%, transparent) 36%,
+			color-mix(in srgb, var(--syn-ink) 90%, transparent)
+		),
+		linear-gradient(90deg, color-mix(in srgb, var(--syn-ink) 18%, transparent), transparent);
+
+	/* How much wider a card grows when it is pointed at. */
+	--syn-locations-lift: 2.35;
+
+	/* One duration for the whole card: photograph, scrim, width and copy all
+	   have to arrive together or the card reads as several things moving. */
+	--syn-locations-duration: 620ms;
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-locations {
+	background-color: var(--syn-paper);
+	/* Less at the top than the theme's rhythm: section 07 above is a white band
+	   with its own generous padding, so the two together were a gap and a half. */
+	padding-block-start: clamp(3.25rem, 5vw, 4.5rem);
+}
+
+/* ==========================================================================
+   3. Heading
+   ========================================================================== */
+
+.syn-locations__heading {
+	display: grid;
+	grid-template-columns: minmax(16rem, 0.9fr) minmax(20rem, 1.1fr);
+	gap: clamp(1.5rem, 4vw, 4rem);
+	align-items: end;
+	margin-block-end: clamp(2rem, 4vw, 3rem);
+}
+
+.syn-locations__title {
+	margin: 0;
+	color: var(--syn-navy);
+	letter-spacing: 0;
+}
+
+.syn-locations__lead {
+	max-inline-size: 40rem;
+	margin-block: 0 0.9rem;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+}
+
+/* ==========================================================================
+   4. The explorer
+   One frame holding five photographs edge to edge. overflow: hidden is what
+   makes the corner radius cut the pictures rather than just the frame.
+   ========================================================================== */
+
+.syn-locations__explorer {
+	overflow: hidden;
+	border: 1px solid var(--syn-locations-rim);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-ink);
+	box-shadow: var(--syn-shadow-soft);
+}
+
+.syn-locations__list {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	block-size: 31rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* ==========================================================================
+   5. The card
+   ========================================================================== */
+
+.syn-locations__card {
+	position: relative;
+	display: block;
+	flex: 1 1 0;
+	min-inline-size: 0;
+	overflow: hidden;
+	border-inline-end: 1px solid var(--syn-locations-seam);
+	background-color: var(--syn-ink);
+	transition: flex-grow var(--syn-locations-duration) var(--syn-ease-out);
+}
+
+.syn-locations__card:last-child {
+	border-inline-end: 0;
+}
+
+.syn-locations__link {
+	position: relative;
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	overflow: hidden;
+	color: var(--syn-white);
+	text-decoration: none;
+}
+
+.syn-locations__photo {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+	/* Slightly over-scaled at rest so there is somewhere to zoom to. */
+	transform: scale(1.03);
+	transition: transform 850ms var(--syn-ease-out);
+}
+
+.syn-locations__shade {
+	position: absolute;
+	inset: 0;
+	background-image: var(--syn-locations-shade);
+	transition: background-image var(--syn-locations-duration) var(--syn-ease-out);
+}
+
+.syn-locations__index {
+	position: absolute;
+	inset-block-start: 1.4rem;
+	inset-inline-start: 1.35rem;
+	display: grid;
+	inline-size: 2.25rem;
+	block-size: 2.25rem;
+	place-items: center;
+	border: 1px solid var(--syn-locations-chip-rim);
+	border-radius: 50%;
+	color: var(--syn-white);
+	font-size: 0.61rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+}
+
+/* The card that is being read. :focus-within is not a nicety here — it is the
+   only way this section works from a keyboard. */
+.syn-locations__card:hover,
+.syn-locations__card:focus-within {
+	flex-grow: var(--syn-locations-lift);
+}
+
+.syn-locations__card:hover .syn-locations__photo,
+.syn-locations__card:focus-within .syn-locations__photo {
+	transform: scale(1.08);
+}
+
+.syn-locations__card:hover .syn-locations__shade,
+.syn-locations__card:focus-within .syn-locations__shade {
+	background-image: var(--syn-locations-shade-lifted);
+}
+
+/* And the ones that are not: dimmed, so the row has one subject at a time. */
+.syn-locations__list:hover .syn-locations__card:not(:hover) .syn-locations__photo {
+	filter: saturate(0.92) brightness(0.9);
+}
+
+/* ==========================================================================
+   6. The card's copy
+   ========================================================================== */
+
+.syn-locations__copy {
+	position: absolute;
+	inset-block-end: 1.5rem;
+	inset-inline: 1.35rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.syn-locations__city {
+	margin: 0 0 0.2rem;
+	color: var(--syn-white);
+	font-size: clamp(1.15rem, 1.8vw, 1.65rem);
+	letter-spacing: 0;
+	line-height: 1.05;
+	/* The card is narrow at rest and a wrapped city name reads as two places. */
+	white-space: nowrap;
+	transition: font-size var(--syn-locations-duration) var(--syn-ease-out);
+}
+
+.syn-locations__card:hover .syn-locations__city,
+.syn-locations__card:focus-within .syn-locations__city {
+	font-size: clamp(1.55rem, 2vw, 2rem);
+}
+
+/*
+ * The country wraps, unlike the city above it. The source held both on one
+ * line, which cut "United Arab Emirates" off mid-word against the card's
+ * overflow at every width where five cards share less than about 1200px — and
+ * a clipped country name reads as a bug, not as a card that is merely narrow.
+ * The copy block is anchored to the foot of the card, so a second line grows
+ * upward into the photograph and pushes nothing.
+ */
+.syn-locations__country {
+	margin-block: 0.35rem 0;
+	margin-inline: 0;
+	color: var(--syn-white);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	line-height: 1.35;
+}
+
+/*
+ * Collapsed to nothing rather than hidden, so it pushes nothing around when it
+ * arrives and takes no room when it is away.
+ */
+.syn-locations__action {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-block-size: 0;
+	margin-block-start: 0;
+	padding-block-start: 0;
+	overflow: hidden;
+	border-block-start: 1px solid var(--syn-locations-action-rule);
+	color: var(--syn-white);
+	font-size: 0.66rem;
+	font-weight: 750;
+	opacity: 0;
+	transition:
+		max-block-size var(--syn-locations-duration) var(--syn-ease-out),
+		margin-block-start var(--syn-locations-duration) var(--syn-ease-out),
+		padding-block-start var(--syn-locations-duration) var(--syn-ease-out),
+		opacity 420ms var(--syn-ease-out);
+}
+
+.syn-locations__card:hover .syn-locations__action,
+.syn-locations__card:focus-within .syn-locations__action {
+	max-block-size: 3rem;
+	margin-block-start: 1rem;
+	padding-block-start: 0.85rem;
+	opacity: 1;
+}
+
+/* ==========================================================================
+   7. The hub that is not open yet
+   No link, so nothing about it can be hovered into or tabbed to. Its line is
+   a statement rather than an invitation, and it is always on show.
+   ========================================================================== */
+
+.syn-locations__card--soon {
+	/* A painted card, not a photograph with a scrim: there is no office to
+	   photograph yet. The middle stop is navy on its way to navy-deep. */
+	background-image: linear-gradient(
+		160deg,
+		var(--syn-navy) 0%,
+		color-mix(in srgb, var(--syn-navy) 42%, var(--syn-navy-deep)) 55%,
+		var(--syn-navy-deep) 100%
+	);
+}
+
+.syn-locations__card--soon .syn-locations__photo {
+	/* Damascus sits to one side of its photograph; centring crops the city out. */
+	object-position: 38% center;
+}
+
+.syn-locations__card--soon .syn-locations__action {
+	max-block-size: 3rem;
+	margin-block-start: 1rem;
+	padding-block-start: 0.85rem;
+	justify-content: flex-start;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	opacity: 1;
+}
+
+.syn-locations__badge {
+	align-self: flex-start;
+	margin-block: 0 0.6rem;
+	padding: 0.3rem 0.65rem;
+	border: 1px solid var(--syn-locations-badge-rim);
+	border-radius: 10rem;
+	color: var(--syn-white);
+	font-size: 0.58rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* ==========================================================================
+   8. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-locations__heading {
+		grid-template-columns: minmax(0, 1fr);
+		align-items: start;
+	}
+
+	.syn-locations__list {
+		block-size: 28rem;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	/*
+	 * The frame goes: five cards cannot share one on a phone. Each card becomes
+	 * its own rounded tile and the row becomes a strip you swipe, snapping to
+	 * one tile at a time.
+	 */
+	.syn-locations__explorer {
+		overflow: visible;
+		border: 0;
+		background-color: transparent;
+		box-shadow: none;
+	}
+
+	.syn-locations__list {
+		block-size: auto;
+		min-block-size: 25rem;
+		gap: 0.85rem;
+		/* The trailing space is what lets the last tile snap to the start edge
+		   instead of stopping short of it. */
+		padding-block: 0.15rem 1rem;
+		padding-inline: 0 8vw;
+		overflow-x: auto;
+		overscroll-behavior-inline: contain;
+		scroll-snap-type: x mandatory;
+	}
+
+	.syn-locations__card {
+		flex: 0 0 82%;
+		min-block-size: 24rem;
+		border: 1px solid var(--syn-locations-card-rim);
+		border-radius: var(--syn-radius-lg);
+		scroll-snap-align: start;
+	}
+
+	/* Nothing grows on a phone — the tile is already as wide as the screen
+	   allows, and a grow would fight the snap. */
+	.syn-locations__card:hover,
+	.syn-locations__card:focus-within {
+		flex: 0 0 82%;
+	}
+
+	.syn-locations__photo,
+	.syn-locations__card:hover .syn-locations__photo,
+	.syn-locations__card:focus-within .syn-locations__photo,
+	.syn-locations__list:hover .syn-locations__card:not(:hover) .syn-locations__photo {
+		filter: saturate(0.92) contrast(1.02);
+		transform: scale(1.04);
+	}
+
+	/*
+	 * A touchscreen has no hover, so the source's action line never appeared
+	 * here at all — on exactly the device where a photograph is least obviously
+	 * a link. It is permanent below this width.
+	 */
+	.syn-locations__action {
+		max-block-size: 3rem;
+		margin-block-start: 1rem;
+		padding-block-start: 0.85rem;
+		opacity: 1;
+	}
+}
+
+@media (max-width: 27rem) {
+
+	.syn-locations__card,
+	.syn-locations__card:hover,
+	.syn-locations__card:focus-within {
+		flex-basis: 88%;
+	}
+}

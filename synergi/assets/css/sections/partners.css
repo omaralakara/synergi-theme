@@ -1,0 +1,240 @@
+/*
+ * partners.css — section 07, Our Partners.
+ * Contents: 1 local tokens · 2 shell · 3 heading · 4 the marquee ·
+ * 5 the strip and its logos · 6 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-partners", only on pages that
+ * declare the section. Markup: sections/partners.php. Behaviour:
+ * assets/js/sections/partners.js.
+ *
+ * A white band under the dark numbers band, with one row of logos drifting
+ * sideways. The strip is built by partners.js: it wraps the authored track in
+ * .syn-partners__strip and puts a copy either side of it, so the row can be
+ * translated for ever without ever running out. The geometry is written down
+ * here; the script only moves one transform.
+ *
+ * THREE THINGS THE SOURCE DOES THAT ARE NOT CARRIED ACROSS:
+ *
+ * 1. Each logo is an <a> with no href. That is not a link — it cannot be
+ *    focused, cannot be followed, and cannot be announced as one — so the
+ *    source's :focus-visible rule on it can never fire and its "was that a drag
+ *    or a click?" suppression guards nothing. They are list items here, and the
+ *    stop-on-focus behaviour moved to the strip, which really is focusable.
+ * 2. The caption under each logo. The slim colourway the homepage uses sets it
+ *    to display:none, so it renders nowhere; the partner's name is the image's
+ *    alt text, which is where a name belongs.
+ * 3. Two colourways and three padding declarations for the section box. Only
+ *    .partners-showcase's ever win. Resolved with tools/diff.js, not read off
+ *    the file.
+ *
+ * Colours are derived from the §3 palette with color-mix(). The two `black`
+ * keywords in the mask below are not colours — a mask reads only the alpha
+ * channel, so they are a stencil, and any opaque value would do.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-partners {
+	/* The source's rgba(7,26,49,0.08) hairline over the section. */
+	--syn-partners-edge: color-mix(in srgb, var(--syn-ink) 8%, transparent);
+
+	/* How far the logos fade out at each end of the strip. */
+	--syn-partners-fade: 4rem;
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-partners {
+	overflow: hidden;
+	padding-block: clamp(3.5rem, 6vw, 5rem);
+	border-block-start: 1px solid var(--syn-partners-edge);
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   3. Heading
+   Two columns: the name on one side, what the ecosystem is for on the other.
+   ========================================================================== */
+
+.syn-partners__heading {
+	display: grid;
+	grid-template-columns: minmax(16rem, 0.9fr) minmax(20rem, 1.1fr);
+	gap: clamp(1.5rem, 4vw, 4rem);
+	align-items: end;
+	margin-block-end: clamp(2rem, 4vw, 3rem);
+}
+
+.syn-partners__title {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: 3rem;
+	letter-spacing: 0;
+	line-height: 1.08;
+}
+
+.syn-partners__heading-aside {
+	display: grid;
+	justify-items: start;
+	gap: 1rem;
+	max-inline-size: 34rem;
+}
+
+.syn-partners__lead {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: 0.92rem;
+	line-height: 1.7;
+}
+
+/* ==========================================================================
+   4. The marquee
+   The window the strip moves behind. It is the container's width rather than
+   the full page, so the fade at each end lines up with the heading above it.
+   ========================================================================== */
+
+.syn-partners__marquee {
+	display: flex;
+	inline-size: min(100% - (2 * var(--syn-gutter)), var(--syn-container));
+	/* Negative margin then equal padding, so a lifted logo has room to lift
+	   into without the row growing taller. */
+	margin-block: -0.9rem;
+	margin-inline: auto;
+	padding-block: 0.9rem;
+	overflow: hidden;
+	/* Vertical scrolling stays with the page; horizontal belongs to the drag. */
+	touch-action: pan-y;
+	/* The row can never affect the page's layout or paint outside itself, which
+	   is what keeps a permanently animating transform off the main thread's
+	   critical path (CLAUDE.md §6). */
+	contain: layout paint;
+	mask-image: linear-gradient(
+		90deg,
+		transparent 0,
+		black var(--syn-partners-fade),
+		black calc(100% - var(--syn-partners-fade)),
+		transparent 100%
+	);
+}
+
+/* Only where a script can actually move it: a strip that cannot drift should
+   not advertise a grab handle. */
+@media (scripting: enabled) {
+
+	.syn-partners__marquee {
+		cursor: grab;
+	}
+
+	.syn-partners__marquee.syn-is-dragging {
+		cursor: grabbing;
+		user-select: none;
+	}
+}
+
+/* ==========================================================================
+   5. The strip and its logos
+   .syn-partners__strip is created by partners.js and holds three copies of the
+   track. With no script there is one track and it simply sits there, which is
+   why the track carries the row styling and the strip carries only movement.
+   ========================================================================== */
+
+.syn-partners__strip {
+	display: flex;
+	flex: 0 0 auto;
+	inline-size: max-content;
+	backface-visibility: hidden;
+	will-change: transform;
+}
+
+.syn-partners__track {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: stretch;
+	min-inline-size: max-content;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-partners__logo {
+	display: grid;
+	inline-size: auto;
+	min-inline-size: 11.5rem;
+	min-block-size: 4.6rem;
+	padding: 0.85rem 2.4rem;
+	place-items: center;
+	align-content: center;
+}
+
+.syn-partners__logo-image {
+	inline-size: min(100%, 8.4rem);
+	block-size: 2.6rem;
+	object-fit: contain;
+	transition:
+		filter var(--syn-duration-fast) var(--syn-ease-out),
+		opacity var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+/*
+ * Pointing at one logo dims the rest, so the row answers "which one is that?"
+ * without any of them being clickable. Written on the marquee with :has()
+ * rather than on each logo, because the effect is on the logo's SIBLINGS.
+ */
+@media (hover: hover) {
+
+	.syn-partners__marquee:has(.syn-partners__logo:hover) .syn-partners__logo-image {
+		filter: grayscale(1);
+		opacity: 0.45;
+	}
+
+	.syn-partners__logo:hover .syn-partners__logo-image {
+		filter: none;
+		opacity: 1;
+	}
+}
+
+/* ==========================================================================
+   6. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-partners__heading {
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+		align-items: start;
+	}
+
+	.syn-partners__title {
+		font-size: 2.8rem;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-partners {
+		padding-block: clamp(2.6rem, 8vw, 3.5rem);
+	}
+
+	.syn-partners__title {
+		font-size: 2.35rem;
+	}
+
+	.syn-partners__logo {
+		min-inline-size: 9rem;
+		padding: 0.7rem 1.6rem;
+	}
+
+	.syn-partners__logo-image {
+		block-size: 2.1rem;
+	}
+
+	/* The fade shrinks with the strip, or on a phone it would eat a third of
+	   every logo at each end. */
+	.syn-partners {
+		--syn-partners-fade: 1.5rem;
+	}
+}
