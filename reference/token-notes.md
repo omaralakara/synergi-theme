@@ -1,3 +1,5 @@
+
+
 # Token reference notes (verified 20 Aug 2026)
 
 Preserved from the superseded scaffold's README — these findings were verified against the live design (`main.min.css` in `synergi-homepage-assets`) and the Elementor global kit, and they matter during Stage 2 and the Stage 5 CSS split.
