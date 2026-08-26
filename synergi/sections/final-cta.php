@@ -61,14 +61,12 @@ $syn_uid = wp_unique_id( 'syn-final-cta-' );
 			<?php if ( ! empty( $syn_secondary['url'] ) && ! empty( $syn_secondary['label'] ) ) : ?>
 				<?php
 				/*
-				 * --light, not --outline. The source uses its light-surface
-				 * outline button here, which puts navy text and a navy border on
-				 * this near-black panel at about 1.3:1 — a button you cannot see
-				 * (CLAUDE.md §9). base.css carries both variants and this is the
-				 * surface --light exists for.
+				 * --outline, not --light: this section is a light band, so the
+				 * secondary action is navy on paper. --light is the dark-surface
+				 * variant and its white text would be invisible here.
 				 */
 				?>
-				<a class="syn-button syn-button--light" href="<?php echo esc_url( $syn_secondary['url'] ); ?>">
+				<a class="syn-button syn-button--outline" href="<?php echo esc_url( $syn_secondary['url'] ); ?>">
 					<?php echo esc_html( $syn_secondary['label'] ); ?>
 					<span aria-hidden="true">&searr;</span>
 				</a>
