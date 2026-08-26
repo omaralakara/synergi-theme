@@ -400,7 +400,8 @@ textarea {
 	/*
 	 * !important is required here: this rule has to beat every animation
 	 * declaration in every section stylesheet, including ones written later.
-	 * It is the only !important the theme ships (CLAUDE.md §2.12).
+	 * This rule and the two plugin overrides in instagram.css are the only
+	 * !important declarations the theme ships (CLAUDE.md §2.12).
 	 */
 	*,
 	*::before,

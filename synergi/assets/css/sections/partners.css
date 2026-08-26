@@ -68,6 +68,11 @@
 	margin-block-end: clamp(2rem, 4vw, 3rem);
 }
 
+/* The grid child holding the eyebrow and the heading. */
+.syn-partners__heading-main {
+	min-inline-size: 0;
+}
+
 .syn-partners__title {
 	margin: 0;
 	color: var(--syn-navy);

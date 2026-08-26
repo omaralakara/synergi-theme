@@ -57,6 +57,12 @@
 	margin-block-end: clamp(1.6rem, 3vw, 2.4rem);
 }
 
+/* Groups the eyebrow and the heading as one flex child, and lets a long heading
+   shrink rather than pushing the follow button off the row. */
+.syn-instagram__heading-copy {
+	min-inline-size: 0;
+}
+
 .syn-instagram__title {
 	margin-block: 0.55rem 0;
 	margin-inline: 0;

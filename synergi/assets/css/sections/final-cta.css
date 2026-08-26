@@ -103,6 +103,12 @@
    5. Copy
    ========================================================================== */
 
+/* The grid child holding the copy. Without min-inline-size a long unbroken word
+   in the heading would widen the column and squeeze the actions beside it. */
+.syn-final-cta__copy {
+	min-inline-size: 0;
+}
+
 .syn-final-cta__title {
 	max-inline-size: 14ch;
 	color: var(--syn-white);

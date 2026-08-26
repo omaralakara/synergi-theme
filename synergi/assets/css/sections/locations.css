@@ -114,6 +114,18 @@
 	margin-block-end: clamp(2rem, 4vw, 3rem);
 }
 
+/* The two grid children of the heading. The aside stacks its paragraph and its
+   link and keeps them both at the inline start. */
+.syn-locations__heading-main {
+	min-inline-size: 0;
+}
+
+.syn-locations__heading-aside {
+	display: grid;
+	justify-items: start;
+	min-inline-size: 0;
+}
+
 .syn-locations__title {
 	margin: 0;
 	color: var(--syn-navy);
@@ -163,6 +175,16 @@
 	overflow: hidden;
 	border-inline-end: 1px solid var(--syn-locations-seam);
 	background-color: var(--syn-ink);
+	/*
+	 * The one property here that cannot avoid layout — widening a card is a
+	 * layout change by definition. Everything else that moves with it (the
+	 * photograph, the scrim, the city name) was rewritten onto the compositor
+	 * so this is the only work the main thread does per frame.
+	 *
+	 * `contain` keeps that work inside the card: the action line uncollapsing
+	 * below cannot reach out and dirty the row's layout as well.
+	 */
+	contain: layout paint;
 	transition: flex-grow var(--syn-locations-duration) var(--syn-ease-out);
 }
 
@@ -189,13 +211,30 @@
 	/* Slightly over-scaled at rest so there is somewhere to zoom to. */
 	transform: scale(1.03);
 	transition: transform 850ms var(--syn-ease-out);
+	will-change: transform;
 }
 
+/*
+ * Two scrims stacked, cross-faded with opacity — not one scrim whose
+ * background-image is transitioned. background-image is not an animatable
+ * property, so the source's transition on it did nothing but force the card to
+ * repaint: the gradient snapped while everything around it glided. Opacity is a
+ * compositor property, so this version costs no paint at all.
+ */
 .syn-locations__shade {
 	position: absolute;
 	inset: 0;
 	background-image: var(--syn-locations-shade);
-	transition: background-image var(--syn-locations-duration) var(--syn-ease-out);
+}
+
+.syn-locations__shade::after {
+	position: absolute;
+	inset: 0;
+	background-image: var(--syn-locations-shade-lifted);
+	opacity: 0;
+	transition: opacity var(--syn-locations-duration) var(--syn-ease-out);
+	content: "";
+	will-change: opacity;
 }
 
 .syn-locations__index {
@@ -226,9 +265,9 @@
 	transform: scale(1.08);
 }
 
-.syn-locations__card:hover .syn-locations__shade,
-.syn-locations__card:focus-within .syn-locations__shade {
-	background-image: var(--syn-locations-shade-lifted);
+.syn-locations__card:hover .syn-locations__shade::after,
+.syn-locations__card:focus-within .syn-locations__shade::after {
+	opacity: 1;
 }
 
 /* And the ones that are not: dimmed, so the row has one subject at a time. */
@@ -248,6 +287,17 @@
 	flex-direction: column;
 }
 
+/*
+ * The city name grows by transform, not by font-size. This is the single
+ * biggest reason the source's hover felt heavy: transitioning font-size
+ * relayouts and re-shapes the text on every frame, for five cards, next to four
+ * large photographs — and it does it on the main thread. A scale runs on the
+ * compositor and costs nothing per frame.
+ *
+ * transform-origin has no logical form, so `0 50%` is the inline start only
+ * while the page is left-to-right. The Arabic phase needs `100% 50%` here; it
+ * is the one line in this file that will not mirror on its own (CLAUDE.md §2.11).
+ */
 .syn-locations__city {
 	margin: 0 0 0.2rem;
 	color: var(--syn-white);
@@ -256,12 +306,17 @@
 	line-height: 1.05;
 	/* The card is narrow at rest and a wrapped city name reads as two places. */
 	white-space: nowrap;
-	transition: font-size var(--syn-locations-duration) var(--syn-ease-out);
+	transform-origin: 0 50%;
+	transition: transform var(--syn-locations-duration) var(--syn-ease-out);
+	will-change: transform;
 }
 
 .syn-locations__card:hover .syn-locations__city,
 .syn-locations__card:focus-within .syn-locations__city {
-	font-size: clamp(1.55rem, 2vw, 2rem);
+	/* Matches the source's 1.15rem -> 1.55rem step at the small end of the
+	   clamp and its 1.65rem -> 2rem at the large end, near enough that the two
+	   are indistinguishable side by side. */
+	transform: scale(1.28);
 }
 
 /*

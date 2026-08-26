@@ -97,6 +97,30 @@ selectors you did not know existed.
 node tools/extract.js "(^|[ ,.])ssb"
 ```
 
+## `audit.js` — the structural rules, checked
+
+Turns the parts of CLAUDE.md that can be checked mechanically into one command,
+so "is the structure still right?" stops being an afternoon of grepping. Run it
+at the end of every section, and before tagging a stage.
+
+```
+node tools/audit.js
+```
+
+Eight checks, each naming the rule it enforces: section trios and orphans (§4),
+declared-vs-rendered sections and their order (§4), the `ABSPATH` guard and
+`syn_` prefixes (§4), colour literals and physical directions (§2.7, §2.11),
+every `!important` having a reason above it (§2.12), each class being defined in
+exactly one stylesheet and every class in a partial resolving to a rule (§13),
+and the CSS/JS budget (§6).
+
+Exits non-zero on any failure, so it can gate a stage.
+
+Two things it deliberately does not check, because it cannot: whether a page is
+under budget *as measured in a browser* (the budget check sums the whole theme
+before conditional loading, which is the pessimistic case), and anything about
+how a section actually looks.
+
 ## `build-zip.ps1` — a zip WordPress will accept
 
 Windows PowerShell 5.1's `Compress-Archive` writes **backslashes** into ZIP entry

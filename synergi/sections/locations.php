@@ -169,10 +169,20 @@ $syn_uid = wp_unique_id( 'syn-locations-' );
 
 						if ( $syn_image_id ) {
 							/*
-							 * A card is at most a fifth of the container until it
-							 * is pointed at, and full width on a phone — so sizes
-							 * says both rather than letting the browser assume the
-							 * viewport at every width (CLAUDE.md §6).
+							 * sizes has to describe the card at its WIDEST, not at
+							 * rest: the browser picks one candidate at load and
+							 * keeps it, so a hint of 26rem — a card's resting fifth
+							 * of the container — left a blurred picture the moment
+							 * the card grew to about 30rem under the pointer. It
+							 * now asks for the hovered width.
+							 *
+							 * Note for whoever uploads these: the card is portrait
+							 * and about 500px tall on a desktop, so a 2x screen
+							 * wants roughly 1000px of image HEIGHT. A landscape
+							 * photograph 640px tall is upscaled about 45% by
+							 * object-fit: cover no matter what this attribute says.
+							 * Portrait or square originals of at least 1200x1200
+							 * are what this section is built for.
 							 */
 							echo wp_get_attachment_image(
 								$syn_image_id,
@@ -182,7 +192,7 @@ $syn_uid = wp_unique_id( 'syn-locations-' );
 									'class'    => 'syn-locations__photo',
 									'loading'  => 'lazy',
 									'decoding' => 'async',
-									'sizes'    => '(max-width: 47.99rem) 82vw, 26rem',
+									'sizes'    => '(max-width: 47.99rem) 82vw, (max-width: 61.25rem) 40vw, 31rem',
 								)
 							);
 						}

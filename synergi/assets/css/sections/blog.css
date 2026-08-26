@@ -1,0 +1,403 @@
+/*
+ * blog.css — section 09, Read Our Blog.
+ * Contents: 1 local tokens · 2 shell · 3 heading · 4 the card grid (no script) ·
+ * 5 the card · 6 the carousel (needs a script) · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-blog", only on pages that
+ * declare the section. Markup: sections/blog.php. Behaviour:
+ * assets/js/sections/blog.js.
+ *
+ * Two layouts from one set of markup. Without a script the cards are a plain
+ * three-column grid and the arrows are not in the document's flow at all —
+ * which is a perfectly good way to show three articles. With a script the same
+ * <ul> becomes a flex track that slides, and the arrows appear.
+ *
+ * Section 4 is therefore the fallback and section 6 is the enhancement; they
+ * are kept apart on purpose so it is obvious which one is which.
+ *
+ * TWO THINGS THE SOURCE DOES THAT ARE NOT CARRIED ACROSS:
+ *
+ * 1. It hard-codes #36b9ed as a focus ring on the card links and the arrows,
+ *    overriding the theme's focus token with a colour that is not in the §3
+ *    palette. Dropped: base.css's :focus-visible is the one focus style in
+ *    this theme (CLAUDE.md §9).
+ * 2. `@media (prefers-reduced-motion) { transition: none !important }` on the
+ *    track. base.css already stops every transition in the theme under reduced
+ *    motion, so this said a second time what is already true — and it was one
+ *    of the source's !important declarations (CLAUDE.md §2.12).
+ *
+ * Class map, design source -> theme:
+ *   .syg-blog-section  -> .syn-blog          .syg-blog-heading -> __heading
+ *   .syg-blog-carousel -> __carousel         .syg-blog-viewport -> __viewport
+ *   .syg-blog-grid     -> __track            .syg-blog-card    -> __card
+ *   .syg-blog-card-media -> __media          (its img)         -> __thumb
+ *   .syg-blog-card-body -> __body            .syg-blog-card-meta -> __meta
+ *   .syg-blog-card-title -> __card-title     .syg-blog-card-excerpt -> __excerpt
+ *   .syg-blog-card-more -> __more            .syg-blog-control -> __control
+ *   .is-dragging -> .syn-is-dragging         .is-static -> .syn-is-static
+ *
+ * Colours are derived from the §3 palette with color-mix(); the source writes
+ * this section in rgba and two raw hexes.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-blog {
+	/* Behind a thumbnail while it loads, so a card has its shape from first
+	   paint. The source's #0d2a4b is navy on its way to navy-deep. */
+	--syn-blog-media-bed: color-mix(in srgb, var(--syn-navy) 14%, var(--syn-navy-deep));
+
+	--syn-blog-card-rim-lit: color-mix(in srgb, var(--syn-navy) 35%, transparent);
+	--syn-blog-meta: color-mix(in srgb, var(--syn-ink) 55%, transparent);
+	--syn-blog-excerpt: color-mix(in srgb, var(--syn-ink) 66%, transparent);
+	--syn-blog-shadow: 0 14px 34px color-mix(in srgb, var(--syn-ink) 9%, transparent);
+	--syn-blog-shadow-lit: 0 18px 40px color-mix(in srgb, var(--syn-ink) 10%, transparent);
+
+	/* One number for how many cards are on screen, read by both the track's
+	   card width below and by blog.js when it works out a page. */
+	--syn-blog-per-view: 3;
+	--syn-blog-gap: clamp(1rem, 2vw, 1.75rem);
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-blog {
+	border-block-end: 1px solid var(--syn-border);
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   3. Heading
+   ========================================================================== */
+
+.syn-blog__heading {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1.5rem;
+	margin-block-end: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+/* Groups the eyebrow and the heading as one flex child. min-inline-size lets a
+   long heading shrink instead of pushing the button off the row. */
+.syn-blog__heading-copy {
+	min-inline-size: 0;
+}
+
+.syn-blog__title {
+	margin-block: 0.55rem 0;
+	margin-inline: 0;
+	color: var(--syn-navy);
+}
+
+.syn-blog__all {
+	flex-shrink: 0;
+}
+
+/* ==========================================================================
+   4. The card grid — the layout with no script
+   ========================================================================== */
+
+.syn-blog__track {
+	display: grid;
+	grid-template-columns: repeat(var(--syn-blog-per-view), minmax(0, 1fr));
+	gap: var(--syn-blog-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/*
+ * One full row, not a ragged one. blog.php fetches five posts because the
+ * carousel needs two in hand to page with; with no carousel those two spare
+ * cards would drop onto a second row on their own and look like a mistake. The
+ * counts below match --syn-blog-per-view at each width — nth-child cannot read
+ * a custom property, which is the only reason this is written out three times.
+ * One column shows every post, because a single column of five is a list and
+ * reads perfectly well as one.
+ */
+.syn-blog__card:nth-child(n + 4) {
+	display: none;
+}
+
+/* Nothing can page through them, so the arrows are not rendered. */
+.syn-blog__control {
+	display: none;
+}
+
+/* ==========================================================================
+   5. The card
+   ========================================================================== */
+
+.syn-blog__card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-inline-size: 0;
+	overflow: hidden;
+	border: 1px solid var(--syn-border);
+	border-radius: 0.65rem;
+	background-color: var(--syn-white);
+	box-shadow: var(--syn-blog-shadow);
+	transition:
+		transform var(--syn-duration-fast) var(--syn-ease-out),
+		border-color var(--syn-duration-fast),
+		box-shadow var(--syn-duration-fast);
+}
+
+.syn-blog__card:hover,
+.syn-blog__card:focus-within {
+	border-color: var(--syn-blog-card-rim-lit);
+	box-shadow: var(--syn-blog-shadow-lit);
+	transform: translateY(-4px);
+}
+
+.syn-blog__media {
+	overflow: hidden;
+	aspect-ratio: 16 / 9;
+	background-color: var(--syn-blog-media-bed);
+}
+
+.syn-blog__thumb {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+	transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.syn-blog__card:hover .syn-blog__thumb,
+.syn-blog__card:focus-within .syn-blog__thumb {
+	transform: scale(1.04);
+}
+
+.syn-blog__body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	gap: 0.6rem;
+	padding: 1.1rem 1.2rem 1.3rem;
+}
+
+.syn-blog__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.45rem 0.9rem;
+	margin: 0;
+	color: var(--syn-blog-meta);
+	font-size: 0.72rem;
+	font-weight: 650;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.syn-blog__card-title {
+	margin: 0;
+	font-size: clamp(1.02rem, 1.3vw, 1.18rem);
+	letter-spacing: -0.02em;
+	line-height: 1.3;
+}
+
+.syn-blog__card-title a {
+	color: var(--syn-ink);
+	text-decoration: none;
+}
+
+/*
+ * Stretches the heading's link over the whole card, so the picture and the
+ * excerpt are clickable too — without wrapping the card in an anchor, which
+ * would make a screen reader read the date and the excerpt as part of the link
+ * name. The card is the positioned ancestor.
+ */
+.syn-blog__card-title a::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+}
+
+.syn-blog__card-title a:hover,
+.syn-blog__card-title a:focus-visible {
+	color: var(--syn-navy);
+}
+
+.syn-blog__excerpt {
+	display: -webkit-box;
+	margin: 0;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	color: var(--syn-blog-excerpt);
+	font-size: 0.85rem;
+	line-height: 1.6;
+}
+
+.syn-blog__more {
+	margin-block-start: auto;
+	padding-block-start: 0.35rem;
+	color: var(--syn-navy);
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+/* ==========================================================================
+   6. The carousel — everything that needs a script
+   The same <ul> becomes a flex track wide enough to overflow its viewport, and
+   blog.js slides it. Gated on scripting because only blog.js can move it, and
+   arrows that cannot page would be lying about the content.
+   ========================================================================== */
+
+@media (scripting: enabled) {
+
+	.syn-blog__carousel {
+		display: grid;
+		grid-template-areas: "prev viewport next";
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		column-gap: clamp(0.5rem, 1.5vw, 1.1rem);
+	}
+
+	.syn-blog__viewport {
+		grid-area: viewport;
+		overflow: hidden;
+		/* Negative margin then equal padding: a card lifted on hover has room
+		   to lift into, and its shadow is not clipped by the overflow. */
+		margin-block: -0.85rem -1.6rem;
+		padding-block: 0.85rem 1.6rem;
+		cursor: grab;
+		/* Vertical scrolling stays with the page; horizontal is the drag's. */
+		touch-action: pan-y;
+		user-select: none;
+	}
+
+	.syn-blog__viewport.syn-is-dragging {
+		cursor: grabbing;
+	}
+
+	.syn-blog__track {
+		display: flex;
+		gap: var(--syn-blog-gap);
+		will-change: transform;
+	}
+
+	/*
+	 * Every card back on the track. Section 4 hides the ones past the first row,
+	 * because a plain grid should not end in a ragged half-row — but those are
+	 * exactly the spare cards the carousel pages with, so here they all return.
+	 * Three classes deep on purpose: that outranks the nth-child rules at every
+	 * breakpoint, so this cannot break by being moved in the file.
+	 */
+	.syn-blog__carousel .syn-blog__track .syn-blog__card {
+		display: flex;
+		flex: 0 0 calc((100% - ((var(--syn-blog-per-view) - 1) * var(--syn-blog-gap))) / var(--syn-blog-per-view));
+	}
+
+	.syn-blog__control {
+		display: inline-grid;
+		inline-size: 3rem;
+		block-size: 3rem;
+		padding: 0;
+		place-items: center;
+		border: 1px solid var(--syn-border);
+		border-radius: 0.45rem;
+		background-color: var(--syn-white);
+		color: var(--syn-navy);
+		cursor: pointer;
+		transition:
+			color var(--syn-duration-fast),
+			border-color var(--syn-duration-fast),
+			background-color var(--syn-duration-fast),
+			transform var(--syn-duration-fast);
+	}
+
+	.syn-blog__control--prev {
+		grid-area: prev;
+	}
+
+	.syn-blog__control--next {
+		grid-area: next;
+	}
+
+	.syn-blog__control svg {
+		inline-size: 1.35rem;
+		block-size: 1.35rem;
+		fill: none;
+		stroke: currentcolor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.8;
+	}
+
+	.syn-blog__control:hover {
+		border-color: var(--syn-navy);
+		background-color: var(--syn-navy);
+		color: var(--syn-white);
+		transform: translateY(-2px);
+	}
+
+	/* Every card already fits, so there is nothing to page through and the
+	   arrows would be lying. blog.js sets this class. */
+	.syn-blog__carousel.syn-is-static .syn-blog__control {
+		display: none;
+	}
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   One number changes the count in both layouts, because both read
+   --syn-blog-per-view.
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-blog {
+		--syn-blog-per-view: 2;
+	}
+
+	.syn-blog__card:nth-child(n + 3) {
+		display: none;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-blog {
+		--syn-blog-per-view: 1;
+	}
+
+	/* One column: every post shows, and reads as a list. */
+	.syn-blog__card:nth-child(n + 3) {
+		display: flex;
+	}
+
+	.syn-blog__heading {
+		display: block;
+	}
+
+	.syn-blog__all {
+		margin-block-start: 1.1rem;
+	}
+}
+
+@media (scripting: enabled) and (max-width: 47.99rem) {
+
+	/* The arrows move under the cards, centred, where a thumb can reach them. */
+	.syn-blog__carousel {
+		grid-template-areas:
+			"viewport viewport viewport viewport"
+			". prev next .";
+		grid-template-columns: 1fr auto auto 1fr;
+		column-gap: 0.6rem;
+		row-gap: clamp(1.1rem, 2vw, 1.5rem);
+	}
+
+	.syn-blog__control {
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
+	}
+}
