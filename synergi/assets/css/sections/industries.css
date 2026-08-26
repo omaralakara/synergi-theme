@@ -40,11 +40,14 @@
  *    block re-declares the same transform as `translateX(-50%)` at equal
  *    specificity, cancelling it everywhere a mouse exists. The brightness lift
  *    on hover, which does survive, is kept.
- * 3. The label burnt onto a strip is sized from its card, not from the viewport,
- *    and hides itself on a strip too narrow to read it. The source sizes it with
- *    a vw clamp, so a 26-character label sat at 1.6rem inside a 7rem strip and
- *    spilled out of its corner. It also never appears on the card at the front,
- *    which carries the same words under its photograph already.
+ * 3. The industry name is worn on the open photograph rather than set under it.
+ *    The source does both: a label burnt onto every card AND a heading below,
+ *    which on the strips spilled out of the corner (it is sized with a vw clamp,
+ *    so a 26-character name sat at 1.6rem inside a 7rem strip) and on the open
+ *    card printed the same words twice. Now only the open card carries a name,
+ *    on the photograph, and the heading below it is taken off the screen but
+ *    left in the document — it is still the card's heading in the outline and
+ *    still what a screen reader reads.
  * 4. No !important anywhere. The source needs four — three to make `.is-exiting`
  *    beat the position rules, one to hide the placeholder on phones — purely
  *    because of the order eight passes left things in. Written once, in order,
@@ -77,7 +80,7 @@
 	--syn-industries-photo: clamp(21.5rem, 27vw, 25rem);
 
 	/* How far the copy drops open under the active card. */
-	--syn-industries-copy: 8.75rem;
+	--syn-industries-copy: 6rem;
 
 	/* The bed behind a photograph that has not loaded, and behind a ghost. */
 	--syn-industries-bed: color-mix(in srgb, var(--syn-navy) 30%, var(--syn-ink));
@@ -152,9 +155,9 @@
 	align-content: start;
 	gap: 0;
 	min-inline-size: 0;
-	/* The width the burnt-in label is sized and hidden against. Safe on a flex
-	   item and a grid item alike: both take their width from their parent, not
-	   from their contents, which is what inline-size containment requires. */
+	/* The width the name on the photograph is sized against. Safe on a flex item
+	   and a grid item alike: both take their width from their parent, not from
+	   their contents, which is what inline-size containment requires. */
 	container-type: inline-size;
 }
 
@@ -198,24 +201,17 @@
 }
 
 /*
- * The label burnt onto a strip's photograph, so you know what you are about to
- * click on. It belongs to the strips only:
+ * The industry name, worn on the photograph of whichever card is open. Turned
+ * on in section 8, because without JavaScript every card shows its heading
+ * underneath instead and this would be the same words twice.
  *
- *   - the card at the front already carries its heading under the photograph,
- *     so a second copy on top of it would just be the same words twice;
- *   - a strip narrower than about 11rem cannot hold a readable label at any
- *     size, so it shows the photograph alone.
- *
- * Both of those are decided by the card's own width through a container query
- * rather than by which position it happens to be in — the queue can then be any
- * length without this needing to know.
- *
- * Sizing it from the card is the fix for what it used to do: the source sizes it
- * with `clamp(1.15rem, 2vw, 1.6rem)`, which is the VIEWPORT's width, so a
- * 26-character label sat at 1.6rem in a 7rem strip and spilled out of its
- * corner. 9cqi is 9% of the card, so it shrinks with the card it is written on.
- * The viewport clamp stays as the fallback for browsers without container
- * query units, where the label is hidden anyway (see the @container rule).
+ * Sized from the card rather than the viewport. The source uses
+ * clamp(1.15rem, 2vw, 1.6rem) — the VIEWPORT's width — which is why a
+ * 26-character name sat at full size inside a 7rem strip and spilled out of its
+ * corner. 9cqi is nine percent of the card it is written on, capped at the
+ * source's own maximum, so it holds at any card width down to a 320px phone.
+ * The viewport clamp above it is the fallback where container query units are
+ * not supported.
  */
 .syn-industries__preview {
 	display: none;
@@ -467,17 +463,36 @@
 	}
 
 	/*
-	 * The label only exists for the strips, so it is only turned on here — with
-	 * JavaScript off every card already carries its heading underneath and this
-	 * would be the same words twice.
+	 * The open card wears its name on the photograph, and only the open card:
+	 * a strip is never wide enough to read one, and with JavaScript off every
+	 * card already carries its heading underneath instead (see below).
 	 */
-	.syn-industries__preview {
+	.syn-industries__card.syn-is-active .syn-industries__preview {
 		display: block;
 	}
 
-	/* Which is also why the card at the front never shows it. */
-	.syn-industries__card.syn-is-active .syn-industries__preview {
-		display: none;
+	/*
+	 * Which makes the heading under the photograph the same words twice, so it
+	 * is taken off the screen — but left in the document, because it is still
+	 * this card's heading in the outline, still what the button borrows through
+	 * aria-labelledby, and still what a screen reader should read (CLAUDE.md §8).
+	 * Same technique as .syn-visually-hidden in base.css; it cannot simply use
+	 * that class because which card is open changes at runtime.
+	 */
+	.syn-industries__card.syn-is-active .syn-industries__card-title {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	/* With no heading above it, the description opens the copy itself. */
+	.syn-industries__card-text {
+		margin-block: 0;
 	}
 }
 
@@ -496,23 +511,6 @@
 		max-inline-size: none;
 		transform: translateX(-50%) translateZ(0);
 		backface-visibility: hidden;
-	}
-}
-
-/*
- * A strip narrower than this cannot hold a readable label at any size, so it
- * shows the photograph on its own. Written as a container query against the
- * card rather than as a list of positions, so it holds however long the queue
- * is and at every breakpoint without being told about either.
- *
- * Last of the three rules that decide this, so it wins over the display: block
- * above at equal specificity. The active card is more specific still and stays
- * hidden either way.
- */
-@container (max-width: 11rem) {
-
-	.syn-industries__preview {
-		display: none;
 	}
 }
 
@@ -589,7 +587,7 @@
 
 	.syn-industries {
 		--syn-industries-photo: clamp(18.5rem, 68vw, 21.5rem);
-		--syn-industries-copy: 8.5rem;
+		--syn-industries-copy: 7rem;
 	}
 
 	.syn-industries__title {
