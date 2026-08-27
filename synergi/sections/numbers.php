@@ -19,6 +19,9 @@
  *                                  in it counts up; everything else is left
  *                                  alone. See numbers.js.
  *                     label string What the figure counts.
+ *                   Omit this and the section reads the "figures" site record
+ *                   instead, falling back to the four approved defaults when
+ *                   the record is empty. Pass it to override both.
  *
  * Example:
  *   syn_section( 'numbers', array( 'title' => 'Synergi in numbers' ) );
@@ -37,24 +40,71 @@ $syn_eyebrow = $args['eyebrow'] ?? __( 'Company figures', 'synergi' );
 $syn_title   = $args['title'] ?? __( 'Synergi in Numbers', 'synergi' );
 $syn_lead    = $args['lead'] ?? __( 'One regional partner, measured by the outcomes it delivers for businesses across the Gulf and beyond.', 'synergi' );
 
-$syn_stats = $args['stats'] ?? array(
-	array(
-		'value' => __( '50+', 'synergi' ),
-		'label' => __( 'clients we have served', 'synergi' ),
-	),
-	array(
-		'value' => __( '5', 'synergi' ),
-		'label' => __( 'global delivery locations', 'synergi' ),
-	),
-	array(
-		'value' => __( '100+', 'synergi' ),
-		'label' => __( 'years of combined experience', 'synergi' ),
-	),
-	array(
-		'value' => __( '10–15%', 'synergi' ),
-		'label' => __( 'direct savings', 'synergi' ),
-	),
-);
+/*
+ * Where the figures come from, in order of precedence:
+ *
+ *   1. $args['stats'], if a template passed them explicitly.
+ *   2. The "figures" site record — edited once at Settings → Site records and
+ *      read by every page that shows a figure, which is the whole reason it is
+ *      a record and not postmeta (CLAUDE.md §7a). Wired up in Stage 6a step 3.
+ *   3. The four approved defaults below, when the record holds nothing usable.
+ *
+ * The record also carries a "correct as at" date per figure. It is deliberately
+ * NOT rendered here. Showing it is a Stage 6e change and the homepage is frozen
+ * (stage-6-scope.md §8e): this step changes where the figures come from and
+ * nothing whatsoever about what the page looks like. The date is stored and
+ * waiting; the markup for it belongs to 6e.
+ */
+if ( is_array( $args ) && array_key_exists( 'stats', $args ) ) {
+	$syn_stats = $args['stats'];
+} else {
+	$syn_stats = array();
+
+	// function_exists rather than a bare call: the section must still render if
+	// inc/records.php is ever removed (CLAUDE.md §13, fail gracefully).
+	if ( function_exists( 'syn_record' ) ) {
+		foreach ( syn_record( 'figures' ) as $syn_figure ) {
+			$syn_value = $syn_figure['value'] ?? '';
+			$syn_label = $syn_figure['label'] ?? '';
+
+			/*
+			 * A half-filled row is not a figure. Skipping it here rather than
+			 * further down is what keeps the fallback test below honest: a
+			 * record containing only blanks has to fall through to the
+			 * defaults, not render a band with one number in it.
+			 */
+			if ( '' === $syn_value || '' === $syn_label ) {
+				continue;
+			}
+
+			$syn_stats[] = array(
+				'value' => $syn_value,
+				'label' => $syn_label,
+			);
+		}
+	}
+
+	if ( ! $syn_stats ) {
+		$syn_stats = array(
+			array(
+				'value' => __( '50+', 'synergi' ),
+				'label' => __( 'clients we have served', 'synergi' ),
+			),
+			array(
+				'value' => __( '5', 'synergi' ),
+				'label' => __( 'global delivery locations', 'synergi' ),
+			),
+			array(
+				'value' => __( '100+', 'synergi' ),
+				'label' => __( 'years of combined experience', 'synergi' ),
+			),
+			array(
+				'value' => __( '10–15%', 'synergi' ),
+				'label' => __( 'direct savings', 'synergi' ),
+			),
+		);
+	}
+}
 
 $syn_stats = array_values( array_filter( (array) $syn_stats, 'is_array' ) );
 
