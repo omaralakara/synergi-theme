@@ -33,3 +33,6 @@ backups/
 
 # Superseded files awaiting manual deletion (if moved rather than deleted)
 _to_delete/
+
+# Source documents that stay in the working folder but never enter the repo
+Synergi - Company Overview - 2026.pdf
