@@ -108,13 +108,18 @@ syn_section(
 	)
 );
 
+/*
+ * The timeline is typed milestones since 28 Aug; the picture is what the band
+ * falls back to when none are, so a page mid-migration is never empty.
+ */
 syn_section(
 	'journey',
 	array(
-		'eyebrow' => __( 'How we got here', 'synergi' ),
-		'heading' => syn_field( 'journey_heading', $syn_id ),
-		'lede'    => syn_field( 'journey_lede', $syn_id ),
-		'image'   => syn_field_image_id( 'journey_image', $syn_id ),
+		'eyebrow'    => __( 'How we got here', 'synergi' ),
+		'heading'    => syn_field( 'journey_heading', $syn_id ),
+		'lede'       => syn_field( 'journey_lede', $syn_id ),
+		'milestones' => syn_field_rows( 'journey_milestones', $syn_id ),
+		'image'      => syn_field_image_id( 'journey_image', $syn_id ),
 	)
 );
 

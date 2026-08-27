@@ -291,7 +291,7 @@ function syn_register_about_fields() {
 		array(
 			'id'          => 'about_journey',
 			'title'       => __( 'About — our journey', 'synergi' ),
-			'description' => __( 'The company timeline. Leave the picture empty and the whole band is skipped.', 'synergi' ),
+			'description' => __( 'The company timeline, typed as milestones. The picture below is only used when no milestones are typed, and the whole band is skipped when there is neither.', 'synergi' ),
 			'templates'   => array( SYN_ABOUT_TEMPLATE ),
 			'fields'      => array(
 				array(
@@ -309,11 +309,65 @@ function syn_register_about_fields() {
 					'rows'       => 3,
 					'max_length' => 320,
 				),
+				/*
+				 * The timeline as text rather than as a picture of text.
+				 * Until 28 Aug this band was the company deck's timeline slide
+				 * uploaded as an image, which no screen reader could read, no
+				 * phone could reflow and nobody could correct without opening a
+				 * design tool. Typed milestones fix all three at once.
+				 *
+				 * The defaults are read off that slide. Its labels and years
+				 * are laid out around a graphic rather than in a list, so which
+				 * year each label belongs to is a reading of the artwork and
+				 * wants a check from someone who was there.
+				 */
+				array(
+					'key'         => 'journey_milestones',
+					'type'        => 'repeater',
+					'label'       => __( 'Milestones', 'synergi' ),
+					'description' => __( 'Oldest first. A milestone needs a name; the year and the note are optional.', 'synergi' ),
+					'row_noun'    => __( 'Milestone', 'synergi' ),
+					'button'      => __( 'Add milestone', 'synergi' ),
+					'row_label'   => 'title',
+					'min_rows'    => 1,
+					'max_rows'    => 20,
+					'default'     => array(
+						array( 'year' => '2022', 'title' => 'Ideation', 'note' => '' ),
+						array( 'year' => '2023', 'title' => 'Lebanon', 'note' => '' ),
+						array( 'year' => '2023', 'title' => 'Romania', 'note' => '' ),
+						array( 'year' => '2024', 'title' => 'New structure', 'note' => '' ),
+						array( 'year' => '2025', 'title' => 'KSA', 'note' => '' ),
+						array( 'year' => '2025', 'title' => 'Qatar', 'note' => '' ),
+						array( 'year' => '2026', 'title' => 'UAE', 'note' => '' ),
+						array( 'year' => '2026', 'title' => 'Partnership', 'note' => '' ),
+					),
+					'subfields'   => array(
+						array(
+							'key'        => 'year',
+							'type'       => 'text',
+							'label'      => __( 'Year', 'synergi' ),
+							'max_length' => 20,
+						),
+						array(
+							'key'        => 'title',
+							'type'       => 'text',
+							'label'      => __( 'Milestone', 'synergi' ),
+							'max_length' => 60,
+						),
+						array(
+							'key'         => 'note',
+							'type'        => 'text',
+							'label'       => __( 'Note', 'synergi' ),
+							'description' => __( 'Optional. One short line under the milestone.', 'synergi' ),
+							'max_length'  => 120,
+						),
+					),
+				),
 				array(
 					'key'         => 'journey_image',
 					'type'        => 'image',
-					'label'       => __( 'The timeline', 'synergi' ),
-					'description' => __( 'The graphic itself. It carries information rather than decorating, so it needs real alt text on its media library entry.', 'synergi' ),
+					'label'       => __( 'The timeline as a picture', 'synergi' ),
+					'description' => __( 'Only used when no milestones are typed above. It carries information rather than decorating, so it needs real alt text on its media library entry.', 'synergi' ),
 				),
 			),
 		)

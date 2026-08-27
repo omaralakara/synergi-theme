@@ -1,16 +1,26 @@
 /*
- * journey.css — About Us: the company timeline graphic.
- * Contents: 1 shell · 2 the heading · 3 the figure · 4 narrow screens.
+ * journey.css — how the company got here.
+ * Contents: 1 shell · 2 the head · 3 the track · 4 one stop · 5 the marker ·
+ * 6 the reveal, staggered · 7 the picture fallback · 8 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-journey", only on pages that
- * declare the section. Markup: sections/journey.php. No script.
+ * declare the section. Markup: sections/journey.php. No script of its own — the
+ * reveal is base.css's shared observer, everything else is hover and focus.
  *
- * One wide diagram on the deep navy the numbers band uses, so the two dark
- * bands on About Us sit either side of the values band and give the page a
- * rhythm rather than three white screens in a row.
+ * The band sits on navy-deep. It is the one dark stop between the white story
+ * above it and the figures below, which is what stops the About page reading as
+ * one long pale scroll, and it is the same job the homepage's dark bands do.
+ *
+ * THE LINE IS DRAWN PER STOP, NOT ACROSS THE TRACK. Each stop paints its own
+ * segment to the left of its marker and the first stop paints none. One long
+ * rule behind the track would be simpler and would break the moment the
+ * timeline wrapped onto a second row or stacked on a phone: the rule would run
+ * on through empty space. This way the line can only exist between two stops
+ * that are genuinely beside each other.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
- * (CLAUDE.md §2.11).
+ * (CLAUDE.md §2.11), including the line, which is why it is inset-inline-start
+ * and reverses for Arabic without a second rule.
  */
 
 /* ==========================================================================
@@ -23,52 +33,171 @@
 }
 
 /* ==========================================================================
-   2. The heading
+   2. The head
    ========================================================================== */
 
 .syn-journey__head {
-	max-inline-size: var(--syn-container-narrow);
-	margin-block-end: var(--syn-space-5);
+	max-inline-size: 46rem;
+	margin-block-end: var(--syn-space-6);
 }
 
-/*
- * The shared eyebrow is navy on white surfaces, which is invisible here. This
- * is the component adjusted in context, not a second definition of it — the
- * rule still lives once, in base.css §10 (CLAUDE.md §4).
- */
-.syn-journey .syn-eyebrow {
+/* The shared eyebrow is navy on white elsewhere; on this ground it has to be
+   the mint the page header already uses for the same job on the same shade. */
+.syn-journey__eyebrow {
 	color: var(--syn-mint);
 }
 
 .syn-journey__title {
+	margin: 0;
+	color: var(--syn-white);
 	font-size: var(--syn-step-2);
 	line-height: 1.15;
 	letter-spacing: -0.01em;
-	color: var(--syn-white);
 }
 
 .syn-journey__lede {
-	margin-block-start: var(--syn-space-2);
-
-	/* Not text-soft: that token is tuned for a white background and drops
-	   under 4.5:1 on this one (CLAUDE.md §9). */
-	color: var(--syn-cyan-soft);
+	margin-block-start: var(--syn-space-3);
+	margin-block-end: 0;
+	color: color-mix(in srgb, var(--syn-white) 78%, transparent);
 	font-size: var(--syn-step-0);
 	line-height: 1.7;
 }
 
 /* ==========================================================================
-   3. The figure
+   3. The track
+   auto-fit rather than a fixed count: the company adds a country every year or
+   so, and a timeline that needs a developer for its eighth stop is a timeline
+   that stops being updated.
+   ========================================================================== */
+
+.syn-journey__track {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: var(--syn-space-5) 0;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* ==========================================================================
+   4. One stop
+   ========================================================================== */
+
+.syn-journey__stop {
+	position: relative;
+	padding-inline-end: var(--syn-space-3);
+}
+
+.syn-journey__year {
+	margin: 0 0 var(--syn-space-2);
+	color: var(--syn-mint);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	transition: color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-journey__milestone {
+	margin: var(--syn-space-3) 0 0;
+	color: var(--syn-white);
+	font-size: var(--syn-step-1);
+	line-height: 1.2;
+	letter-spacing: -0.01em;
+	text-wrap: pretty;
+}
+
+.syn-journey__note {
+	margin: 0.5rem 0 0;
+	color: color-mix(in srgb, var(--syn-white) 70%, transparent);
+	font-size: var(--syn-step--1);
+	line-height: 1.6;
+}
+
+/* ==========================================================================
+   5. The marker — the dot, and the line reaching back to the stop before it
+   ========================================================================== */
+
+/*
+ * The marker is a row as wide as its column: the dot at the start, then the
+ * line taking whatever width is left. Because the next stop's dot sits at the
+ * start of ITS column and the track has no inline gap, that line lands exactly
+ * on the next dot — with no element ever wider than its own column, so nothing
+ * overflows the page and nothing needs clipping.
+ */
+.syn-journey__marker {
+	display: flex;
+	align-items: center;
+}
+
+/* The dot. */
+.syn-journey__marker::before {
+	flex: none;
+	inline-size: 0.875rem;
+	block-size: 0.875rem;
+	border: 2px solid var(--syn-cyan);
+	border-radius: 50%;
+	background-color: var(--syn-navy-deep);
+	content: "";
+	transition:
+		background-color var(--syn-duration) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
+}
+
+/* The line on to the next stop. */
+.syn-journey__marker::after {
+	flex: 1 1 auto;
+	block-size: 2px;
+	background-color: var(--syn-border-dark);
+	content: "";
+}
+
+/* The last stop has nothing to reach, and a line trailing off the end of the
+   track would say the story continues somewhere off screen. */
+.syn-journey__stop:last-child .syn-journey__marker::after {
+	content: none;
+}
+
+/*
+ * The interaction. Pointing at a stop fills its dot and lights its year, which
+ * is enough to make the timeline feel alive without the page moving under
+ * anyone — this band is deliberately quieter than the homepage.
+ */
+@media (hover: hover) {
+
+	.syn-journey__stop:hover .syn-journey__marker::before {
+		background-color: var(--syn-cyan);
+		box-shadow: 0 0 0 0.375rem color-mix(in srgb, var(--syn-cyan) 22%, transparent);
+	}
+
+	.syn-journey__stop:hover .syn-journey__year {
+		color: var(--syn-cyan);
+	}
+}
+
+/* ==========================================================================
+   6. The reveal, staggered along the track
+   The stops arrive one after another in the order the years happened, which is
+   the one place a delay carries meaning rather than decoration. Inside the
+   scripting query, because base.css only hides .syn-reveal when there is a
+   script to show it again; the stagger must not outlive that rule.
+   --syn-journey-order is set per stop in the markup.
+   ========================================================================== */
+
+@media (scripting: enabled) {
+
+	.syn-journey__stop {
+		transition-delay: calc(var(--syn-journey-order, 0) * var(--syn-duration-fast));
+	}
+}
+
+/* ==========================================================================
+   7. The picture fallback — a page whose milestones are not typed yet
    ========================================================================== */
 
 .syn-journey__figure {
+	overflow: hidden;
 	margin: 0;
-	padding: var(--syn-space-3);
-	border: 1px solid var(--syn-border-dark);
 	border-radius: var(--syn-radius-lg);
-
-	/* A pale ground behind a diagram drawn for white paper. Without it the
-	   graphic's own white lines vanish into the navy. */
 	background-color: var(--syn-white);
 }
 
@@ -79,12 +208,59 @@
 }
 
 /* ==========================================================================
-   4. Narrow screens
+   8. Narrow screens
+   The track turns on its side: one stop per row, the line running down the
+   start edge instead of across. Same markup, same order, no second timeline.
    ========================================================================== */
 
 @media (max-width: 47.99rem) {
 
-	.syn-journey__figure {
-		padding: var(--syn-space-1);
+	.syn-journey__track {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-4);
+	}
+
+	.syn-journey__stop {
+		padding-inline: var(--syn-space-5) 0;
+	}
+
+	.syn-journey__year {
+		margin-block-end: 0;
+	}
+
+	/* The dot leaves the flow and sits against the start edge, beside the copy
+	   rather than above it. */
+	.syn-journey__marker {
+		position: absolute;
+		inset-block-start: 0.4rem;
+		inset-inline-start: 0;
+	}
+
+	/* The line across is meaningless once the stops are stacked. */
+	.syn-journey__marker::after {
+		content: none;
+	}
+
+	/*
+	 * Down the column instead, drawn by the stop so it can be exactly as tall
+	 * as the stop plus the gap to the next one — which is the one measurement
+	 * a horizontal rule could not know.
+	 */
+	.syn-journey__stop::before {
+		position: absolute;
+		inset-block-start: 0.4rem;
+		inset-inline-start: 0.375rem;
+		inline-size: 2px;
+		block-size: calc(100% + var(--syn-space-4));
+		background-color: var(--syn-border-dark);
+		content: "";
+	}
+
+	.syn-journey__stop:last-child::before {
+		content: none;
+	}
+
+	.syn-journey__milestone {
+		margin-block-start: var(--syn-space-1);
 	}
 }
