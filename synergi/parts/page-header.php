@@ -18,10 +18,14 @@
  *                  the two-column hero and widens the container.
  *   cta     array  Optional. url and label for the primary button.
  *   cta_alt array  Optional. url and label for a second, outline button.
- *   proof   array[] Optional. Figures beside the copy, each: value, label.
- *   accent  string Optional. A service slug. Sets data-service, which
- *                  page-header.css uses to pick one of the six gradients from
- *                  theme.json. It names a service, never a colour (CLAUDE.md §7c).
+ *
+ * The hero carries no per-service colour. theme.json's six serviceAccent
+ * gradients are card-sized accents on the homepage — teal, bronze, violet — and
+ * at full-bleed hero scale they stop reading as an accent and start reading as
+ * a different brand. The band therefore stays on the navy every other page uses,
+ * and the six service pages are told apart by their photograph. (Reverted here
+ * on 27 Aug after seeing it rendered; the accents stay where the homepage
+ * already uses them, on small cards.)
  *
  * Every text value is plain text and is escaped here. Nothing accepts markup, so
  * a caller can never inject an element into the band (CLAUDE.md §5).
@@ -49,25 +53,6 @@ $syn_meta    = $args['meta'] ?? '';
 $syn_image   = (int) ( $args['image'] ?? 0 );
 $syn_cta     = (array) ( $args['cta'] ?? array() );
 $syn_cta_alt = (array) ( $args['cta_alt'] ?? array() );
-$syn_accent  = sanitize_key( $args['accent'] ?? '' );
-
-$syn_proof = array();
-
-foreach ( (array) ( $args['proof'] ?? array() ) as $syn_row ) {
-	if ( ! is_array( $syn_row ) ) {
-		continue;
-	}
-
-	$syn_value = trim( (string) ( $syn_row['value'] ?? '' ) );
-	$syn_label = trim( (string) ( $syn_row['label'] ?? '' ) );
-
-	if ( '' !== $syn_value && '' !== $syn_label ) {
-		$syn_proof[] = array(
-			'value' => $syn_value,
-			'label' => $syn_label,
-		);
-	}
-}
 
 /*
  * The photograph is what decides the shape. With one, the band becomes the
@@ -102,7 +87,7 @@ $syn_button = static function ( $link, $class ) {
 $syn_buttons = $syn_button( $syn_cta, 'syn-button--primary' ) . $syn_button( $syn_cta_alt, 'syn-button--light' );
 ?>
 <!-- syn-part: page-header -->
-<div class="<?php echo esc_attr( $syn_band_class ); ?>"<?php echo $syn_accent ? ' data-service="' . esc_attr( $syn_accent ) . '"' : ''; ?>>
+<div class="<?php echo esc_attr( $syn_band_class ); ?>">
 	<div class="<?php echo esc_attr( $syn_container_class ); ?> syn-page-header__inner">
 
 		<div class="syn-page-header__copy">
@@ -129,16 +114,6 @@ $syn_buttons = $syn_button( $syn_cta, 'syn-button--primary' ) . $syn_button( $sy
 				</p>
 			<?php endif; ?>
 
-			<?php if ( $syn_proof ) : ?>
-				<ul class="syn-page-header__proof">
-					<?php foreach ( $syn_proof as $syn_figure ) : ?>
-						<li class="syn-page-header__figure">
-							<span class="syn-page-header__figure-value"><?php echo esc_html( $syn_figure['value'] ); ?></span>
-							<span class="syn-page-header__figure-label"><?php echo esc_html( $syn_figure['label'] ); ?></span>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
 		</div>
 
 		<?php if ( $syn_is_hero ) : ?>

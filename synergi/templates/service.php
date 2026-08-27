@@ -35,7 +35,7 @@ $syn_service = sanitize_key( syn_field( 'service_ref', $syn_id ) );
  * inc/sections.php prints a comment naming anything declared but never rendered,
  * so the waste stays visible rather than becoming invisible habit.
  */
-syn_use_sections( array( 'capabilities', 'process', 'case-study', 'why', 'numbers', 'faq', 'related-services', 'blog', 'final-cta' ) );
+syn_use_sections( array( 'capabilities', 'process', 'case-study', 'why', 'numbers', 'faq', 'related-services', 'final-cta' ) );
 
 get_header();
 
@@ -44,21 +44,10 @@ get_header();
  * so the heading is never a field an editor could leave empty or fill with
  * something the browser tab disagrees with.
  *
- * The figures come from the site record, so the three numbers here are the same
- * three the homepage shows, and changing one changes both (CLAUDE.md §7a). Only
- * the first three are taken: a hero is a glance, not a table.
+ * No figures in the hero: the numbers band further down already says them, and
+ * saying them twice on one page made the hero busy without adding a fact
+ * (removed 27 Aug, after seeing it rendered).
  */
-$syn_proof = array();
-
-if ( function_exists( 'syn_record' ) ) {
-	foreach ( array_slice( syn_record( 'figures' ), 0, 3 ) as $syn_figure ) {
-		$syn_proof[] = array(
-			'value' => $syn_figure['value'] ?? '',
-			'label' => $syn_figure['label'] ?? '',
-		);
-	}
-}
-
 get_template_part(
 	'parts/page-header',
 	null,
@@ -68,8 +57,6 @@ get_template_part(
 		'image'   => syn_field_image_id( 'service_image', $syn_id ),
 		'cta'     => syn_field_link( 'service_cta', $syn_id ),
 		'cta_alt' => syn_field_link( 'service_cta_alt', $syn_id ),
-		'proof'   => $syn_proof,
-		'accent'  => $syn_service,
 	)
 );
 
@@ -143,6 +130,8 @@ if ( $syn_others ) {
 	);
 }
 
-syn_section( 'blog' );
+// No blog band here. Related insights belong on a service page in principle,
+// but only once posts are actually tagged to a service — an untargeted list of
+// the five most recent posts is filler, not a related read (removed 27 Aug).
 syn_section( 'final-cta' );
 get_footer();

@@ -41,7 +41,7 @@
 	font-size: var(--syn-step-2);
 	line-height: 1.15;
 	letter-spacing: -0.01em;
-	color: var(--syn-navy-deep);
+	color: var(--syn-navy);
 }
 
 .syn-capabilities__engagements {
@@ -114,20 +114,19 @@
 }
 
 .syn-capabilities__tab:hover {
-	color: var(--syn-navy-deep);
+	color: var(--syn-navy);
 }
 
 /*
  * The active marker is the brand cyan on all six pages, not the service accent.
  * The accents in theme.json are gradients, and a gradient cannot paint a 2px
  * border edge — border-image would, at the cost of a rule nobody reading this
- * later would enjoy. The accent still identifies the page: it carries the hero
- * and the panel rule in §4, which is where it is actually legible.
+ * later would enjoy.
  */
 .syn-capabilities__tab[aria-selected="true"] {
 	border-inline-start-color: var(--syn-cyan);
 	background-color: var(--syn-paper);
-	color: var(--syn-navy-deep);
+	color: var(--syn-navy);
 }
 
 .syn-capabilities__tab-number {
@@ -164,10 +163,13 @@
 }
 
 /*
- * The one thing that differs across the six service pages. Written out per
- * service rather than assembled from the slug, exactly as services.css does it,
- * so every selector here is findable by searching for it (CLAUDE.md §13).
- * Values come from theme.json's serviceAccent set — nothing new is defined.
+ * The one place a service accent appears on this page, and it is 40x3 pixels.
+ * That is deliberate: the accents are card-sized on the homepage, and the hero
+ * dropped them on 27 Aug because at full-bleed scale they read as a different
+ * brand rather than as an accent. Written out per service rather than assembled
+ * from the slug, exactly as services.css does it, so every selector here is
+ * findable by searching for it (CLAUDE.md §13). Values come from theme.json's
+ * serviceAccent set — nothing new is defined.
  */
 .syn-capabilities__rule {
 	display: block;
@@ -205,7 +207,7 @@
 	font-size: var(--syn-step-2);
 	line-height: 1.15;
 	letter-spacing: -0.01em;
-	color: var(--syn-navy-deep);
+	color: var(--syn-navy);
 }
 
 .syn-capabilities__panel-body {
@@ -233,7 +235,7 @@
 	padding-inline: 0.875rem;
 	border-radius: 999px;
 	background-color: var(--syn-cyan-soft);
-	color: var(--syn-navy-deep);
+	color: var(--syn-navy);
 	font-size: 0.8125rem;
 	font-weight: 600;
 }

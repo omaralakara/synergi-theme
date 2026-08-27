@@ -31,10 +31,21 @@
    2. Shell and glow
    ========================================================================== */
 
+/*
+ * The brand blue band, built the same way sections/numbers.css builds its own:
+ * navy carried towards cyan at the top and towards navy-deep at the foot, with
+ * one soft cyan bloom. Ink was tried first and read as near-black rather than as
+ * Synergi's blue, which is why this now mirrors the band already approved on the
+ * homepage instead of inventing a second dark surface.
+ */
 .syn-process {
 	position: relative;
 	overflow: hidden;
-	background-color: var(--syn-ink);
+	background-color: var(--syn-navy);
+	background-image:
+		radial-gradient(50rem 28rem at 92% 118%, color-mix(in srgb, var(--syn-navy-deep) 52%, transparent), transparent 62%),
+		radial-gradient(40rem 22rem at 2% -14%, color-mix(in srgb, var(--syn-cyan) 20%, transparent), transparent 60%),
+		linear-gradient(180deg, color-mix(in srgb, var(--syn-navy) 84%, var(--syn-cyan)) 0%, var(--syn-navy) 50%, color-mix(in srgb, var(--syn-navy) 66%, var(--syn-navy-deep)) 100%);
 	color: var(--syn-white);
 }
 
@@ -45,7 +56,7 @@
 	inline-size: 35rem;
 	block-size: 35rem;
 	border-radius: 50%;
-	background-color: color-mix(in srgb, var(--syn-cyan) 7%, transparent);
+	background-color: color-mix(in srgb, var(--syn-cyan) 9%, transparent);
 	pointer-events: none;
 }
 

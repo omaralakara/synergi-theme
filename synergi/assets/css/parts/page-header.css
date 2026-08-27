@@ -1,7 +1,7 @@
 /*
  * page-header.css — the title band at the top of a singular view.
  * Contents: 1 the band · 2 narrow screens · 3 the service hero ·
- * 4 service accents · 5 the hero on narrow screens.
+ * 4 the hero on narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-page-header", on singular views only,
  * depending on the "synergi-base" handle. Markup: parts/page-header.php.
@@ -81,29 +81,27 @@
    photograph, which is what switches the band into its two-column form. An
    ordinary page or post never matches any of it, so nothing here changes what
    the band has always rendered.
+
+   The band stays on the brand navy. theme.json's six serviceAccent gradients
+   are card-sized accents on the homepage — teal, bronze, violet — and at
+   full-bleed hero scale they stop reading as an accent and start reading as a
+   different brand. The six service pages are told apart by their photograph
+   instead, which is also why each one uses the picture already on its live page.
    ========================================================================== */
 
 .syn-page-header--hero {
 	position: relative;
 	overflow: hidden;
 	padding-block-end: 4.5rem;
-	background-color: var(--syn-ink);
-}
-
-/*
- * Decoration with no meaning. It is a pseudo-element rather than a span so it
- * costs no markup and can never be read out.
- */
-.syn-page-header--hero::before {
-	position: absolute;
-	inset-block-start: -10rem;
-	inset-inline-start: -7.5rem;
-	inline-size: 32.5rem;
-	block-size: 32.5rem;
-	border-radius: 50%;
-	background-color: color-mix(in srgb, var(--syn-white) 5%, transparent);
-	content: "";
-	pointer-events: none;
+	/*
+	 * The same family as the numbers band: navy carried towards cyan at the top
+	 * and towards navy-deep at the foot, with one soft cyan bloom. Built from
+	 * the palette with color-mix() rather than restated as hexes.
+	 */
+	background-color: var(--syn-navy);
+	background-image:
+		radial-gradient(46rem 26rem at 6% -20%, color-mix(in srgb, var(--syn-cyan) 20%, transparent), transparent 62%),
+		linear-gradient(180deg, color-mix(in srgb, var(--syn-navy) 88%, var(--syn-cyan)) 0%, var(--syn-navy) 52%, color-mix(in srgb, var(--syn-navy) 62%, var(--syn-navy-deep)) 100%);
 }
 
 .syn-page-header--hero .syn-page-header__inner {
@@ -126,37 +124,6 @@
 	margin-block-start: var(--syn-space-5);
 }
 
-.syn-page-header__proof {
-	display: flex;
-	flex-wrap: wrap;
-	gap: var(--syn-space-6);
-	margin-block-start: var(--syn-space-5);
-	margin-inline: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.syn-page-header__figure-value {
-	display: block;
-	font-size: var(--syn-step-2);
-	font-weight: 800;
-	line-height: 1;
-}
-
-/*
- * 62% white on ink measures 4.6:1, which clears §9's 4.5 floor for this size.
- * Anything lighter reads better and fails; anything darker fails outright.
- */
-.syn-page-header__figure-label {
-	display: block;
-	margin-block-start: 0.375rem;
-	color: color-mix(in srgb, var(--syn-white) 62%, transparent);
-	font-size: 0.7875rem;
-	font-weight: 600;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-}
-
 .syn-page-header__media {
 	overflow: hidden;
 	border-start-end-radius: 4rem;
@@ -173,39 +140,7 @@
 }
 
 /* ==========================================================================
-   4. Service accents
-   The one thing that differs across the six service pages. Written out per
-   service rather than assembled from the slug, so every selector here is
-   findable by searching for it (CLAUDE.md §13). Values come from theme.json's
-   serviceAccent set — nothing new is defined.
-   ========================================================================== */
-
-.syn-page-header--hero[data-service="accounting"] {
-	background-image: var(--syn-service-accounting);
-}
-
-.syn-page-header--hero[data-service="human-resources"] {
-	background-image: var(--syn-service-human-resources);
-}
-
-.syn-page-header--hero[data-service="marketing"] {
-	background-image: var(--syn-service-marketing);
-}
-
-.syn-page-header--hero[data-service="procurement"] {
-	background-image: var(--syn-service-procurement);
-}
-
-.syn-page-header--hero[data-service="project-management"] {
-	background-image: var(--syn-service-project-management);
-}
-
-.syn-page-header--hero[data-service="technology-ai"] {
-	background-image: var(--syn-service-technology-ai);
-}
-
-/* ==========================================================================
-   5. The hero on narrow screens
+   4. The hero on narrow screens
    ========================================================================== */
 
 @media (max-width: 62rem) {
@@ -215,7 +150,6 @@
 		gap: var(--syn-space-5);
 	}
 
-	/* Copy first, photograph after it — the heading is why the reader is here. */
 	.syn-page-header--hero .syn-page-header__media {
 		border-start-end-radius: 2.75rem;
 		border-end-start-radius: 2.75rem;
@@ -223,10 +157,6 @@
 
 	.syn-page-header__image {
 		max-block-size: 15rem;
-	}
-
-	.syn-page-header__proof {
-		gap: var(--syn-space-4);
 	}
 }
 

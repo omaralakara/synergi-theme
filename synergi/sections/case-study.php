@@ -101,6 +101,7 @@ $syn_uid = wp_unique_id( 'syn-case-' );
 			<?php endif; ?>
 
 			<?php if ( $syn_scope ) : ?>
+				<p class="syn-case__scope-label"><?php esc_html_e( 'Scope of work', 'synergi' ); ?></p>
 				<ul class="syn-case__scope">
 					<?php foreach ( $syn_scope as $syn_item ) : ?>
 						<li class="syn-case__scope-item">

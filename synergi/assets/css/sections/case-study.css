@@ -1,15 +1,19 @@
 /*
  * case-study.css — the service page's proof point.
- * Contents: 1 shell · 2 media · 3 body · 4 scope list · 5 narrow screens.
+ * Contents: 1 shell · 2 media · 3 the card · 4 heading and brief ·
+ * 5 scope list · 6 reduced motion · 7 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-case-study", only on pages that
  * declare the section. Markup: sections/case-study.php. No script.
  *
- * The asymmetric image frame is the homepage's signature, not a decoration
- * invented here: two opposite corners rounded, two square, matching the button's
- * square-leading-edge shape.
+ * The composition is the one the homepage uses for its own paired bands: a tall
+ * photograph in the asymmetric frame, and a white card that overlaps it. The
+ * overlap is what makes the two read as one object rather than as a picture
+ * sitting next to a paragraph — and it is why the grid columns overlap by a
+ * negative margin rather than simply sitting side by side.
  *
- * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * Colours follow the homepage exactly: headings navy, body text-soft. Nothing
+ * here defines a colour of its own (CLAUDE.md §2.7). Logical properties only
  * (CLAUDE.md §2.11).
  */
 
@@ -18,13 +22,28 @@
    ========================================================================== */
 
 .syn-case {
+	position: relative;
+	overflow: hidden;
 	background-color: var(--syn-paper-blue);
 }
 
+/* One soft bloom, the same device the numbers band uses. Decoration only. */
+.syn-case::before {
+	position: absolute;
+	inset-block-start: -14rem;
+	inset-inline-end: -10rem;
+	inline-size: 34rem;
+	block-size: 34rem;
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--syn-cyan) 9%, transparent);
+	content: "";
+	pointer-events: none;
+}
+
 .syn-case__inner {
+	position: relative;
 	display: grid;
-	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-	gap: var(--syn-space-6);
+	grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
 	align-items: center;
 }
 
@@ -43,34 +62,56 @@
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
-	max-block-size: 24rem;
+	min-block-size: 26rem;
 	object-fit: cover;
 }
 
 /* ==========================================================================
-   3. Body
+   3. The card
+   ========================================================================== */
+
+.syn-case__body {
+	position: relative;
+	z-index: 1;
+	padding: var(--syn-space-6) var(--syn-space-6) 2.75rem;
+	/* Pulls the card back over the photograph so the two overlap. */
+	margin-inline-start: calc(var(--syn-space-6) * -1);
+	border-radius: var(--syn-radius-lg);
+	border-start-end-radius: 3rem;
+	background-color: var(--syn-white);
+	box-shadow: var(--syn-shadow-soft);
+}
+
+/* ==========================================================================
+   4. Heading and brief
    ========================================================================== */
 
 .syn-case__title {
+	margin-block-start: var(--syn-space-1);
 	font-size: var(--syn-step-2);
 	line-height: 1.15;
 	letter-spacing: -0.01em;
-	color: var(--syn-navy-deep);
+	color: var(--syn-navy);
 }
 
 .syn-case__client {
-	margin-block-start: var(--syn-space-1);
+	margin-block-start: var(--syn-space-2);
+	padding-block: 0.375rem;
+	padding-inline: 0.75rem;
+	display: inline-block;
+	border-radius: var(--syn-radius-sm);
+	background-color: var(--syn-paper-blue);
 	color: var(--syn-text-soft);
-	font-size: var(--syn-step--1);
+	font-size: 0.75rem;
 	font-weight: 700;
-	letter-spacing: 0.09em;
+	letter-spacing: 0.08em;
 	text-transform: uppercase;
 }
 
 .syn-case__brief {
 	margin-block-start: var(--syn-space-4);
 	color: var(--syn-text-soft);
-	line-height: 1.7;
+	line-height: 1.75;
 }
 
 .syn-case__action {
@@ -78,42 +119,72 @@
 }
 
 /* ==========================================================================
-   4. Scope list
+   5. Scope list
+   A labelled block rather than a bare list: "what we did" is the part a reader
+   scans for, and an unheaded row of ticks does not say that.
    ========================================================================== */
+
+.syn-case__scope-label {
+	margin-block-start: var(--syn-space-5);
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
 
 .syn-case__scope {
 	display: flex;
 	flex-direction: column;
 	gap: var(--syn-space-2);
-	margin-block-start: var(--syn-space-5);
+	margin-block-start: var(--syn-space-3);
 	margin-inline: 0;
-	padding: 0;
+	padding-block-start: var(--syn-space-3);
+	padding-inline: 0;
+	border-block-start: 1px solid var(--syn-border);
 	list-style: none;
 }
 
 .syn-case__scope-item {
 	display: flex;
 	align-items: flex-start;
-	gap: var(--syn-space-2);
-	line-height: 1.55;
+	gap: 0.875rem;
+	line-height: 1.6;
+	color: var(--syn-text);
 }
 
 .syn-case__tick {
 	flex: 0 0 auto;
-	inline-size: 1.125rem;
-	block-size: 1.125rem;
-	margin-block-start: 0.1875rem;
+	inline-size: 1.375rem;
+	block-size: 1.375rem;
+	padding: 0.25rem;
+	margin-block-start: 0.0625rem;
+	border-radius: 50%;
+	background-color: var(--syn-cyan-soft);
 	color: var(--syn-navy);
 }
 
 /* ==========================================================================
-   5. Narrow screens
+   6. Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-case__body {
+		transition: none;
+	}
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   The overlap is the first thing to go: below the two-column breakpoint there
+   is nothing to overlap with, and a negative margin would just clip the card.
    ========================================================================== */
 
 @media (max-width: 62rem) {
+
 	.syn-case__inner {
 		grid-template-columns: minmax(0, 1fr);
-		gap: var(--syn-space-5);
 	}
 
 	.syn-case__media {
@@ -122,6 +193,23 @@
 	}
 
 	.syn-case__image {
+		min-block-size: 0;
 		max-block-size: 15rem;
+	}
+
+	.syn-case__body {
+		margin-inline-start: 0;
+		margin-block-start: calc(var(--syn-space-5) * -1);
+		margin-inline-end: var(--syn-space-3);
+		padding: var(--syn-space-5) var(--syn-space-4) var(--syn-space-5);
+		border-start-end-radius: 2rem;
+	}
+}
+
+@media (max-width: 30rem) {
+
+	.syn-case__body {
+		margin-inline-end: 0;
+		margin-block-start: var(--syn-space-4);
 	}
 }
