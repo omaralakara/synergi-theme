@@ -73,15 +73,25 @@ $syn_uid = wp_unique_id( 'syn-values-' );
 	<div class="syn-container syn-values__inner">
 
 		<div class="syn-values__head syn-reveal">
-			<?php if ( '' !== $syn_eyebrow ) : ?>
-				<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
-			<?php endif; ?>
+			<?php
+			/*
+			 * The words are wrapped because the head is a two-column grid whose
+			 * second column is the picture. Without this, the heading and the
+			 * opening line would each be auto-placed into a cell of their own and
+			 * the title would land beside the eyebrow instead of under it.
+			 */
+			?>
+			<div class="syn-values__copy">
+				<?php if ( '' !== $syn_eyebrow ) : ?>
+					<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
+				<?php endif; ?>
 
-			<h2 class="syn-values__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
+				<h2 class="syn-values__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
 
-			<?php if ( '' !== $syn_intro ) : ?>
-				<p class="syn-values__intro"><?php echo esc_html( $syn_intro ); ?></p>
-			<?php endif; ?>
+				<?php if ( '' !== $syn_intro ) : ?>
+					<p class="syn-values__intro"><?php echo esc_html( $syn_intro ); ?></p>
+				<?php endif; ?>
+			</div>
 
 			<?php if ( $syn_image ) : ?>
 				<div class="syn-values__media">

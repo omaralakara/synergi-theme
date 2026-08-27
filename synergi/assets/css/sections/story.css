@@ -71,39 +71,53 @@
    ========================================================================== */
 
 .syn-story__pillars {
-	display: flex;
-	flex-direction: column;
-	gap: var(--syn-space-6);
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+	gap: var(--syn-space-4);
 }
 
+/*
+ * Two statements, side by side, each a card rather than a full-width band of
+ * its own (28 Aug). Alternating picture-then-words rows read as a slideshow and
+ * pushed the values band most of a screen further down; a pair reads as what it
+ * is — one claim about purpose and one about ambition, of equal weight.
+ *
+ * The soft blue is the surface the team cards use, so the two pages that
+ * describe the company look like each other.
+ */
 .syn-story__pillar {
 	display: flex;
-	flex-wrap: wrap;
-	gap: var(--syn-space-5);
-	align-items: center;
+	overflow: hidden;
+	flex-direction: column;
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-paper-blue);
+	box-shadow: var(--syn-shadow-card);
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
 }
 
-.syn-story__pillar:nth-child(even) {
-	flex-direction: row-reverse;
+@media (hover: hover) {
+
+	.syn-story__pillar:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--syn-shadow-soft);
+	}
 }
 
 .syn-story__pillar-media {
-	flex: 1 1 24rem;
-	overflow: hidden;
-	border-radius: var(--syn-radius-lg);
-	box-shadow: var(--syn-shadow-card);
+	flex: none;
 }
 
 .syn-story__pillar-image {
 	display: block;
 	inline-size: 100%;
-	block-size: 100%;
-	aspect-ratio: 3 / 2;
+	aspect-ratio: 16 / 9;
 	object-fit: cover;
 }
 
 .syn-story__pillar-copy {
-	flex: 1 1 22rem;
+	padding: var(--syn-space-4);
 }
 
 .syn-story__pillar-title {
@@ -142,15 +156,9 @@
 		gap: var(--syn-space-3);
 	}
 
-	/*
-	 * row-reverse on a single column would put the picture under the words on
-	 * every second card and above them on the rest, which reads as a mistake.
-	 * Stacked, every card is picture then words.
-	 */
-	.syn-story__pillar,
-	.syn-story__pillar:nth-child(even) {
-		flex-direction: column;
-		align-items: stretch;
-		gap: var(--syn-space-3);
+	/* The pair stacks on its own through auto-fit; only the intro needs telling.
+	   Kept as a rule so the card padding tightens with everything else. */
+	.syn-story__pillar-copy {
+		padding: var(--syn-space-3);
 	}
 }

@@ -1,14 +1,14 @@
 /*
  * values.css — About Us: the pillars the company works to.
- * Contents: 1 shell · 2 the heading column · 3 the list · 4 narrow screens.
+ * Contents: 1 shell · 2 the head · 3 the list · 4 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-values", only on pages that
  * declare the section. Markup: sections/values.php. No script.
  *
- * A sticky heading column beside a numbered list. The counter is drawn by CSS
- * from the <ol>'s own numbering, so a value moved in the editor renumbers
- * itself and the markup never carries a number that can disagree with its
- * position.
+ * A head across the width — the words beside the picture — over a grid of
+ * numbered cards. The counter is drawn by CSS from the <ol>'s own numbering, so
+ * a value moved in the editor renumbers itself and the markup never carries a
+ * number that can disagree with its position.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
  * (CLAUDE.md §2.11).
@@ -22,11 +22,14 @@
 	background-color: var(--syn-paper);
 }
 
+/*
+ * One column, not two (28 Aug). The heading used to sit in a sticky 4fr rail
+ * beside the list, which held the six values inside half the page and made a
+ * short band feel cramped. The head now spans the width and the values get all
+ * of it.
+ */
 .syn-values__inner {
-	display: grid;
-	grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
-	gap: var(--syn-space-6);
-	align-items: start;
+	display: block;
 }
 
 /* ==========================================================================
@@ -34,10 +37,11 @@
    ========================================================================== */
 
 .syn-values__head {
-	position: sticky;
-
-	/* Clears the fixed site header, which is why this is not simply 0. */
-	inset-block-start: calc(var(--syn-header-height) + var(--syn-space-2));
+	display: grid;
+	grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+	gap: var(--syn-space-5);
+	align-items: center;
+	margin-block-end: var(--syn-space-6);
 }
 
 .syn-values__title {
@@ -54,9 +58,10 @@
 	line-height: 1.7;
 }
 
+/* The head has exactly two children — the words and this — so the columns are
+   filled by document order and nothing needs placing by hand. */
 .syn-values__media {
 	overflow: hidden;
-	margin-block-start: var(--syn-space-4);
 	border-radius: var(--syn-radius-lg);
 	box-shadow: var(--syn-shadow-card);
 }
@@ -74,7 +79,7 @@
 
 .syn-values__list {
 	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
 	gap: var(--syn-space-3);
 	margin: 0;
 	padding: 0;
@@ -89,12 +94,17 @@
 	border-radius: var(--syn-radius-lg);
 	background-color: var(--syn-white);
 	counter-increment: syn-values;
-	transition: box-shadow var(--syn-duration) var(--syn-ease-out);
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
 }
 
 @media (hover: hover) {
 
 	.syn-values__item:hover {
+		transform: translateY(-3px);
+		border-color: var(--syn-cyan);
 		box-shadow: var(--syn-shadow-card);
 	}
 }
@@ -133,15 +143,10 @@
 
 @media (max-width: 61.25rem) {
 
-	.syn-values__inner {
+	/* The picture drops under the words rather than squeezing them. */
+	.syn-values__head {
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--syn-space-4);
-	}
-
-	/* Sticky inside a single column would pin the heading over the list it
-	   introduces, so it stops being sticky rather than being restyled. */
-	.syn-values__head {
-		position: static;
 	}
 }
 
