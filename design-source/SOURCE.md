@@ -26,7 +26,7 @@ The Montserrat font is **not** duplicated here — `reference/montserrat-latin.w
 
 **This snapshot can go stale.** The live source is edited directly on production, versioned by copying filenames (39 `.bak*` files existed alongside these on 18–19 Aug 2026). Before Stage 5, re-pull from staging and diff against this folder. If it has changed, the newer version wins — and say so in the commit message.
 
-**There are 7 icons but only 5 service pages.** A `project-management` icon exists with no page behind it. Do not invent a sixth service line; ask what it was for.
+**There are 7 icons and six service lines.** ~~There are 7 icons but only 5 service pages... do not invent a sixth service line~~ — **superseded 26 Aug.** The stakeholder content structure names six service lines: HR, Technology & AI, Marketing, Procurement, Accounting and **Project Management**. The seventh icon is the favicon. See CLAUDE.md §12a note 2 and `sitemap-and-navigation.md` §2.3, which are the authority. Homepage section 02 already renders all six.
 
 ## Excluded deliberately
 
