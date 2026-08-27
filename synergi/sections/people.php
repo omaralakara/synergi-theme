@@ -209,9 +209,24 @@ $syn_uid = wp_unique_id( 'syn-people-' );
 									<p class="syn-people__role"><?php echo esc_html( $syn_person['role'] ); ?></p>
 								<?php endif; ?>
 
-								<?php if ( '' !== $syn_person['bio'] ) : ?>
-									<p class="syn-people__bio"><?php echo esc_html( $syn_person['bio'] ); ?></p>
-								<?php endif; ?>
+								<?php
+								/*
+								 * A biography arrives as one textarea and can
+								 * hold several paragraphs. Printed whole it
+								 * would be one block with the line breaks
+								 * swallowed, so a blank line starts a new
+								 * paragraph — the same convention a person
+								 * typing into a box already expects.
+								 */
+								foreach ( preg_split( '/\R\s*\R/u', $syn_person['bio'], -1, PREG_SPLIT_NO_EMPTY ) as $syn_para ) :
+									$syn_para = trim( $syn_para );
+
+									if ( '' === $syn_para ) {
+										continue;
+									}
+									?>
+									<p class="syn-people__bio"><?php echo esc_html( $syn_para ); ?></p>
+								<?php endforeach; ?>
 
 								<?php if ( '' !== $syn_person['linkedin'] ) : ?>
 									<?php
