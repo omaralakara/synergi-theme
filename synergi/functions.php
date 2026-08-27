@@ -51,5 +51,9 @@ require_once SYN_DIR . 'inc/fields.php';
 // with two different stores (CLAUDE.md §7a), which is why they are two files.
 require_once SYN_DIR . 'inc/records.php';
 
+// Which fields exist, as opposed to how a field works. Last of the three so it
+// can read the records registry when it builds its choices.
+require_once SYN_DIR . 'inc/service-fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';

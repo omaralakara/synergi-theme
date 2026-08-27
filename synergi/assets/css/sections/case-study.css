@@ -1,0 +1,127 @@
+/*
+ * case-study.css — the service page's proof point.
+ * Contents: 1 shell · 2 media · 3 body · 4 scope list · 5 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-case-study", only on pages that
+ * declare the section. Markup: sections/case-study.php. No script.
+ *
+ * The asymmetric image frame is the homepage's signature, not a decoration
+ * invented here: two opposite corners rounded, two square, matching the button's
+ * square-leading-edge shape.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-case {
+	background-color: var(--syn-paper-blue);
+}
+
+.syn-case__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+	gap: var(--syn-space-6);
+	align-items: center;
+}
+
+/* ==========================================================================
+   2. Media
+   ========================================================================== */
+
+.syn-case__media {
+	overflow: hidden;
+	border-start-end-radius: 4rem;
+	border-end-start-radius: 4rem;
+	box-shadow: var(--syn-shadow-soft);
+}
+
+.syn-case__image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	max-block-size: 24rem;
+	object-fit: cover;
+}
+
+/* ==========================================================================
+   3. Body
+   ========================================================================== */
+
+.syn-case__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy-deep);
+}
+
+.syn-case__client {
+	margin-block-start: var(--syn-space-1);
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.09em;
+	text-transform: uppercase;
+}
+
+.syn-case__brief {
+	margin-block-start: var(--syn-space-4);
+	color: var(--syn-text-soft);
+	line-height: 1.7;
+}
+
+.syn-case__action {
+	margin-block-start: var(--syn-space-5);
+}
+
+/* ==========================================================================
+   4. Scope list
+   ========================================================================== */
+
+.syn-case__scope {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-2);
+	margin-block-start: var(--syn-space-5);
+	margin-inline: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-case__scope-item {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--syn-space-2);
+	line-height: 1.55;
+}
+
+.syn-case__tick {
+	flex: 0 0 auto;
+	inline-size: 1.125rem;
+	block-size: 1.125rem;
+	margin-block-start: 0.1875rem;
+	color: var(--syn-navy);
+}
+
+/* ==========================================================================
+   5. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 62rem) {
+	.syn-case__inner {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-5);
+	}
+
+	.syn-case__media {
+		border-start-end-radius: 2.75rem;
+		border-end-start-radius: 2.75rem;
+	}
+
+	.syn-case__image {
+		max-block-size: 15rem;
+	}
+}

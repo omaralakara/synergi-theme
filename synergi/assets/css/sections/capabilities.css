@@ -1,0 +1,289 @@
+/*
+ * capabilities.css — the service page's "what this covers" explorer.
+ * Contents: 1 shell · 2 head and engagement chips · 3 tab rail ·
+ * 4 panels · 5 tags · 6 enhanced state · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-capabilities", only on pages
+ * that declare the section. Markup: sections/capabilities.php.
+ * Behaviour: assets/js/sections/capabilities.js.
+ *
+ * The unenhanced state is the base: every panel visible, no rail. Everything
+ * the script does is expressed through [data-syn-enhanced] in §6, so reading
+ * this file top to bottom shows the no-JavaScript page first and the
+ * enhancement second — which is the order they actually happen in.
+ *
+ * No hard-coded design values: every colour, size and radius resolves to a
+ * theme.json custom property through the base.css alias layer (CLAUDE.md §2.7).
+ * Logical properties only (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-capabilities {
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. Head and engagement chips
+   ========================================================================== */
+
+.syn-capabilities__head {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: var(--syn-space-5);
+	align-items: end;
+	margin-block-end: var(--syn-space-6);
+}
+
+.syn-capabilities__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy-deep);
+}
+
+.syn-capabilities__engagements {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-3);
+}
+
+.syn-capabilities__engagements-label {
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+
+.syn-capabilities__chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.625rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-capabilities__chip {
+	padding-block: 0.5rem;
+	padding-inline: 1rem;
+	border: 1px solid var(--syn-border);
+	border-radius: 999px;
+	background-color: var(--syn-paper-blue);
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 600;
+}
+
+/* ==========================================================================
+   3. Tab rail
+   ========================================================================== */
+
+.syn-capabilities__tabs {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin: 0;
+	padding: 0;
+	border-inline-start: 2px solid var(--syn-border);
+	list-style: none;
+}
+
+.syn-capabilities__tab {
+	display: flex;
+	inline-size: 100%;
+	align-items: baseline;
+	gap: 0.875rem;
+	padding-block: 0.9375rem;
+	padding-inline: 1.125rem;
+	border: 0;
+	border-inline-start: 2px solid transparent;
+	margin-inline-start: -2px;
+	background-color: transparent;
+	color: var(--syn-text-soft);
+	font-family: inherit;
+	cursor: pointer;
+	text-align: start;
+	transition:
+		background-color var(--syn-duration-fast),
+		color var(--syn-duration-fast),
+		border-color var(--syn-duration-fast);
+}
+
+.syn-capabilities__tab:hover {
+	color: var(--syn-navy-deep);
+}
+
+/*
+ * The active marker is the brand cyan on all six pages, not the service accent.
+ * The accents in theme.json are gradients, and a gradient cannot paint a 2px
+ * border edge — border-image would, at the cost of a rule nobody reading this
+ * later would enjoy. The accent still identifies the page: it carries the hero
+ * and the panel rule in §4, which is where it is actually legible.
+ */
+.syn-capabilities__tab[aria-selected="true"] {
+	border-inline-start-color: var(--syn-cyan);
+	background-color: var(--syn-paper);
+	color: var(--syn-navy-deep);
+}
+
+.syn-capabilities__tab-number {
+	flex: 0 0 auto;
+	font-size: 0.775rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	opacity: 0.5;
+}
+
+.syn-capabilities__tab-title {
+	font-size: var(--syn-step-0);
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+/* ==========================================================================
+   4. Panels
+   ========================================================================== */
+
+.syn-capabilities__panels {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-4);
+}
+
+.syn-capabilities__panel {
+	padding: var(--syn-space-6) var(--syn-space-6) 2.75rem;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	border-start-end-radius: 3rem;
+	background-color: var(--syn-white);
+	box-shadow: var(--syn-shadow-card);
+}
+
+/*
+ * The one thing that differs across the six service pages. Written out per
+ * service rather than assembled from the slug, exactly as services.css does it,
+ * so every selector here is findable by searching for it (CLAUDE.md §13).
+ * Values come from theme.json's serviceAccent set — nothing new is defined.
+ */
+.syn-capabilities__rule {
+	display: block;
+	inline-size: 2.5rem;
+	block-size: 3px;
+	background-image: var(--syn-gradient-brand);
+}
+
+.syn-capabilities[data-service="accounting"] .syn-capabilities__rule {
+	background-image: var(--syn-service-accounting);
+}
+
+.syn-capabilities[data-service="human-resources"] .syn-capabilities__rule {
+	background-image: var(--syn-service-human-resources);
+}
+
+.syn-capabilities[data-service="marketing"] .syn-capabilities__rule {
+	background-image: var(--syn-service-marketing);
+}
+
+.syn-capabilities[data-service="procurement"] .syn-capabilities__rule {
+	background-image: var(--syn-service-procurement);
+}
+
+.syn-capabilities[data-service="project-management"] .syn-capabilities__rule {
+	background-image: var(--syn-service-project-management);
+}
+
+.syn-capabilities[data-service="technology-ai"] .syn-capabilities__rule {
+	background-image: var(--syn-service-technology-ai);
+}
+
+.syn-capabilities__panel-title {
+	margin-block-start: var(--syn-space-4);
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy-deep);
+}
+
+.syn-capabilities__panel-body {
+	margin-block-start: var(--syn-space-3);
+	color: var(--syn-text-soft);
+	line-height: 1.7;
+}
+
+/* ==========================================================================
+   5. Tags
+   ========================================================================== */
+
+.syn-capabilities__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.625rem;
+	margin-block-start: var(--syn-space-5);
+	margin-inline: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-capabilities__tag {
+	padding-block: 0.4375rem;
+	padding-inline: 0.875rem;
+	border-radius: 999px;
+	background-color: var(--syn-cyan-soft);
+	color: var(--syn-navy-deep);
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+/* ==========================================================================
+   6. Enhanced state — everything capabilities.js turns on
+   ========================================================================== */
+
+[data-syn-enhanced] .syn-capabilities__explorer,
+.syn-capabilities__explorer[data-syn-enhanced] {
+	display: grid;
+	grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+	gap: var(--syn-space-5);
+	align-items: start;
+}
+
+.syn-capabilities__explorer[data-syn-enhanced] .syn-capabilities__panel[hidden] {
+	display: none;
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 60rem) {
+	.syn-capabilities__head {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-4);
+		align-items: start;
+	}
+
+	/*
+	 * The rail is a second navigation layer that costs more than it earns on a
+	 * phone, where the panels are already one per screen. Hiding it returns the
+	 * section to its unenhanced shape: every capability, stacked, all readable.
+	 */
+	.syn-capabilities__explorer[data-syn-enhanced] {
+		display: block;
+	}
+
+	.syn-capabilities__explorer[data-syn-enhanced] .syn-capabilities__tabs {
+		display: none;
+	}
+
+	.syn-capabilities__explorer[data-syn-enhanced] .syn-capabilities__panel[hidden] {
+		display: block;
+	}
+
+	.syn-capabilities__panel {
+		padding: var(--syn-space-5) var(--syn-space-4) var(--syn-space-5);
+		border-start-end-radius: 2rem;
+	}
+}

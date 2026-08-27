@@ -1,0 +1,176 @@
+/*
+ * related-services.css — the "keep exploring" band at the foot of a service page.
+ * Contents: 1 shell · 2 head · 3 grid · 4 cards · 5 service accents ·
+ * 6 reduced motion · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-related-services", only on pages
+ * that declare the section. Markup: sections/related-services.php. No script.
+ *
+ * Deliberately small: five links, one accent each. The homepage's services deck
+ * does a different job and costs about nine times as much to render — see the
+ * partial's header for why this exists instead of reusing it.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-related {
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. Head
+   ========================================================================== */
+
+.syn-related__head {
+	margin-block-end: var(--syn-space-5);
+}
+
+.syn-related__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy-deep);
+}
+
+/* ==========================================================================
+   3. Grid
+   auto-fit rather than a fixed five: the record decides how many lines exist,
+   so the band has to look right at four, five or six without a media query per
+   count.
+   ========================================================================== */
+
+.syn-related__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	gap: var(--syn-space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* ==========================================================================
+   4. Cards
+   ========================================================================== */
+
+.syn-related__card {
+	display: flex;
+	block-size: 100%;
+	min-block-size: 10.625rem;
+	flex-direction: column;
+	justify-content: flex-end;
+	padding: var(--syn-space-4) 1.25rem;
+	border-radius: var(--syn-radius-lg);
+	border-start-end-radius: 2.125rem;
+	background-color: var(--syn-navy);
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+	text-decoration: none;
+	transition:
+		transform var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration-fast);
+}
+
+a.syn-related__card:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--syn-shadow-card);
+	color: var(--syn-white);
+}
+
+.syn-related__name {
+	font-size: var(--syn-step-0);
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.syn-related__more {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-block-start: 0.625rem;
+	color: color-mix(in srgb, var(--syn-white) 68%, transparent);
+	font-size: 0.7875rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.syn-related__arrow {
+	transition: transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+a.syn-related__card:hover .syn-related__arrow {
+	transform: translateX(0.25rem);
+}
+
+/* ==========================================================================
+   5. Service accents
+   Written out per service rather than assembled from the slug, so every
+   selector is findable by searching for it (CLAUDE.md §13). Values come from
+   theme.json's serviceAccent set — nothing new is defined.
+   ========================================================================== */
+
+.syn-related__card[data-service="accounting"] {
+	background-image: var(--syn-service-accounting);
+}
+
+.syn-related__card[data-service="human-resources"] {
+	background-image: var(--syn-service-human-resources);
+}
+
+.syn-related__card[data-service="marketing"] {
+	background-image: var(--syn-service-marketing);
+}
+
+.syn-related__card[data-service="procurement"] {
+	background-image: var(--syn-service-procurement);
+}
+
+.syn-related__card[data-service="project-management"] {
+	background-image: var(--syn-service-project-management);
+}
+
+.syn-related__card[data-service="technology-ai"] {
+	background-image: var(--syn-service-technology-ai);
+}
+
+/* ==========================================================================
+   6. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-related__card,
+	.syn-related__arrow {
+		transition: none;
+	}
+
+	a.syn-related__card:hover {
+		transform: none;
+	}
+
+	a.syn-related__card:hover .syn-related__arrow {
+		transform: none;
+	}
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 48rem) {
+
+	.syn-related__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.syn-related__card {
+		min-block-size: 7.25rem;
+		border-start-end-radius: 1.75rem;
+	}
+}

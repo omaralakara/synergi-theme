@@ -1,0 +1,143 @@
+/*
+ * process.css — the service page's "how we work" band.
+ * Contents: 1 local tokens · 2 shell and glow · 3 head · 4 steps ·
+ * 5 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-process", only on pages that
+ * declare the section. Markup: sections/process.php. No script.
+ *
+ * A dark band between two light ones. The eyebrow is restyled under this
+ * section's own root rather than through a new modifier class, which is how
+ * numbers.css already handles the same problem — one shared component, recoloured
+ * where it lands on ink.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   Derived from the palette with color-mix() so the three text tiers on ink are
+   defined once here instead of being repeated down the file.
+   ========================================================================== */
+
+.syn-process {
+	--syn-process-body: color-mix(in srgb, var(--syn-white) 72%, transparent);
+	--syn-process-muted: color-mix(in srgb, var(--syn-white) 62%, transparent);
+	--syn-process-rule: color-mix(in srgb, var(--syn-white) 16%, transparent);
+}
+
+/* ==========================================================================
+   2. Shell and glow
+   ========================================================================== */
+
+.syn-process {
+	position: relative;
+	overflow: hidden;
+	background-color: var(--syn-ink);
+	color: var(--syn-white);
+}
+
+.syn-process__glow {
+	position: absolute;
+	inset-block-end: -12.5rem;
+	inset-inline-end: -8.75rem;
+	inline-size: 35rem;
+	block-size: 35rem;
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--syn-cyan) 7%, transparent);
+	pointer-events: none;
+}
+
+.syn-process__inner {
+	position: relative;
+}
+
+/* ==========================================================================
+   3. Head
+   ========================================================================== */
+
+.syn-process__head {
+	max-inline-size: 62ch;
+	margin-block-end: var(--syn-space-6);
+}
+
+.syn-process .syn-eyebrow {
+	color: var(--syn-mint);
+}
+
+.syn-process__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-white);
+}
+
+.syn-process__lede {
+	margin-block-start: var(--syn-space-3);
+	color: var(--syn-process-body);
+	font-size: var(--syn-step-1);
+	line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. Steps
+   ========================================================================== */
+
+.syn-process__steps {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--syn-space-5);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-process__step {
+	padding-block-start: var(--syn-space-4);
+	border-block-start: 2px solid var(--syn-process-rule);
+}
+
+.syn-process__number {
+	color: var(--syn-mint);
+	font-size: 0.7875rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+}
+
+.syn-process__step-title {
+	margin-block-start: 0.875rem;
+	color: var(--syn-white);
+	font-size: var(--syn-step-1);
+	font-weight: 700;
+	line-height: 1.25;
+}
+
+.syn-process__step-body {
+	margin-block-start: 0.625rem;
+	color: var(--syn-process-muted);
+	font-size: 0.96875rem;
+	line-height: 1.6;
+}
+
+/* ==========================================================================
+   5. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 62rem) {
+	.syn-process__steps {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 40rem) {
+	.syn-process__steps {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-4);
+	}
+
+	/* A 35rem circle on a 20rem screen is a wash, not an accent. */
+	.syn-process__glow {
+		display: none;
+	}
+}
