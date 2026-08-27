@@ -1,0 +1,156 @@
+/*
+ * story.css — About Us: who we are, then the mission and the vision.
+ * Contents: 1 shell · 2 the intro · 3 the statements · 4 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-story", only on pages that
+ * declare the section. Markup: sections/story.php. No script.
+ *
+ * The composition is the homepage's paired band, simplified: a two-column
+ * intro, then alternating picture-and-paragraph rows. Alternating is done with
+ * row-reverse rather than by putting a class on every second card, so the
+ * markup carries no idea of which side anything is on and the Arabic phase
+ * mirrors it for nothing (CLAUDE.md §2.11).
+ *
+ * No hard-coded design values: every colour, size and radius resolves to a
+ * theme.json custom property through the base.css alias layer (CLAUDE.md §2.7).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-story {
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. The intro
+   ========================================================================== */
+
+.syn-story__intro {
+	display: grid;
+	grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+	gap: var(--syn-space-5);
+	align-items: start;
+	margin-block-end: var(--syn-space-7);
+}
+
+.syn-story__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy);
+}
+
+.syn-story__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-2);
+}
+
+.syn-story__paragraph {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.75;
+}
+
+/*
+ * The first paragraph carries the weight of a standfirst. It is the sentence a
+ * reader who reads nothing else will read, which is a typographic job rather
+ * than a field an editor should have to know about.
+ */
+.syn-story__body > .syn-story__paragraph:first-child {
+	color: var(--syn-text);
+	font-size: var(--syn-step-1);
+	line-height: 1.55;
+}
+
+/* ==========================================================================
+   3. The statements
+   ========================================================================== */
+
+.syn-story__pillars {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-6);
+}
+
+.syn-story__pillar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--syn-space-5);
+	align-items: center;
+}
+
+.syn-story__pillar:nth-child(even) {
+	flex-direction: row-reverse;
+}
+
+.syn-story__pillar-media {
+	flex: 1 1 24rem;
+	overflow: hidden;
+	border-radius: var(--syn-radius-lg);
+	box-shadow: var(--syn-shadow-card);
+}
+
+.syn-story__pillar-image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+}
+
+.syn-story__pillar-copy {
+	flex: 1 1 22rem;
+}
+
+.syn-story__pillar-title {
+	margin-block-end: var(--syn-space-2);
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+}
+
+/* The cyan rule the eyebrow wears, borrowed so a statement reads as a heading
+   of the same family rather than as a stray <h3>. */
+.syn-story__pillar-title::before {
+	display: block;
+	inline-size: 2.25rem;
+	block-size: 2px;
+	margin-block-end: var(--syn-space-2);
+	background-color: var(--syn-cyan);
+	content: "";
+}
+
+.syn-story__pillar-text {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.75;
+}
+
+/* ==========================================================================
+   4. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-story__intro {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-3);
+	}
+
+	/*
+	 * row-reverse on a single column would put the picture under the words on
+	 * every second card and above them on the rest, which reads as a mistake.
+	 * Stacked, every card is picture then words.
+	 */
+	.syn-story__pillar,
+	.syn-story__pillar:nth-child(even) {
+		flex-direction: column;
+		align-items: stretch;
+		gap: var(--syn-space-3);
+	}
+}

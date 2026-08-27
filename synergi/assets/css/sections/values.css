@@ -1,0 +1,153 @@
+/*
+ * values.css — About Us: the pillars the company works to.
+ * Contents: 1 shell · 2 the heading column · 3 the list · 4 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-values", only on pages that
+ * declare the section. Markup: sections/values.php. No script.
+ *
+ * A sticky heading column beside a numbered list. The counter is drawn by CSS
+ * from the <ol>'s own numbering, so a value moved in the editor renumbers
+ * itself and the markup never carries a number that can disagree with its
+ * position.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-values {
+	background-color: var(--syn-paper);
+}
+
+.syn-values__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+	gap: var(--syn-space-6);
+	align-items: start;
+}
+
+/* ==========================================================================
+   2. The heading column
+   ========================================================================== */
+
+.syn-values__head {
+	position: sticky;
+
+	/* Clears the fixed site header, which is why this is not simply 0. */
+	inset-block-start: calc(var(--syn-header-height) + var(--syn-space-2));
+}
+
+.syn-values__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy);
+}
+
+.syn-values__intro {
+	margin-block-start: var(--syn-space-2);
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+}
+
+.syn-values__media {
+	overflow: hidden;
+	margin-block-start: var(--syn-space-4);
+	border-radius: var(--syn-radius-lg);
+	box-shadow: var(--syn-shadow-card);
+}
+
+.syn-values__image {
+	display: block;
+	inline-size: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;
+}
+
+/* ==========================================================================
+   3. The list
+   ========================================================================== */
+
+.syn-values__list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--syn-space-3);
+	margin: 0;
+	padding: 0;
+	counter-reset: syn-values;
+	list-style: none;
+}
+
+.syn-values__item {
+	position: relative;
+	padding: var(--syn-space-4);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	counter-increment: syn-values;
+	transition: box-shadow var(--syn-duration) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-values__item:hover {
+		box-shadow: var(--syn-shadow-card);
+	}
+}
+
+/*
+ * The number. Decoration on top of an <ol> that already says the same thing to
+ * assistive technology, so it is generated content rather than markup.
+ */
+.syn-values__item::before {
+	display: block;
+	margin-block-end: var(--syn-space-2);
+	color: var(--syn-cyan);
+	content: counter( syn-values, decimal-leading-zero );
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+}
+
+.syn-values__item-title {
+	margin-block-end: 0.5rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+}
+
+.syn-values__item-text {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+}
+
+/* ==========================================================================
+   4. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 61.25rem) {
+
+	.syn-values__inner {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-4);
+	}
+
+	/* Sticky inside a single column would pin the heading over the list it
+	   introduces, so it stops being sticky rather than being restyled. */
+	.syn-values__head {
+		position: static;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-values__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}

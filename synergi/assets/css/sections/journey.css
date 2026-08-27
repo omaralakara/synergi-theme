@@ -1,0 +1,90 @@
+/*
+ * journey.css — About Us: the company timeline graphic.
+ * Contents: 1 shell · 2 the heading · 3 the figure · 4 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-journey", only on pages that
+ * declare the section. Markup: sections/journey.php. No script.
+ *
+ * One wide diagram on the deep navy the numbers band uses, so the two dark
+ * bands on About Us sit either side of the values band and give the page a
+ * rhythm rather than three white screens in a row.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-journey {
+	background-color: var(--syn-navy-deep);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. The heading
+   ========================================================================== */
+
+.syn-journey__head {
+	max-inline-size: var(--syn-container-narrow);
+	margin-block-end: var(--syn-space-5);
+}
+
+/*
+ * The shared eyebrow is navy on white surfaces, which is invisible here. This
+ * is the component adjusted in context, not a second definition of it — the
+ * rule still lives once, in base.css §10 (CLAUDE.md §4).
+ */
+.syn-journey .syn-eyebrow {
+	color: var(--syn-mint);
+}
+
+.syn-journey__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-white);
+}
+
+.syn-journey__lede {
+	margin-block-start: var(--syn-space-2);
+
+	/* Not text-soft: that token is tuned for a white background and drops
+	   under 4.5:1 on this one (CLAUDE.md §9). */
+	color: var(--syn-cyan-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+}
+
+/* ==========================================================================
+   3. The figure
+   ========================================================================== */
+
+.syn-journey__figure {
+	margin: 0;
+	padding: var(--syn-space-3);
+	border: 1px solid var(--syn-border-dark);
+	border-radius: var(--syn-radius-lg);
+
+	/* A pale ground behind a diagram drawn for white paper. Without it the
+	   graphic's own white lines vanish into the navy. */
+	background-color: var(--syn-white);
+}
+
+.syn-journey__image {
+	display: block;
+	inline-size: 100%;
+	block-size: auto;
+}
+
+/* ==========================================================================
+   4. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-journey__figure {
+		padding: var(--syn-space-1);
+	}
+}

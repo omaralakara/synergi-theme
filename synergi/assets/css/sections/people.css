@@ -1,0 +1,200 @@
+/*
+ * people.css — the board, the advisors, the team.
+ * Contents: 1 shell · 2 group headings · 3 the grid · 4 the card ·
+ * 5 the profile card · 6 the LinkedIn link · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-people", only on pages that
+ * declare the section. Markup: sections/people.php. No script.
+ *
+ * Two card shapes from one component. A card with a biography spans the grid
+ * and lays its portrait beside the words; a card without one is a portrait with
+ * a name under it. The difference is a modifier on the card, written out in
+ * full in the markup so it can be found by searching for it (CLAUDE.md §13).
+ *
+ * Portraits arrive at every aspect ratio the media library holds — 300×300
+ * squares and 1920×2400 studio shots on the same page — so the frame fixes the
+ * ratio and the picture crops into it. Faces are near the top of a portrait, so
+ * the crop is anchored there rather than centred.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-people {
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. Group headings
+   ========================================================================== */
+
+.syn-people__group + .syn-people__group {
+	margin-block-start: var(--syn-space-7);
+}
+
+.syn-people__group-title {
+	margin-block-end: var(--syn-space-4);
+	color: var(--syn-navy);
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   3. The grid
+   ========================================================================== */
+
+.syn-people__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: var(--syn-space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* ==========================================================================
+   4. The card
+   ========================================================================== */
+
+.syn-people__person {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-2);
+}
+
+.syn-people__portrait {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	aspect-ratio: 4 / 5;
+	border-radius: var(--syn-radius-lg);
+
+	/* Also the ground behind the initials when there is no photograph. */
+	background-color: var(--syn-paper-blue);
+}
+
+.syn-people__photo {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+
+	/* Top, not centre: a portrait crops from the feet up, and centring it
+	   takes the top off the head on the tall studio shots. */
+	object-fit: cover;
+	object-position: center top;
+}
+
+.syn-people__initials {
+	color: var(--syn-navy);
+	font-size: var(--syn-step-3);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.syn-people__name {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+}
+
+.syn-people__role {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.syn-people__bio {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.75;
+}
+
+.syn-people__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	align-items: start;
+}
+
+/* ==========================================================================
+   5. The profile card — one with a biography
+   ========================================================================== */
+
+.syn-people__person--profile {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+	gap: var(--syn-space-4);
+	align-items: start;
+	padding: var(--syn-space-4);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-paper);
+}
+
+/*
+ * A profile card with no photograph keeps the frame and shows the person's
+ * initials in it. Collapsing the column instead would need :has(), and an
+ * advisor whose portrait is simply missing reads better as a placeholder than
+ * as a different card shape from the one beside it.
+ */
+
+/* ==========================================================================
+   6. The LinkedIn link
+   ========================================================================== */
+
+.syn-people__link {
+	display: inline-flex;
+	gap: 0.5rem;
+	align-items: center;
+	margin-block-start: 0.25rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	text-decoration: none;
+	transition: color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-people__link:hover {
+	color: var(--syn-cyan);
+}
+
+.syn-people__link-icon {
+	inline-size: 1.125rem;
+	block-size: 1.125rem;
+	flex: none;
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-people__grid {
+		grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+		gap: var(--syn-space-3);
+	}
+
+	.syn-people__person--profile {
+		grid-template-columns: minmax(0, 1fr);
+		padding: var(--syn-space-3);
+	}
+
+	/* A full-width portrait frame on a phone is a screen and a half of face
+	   before the words start. Capped, and left-aligned with the copy. */
+	.syn-people__person--profile .syn-people__portrait {
+		max-inline-size: 12rem;
+	}
+}

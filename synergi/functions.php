@@ -60,5 +60,9 @@ require_once SYN_DIR . 'inc/service-fields.php';
 // what an editor may change live next to the pages they belong to.
 require_once SYN_DIR . 'inc/homepage-fields.php';
 
+// The About Us family — About Us itself, Our Leadership and Engagement Team.
+// Added in Stage 6f, and a sibling of the two files above for the same reason.
+require_once SYN_DIR . 'inc/about-fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
