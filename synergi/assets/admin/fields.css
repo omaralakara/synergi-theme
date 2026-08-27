@@ -1,0 +1,207 @@
+/*
+ * fields.css — the hand-built page fields, in wp-admin only.
+ * Contents: admin token note · field block · link field · image field ·
+ * repeater (bar, controls, body) · rejection notice.
+ *
+ * Enqueued by inc/fields.php as "synergi-admin-fields", only on a post edit
+ * screen that shows a field box. Never loaded on the front end.
+ *
+ * Logical properties only, never left/right (CLAUDE.md §2.11). Selectors stay
+ * flat. There is no !important in this file and there should never be one: this
+ * stylesheet only ever styles markup that inc/fields.php wrote.
+ *
+ * ON HARD-CODED VALUES, and why this file is the one exception in the theme.
+ * CLAUDE.md §2.7 requires every design value to come from theme.json. theme.json
+ * emits its custom properties into the front end and into the block editor
+ * canvas — it does not emit them into wp-admin's own chrome, so nothing in here
+ * can resolve --wp--preset--*. The five values below are WordPress's own admin
+ * greys, not Synergi's brand: this is admin furniture and it should look like
+ * wp-admin, not like the website. They are declared once, here, and no rule
+ * below carries a literal. Everything else — buttons, inputs, focus rings,
+ * notices — uses core's admin classes and inherits core's styling untouched,
+ * which is also what keeps the focus outline visible (CLAUDE.md §9).
+ */
+
+.syn-fields {
+	--syn-admin-line: #dcdcde;
+	--syn-admin-line-strong: #c3c4c7;
+	--syn-admin-surface: #f6f7f7;
+	--syn-admin-muted: #646970;
+	--syn-admin-gap: 1rem;
+}
+
+/* ==========================================================================
+   1. The field block — one per field, whatever its type
+   ========================================================================== */
+
+.syn-field {
+	margin-block: 0 var(--syn-admin-gap);
+}
+
+.syn-field:last-child {
+	margin-block-end: 0;
+}
+
+.syn-field__label {
+	display: block;
+	font-weight: 600;
+	margin-block-end: 0.25rem;
+}
+
+.syn-field .description {
+	color: var(--syn-admin-muted);
+	margin-block: 0.35rem 0;
+}
+
+.syn-field__warning {
+	font-weight: 600;
+}
+
+.syn-field-group__description {
+	margin-block: 0 var(--syn-admin-gap);
+}
+
+/* ==========================================================================
+   2. Link field — an address and the words that go on it
+   ========================================================================== */
+
+.syn-link-field {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--syn-admin-gap);
+}
+
+.syn-link-field__part {
+	margin-block: 0;
+}
+
+.syn-link-field__part label {
+	display: block;
+	color: var(--syn-admin-muted);
+	margin-block-end: 0.15rem;
+}
+
+/* ==========================================================================
+   3. Image field
+   ========================================================================== */
+
+.syn-image-field {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--syn-admin-gap);
+	flex-wrap: wrap;
+}
+
+.syn-image-field__preview {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 8rem;
+	min-block-size: 5rem;
+	padding: 0.25rem;
+	border: 1px solid var(--syn-admin-line-strong);
+	background: var(--syn-admin-surface);
+}
+
+.syn-image-field__thumb {
+	display: block;
+	max-inline-size: 100%;
+	block-size: auto;
+}
+
+.syn-image-field__empty {
+	color: var(--syn-admin-muted);
+	font-size: 0.8125rem;
+	text-align: center;
+}
+
+.syn-image-field__actions {
+	margin-block: 0;
+}
+
+/* ==========================================================================
+   4. Repeater
+   ========================================================================== */
+
+.syn-repeater__rows {
+	margin-block-end: 0.75rem;
+}
+
+.syn-repeater__row {
+	border: 1px solid var(--syn-admin-line-strong);
+	margin-block-end: 0.5rem;
+	padding: 0;
+}
+
+.syn-repeater__bar {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.4rem 0.6rem;
+	border-block-end: 1px solid var(--syn-admin-line);
+	background: var(--syn-admin-surface);
+}
+
+.syn-repeater__number {
+	flex: 0 0 auto;
+	min-inline-size: 1.5rem;
+	font-weight: 600;
+	color: var(--syn-admin-muted);
+}
+
+.syn-repeater__title {
+	flex: 1 1 auto;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-weight: 600;
+}
+
+/*
+ * An untitled row still has to occupy its line, or the control cluster jumps
+ * about as rows are typed into.
+ */
+.syn-repeater__title.is-empty::before {
+	content: "—";
+	color: var(--syn-admin-muted);
+}
+
+.syn-repeater__controls {
+	flex: 0 0 auto;
+	display: flex;
+	gap: 0.25rem;
+}
+
+/*
+ * Unavailable rather than disabled: the button keeps its place in the tab order
+ * so focus is never stranded when a row reaches the top or the bottom of the
+ * list (CLAUDE.md §9). Only the appearance changes; fields.js does the ignoring.
+ */
+.syn-repeater__controls .is-unavailable,
+.syn-repeater__add .is-unavailable {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.syn-repeater__body {
+	padding: 0.75rem 0.6rem;
+}
+
+.syn-repeater__add {
+	margin-block: 0;
+}
+
+/* ==========================================================================
+   5. Rejection notice — printed inside the box by inc/fields.php §8
+   ========================================================================== */
+
+.syn-field-notice {
+	margin-block: 0 var(--syn-admin-gap);
+	margin-inline: 0;
+}
+
+.syn-field-notice ul {
+	list-style: disc;
+	margin-block: 0 0.5rem;
+	margin-inline-start: 1.5rem;
+}

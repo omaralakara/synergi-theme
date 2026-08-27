@@ -40,5 +40,11 @@ require_once SYN_DIR . 'inc/setup.php';
 require_once SYN_DIR . 'inc/assets.php';
 require_once SYN_DIR . 'inc/nav.php';
 require_once SYN_DIR . 'inc/sections.php';
+
+// After sections.php, because an image field falls back to that file's
+// syn_attachment_id_by_slug() when an editor has not chosen a picture yet
+// (CLAUDE.md §7b).
+require_once SYN_DIR . 'inc/fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
