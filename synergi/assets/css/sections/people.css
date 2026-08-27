@@ -1,15 +1,28 @@
 /*
  * people.css — the board, the advisors, the team.
  * Contents: 1 shell · 2 group headings · 3 the grid · 4 the card ·
- * 5 the profile card · 6 the LinkedIn link · 7 narrow screens.
+ * 5 the portrait · 6 the copy · 7 the LinkedIn link · 8 the profile card ·
+ * 9 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-people", only on pages that
  * declare the section. Markup: sections/people.php. No script.
  *
- * Two card shapes from one component. A card with a biography spans the grid
- * and lays its portrait beside the words; a card without one is a portrait with
- * a name under it. The difference is a modifier on the card, written out in
- * full in the markup so it can be found by searching for it (CLAUDE.md §13).
+ * THE CARD IS HORIZONTAL: a round portrait beside the name, the role and the
+ * LinkedIn link, three to a row. That arrangement is the one the Elementor page
+ * published and the one approved on 28 Aug — the rebuild keeps the reading
+ * order and changes only how it looks: the card is now a soft blue surface that
+ * floats on the white band and lifts under the pointer, rather than type sitting
+ * loose on the page.
+ *
+ * WHY THE NAME IS NAVY AND NOT CYAN. The approved picture sets names in cyan on
+ * a pale ground, which measures 2.4:1 — under the 4.5:1 CLAUDE.md §9 requires
+ * and under even the 3:1 large-text floor. Navy on the same ground measures
+ * 7.7:1. Cyan stays as the accent it can carry: the pointer state of the link.
+ *
+ * Two card shapes from one component. A card with a biography spans the grid and
+ * lays a larger portrait beside the words; a card without one is the roster card
+ * described above. The difference is a modifier written out in full in the
+ * markup so it can be found by searching for it (CLAUDE.md §13).
  *
  * Portraits arrive at every aspect ratio the media library holds — 300×300
  * squares and 1920×2400 studio shots on the same page — so the frame fixes the
@@ -17,7 +30,8 @@
  * the crop is anchored there rather than centred.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
- * (CLAUDE.md §2.11).
+ * (CLAUDE.md §2.11). Motion is disabled globally under prefers-reduced-motion by
+ * base.css, so no section-level guard is repeated here.
  */
 
 /* ==========================================================================
@@ -46,12 +60,15 @@
 
 /* ==========================================================================
    3. The grid
+   Three to a row in the container, two on a tablet, one on a phone. 24rem is
+   the narrowest a card can be and still fit "Lead Consultant – Talent
+   Acquisition" on two lines beside a portrait.
    ========================================================================== */
 
 .syn-people__grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-	gap: var(--syn-space-4);
+	grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+	gap: var(--syn-space-3);
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -63,20 +80,51 @@
 
 .syn-people__person {
 	display: flex;
-	flex-direction: column;
-	gap: var(--syn-space-2);
+	gap: var(--syn-space-3);
+	align-items: center;
+	padding: var(--syn-space-3);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-paper-blue);
+
+	/* The resting shadow is what makes the card read as floating rather than
+	   as a tinted rectangle. Both shadows are tokens; there is no third. */
+	box-shadow: var(--syn-shadow-card);
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out),
+		background-color var(--syn-duration-fast) var(--syn-ease-out);
 }
+
+.syn-people__person:hover {
+	transform: translateY(-3px);
+	background-color: var(--syn-cyan-soft);
+	box-shadow: var(--syn-shadow-soft);
+}
+
+/* The whole card lifts, so the card is what shows the keyboard user where they
+   are — the link's own focus ring alone would be a 20px target on a 6rem card. */
+.syn-people__person:focus-within {
+	transform: translateY(-3px);
+	box-shadow: var(--syn-shadow-soft);
+}
+
+/* ==========================================================================
+   5. The portrait
+   ========================================================================== */
 
 .syn-people__portrait {
 	display: flex;
+	overflow: hidden;
 	align-items: center;
 	justify-content: center;
-	overflow: hidden;
-	aspect-ratio: 4 / 5;
-	border-radius: var(--syn-radius-lg);
+	flex: none;
+	inline-size: 4.5rem;
+	block-size: 4.5rem;
+	border: 3px solid var(--syn-white);
+	border-radius: 50%;
 
 	/* Also the ground behind the initials when there is no photograph. */
-	background-color: var(--syn-paper-blue);
+	background-color: var(--syn-white);
 }
 
 .syn-people__photo {
@@ -92,25 +140,40 @@
 
 .syn-people__initials {
 	color: var(--syn-navy);
-	font-size: var(--syn-step-3);
+	font-size: var(--syn-step-1);
 	font-weight: 700;
 	letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   6. The copy
+   ========================================================================== */
+
+.syn-people__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	align-items: start;
+	min-inline-size: 0;
 }
 
 .syn-people__name {
 	margin: 0;
 	color: var(--syn-navy);
-	font-size: var(--syn-step-1);
-	line-height: 1.25;
+	font-size: var(--syn-step-0);
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
 }
 
 .syn-people__role {
 	margin: 0;
 	color: var(--syn-text-soft);
 	font-size: var(--syn-step--1);
-	font-weight: 600;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
+	font-weight: 500;
+	line-height: 1.4;
+	text-wrap: pretty;
 }
 
 .syn-people__bio {
@@ -120,45 +183,16 @@
 	line-height: 1.75;
 }
 
-.syn-people__copy {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	align-items: start;
-}
-
 /* ==========================================================================
-   5. The profile card — one with a biography
-   ========================================================================== */
-
-.syn-people__person--profile {
-	display: grid;
-	grid-column: 1 / -1;
-	grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
-	gap: var(--syn-space-4);
-	align-items: start;
-	padding: var(--syn-space-4);
-	border: 1px solid var(--syn-border);
-	border-radius: var(--syn-radius-lg);
-	background-color: var(--syn-paper);
-}
-
-/*
- * A profile card with no photograph keeps the frame and shows the person's
- * initials in it. Collapsing the column instead would need :has(), and an
- * advisor whose portrait is simply missing reads better as a placeholder than
- * as a different card shape from the one beside it.
- */
-
-/* ==========================================================================
-   6. The LinkedIn link
+   7. The LinkedIn link
+   The glyph alone, as the approved picture has it. Navy rather than cyan for
+   the reason in the file header; cyan is the pointer state.
    ========================================================================== */
 
 .syn-people__link {
 	display: inline-flex;
 	gap: 0.5rem;
 	align-items: center;
-	margin-block-start: 0.25rem;
 	color: var(--syn-navy);
 	font-size: var(--syn-step--1);
 	font-weight: 700;
@@ -171,20 +205,65 @@
 }
 
 .syn-people__link-icon {
-	inline-size: 1.125rem;
-	block-size: 1.125rem;
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
 	flex: none;
 }
 
+/* The word beside the glyph is for the profile card, which has room for it.
+   On a roster card the glyph carries the link and the name is already read out
+   by the visually hidden label in the markup. */
+.syn-people__person .syn-people__link-text {
+	display: none;
+}
+
+.syn-people__person--profile .syn-people__link-text {
+	display: inline;
+}
+
 /* ==========================================================================
-   7. Narrow screens
+   8. The profile card — one with a biography
+   ========================================================================== */
+
+.syn-people__person--profile {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: minmax(0, 12rem) minmax(0, 1fr);
+	gap: var(--syn-space-4);
+	align-items: start;
+	padding: var(--syn-space-4);
+	background-color: var(--syn-paper);
+}
+
+/*
+ * A biography needs a photograph bigger than a roster thumbnail, and a square
+ * one: several sentences beside a 4.5rem circle leaves the picture stranded at
+ * the top of a tall column.
+ */
+.syn-people__person--profile .syn-people__portrait {
+	inline-size: 100%;
+	block-size: auto;
+	aspect-ratio: 4 / 5;
+	border: 0;
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-paper-blue);
+}
+
+.syn-people__person--profile .syn-people__name {
+	font-size: var(--syn-step-1);
+	letter-spacing: -0.01em;
+	text-transform: none;
+}
+
+/* ==========================================================================
+   9. Narrow screens
    ========================================================================== */
 
 @media (max-width: 47.99rem) {
 
 	.syn-people__grid {
-		grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
-		gap: var(--syn-space-3);
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-2);
 	}
 
 	.syn-people__person--profile {
