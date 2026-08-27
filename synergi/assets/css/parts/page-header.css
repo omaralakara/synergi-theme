@@ -159,8 +159,15 @@
  * Two stacked gradients, which is what lets the picture stay legible as a
  * picture. Across the inline axis, ink runs 97% behind the copy and opens to
  * 20% at the far end, so the photograph reads properly on the side with no
- * text on it. Down the block axis, a light top for the fixed header and a deep
+ * text on it. Down the block axis, a scrim under the fixed header and a deep
  * foot so the band joins the section below instead of ending on a hard edge.
+ *
+ * The block-start stops are 58% and 50%, not the homepage's 10%. The site
+ * header is fixed, transparent and white until scrolled, so its nav sits on
+ * this band, and at the open end of the inline gradient there is nothing else
+ * holding it up. Measured on the Accounting photograph, whose top corner is a
+ * bright Dubai skyline through glass, the homepage values put nav links at
+ * 2.59:1. An editor chooses the photograph, so the floor cannot depend on it.
  *
  * 90deg is a physical direction, which CLAUDE.md §2.11 otherwise rules out. It
  * is here because the homepage hero already does exactly this and the two must
@@ -182,7 +189,8 @@
 		),
 		linear-gradient(
 			180deg,
-			color-mix(in srgb, var(--syn-ink) 30%, transparent) 0%,
+			color-mix(in srgb, var(--syn-ink) 58%, transparent) 0%,
+			color-mix(in srgb, var(--syn-ink) 50%, transparent) 14%,
 			color-mix(in srgb, var(--syn-ink) 10%, transparent) 38%,
 			color-mix(in srgb, var(--syn-ink) 88%, transparent) 100%
 		);
@@ -254,7 +262,8 @@
 			),
 			linear-gradient(
 				180deg,
-				color-mix(in srgb, var(--syn-ink) 30%, transparent) 0%,
+				color-mix(in srgb, var(--syn-ink) 58%, transparent) 0%,
+				color-mix(in srgb, var(--syn-ink) 50%, transparent) 14%,
 				color-mix(in srgb, var(--syn-ink) 10%, transparent) 38%,
 				color-mix(in srgb, var(--syn-ink) 88%, transparent) 100%
 			);
