@@ -78,9 +78,14 @@
 /* ==========================================================================
    3. The service hero — Stage 6c
    Everything below applies only when parts/page-header.php is given a
-   photograph, which is what switches the band into its two-column form. An
-   ordinary page or post never matches any of it, so nothing here changes what
-   the band has always rendered.
+   photograph, which is what switches the band into its hero form. An ordinary
+   page or post never matches any of it, so nothing here changes what the band
+   has always rendered — with no photograph the band keeps the flat navy of §1.
+
+   The photograph is the backdrop of the whole band (changed 27 Aug, after
+   review: it was a column beside the copy). It stays a real <img> so core's
+   srcset survives; the full-bleed effect comes from stretching that element
+   over the band, not from a CSS background-image.
 
    The band stays on the brand navy. theme.json's six serviceAccent gradients
    are card-sized accents on the homepage — teal, bronze, violet — and at
@@ -92,29 +97,142 @@
 .syn-page-header--hero {
 	position: relative;
 	overflow: hidden;
+	/*
+	 * A column flex box only so the copy sits optically centred in a band that
+	 * is now taller than its own text. .syn-container goes on centring itself
+	 * horizontally through its own inline-size and auto inline margins.
+	 */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	padding-block-end: 4.5rem;
 	/*
-	 * The same family as the numbers band: navy carried towards cyan at the top
-	 * and towards navy-deep at the foot, with one soft cyan bloom. Built from
-	 * the palette with color-mix() rather than restated as hexes.
+	 * Still painted, and now doing two jobs: it is what shows while the
+	 * photograph is still downloading, and it is the colour the scrim below
+	 * mixes down to at the edges of the crop.
 	 */
 	background-color: var(--syn-navy);
-	background-image:
-		radial-gradient(46rem 26rem at 6% -20%, color-mix(in srgb, var(--syn-cyan) 20%, transparent), transparent 62%),
-		linear-gradient(180deg, color-mix(in srgb, var(--syn-navy) 88%, var(--syn-cyan)) 0%, var(--syn-navy) 52%, color-mix(in srgb, var(--syn-navy) 62%, var(--syn-navy-deep)) 100%);
+	/*
+	 * A floor under the band so a short page still reads as a photographic
+	 * hero rather than a thin strip. Derived from the header it has to clear;
+	 * the 22rem is the picture's own share of the band and has no token.
+	 */
+	min-block-size: calc(var(--syn-header-height) + 22rem);
 }
 
-.syn-page-header--hero .syn-page-header__inner {
+/* --------------------------------------------------------------------------
+   The photograph
+   The markup nests this inside __inner, but __inner is left unpositioned, so
+   inset:0 resolves against the band and the picture fills it edge to edge.
+   That is the whole trick: the photograph became a backdrop without a line of
+   markup moving, which is what keeps the three templates that share this part
+   rendering byte for byte what they rendered before.
+
+   No z-index here. __copy carries z-index 1, so the paint order is the band's
+   navy, then the photograph, then the scrim, then the copy — the same order
+   these rules are written in below.
+   -------------------------------------------------------------------------- */
+
+.syn-page-header__media {
+	position: absolute;
+	inset: 0;
+}
+
+.syn-page-header__image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+/*
+ * The scrim. It sits on the media wrapper rather than the band so it cannot
+ * exist without a photograph under it — a page with no picture can never end
+ * up with a gradient over its flat navy.
+ *
+ * The opacities are not taste, they are the §9 contrast floor. Body copy here
+ * is solid white, and the darkest a photograph can be is unknown — an editor
+ * may upload a bright one. Sized against the worst case, a pure white picture:
+ * navy at 84% over white composites to #416a9c, luminance 0.1390, which puts
+ * white text at 5.56:1 — above the 4.5:1 minimum with room to spare. 84% is
+ * therefore the floor anywhere in the band, and no stop below sits under copy.
+ *
+ * The 94% at the block-start is a second requirement, not a flourish: the site
+ * header is fixed and transparent until scrolled, so its white nav sits on this
+ * band. At 94% over the same white worst case that measures 7.19:1.
+ *
+ * Against the photographs actually in use the margin is far wider: the HR
+ * picture is a navy duotone whose brightest pixel is #2b60a0, and behind the
+ * 84% scrim that leaves white body copy at 8.03:1.
+ */
+.syn-page-header__media::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--syn-navy) 94%, transparent) 0%,
+		color-mix(in srgb, var(--syn-navy) 86%, transparent) 30%,
+		color-mix(in srgb, var(--syn-navy) 84%, transparent) 72%,
+		color-mix(in srgb, var(--syn-navy-deep) 90%, transparent) 100%
+	);
+}
+
+/* --------------------------------------------------------------------------
+   The copy, over the photograph
+   -------------------------------------------------------------------------- */
+
+/*
+ * The copy is lifted above the photograph and its scrim, and stops short of the
+ * full container: on an 82rem band the heading would otherwise run the whole
+ * width and stop reading as a hero, and the measure would be far past
+ * comfortable for the lede.
+ *
+ * The lift is here rather than on __inner deliberately. __inner must stay
+ * unpositioned so that __media, which the markup nests inside it, resolves its
+ * containing block to the band and fills it edge to edge. That is what let the
+ * photograph become a backdrop without moving a single line of markup — and so
+ * what keeps page.php, single.php and archive.php byte-identical.
+ */
+.syn-page-header--hero .syn-page-header__copy {
 	position: relative;
-	display: grid;
-	grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-	gap: var(--syn-space-6);
-	align-items: center;
+	z-index: 1;
+	max-inline-size: 54rem;
 }
 
 .syn-page-header--hero .syn-page-header__title {
 	line-height: 1.05;
 	letter-spacing: -0.015em;
+}
+
+/*
+ * Solid, not the §1 band's 78% white. Translucent text is safe over a flat
+ * colour and is not over a photograph: at 78% the lede measures 4.10:1 against
+ * the worst-case backdrop above and fails §9. Solid white measures 5.56:1.
+ */
+.syn-page-header--hero .syn-page-header__lede,
+.syn-page-header--hero .syn-page-header__meta {
+	color: var(--syn-white);
+}
+
+/*
+ * White rather than §1's mint, for the same reason. Mint (#8fd7f3) is a light
+ * accent — over navy alone it measures 5.27:1, but over navy-at-86%-on-a-bright
+ * photograph it drops to 3.67:1, and at 0.9rem bold it is not large text, so
+ * 3:1 does not apply to it. No scrim that still lets the photograph show can
+ * carry it. The eyebrow keeps its weight and letter-spacing; only the hue goes.
+ */
+.syn-page-header--hero .syn-page-header__eyebrow {
+	color: var(--syn-white);
+}
+
+/*
+ * The outline button's boundary is a non-text UI edge and needs 3:1. Its
+ * §8 base is 55% white, which measures 3.74:1 on flat navy but only 2.87:1
+ * over the worst-case backdrop. 68% restores it to 3.53:1.
+ */
+.syn-page-header--hero .syn-button--light {
+	border-color: color-mix(in srgb, var(--syn-white) 68%, transparent);
 }
 
 .syn-page-header__actions {
@@ -124,39 +242,14 @@
 	margin-block-start: var(--syn-space-5);
 }
 
-.syn-page-header__media {
-	overflow: hidden;
-	border-start-end-radius: 4rem;
-	border-end-start-radius: 4rem;
-	box-shadow: var(--syn-shadow-soft);
-}
-
-.syn-page-header__image {
-	display: block;
-	inline-size: 100%;
-	block-size: 100%;
-	max-block-size: 26.25rem;
-	object-fit: cover;
-}
-
 /* ==========================================================================
    4. The hero on narrow screens
    ========================================================================== */
 
 @media (max-width: 62rem) {
 
-	.syn-page-header--hero .syn-page-header__inner {
-		grid-template-columns: minmax(0, 1fr);
-		gap: var(--syn-space-5);
-	}
-
-	.syn-page-header--hero .syn-page-header__media {
-		border-start-end-radius: 2.75rem;
-		border-end-start-radius: 2.75rem;
-	}
-
-	.syn-page-header__image {
-		max-block-size: 15rem;
+	.syn-page-header--hero {
+		min-block-size: calc(var(--syn-header-height) + 16rem);
 	}
 }
 

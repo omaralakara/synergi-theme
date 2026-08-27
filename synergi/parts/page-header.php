@@ -15,7 +15,7 @@
  * Added at Stage 6c, all optional, all inert unless passed — a post or an
  * ordinary page renders exactly what it rendered before:
  *   image   int    Optional. Attachment ID. Its presence switches the band to
- *                  the two-column hero and widens the container.
+ *                  the photographic hero and widens the container.
  *   cta     array  Optional. url and label for the primary button.
  *   cta_alt array  Optional. url and label for a second, outline button.
  *
@@ -56,8 +56,9 @@ $syn_cta_alt = (array) ( $args['cta_alt'] ?? array() );
 
 /*
  * The photograph is what decides the shape. With one, the band becomes the
- * two-column service hero on the wide container; without one it stays the
- * narrow title band every other template has always rendered.
+ * service hero on the wide container and the picture fills it edge to edge
+ * behind the copy; without one it stays the narrow title band every other
+ * template has always rendered, on the same flat navy it has always used.
  */
 $syn_is_hero = $syn_image > 0;
 
@@ -123,16 +124,30 @@ $syn_buttons = $syn_button( $syn_cta, 'syn-button--primary' ) . $syn_button( $sy
 				 * The LCP element on a service page, so it is eager and carries
 				 * fetchpriority (CLAUDE.md §6). Through core, so srcset, sizes
 				 * and the attachment's own alt text come free.
+				 *
+				 * Since 27 Aug this picture is the backdrop of the whole band
+				 * rather than a column beside the copy. It stays a real
+				 * attachment for exactly that reason: a full-bleed hero is the
+				 * last place to hand every visitor one fixed file, and core's
+				 * srcset is what stops that happening. CSS is what puts it
+				 * behind the copy — this markup does not move, so page.php,
+				 * single.php and archive.php, which never pass an image,
+				 * render byte for byte what they rendered before.
+				 *
+				 * 'full' rather than 'large': the band now spans the viewport
+				 * and 'large' caps at 1024px, so it would upscale on any
+				 * ordinary desktop. The smaller crops stay in srcset
+				 * underneath, so only a wide viewport fetches the widest file.
 				 */
 				echo wp_get_attachment_image(
 					$syn_image,
-					'large',
+					'full',
 					false,
 					array(
 						'class'         => 'syn-page-header__image',
 						'fetchpriority' => 'high',
 						'decoding'      => 'async',
-						'sizes'         => '(max-width: 62rem) 100vw, 42vw',
+						'sizes'         => '100vw',
 					)
 				);
 				?>
