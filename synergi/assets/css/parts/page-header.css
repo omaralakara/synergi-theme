@@ -118,12 +118,14 @@
 	 * hero rather than a thin strip. Derived from the header it has to clear;
 	 * the 28rem is the picture's own share of the band and has no token.
 	 *
-	 * Raised from 22rem on 28 Aug. object-fit: cover crops whatever the band is
-	 * not tall enough to show, so on a wide screen a 22rem band was taking a
-	 * letterbox slice out of the middle of every photograph and throwing the
-	 * rest away. Six more rem is the picture reading as a picture.
+	 * Raised from 22rem to 28rem and then to 34rem on 28 Aug, the second time
+	 * after seeing it rendered. object-fit: cover crops whatever the band is not
+	 * tall enough to show, so a short band takes a letterbox slice out of the
+	 * middle of every photograph and throws the rest away. The narrow-screen
+	 * floor in section 4 is unchanged: a phone is already taller than it is
+	 * wide, so it never had the problem.
 	 */
-	min-block-size: calc(var(--syn-header-height) + 28rem);
+	min-block-size: calc(var(--syn-header-height) + 34rem);
 }
 
 /* --------------------------------------------------------------------------
@@ -149,6 +151,15 @@
 	inline-size: 100%;
 	block-size: 100%;
 	object-fit: cover;
+
+	/*
+	 * Not the centre. A band far wider than it is tall crops the top and the
+	 * bottom off a photograph equally, and in a photograph of people the heads
+	 * are in the upper third — so centring cut them off (reported 28 Aug).
+	 * Holding the crop at 25% keeps faces in the band and gives away floor
+	 * instead, which is what the bottom of these pictures holds anyway.
+	 */
+	object-position: center 25%;
 }
 
 /*
