@@ -133,22 +133,28 @@ $syn_schema = (bool) apply_filters( 'syn_faq_schema', $syn_schema, $syn_clean );
 		}
 
 		/*
-		 * wp_json_encode plus esc_html is deliberate belt and braces: the encode
-		 * escapes the JSON, and escaping the result stops a "</script>" inside
-		 * an answer from closing this element early. Stored meta is never
-		 * trusted at render time (CLAUDE.md §5).
+		 * JSON_HEX_TAG is what makes this safe, and it has to be the thing that
+		 * does it. A "</script>" inside a stored answer would otherwise close
+		 * this element early. The flag escapes every < and > into its \uXXXX
+		 * form, so no sequence in the data can terminate the block. Stored meta
+		 * is never trusted at render time (CLAUDE.md §5).
+		 *
+		 * What must NOT be used here is esc_html(). It was, until 28 Aug, and it
+		 * silently broke every FAQ on the site: it turns each " into &quot;, and
+		 * an HTML entity inside <script> is never decoded — script content is
+		 * raw text, not markup. The block parsed as literal &quot;@type&quot;
+		 * and no search engine read a single question. It looked correct in
+		 * view-source, which is exactly why it survived review.
 		 */
 		printf(
 			'<script type="application/ld+json">%s</script>',
-			esc_html(
-				wp_json_encode(
-					array(
-						'@context'   => 'https://schema.org',
-						'@type'      => 'FAQPage',
-						'mainEntity' => $syn_entities,
-					),
-					JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-				)
+			wp_json_encode(
+				array(
+					'@context'   => 'https://schema.org',
+					'@type'      => 'FAQPage',
+					'mainEntity' => $syn_entities,
+				),
+				JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
 			)
 		);
 	}
