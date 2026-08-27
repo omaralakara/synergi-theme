@@ -192,7 +192,48 @@
 }
 
 /* ==========================================================================
-   5. Rejection notice — printed inside the box by inc/fields.php §8
+   5. The site-records screen — inc/records.php
+
+   A full-width admin page rather than a meta box, so it needs the width limit
+   and the section separation a postbox would otherwise have given it. The
+   repeaters inside are the same markup as §4 and inherit all of it.
+   ========================================================================== */
+
+.syn-records__intro {
+	max-inline-size: 46rem;
+	margin-block-end: 1.5rem;
+}
+
+.syn-records__record {
+	max-inline-size: 52rem;
+	margin-block-end: 2.5rem;
+	padding-block-end: 1.5rem;
+	border-block-end: 1px solid var(--syn-admin-line);
+}
+
+.syn-records__record:last-of-type {
+	border-block-end: 0;
+}
+
+.syn-records__record h2 {
+	margin-block-end: 0.25rem;
+}
+
+/*
+ * Where a record surfaces, stated on the screen. An editor changing a key
+ * figure is changing it on every page that shows it, and that is the one thing
+ * about this screen they cannot discover by looking at it (CLAUDE.md §7a).
+ */
+.syn-records__read-by {
+	margin-block: 0 1rem;
+}
+
+.syn-field__select {
+	max-inline-size: 100%;
+}
+
+/* ==========================================================================
+   6. Rejection notice — printed inside the box by inc/fields.php §8
    ========================================================================== */
 
 .syn-field-notice {

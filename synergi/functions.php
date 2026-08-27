@@ -46,5 +46,10 @@ require_once SYN_DIR . 'inc/sections.php';
 // (CLAUDE.md §7b).
 require_once SYN_DIR . 'inc/fields.php';
 
+// After fields.php, whose repeater UI, leaf sanitisers and row shaper the
+// records screen reuses. Page fields and site records are two different things
+// with two different stores (CLAUDE.md §7a), which is why they are two files.
+require_once SYN_DIR . 'inc/records.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';

@@ -409,6 +409,7 @@ function syn_normalize_subfield( $sub, $group_id, $field_key ) {
 			'max_length'    => 0,
 			'rows'          => 3,
 			'fallback_slug' => '',
+			'choices'       => array(),
 		),
 		$sub
 	);
@@ -417,6 +418,13 @@ function syn_normalize_subfield( $sub, $group_id, $field_key ) {
 	$sub['type']       = $type;
 	$sub['max_length'] = absint( $sub['max_length'] );
 	$sub['rows']       = max( 2, absint( $sub['rows'] ) );
+	$sub['choices']    = (array) $sub['choices'];
+
+	if ( 'select' === $type && ! $sub['choices'] ) {
+		syn_field_log( sprintf( 'group "%s": repeater "%s" subfield "%s" is a select with no choices', $group_id, $field_key, $key ) );
+
+		return false;
+	}
 
 	return $sub;
 }
@@ -428,10 +436,17 @@ function syn_normalize_subfield( $sub, $group_id, $field_key ) {
  * the FAQ answer, where a link inside the answer is legitimate content
  * (CLAUDE.md §7b). Everything else is plain text.
  *
+ * select, date and email were added for the site records in step 2. Each exists
+ * because the record it serves has a real data type and "text with a hopeful
+ * placeholder" is how a set of six service icons, four as-at dates and five
+ * office addresses drift into six different formats — which is the exact failure
+ * the records store was built to prevent (CLAUDE.md §7a). A wrong icon slug, an
+ * ambiguous date and a mistyped address each now fail on save, by name.
+ *
  * @return string[]
  */
 function syn_leaf_types() {
-	return array( 'text', 'textarea', 'html', 'url', 'image', 'int' );
+	return array( 'text', 'textarea', 'html', 'url', 'image', 'int', 'select', 'date', 'email' );
 }
 
 /**
@@ -664,6 +679,23 @@ function syn_enqueue_field_admin_assets( $hook_suffix ) {
 		return;
 	}
 
+	syn_enqueue_field_ui_assets();
+}
+
+/**
+ * Enqueues the field UI itself, for any screen that renders one.
+ *
+ * Separate from the hook above because the site-records screen (inc/records.php,
+ * Stage 6a step 2) uses the same repeater and the same media picker, and there
+ * is no sense in two copies of the same three enqueues drifting apart. Safe to
+ * call more than once — wp_enqueue_* deduplicates by handle.
+ *
+ * Side effects: enqueues core media, one stylesheet and one script, and inlines
+ * the script's translated strings.
+ *
+ * @return void
+ */
+function syn_enqueue_field_ui_assets() {
 	wp_enqueue_media();
 
 	wp_enqueue_style(
@@ -982,7 +1014,29 @@ function syn_render_link_control( $field, $post_id ) {
  */
 function syn_render_repeater_control( $field, $post_id ) {
 	$name = SYN_META_PREFIX . $field['key'];
-	$rows = syn_decode_rows( syn_stored_value( $name, $post_id ), $field );
+
+	syn_repeater_ui( $field, $name, syn_decode_rows( syn_stored_value( $name, $post_id ), $field ) );
+}
+
+/**
+ * Renders a repeater's UI from rows it is handed.
+ *
+ * The store-agnostic half of the repeater. syn_render_repeater_control() above
+ * reads postmeta and calls this; the site-records screen (inc/records.php) reads
+ * one key of the syn_records option and calls the same function with the same
+ * $field shape. One UI, two stores, no second implementation to keep in step —
+ * which is the whole reason step 2 could be "the same repeater UI" at all.
+ *
+ * Side effects: echoes markup.
+ *
+ * @param array  $field Normalised field of type "repeater".
+ * @param string $name  Input name the rows post under, e.g. "_syn_capabilities"
+ *                      or "syn_records[figures]".
+ * @param array  $rows  Rows to render, each keyed by subfield.
+ * @return void
+ */
+function syn_repeater_ui( $field, $name, $rows ) {
+	$rows = array_values( (array) $rows );
 
 	// A repeater with no saved rows still shows something to type into, so an
 	// editor is never faced with an empty box and no obvious next move — and so
@@ -1117,12 +1171,47 @@ function syn_render_repeater_row( $field, $name, $index, $number, $row ) {
 				);
 				break;
 
+			case 'select':
+				printf(
+					'<label class="syn-field__label" for="%1$s">%2$s</label><select id="%1$s" name="%3$s" class="syn-field__select"%4$s>',
+					esc_attr( $sub_id ),
+					esc_html( $sub['label'] ),
+					esc_attr( $sub_name ),
+					$is_title ? ' data-syn-repeater-title-source' : ''
+				);
+
+				/*
+				 * An empty first option, always. Without it a brand-new blank
+				 * row would post the first real choice, look like it holds data,
+				 * and survive the empty-row cull in syn_sanitize_rows().
+				 */
+				printf( '<option value="">%s</option>', esc_html__( '— Select —', 'synergi' ) );
+
+				foreach ( $sub['choices'] as $syn_choice => $syn_choice_label ) {
+					printf(
+						'<option value="%s"%s>%s</option>',
+						esc_attr( $syn_choice ),
+						selected( (string) $value, (string) $syn_choice, false ),
+						esc_html( $syn_choice_label )
+					);
+				}
+
+				echo '</select>';
+				break;
+
 			default:
+				$syn_input_types = array(
+					'url'   => 'url',
+					'int'   => 'number',
+					'date'  => 'date',
+					'email' => 'email',
+				);
+
 				printf(
 					'<label class="syn-field__label" for="%1$s">%2$s</label><input class="large-text" type="%3$s" id="%1$s" name="%4$s" value="%5$s" placeholder="%6$s"%7$s%8$s>',
 					esc_attr( $sub_id ),
 					esc_html( $sub['label'] ),
-					'url' === $sub['type'] ? 'url' : ( 'int' === $sub['type'] ? 'number' : 'text' ),
+					isset( $syn_input_types[ $sub['type'] ] ) ? $syn_input_types[ $sub['type'] ] : 'text',
 					esc_attr( $sub_name ),
 					esc_attr( (string) $value ),
 					esc_attr( $sub['placeholder'] ),
@@ -1379,9 +1468,10 @@ function syn_write_meta( $post_id, $meta_key, $value ) {
  * @param string $label      Human name of the field, for the rejection message.
  * @param int    $max_length 0 for no limit.
  * @param array  $rejections Collected messages, by reference.
+ * @param array  $choices    "select" only. Allowed values as value => label.
  * @return string|int Sanitised value. "" or 0 when there is nothing to store.
  */
-function syn_sanitize_leaf( $raw, $type, $label, $max_length, &$rejections ) {
+function syn_sanitize_leaf( $raw, $type, $label, $max_length, &$rejections, $choices = array() ) {
 	if ( is_array( $raw ) ) {
 		$rejections[] = sprintf(
 			/* translators: %s: field name. */
@@ -1414,6 +1504,84 @@ function syn_sanitize_leaf( $raw, $type, $label, $max_length, &$rejections ) {
 
 		case 'int':
 			return absint( $raw );
+
+		case 'select':
+			$choice = (string) $raw;
+
+			if ( '' === $choice ) {
+				return '';
+			}
+
+			/*
+			 * Whitelist, not sanitiser. The service icons are files on disk and
+			 * inc/sections.php will only print one whose slug is on its own
+			 * allowed list — so anything not offered here would render nothing
+			 * at all, silently. Refusing it on save is where that becomes
+			 * visible (CLAUDE.md §13).
+			 */
+			if ( ! array_key_exists( $choice, $choices ) ) {
+				$rejections[] = sprintf(
+					/* translators: 1: field name. 2: the value that was rejected. */
+					__( '“%1$s” was set to something that is not one of the available options, so it was cleared. It read: %2$s', 'synergi' ),
+					$label,
+					$choice
+				);
+
+				return '';
+			}
+
+			return $choice;
+
+		case 'date':
+			$date = trim( (string) $raw );
+
+			if ( '' === $date ) {
+				return '';
+			}
+
+			/*
+			 * Stored as Y-m-d, never as typed. "20 August 2026" and "08/20/2026"
+			 * are the same day and two different strings, and a record read by
+			 * three pages has to be one string. The template formats it for
+			 * display with date_i18n(), which is also what makes the Arabic
+			 * phase free (CLAUDE.md §12).
+			 */
+			$parsed = DateTime::createFromFormat( 'Y-m-d', $date );
+
+			if ( ! $parsed || $parsed->format( 'Y-m-d' ) !== $date ) {
+				$rejections[] = sprintf(
+					/* translators: 1: field name. 2: the value that was rejected. */
+					__( 'The date in “%1$s” was not a real date, so it was cleared. Use the date picker, or type it as 2026-08-20. It read: %2$s', 'synergi' ),
+					$label,
+					$date
+				);
+
+				return '';
+			}
+
+			return $date;
+
+		case 'email':
+			$typed = trim( (string) $raw );
+
+			if ( '' === $typed ) {
+				return '';
+			}
+
+			$email = sanitize_email( $typed );
+
+			if ( '' === $email || ! is_email( $email ) ) {
+				$rejections[] = sprintf(
+					/* translators: 1: field name. 2: the value that was rejected. */
+					__( 'The address in “%1$s” was not a usable email address, so it was cleared. It read: %2$s', 'synergi' ),
+					$label,
+					$typed
+				);
+
+				return '';
+			}
+
+			return $email;
 
 		case 'url':
 			$trimmed = trim( (string) $raw );
@@ -1525,7 +1693,8 @@ function syn_sanitize_rows( $raw, $field, &$rejections ) {
 				$sub['type'],
 				$field['label'] . ' — ' . $sub['label'],
 				$sub['max_length'],
-				$rejections
+				$rejections,
+				$sub['choices']
 			);
 
 			$row[ $sub['key'] ] = $value;
@@ -1607,9 +1776,34 @@ function syn_decode_rows( $stored, $field ) {
 		return array();
 	}
 
-	$rows = array();
+	return syn_shape_rows( $decoded, $field );
+}
 
-	foreach ( $decoded as $entry ) {
+/**
+ * Forces an array of stored rows into the exact shape a template can rely on.
+ *
+ * Every row comes back with exactly the declared subfields, as strings, in the
+ * declared order. Unknown keys are dropped, missing keys become "", and anything
+ * that is not a list of arrays contributes nothing. A template can therefore
+ * index a row without isset() checks — though it still has to escape every leaf
+ * when it prints it (CLAUDE.md §5).
+ *
+ * Shared with inc/records.php, which needs the same guarantee over data that
+ * came out of an option rather than out of postmeta. Same promise, one
+ * implementation.
+ *
+ * @param mixed $rows  Decoded rows from wherever they were stored.
+ * @param array $field Normalised repeater field.
+ * @return array[] Rows keyed by subfield, values raw and unescaped.
+ */
+function syn_shape_rows( $rows, $field ) {
+	if ( ! is_array( $rows ) ) {
+		return array();
+	}
+
+	$shaped = array();
+
+	foreach ( $rows as $entry ) {
 		if ( ! is_array( $entry ) ) {
 			continue;
 		}
@@ -1622,10 +1816,10 @@ function syn_decode_rows( $stored, $field ) {
 			$row[ $sub['key'] ] = is_scalar( $value ) ? (string) $value : '';
 		}
 
-		$rows[] = $row;
+		$shaped[] = $row;
 	}
 
-	return $rows;
+	return $shaped;
 }
 
 /* ==========================================================================
