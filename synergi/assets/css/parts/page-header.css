@@ -116,9 +116,14 @@
 	/*
 	 * A floor under the band so a short page still reads as a photographic
 	 * hero rather than a thin strip. Derived from the header it has to clear;
-	 * the 22rem is the picture's own share of the band and has no token.
+	 * the 28rem is the picture's own share of the band and has no token.
+	 *
+	 * Raised from 22rem on 28 Aug. object-fit: cover crops whatever the band is
+	 * not tall enough to show, so on a wide screen a 22rem band was taking a
+	 * letterbox slice out of the middle of every photograph and throwing the
+	 * rest away. Six more rem is the picture reading as a picture.
 	 */
-	min-block-size: calc(var(--syn-header-height) + 22rem);
+	min-block-size: calc(var(--syn-header-height) + 28rem);
 }
 
 /* --------------------------------------------------------------------------
@@ -210,7 +215,9 @@
  * unpositioned so that __media, which the markup nests inside it, resolves its
  * containing block to the band and fills it edge to edge. That is what let the
  * photograph become a backdrop without moving a single line of markup — and so
- * what keeps page.php, single.php and archive.php byte-identical.
+ * what keeps single.php and archive.php byte-identical. page.php now passes a
+ * page's Featured Image (28 Aug), so an ordinary page can take this hero too;
+ * one with no picture set still renders the flat navy band of section 1.
  */
 .syn-page-header--hero .syn-page-header__copy {
 	position: relative;
@@ -250,7 +257,7 @@
 @media (max-width: 62rem) {
 
 	.syn-page-header--hero {
-		min-block-size: calc(var(--syn-header-height) + 16rem);
+		min-block-size: calc(var(--syn-header-height) + 20rem);
 	}
 
 	.syn-page-header__media::after {

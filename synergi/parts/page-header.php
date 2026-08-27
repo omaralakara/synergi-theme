@@ -130,9 +130,12 @@ $syn_buttons = $syn_button( $syn_cta, 'syn-button--primary' ) . $syn_button( $sy
 				 * attachment for exactly that reason: a full-bleed hero is the
 				 * last place to hand every visitor one fixed file, and core's
 				 * srcset is what stops that happening. CSS is what puts it
-				 * behind the copy — this markup does not move, so page.php,
-				 * single.php and archive.php, which never pass an image,
-				 * render byte for byte what they rendered before.
+				 * behind the copy — this markup does not move, so single.php
+				 * and archive.php, which never pass an image, render byte
+				 * for byte what they rendered before. page.php passes the
+				 * page's Featured Image since 28 Aug, so any page gets this
+				 * hero by choosing a picture in the sidebar; a page without
+				 * one still renders the flat navy band.
 				 *
 				 * 'full' rather than 'large': the band now spans the viewport
 				 * and 'large' caps at 1024px, so it would upscale on any

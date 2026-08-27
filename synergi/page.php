@@ -30,10 +30,20 @@ while ( have_posts() ) :
 		 * get_the_excerpt() would otherwise auto-generate one from the first 55
 		 * words of the content and print it twice on the page.
 		 */
+		/*
+		 * The Featured Image is what turns this band into the photographic hero
+		 * the service pages use (parts/page-header.php decides on its presence).
+		 * Passed here so EVERY page gets that header by choosing a picture in the
+		 * sidebar, with no template and no developer involved — decided 28 Aug.
+		 * A page with no picture still renders the flat navy band, unchanged.
+		 */
 		get_template_part(
 			'parts/page-header',
 			null,
-			array( 'lede' => has_excerpt() ? get_the_excerpt() : '' )
+			array(
+				'lede'  => has_excerpt() ? get_the_excerpt() : '',
+				'image' => (int) get_post_thumbnail_id(),
+			)
 		);
 		?>
 
