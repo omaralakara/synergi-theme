@@ -55,5 +55,10 @@ require_once SYN_DIR . 'inc/records.php';
 // can read the records registry when it builds its choices.
 require_once SYN_DIR . 'inc/service-fields.php';
 
+// The homepage's own copy, added in Stage 6b. A sibling of service-fields.php
+// and for the same reason: the engine is in fields.php, the declarations of
+// what an editor may change live next to the pages they belong to.
+require_once SYN_DIR . 'inc/homepage-fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
