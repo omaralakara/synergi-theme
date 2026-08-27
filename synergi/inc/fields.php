@@ -284,6 +284,12 @@ function syn_normalize_field_group( $group ) {
  *   button        string  repeater only. The add-button text.
  *   min_rows      int     repeater only. Blank rows rendered when empty.
  *   max_rows      int     repeater only. 0 = unlimited.
+ *   keep_empty_rows bool  repeater only. Default false: a row an editor left
+ *                         entirely empty is discarded on save, so clicking the
+ *                         add button and changing your mind costs nothing. Set
+ *                         true only where an empty row MEANS something to the
+ *                         section that renders it — the people grid, where it
+ *                         is a deliberate gap (28 Aug). See syn_sanitize_rows().
  *
  * @param array  $field    Raw field definition.
  * @param string $group_id Owning group id, for error messages only.
@@ -321,6 +327,7 @@ function syn_normalize_field( $field, $group_id ) {
 			'button'        => __( 'Add item', 'synergi' ),
 			'min_rows'      => 1,
 			'max_rows'      => 0,
+			'keep_empty_rows' => false,
 		),
 		$field
 	);
@@ -331,6 +338,8 @@ function syn_normalize_field( $field, $group_id ) {
 	$field['rows']       = max( 2, absint( $field['rows'] ) );
 	$field['min_rows']   = absint( $field['min_rows'] );
 	$field['max_rows']   = absint( $field['max_rows'] );
+
+	$field['keep_empty_rows'] = (bool) $field['keep_empty_rows'];
 
 	if ( 'repeater' === $type ) {
 		$subfields = array();
@@ -1109,6 +1118,21 @@ function syn_render_repeater_row( $field, $name, $index, $number, $row ) {
 	$noun  = $field['row_noun'];
 	$title = isset( $row[ $field['row_label'] ] ) ? (string) $row[ $field['row_label'] ] : '';
 
+	/*
+	 * A saved row with every box empty is a deliberate gap (keep_empty_rows),
+	 * and its bar would otherwise show a number beside nothing at all — which
+	 * reads as a row that failed to load rather than one doing its job. The
+	 * blank template row is array() and is excluded by the $row test, so a row
+	 * an editor has only just added is not labelled before they type into it.
+	 */
+	$syn_row_is_blank = static function ( $value ) {
+		return '' !== $value && 0 !== $value && '0' !== $value;
+	};
+
+	if ( '' === $title && $field['keep_empty_rows'] && $row && ! array_filter( $row, $syn_row_is_blank ) ) {
+		$title = __( 'Empty space', 'synergi' );
+	}
+
 	echo '<fieldset class="syn-repeater__row" data-syn-repeater-row>';
 
 	printf(
@@ -1724,7 +1748,18 @@ function syn_sanitize_rows( $raw, $field, &$rejections ) {
 			}
 		}
 
-		if ( $has_data ) {
+		/*
+		 * An entirely empty row is normally the sign of an editor who clicked
+		 * the add button and changed their mind, so it is discarded — nobody
+		 * wants a blank FAQ published because of a stray click.
+		 *
+		 * A repeater that sets keep_empty_rows says the opposite: an empty row
+		 * MEANS something to the section rendering it. The people grid is the
+		 * only one, where a blank row is the deliberate gap that decides where
+		 * a line of cards breaks (28 Aug). Without this, that row was sanitised
+		 * away on save and the gap silently never appeared.
+		 */
+		if ( $has_data || $field['keep_empty_rows'] ) {
 			$rows[] = $row;
 		}
 	}

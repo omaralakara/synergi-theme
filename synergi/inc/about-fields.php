@@ -400,6 +400,15 @@ function syn_register_people_fields() {
 					'row_label' => 'name',
 					'min_rows'  => 1,
 					'max_rows'  => 60,
+					/*
+					 * The one repeater on the site that keeps a row an editor
+					 * left entirely empty. On this grid an empty row is not a
+					 * mistake, it is a gap: it holds a cell open so the cards
+					 * after it start a new line — the two leaders alone on the
+					 * first row, as the Elementor page had them. Everywhere
+					 * else an empty row is still discarded on save.
+					 */
+					'keep_empty_rows' => true,
 					'subfields' => array(
 						array(
 							'key'         => 'group',
