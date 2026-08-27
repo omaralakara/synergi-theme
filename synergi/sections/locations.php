@@ -46,7 +46,48 @@ $syn_link_text = $args['link_text'] ?? __( 'See all our locations', 'synergi' );
 
 $syn_action = __( 'Explore location', 'synergi' );
 
-$syn_places = $args['places'] ?? array(
+/*
+ * The hubs come from the "locations" site record — the one CLAUDE.md §7a names
+ * outright, because the same five offices appear here, on Contact Us and on
+ * Global Locations, and three copies of an address list drift apart inside a
+ * month. The record was built in Stage 6a and read by nothing until now; this
+ * is Stage 6b connecting it.
+ *
+ * The record stores what varies per office: the city, the country, the picture
+ * and whether it is open. Everything the band derives — where an open card
+ * links, and the line that appears on hover — is computed here rather than
+ * stored, because it is the same for every open office and a column nobody
+ * varies is a column that eventually disagrees with itself.
+ *
+ * A row with no city is not an office and is skipped, so a record holding only
+ * blanks falls through to the approved five below rather than rendering an
+ * empty card.
+ */
+$syn_record_places = array();
+
+if ( function_exists( 'syn_record' ) ) {
+	foreach ( syn_record( 'locations' ) as $syn_row ) {
+		if ( '' === ( $syn_row['city'] ?? '' ) ) {
+			continue;
+		}
+
+		$syn_badge = $syn_row['badge'] ?? '';
+
+		$syn_record_places[] = array(
+			'image_id' => (int) ( $syn_row['image'] ?? 0 ),
+			'city'     => $syn_row['city'],
+			'country'  => $syn_row['country'] ?? '',
+			'url'      => '' === $syn_badge ? $syn_link_url : '',
+			'badge'    => $syn_badge,
+			'action'   => '' === $syn_badge ? $syn_action : __( 'Our next delivery hub', 'synergi' ),
+		);
+	}
+}
+
+if ( is_array( $args ) && array_key_exists( 'places', $args ) ) {
+	$syn_places = $args['places'];
+} else {
+	$syn_places = $syn_record_places ? $syn_record_places : array(
 	array(
 		'slug'    => 'location-abu-dhabi',
 		'city'    => __( 'Abu Dhabi', 'synergi' ),
@@ -83,7 +124,8 @@ $syn_places = $args['places'] ?? array(
 		'badge'   => __( 'Coming soon', 'synergi' ),
 		'action'  => __( 'Our next delivery hub', 'synergi' ),
 	),
-);
+	);
+}
 
 $syn_places = array_values( array_filter( (array) $syn_places, 'is_array' ) );
 

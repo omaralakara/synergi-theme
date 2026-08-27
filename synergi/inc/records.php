@@ -702,6 +702,22 @@ function syn_register_default_records() {
 					'label'       => __( 'Photograph', 'synergi' ),
 					'description' => __( 'Optional. Used where a location is shown with a picture.', 'synergi' ),
 				),
+				/*
+				 * Added in Stage 6b, when the homepage band was finally wired to
+				 * this record. It is the one thing the band varies per hub that
+				 * nothing else here expressed: whether the office is open. Empty
+				 * means open, and the card links; any text means it is not, and
+				 * the card wears that text instead of a link. Storing the words
+				 * rather than a yes/no keeps "Coming soon" translatable and
+				 * lets a hub say "Opening 2027" without a code change.
+				 */
+				array(
+					'key'         => 'badge',
+					'type'        => 'text',
+					'label'       => __( 'Not open yet — badge text', 'synergi' ),
+					'description' => __( 'Leave empty for an office that is open. Text here, e.g. Coming soon, marks it as not open yet and the card stops being a link.', 'synergi' ),
+					'max_length'  => 40,
+				),
 			),
 		)
 	);
@@ -787,6 +803,77 @@ function syn_register_default_records() {
 					'type'        => 'image',
 					'label'       => __( 'Photograph', 'synergi' ),
 					'description' => __( 'Choose one with meaningful alt text already set on it in the media library.', 'synergi' ),
+				),
+			),
+		)
+	);
+
+	/*
+	 * FINAL CTA — the closing band. The other section that renders on all seven
+	 * pages, so the same reasoning as "why" applies: one record, edited once.
+	 *
+	 * The two buttons are a URL and a label each rather than the "link" field
+	 * type, because link is a top-level field and a record's columns are leaves.
+	 * Two columns per button is the same data and reads perfectly well on the
+	 * screen; the section drops a button whose pair is half filled.
+	 */
+	syn_register_record(
+		array(
+			'id'          => 'final_cta',
+			'title'       => __( 'Closing call to action', 'synergi' ),
+			'description' => __( 'The band at the foot of the homepage and every service page. Leave any box empty to keep the built-in wording.', 'synergi' ),
+			'read_by'     => __( 'the homepage and all six service pages.', 'synergi' ),
+			'single'      => true,
+			'fields'      => array(
+				array(
+					'key'        => 'eyebrow',
+					'type'       => 'text',
+					'label'      => __( 'Eyebrow', 'synergi' ),
+					'max_length' => 60,
+				),
+				array(
+					'key'        => 'title',
+					'type'       => 'text',
+					'label'      => __( 'Heading', 'synergi' ),
+					'max_length' => 140,
+				),
+				array(
+					'key'        => 'body',
+					'type'       => 'textarea',
+					'label'      => __( 'Paragraph', 'synergi' ),
+					'rows'       => 3,
+					'max_length' => 400,
+				),
+				array(
+					'key'         => 'primary_label',
+					'type'        => 'text',
+					'label'       => __( 'Main button — text', 'synergi' ),
+					'max_length'  => 40,
+				),
+				array(
+					'key'         => 'primary_url',
+					'type'        => 'url',
+					'label'       => __( 'Main button — address', 'synergi' ),
+					'placeholder' => '/contact-us/',
+				),
+				array(
+					'key'        => 'secondary_label',
+					'type'       => 'text',
+					'label'      => __( 'Second button — text', 'synergi' ),
+					'max_length' => 40,
+				),
+				array(
+					'key'         => 'secondary_url',
+					'type'        => 'url',
+					'label'       => __( 'Second button — address', 'synergi' ),
+					'description' => __( 'Leave both boxes empty to show only the main button.', 'synergi' ),
+					'placeholder' => '/our-services/',
+				),
+				array(
+					'key'         => 'note',
+					'type'        => 'text',
+					'label'       => __( 'Small line under the buttons', 'synergi' ),
+					'max_length'  => 160,
 				),
 			),
 		)
