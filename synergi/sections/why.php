@@ -10,7 +10,12 @@
  * touches it, points at it, tabs into it, scrolls it off screen, or switches
  * tab.
  *
- * Expected $args (all optional — the defaults are the approved copy):
+ * Since Stage 6b the words come from the "why" and "why_cards" site records
+ * when nothing is passed, because this band renders on seven pages and has to
+ * be editable in one place. $args still wins over both; see the precedence note
+ * above the code.
+ *
+ * Expected $args (all optional — records first, then the approved copy):
  *   eyebrow string  Small label above the heading.
  *   title   string  The section's <h2>.
  *   intro   string  The paragraph under the heading.
@@ -33,36 +38,88 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$syn_eyebrow = $args['eyebrow'] ?? __( 'Why Synergi', 'synergi' );
-$syn_title   = $args['title'] ?? __( 'Why Companies Choose Synergi', 'synergi' );
-$syn_intro   = $args['intro'] ?? __( 'Synergi is more than just an outsourcing provider; we are a trusted partner across the Gulf. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant.', 'synergi' );
+/*
+ * Where this band's words come from, in order of precedence, for both the
+ * heading and the cards below:
+ *
+ *   1. $args, if a template passed them explicitly.
+ *   2. The "why" and "why_cards" site records, edited once at
+ *      Settings → Site records.
+ *   3. The approved copy written out below, when the record holds nothing.
+ *
+ * Records and not page fields because this band renders on the homepage and on
+ * all six service pages with the same wording — CLAUDE.md §7a's test answered:
+ * if it changes, seven pages should change with it. Wired up in Stage 6b.
+ *
+ * The precedence is what keeps the homepage byte-identical the day this ships:
+ * an empty record falls straight through to the same strings the section has
+ * always printed, so nothing moves until somebody deliberately types something.
+ */
+$syn_why = function_exists( 'syn_record' ) ? syn_record( 'why' ) : array();
 
-$syn_cards = $args['cards'] ?? array(
-	array(
-		'slug'        => 'gulf-markets',
-		'title'       => __( 'Experience across multiple Gulf markets', 'synergi' ),
-		'short'       => __( 'Gulf market experience', 'synergi' ),
-		'description' => __( 'Regional context informs how teams, controls, and delivery models are designed.', 'synergi' ),
-	),
-	array(
-		'slug'        => 'customized-strategy',
-		'title'       => __( 'Customized outsourcing strategies', 'synergi' ),
-		'short'       => __( 'Customized strategies', 'synergi' ),
-		'description' => __( 'Each operating model is shaped around the organization, its maturity, and its priorities.', 'synergi' ),
-	),
-	array(
-		'slug'        => 'compliance',
-		'title'       => __( 'Compliance with UAE and Gulf regulations', 'synergi' ),
-		'short'       => __( 'Regulatory compliance', 'synergi' ),
-		'description' => __( 'Governance and local requirements are built into processes and delivery controls.', 'synergi' ),
-	),
-	array(
-		'slug'        => 'scalable-operations',
-		'title'       => __( 'Flexible operations that grow with your business', 'synergi' ),
-		'short'       => __( 'Scalable operations', 'synergi' ),
-		'description' => __( 'Consulting, manpower augmentation, and BPO can scale as requirements change.', 'synergi' ),
-	),
-);
+$syn_eyebrow = $args['eyebrow'] ?? ( isset( $syn_why['eyebrow'] ) && '' !== $syn_why['eyebrow'] ? $syn_why['eyebrow'] : __( 'Why Synergi', 'synergi' ) );
+$syn_title   = $args['title'] ?? ( isset( $syn_why['title'] ) && '' !== $syn_why['title'] ? $syn_why['title'] : __( 'Why Companies Choose Synergi', 'synergi' ) );
+$syn_intro   = $args['intro'] ?? ( isset( $syn_why['intro'] ) && '' !== $syn_why['intro'] ? $syn_why['intro'] : __( 'Synergi is more than just an outsourcing provider; we are a trusted partner across the Gulf. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant.', 'synergi' ) );
+
+/*
+ * A card needs a heading to be a card. A row holding only a photograph is
+ * skipped here rather than further down, so that a record containing nothing
+ * usable falls through to the built-in deck instead of rendering a band with
+ * one empty card in it — the same rule sections/numbers.php applies to a
+ * half-filled figure.
+ */
+$syn_record_cards = array();
+
+if ( function_exists( 'syn_record' ) ) {
+	foreach ( syn_record( 'why_cards' ) as $syn_row ) {
+		if ( '' === ( $syn_row['title'] ?? '' ) ) {
+			continue;
+		}
+
+		$syn_record_cards[] = array(
+			'image_id'    => (int) ( $syn_row['image'] ?? 0 ),
+			'title'       => $syn_row['title'],
+			'short'       => '' !== ( $syn_row['short'] ?? '' ) ? $syn_row['short'] : $syn_row['title'],
+			'description' => $syn_row['description'] ?? '',
+		);
+	}
+}
+
+/*
+ * array_key_exists rather than ??, so that a template passing an explicitly
+ * empty list still renders nothing. "Not passed" and "passed as empty" are
+ * different instructions and only one of them means "use the defaults".
+ */
+if ( is_array( $args ) && array_key_exists( 'cards', $args ) ) {
+	$syn_cards = $args['cards'];
+} else {
+	$syn_cards = $syn_record_cards ? $syn_record_cards : array(
+		array(
+			'slug'        => 'gulf-markets',
+			'title'       => __( 'Experience across multiple Gulf markets', 'synergi' ),
+			'short'       => __( 'Gulf market experience', 'synergi' ),
+			'description' => __( 'Regional context informs how teams, controls, and delivery models are designed.', 'synergi' ),
+		),
+		array(
+			'slug'        => 'customized-strategy',
+			'title'       => __( 'Customized outsourcing strategies', 'synergi' ),
+			'short'       => __( 'Customized strategies', 'synergi' ),
+			'description' => __( 'Each operating model is shaped around the organization, its maturity, and its priorities.', 'synergi' ),
+		),
+		array(
+			'slug'        => 'compliance',
+			'title'       => __( 'Compliance with UAE and Gulf regulations', 'synergi' ),
+			'short'       => __( 'Regulatory compliance', 'synergi' ),
+			'description' => __( 'Governance and local requirements are built into processes and delivery controls.', 'synergi' ),
+		),
+		array(
+			'slug'        => 'scalable-operations',
+			'title'       => __( 'Flexible operations that grow with your business', 'synergi' ),
+			'short'       => __( 'Scalable operations', 'synergi' ),
+			'description' => __( 'Consulting, manpower augmentation, and BPO can scale as requirements change.', 'synergi' ),
+		),
+	);
+}
 
 $syn_cards = array_values( array_filter( (array) $syn_cards, 'is_array' ) );
 $syn_total = count( $syn_cards );

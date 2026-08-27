@@ -161,10 +161,29 @@ function syn_normalize_record( $record ) {
 			'row_label'   => '',
 			'min_rows'    => 1,
 			'max_rows'    => 0,
+			'single'      => false,
 			'fields'      => array(),
 		),
 		$record
 	);
+
+	/*
+	 * A "single" record is one set of fields rather than a list of rows: the
+	 * heading and intro of a band that appears on seven pages, where there is
+	 * exactly one of each and adding a second would be meaningless.
+	 *
+	 * It is stored as a one-row list all the same, so the sanitiser, the shaper
+	 * and the repeater UI need no idea it exists — capping the row count is the
+	 * whole implementation, and syn_repeater_ui() already drops the add button
+	 * and the row bar at a cap of one. Only syn_record() unwraps it, handing the
+	 * caller the group instead of a list of one.
+	 */
+	$record['single'] = (bool) $record['single'];
+
+	if ( $record['single'] ) {
+		$record['min_rows'] = 1;
+		$record['max_rows'] = 1;
+	}
 
 	$field = syn_normalize_field(
 		array(
@@ -192,6 +211,7 @@ function syn_normalize_record( $record ) {
 		'title'       => $record['title'],
 		'description' => $record['description'],
 		'read_by'     => $record['read_by'],
+		'single'      => $record['single'],
 		'field'       => $field,
 	);
 }
@@ -453,8 +473,27 @@ function syn_record( $id ) {
 
 	$stored = syn_records_stored();
 	$rows   = isset( $stored[ $id ] ) ? $stored[ $id ] : array();
+	$shaped = syn_shape_rows( $rows, $records[ $id ]['field'] );
 
-	return syn_shape_rows( $rows, $records[ $id ]['field'] );
+	/*
+	 * A single record is stored as a one-row list and read as a group. Unwrapping
+	 * it here rather than at every call site is what keeps a section's code the
+	 * same shape whichever kind of record it reads: ask, get an array, decide
+	 * whether it holds anything.
+	 *
+	 * A blank group comes back as array() rather than a row of empty strings, so
+	 * the "is there anything here?" test a section makes before falling back to
+	 * its own copy stays a plain truth test.
+	 */
+	if ( ! empty( $records[ $id ]['single'] ) ) {
+		$group = isset( $shaped[0] ) ? $shaped[0] : array();
+
+		return array_filter( $group, static function ( $value ) {
+			return '' !== $value;
+		} ) ? $group : array();
+	}
+
+	return $shaped;
 }
 
 /**
@@ -662,6 +701,92 @@ function syn_register_default_records() {
 					'type'        => 'image',
 					'label'       => __( 'Photograph', 'synergi' ),
 					'description' => __( 'Optional. Used where a location is shown with a picture.', 'synergi' ),
+				),
+			),
+		)
+	);
+
+	/*
+	 * WHY — the "Why Companies Choose Synergi" band. A record and not page
+	 * fields because the band renders on the homepage and on all six service
+	 * pages with identical wording, which is CLAUDE.md §7a's test answered:
+	 * change it once, it changes on seven pages.
+	 *
+	 * Two records rather than one because the band is two different shapes. The
+	 * heading exists exactly once, so it is a single group; the cards are a list
+	 * that can be reordered and added to. One record cannot be both, and forcing
+	 * it would mean a heading pretending to be row one.
+	 */
+	syn_register_record(
+		array(
+			'id'          => 'why',
+			'title'       => __( 'Why Synergi band — heading', 'synergi' ),
+			'description' => __( 'The wording above the four cards. Leave any box empty to keep the built-in text.', 'synergi' ),
+			'read_by'     => __( 'the homepage and all six service pages.', 'synergi' ),
+			'single'      => true,
+			'fields'      => array(
+				array(
+					'key'         => 'eyebrow',
+					'type'        => 'text',
+					'label'       => __( 'Eyebrow', 'synergi' ),
+					'description' => __( 'The small label above the heading.', 'synergi' ),
+					'max_length'  => 60,
+				),
+				array(
+					'key'        => 'title',
+					'type'       => 'text',
+					'label'      => __( 'Heading', 'synergi' ),
+					'max_length' => 120,
+				),
+				array(
+					'key'        => 'intro',
+					'type'       => 'textarea',
+					'label'      => __( 'Introduction', 'synergi' ),
+					'rows'       => 3,
+					'max_length' => 400,
+				),
+			),
+		)
+	);
+
+	syn_register_record(
+		array(
+			'id'          => 'why_cards',
+			'title'       => __( 'Why Synergi band — the cards', 'synergi' ),
+			'description' => __( 'The reasons in the turning deck, in the order they appear. Leave the whole list empty to keep the four built-in cards.', 'synergi' ),
+			'read_by'     => __( 'the homepage and all six service pages.', 'synergi' ),
+			'row_noun'    => __( 'Card', 'synergi' ),
+			'button'      => __( 'Add card', 'synergi' ),
+			'row_label'   => 'title',
+			'min_rows'    => 1,
+			'max_rows'    => 8,
+			'fields'      => array(
+				array(
+					'key'         => 'title',
+					'type'        => 'text',
+					'label'       => __( 'Heading', 'synergi' ),
+					'description' => __( 'The sentence on the card, e.g. Experience across multiple Gulf markets.', 'synergi' ),
+					'max_length'  => 120,
+				),
+				array(
+					'key'         => 'short',
+					'type'        => 'text',
+					'label'       => __( 'Short name', 'synergi' ),
+					'description' => __( 'Two or three words, used on the button that turns the deck to this card.', 'synergi' ),
+					'max_length'  => 40,
+				),
+				array(
+					'key'         => 'description',
+					'type'        => 'textarea',
+					'label'       => __( 'One sentence', 'synergi' ),
+					'rows'        => 2,
+					'max_length'  => 240,
+				),
+				array(
+					'key'         => 'image',
+					'type'        => 'image',
+					'label'       => __( 'Photograph', 'synergi' ),
+					'description' => __( 'Choose one with meaningful alt text already set on it in the media library.', 'synergi' ),
 				),
 			),
 		)

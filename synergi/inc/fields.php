@@ -1062,10 +1062,20 @@ function syn_repeater_ui( $field, $name, $rows ) {
 
 	echo '</div>';
 
-	printf(
-		'<p class="syn-repeater__add"><button type="button" class="button" data-syn-repeater-add>%s</button></p>',
-		esc_html( $field['button'] )
-	);
+	/*
+	 * A group capped at one row is not a list, it is a single set of fields —
+	 * the "why" band's heading, say, which exists once for the whole site. An
+	 * add button that can never add anything is a control that lies about what
+	 * it does, so it is not drawn. syn_render_repeater_row() drops the row bar
+	 * for the same reason, and between them a max_rows of 1 renders as a plain
+	 * group of fields with no list chrome around it.
+	 */
+	if ( 1 !== (int) $field['max_rows'] ) {
+		printf(
+			'<p class="syn-repeater__add"><button type="button" class="button" data-syn-repeater-add>%s</button></p>',
+			esc_html( $field['button'] )
+		);
+	}
 
 	/*
 	 * The blank row lives in a <template>: its inputs are inert, so they are
@@ -1107,41 +1117,51 @@ function syn_render_repeater_row( $field, $name, $index, $number, $row ) {
 		esc_html( (string) $number )
 	);
 
-	echo '<div class="syn-repeater__bar">';
+	/*
+	 * The bar carries the row number and the move and remove controls. A group
+	 * capped at one row has nothing to number, nothing to reorder against and
+	 * nothing it is allowed to remove, so it gets no bar at all and reads as a
+	 * plain set of fields. See the matching note in syn_repeater_ui().
+	 */
+	if ( 1 !== (int) $field['max_rows'] ) {
+		echo '<div class="syn-repeater__bar">';
 
-	printf(
-		'<span class="syn-repeater__number" data-syn-repeater-number>%s</span>',
-		esc_html( (string) $number )
-	);
+		printf(
+			'<span class="syn-repeater__number" data-syn-repeater-number>%s</span>',
+			esc_html( (string) $number )
+		);
 
-	printf(
-		'<span class="syn-repeater__title" data-syn-repeater-title>%s</span>',
-		esc_html( $title )
-	);
+		printf(
+			'<span class="syn-repeater__title" data-syn-repeater-title>%s</span>',
+			esc_html( $title )
+		);
 
-	echo '<span class="syn-repeater__controls">';
+		echo '<span class="syn-repeater__controls">';
 
-	/* translators: 1: row noun, e.g. "Capability". 2: row number. */
-	$up_label = sprintf( __( 'Move %1$s %2$s up', 'synergi' ), $noun, (string) $number );
-	/* translators: 1: row noun, e.g. "Capability". 2: row number. */
-	$down_label = sprintf( __( 'Move %1$s %2$s down', 'synergi' ), $noun, (string) $number );
-	/* translators: 1: row noun, e.g. "Capability". 2: row number. */
-	$remove_label = sprintf( __( 'Remove %1$s %2$s', 'synergi' ), $noun, (string) $number );
+		/* translators: 1: row noun, e.g. "Capability". 2: row number. */
+		$up_label = sprintf( __( 'Move %1$s %2$s up', 'synergi' ), $noun, (string) $number );
+		/* translators: 1: row noun, e.g. "Capability". 2: row number. */
+		$down_label = sprintf( __( 'Move %1$s %2$s down', 'synergi' ), $noun, (string) $number );
+		/* translators: 1: row noun, e.g. "Capability". 2: row number. */
+		$remove_label = sprintf( __( 'Remove %1$s %2$s', 'synergi' ), $noun, (string) $number );
 
-	printf(
-		'<button type="button" class="button button-small" data-syn-repeater-up aria-label="%s"><span aria-hidden="true">&uarr;</span></button>',
-		esc_attr( $up_label )
-	);
-	printf(
-		'<button type="button" class="button button-small" data-syn-repeater-down aria-label="%s"><span aria-hidden="true">&darr;</span></button>',
-		esc_attr( $down_label )
-	);
-	printf(
-		'<button type="button" class="button button-small syn-repeater__remove" data-syn-repeater-remove aria-label="%s"><span aria-hidden="true">&times;</span></button>',
-		esc_attr( $remove_label )
-	);
+		printf(
+			'<button type="button" class="button button-small" data-syn-repeater-up aria-label="%s"><span aria-hidden="true">&uarr;</span></button>',
+			esc_attr( $up_label )
+		);
+		printf(
+			'<button type="button" class="button button-small" data-syn-repeater-down aria-label="%s"><span aria-hidden="true">&darr;</span></button>',
+			esc_attr( $down_label )
+		);
+		printf(
+			'<button type="button" class="button button-small syn-repeater__remove" data-syn-repeater-remove aria-label="%s"><span aria-hidden="true">&times;</span></button>',
+			esc_attr( $remove_label )
+		);
 
-	echo '</span></div><div class="syn-repeater__body">';
+		echo '</span></div>';
+	}
+
+	echo '<div class="syn-repeater__body">';
 
 	foreach ( $field['subfields'] as $sub ) {
 		$sub_name = sprintf( '%s[%s][%s]', $name, $index, $sub['key'] );
