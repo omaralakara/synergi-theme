@@ -8,8 +8,11 @@
  * Expected $args:
  *   people   array[] Everyone on the page, in order, each:
  *                      group    string Optional heading this person sits under.
- *                      name     string The person's name. A row without one is
- *                                       skipped.
+ *                      name     string The person's name. A row with a name
+ *                                       missing but something else typed is
+ *                                       skipped; a row with EVERY box empty is
+ *                                       a deliberate gap and holds a cell of
+ *                                       the grid open (28 Aug — see the loop).
  *                      role     string Their title.
  *                      image    int    Optional attachment ID.
  *                      linkedin string Optional profile address.
@@ -89,37 +92,82 @@ $syn_initials = static function ( $name ) {
  */
 $syn_groups = array();
 
+/*
+ * The group a blank row belongs to. A spacer is typed with every box empty,
+ * including Group, so it would otherwise fall out of the group it was inserted
+ * into and reappear at the foot of the page. It inherits the group of the row
+ * above it instead, which is where an editor put it.
+ */
+$syn_last_group = '';
+
+/* True once any row has actually named somebody: a page of nothing but blank
+   rows is an empty page, not a grid of gaps. */
+$syn_has_people = false;
+
 foreach ( (array) ( $args['people'] ?? array() ) as $syn_index => $syn_row ) {
 	if ( ! is_array( $syn_row ) ) {
 		continue;
 	}
 
-	$syn_name = trim( (string) ( $syn_row['name'] ?? '' ) );
+	$syn_name     = trim( (string) ( $syn_row['name'] ?? '' ) );
+	$syn_role     = trim( (string) ( $syn_row['role'] ?? '' ) );
+	$syn_image    = (int) ( $syn_row['image'] ?? 0 );
+	$syn_linkedin = trim( (string) ( $syn_row['linkedin'] ?? '' ) );
+	$syn_bio      = trim( (string) ( $syn_row['bio'] ?? '' ) );
+	$syn_group    = trim( (string) ( $syn_row['group'] ?? '' ) );
 
+	/*
+	 * A ROW WITH NOTHING IN IT IS A DELIBERATE GAP, not a mistake. Asked for on
+	 * 28 Aug: it is how an editor decides where a row of cards breaks — two
+	 * leaders alone on the first row, say, which is what the Elementor page did
+	 * with a second section and a developer. It renders as an empty cell of the
+	 * grid: no surface, no shadow, nothing to hover, and hidden from assistive
+	 * technology, which has no use for a hole in a layout.
+	 *
+	 * Group is not part of the test. A row carrying only a group name is a
+	 * person an editor started and abandoned, not a spacer.
+	 */
+	$syn_is_gap = ( '' === $syn_name && '' === $syn_role && 0 === $syn_image && '' === $syn_linkedin && '' === $syn_bio );
+
+	if ( $syn_is_gap ) {
+		$syn_gap_group = '' !== $syn_group ? $syn_group : $syn_last_group;
+
+		if ( ! isset( $syn_groups[ $syn_gap_group ] ) ) {
+			$syn_groups[ $syn_gap_group ] = array();
+		}
+
+		$syn_groups[ $syn_gap_group ][] = array( 'gap' => true );
+
+		continue;
+	}
+
+	/* Something was typed, but not the one thing a card cannot render without. */
 	if ( '' === $syn_name ) {
 		if ( SYN_DEBUG ) {
-			echo "\n<!-- syn-section people: row " . (int) $syn_index . " has no name, so it was skipped -->\n";
+			echo "\n<!-- syn-section people: row " . (int) $syn_index . " has no name, so it was skipped. An entirely empty row would have rendered as a deliberate gap instead. -->\n";
 		}
 
 		continue;
 	}
 
-	$syn_group = trim( (string) ( $syn_row['group'] ?? '' ) );
-
 	if ( ! isset( $syn_groups[ $syn_group ] ) ) {
 		$syn_groups[ $syn_group ] = array();
 	}
 
+	$syn_last_group = $syn_group;
+	$syn_has_people = true;
+
 	$syn_groups[ $syn_group ][] = array(
+		'gap'      => false,
 		'name'     => $syn_name,
-		'role'     => trim( (string) ( $syn_row['role'] ?? '' ) ),
-		'image'    => (int) ( $syn_row['image'] ?? 0 ),
-		'linkedin' => trim( (string) ( $syn_row['linkedin'] ?? '' ) ),
-		'bio'      => trim( (string) ( $syn_row['bio'] ?? '' ) ),
+		'role'     => $syn_role,
+		'image'    => $syn_image,
+		'linkedin' => $syn_linkedin,
+		'bio'      => $syn_bio,
 	);
 }
 
-if ( ! $syn_groups ) {
+if ( ! $syn_has_people ) {
 	if ( SYN_DEBUG ) {
 		echo "\n<!-- syn-section people: nobody to render -->\n";
 	}
@@ -155,6 +203,19 @@ $syn_uid = wp_unique_id( 'syn-people-' );
 				<ul class="syn-people__grid">
 					<?php
 					foreach ( $syn_members as $syn_member_index => $syn_person ) :
+						/*
+						 * An empty row an editor added on purpose: it holds a
+						 * cell of the grid open so the cards after it start a
+						 * new row. Nothing inside it, and hidden from assistive
+						 * technology — a gap in a layout is not information.
+						 */
+						if ( ! empty( $syn_person['gap'] ) ) {
+							?>
+							<li class="syn-people__person syn-people__person--gap" aria-hidden="true"></li>
+							<?php
+							continue;
+						}
+
 						$syn_person_id = $syn_group_id . '-person-' . (int) $syn_member_index;
 
 						/*

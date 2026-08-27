@@ -108,6 +108,20 @@
 	box-shadow: var(--syn-shadow-soft);
 }
 
+/*
+ * The deliberate gap — an editor's empty row (sections/people.php). It keeps
+ * the cell so the cards after it start a new row, and gives back everything
+ * that would make a cell look like a card. It stretches to the row's height on
+ * its own: grid items stretch by default, so the gap is exactly as tall as the
+ * cards beside it without being told a size.
+ */
+.syn-people__person--gap {
+	padding: 0;
+	background-color: transparent;
+	box-shadow: none;
+	pointer-events: none;
+}
+
 /* ==========================================================================
    5. The portrait
    ========================================================================== */
