@@ -239,3 +239,137 @@ If a week slips, the cut order from the build plan still applies — the guide
 template merges into `page.php` first. Add to the front of that list: **6d
 (solutions) can ship after launch** if the five solution pages do not exist as
 content yet. Nothing else here is optional.
+
+---
+
+## 8. Decisions taken 27 Aug, before 6a began
+
+Four scope questions were put to the business on 27 Aug with estimates attached.
+All four were answered the same day. This section is the record; where it
+conflicts with anything above, this section is later and wins.
+
+### 8a. 6a ships a reduced record set — three, not six
+
+`syn_records` is built in full as a mechanism, but only three records are
+defined in v1:
+
+| Built now | Why | Deferred | Why it can wait |
+|---|---|---|---|
+| `services` | Read by the six service pages and the Our Services listing — 6c cannot run without it | `partners` | Only `/our-partners/`, which does not exist yet |
+| `figures` | Read by the numbers section and About Us; also the retrofit's test subject | `events` | Only the Media hub and a homepage section that is frozen |
+| `locations` | Read by Contact Us and Global Locations | `social` | Only Contact Us and the footer |
+
+The three deferred records cost roughly half an hour each to add once the
+repeater exists, because they are the same mechanism with different field
+definitions. Defining them now would mean building three Settings groups that
+no template reads for several weeks.
+
+**Honest note on `locations`:** it is the one of the three that nothing in the
+MVP actually consumes — Contact Us and `market.php` are both outside this
+scope. It is kept because it is the record most likely to be needed next and
+the marginal cost is small. If 6a runs long, it is the first thing to drop.
+
+### 8b. The `numbers.php` safety retrofit is approved
+
+One section — `sections/numbers.php` — is wired to read the `figures` record
+during 6a, with its current `$args` defaults kept as the empty-value fallback.
+Estimated 1.5 hours.
+
+**This is the only part of the frozen homepage that 6a touches, and it changes
+nothing visible.** The retrofit contract from 6b applies in miniature: same
+markup, same classes, same payload, proved by diffing the rendered HTML before
+and after.
+
+**Why it is worth 4% of the stage:** 6b was originally sequenced first because
+it tested the fields engine against a page that already looked right. With the
+homepage frozen (§8e), that test disappears and the engine's first consumer
+becomes a brand-new template — two unknowns at once. One section restores the
+test at one-twelfth the cost. If the record shape is wrong, this is where it
+surfaces, before `templates/service.php` is built on top of it.
+
+### 8c. The service page gets a real design, consistent with the homepage
+
+The gap found on 27 Aug: **there is no service page design anywhere in this
+repo.** `design-source/templates/` holds one file, `homepage-content.html`. Yet
+`synergi-build-stages.md` and the handoff brief both carry a verification item
+reading "the HR page matches the service prototype". There was no prototype to
+match.
+
+Decided: **design it, using the `design` skill, structurally consistent with the
+approved homepage.** Not a fresh visual direction — the homepage is approved and
+the service pages are its relatives. Concretely:
+
+- **One template, six pages.** All six service lines render through
+  `templates/service.php`. They differ in content and photographs only. A
+  seventh line added later inherits the design with no code change — that is
+  the promise in `synergi-architecture-explained.md` and this is where it gets
+  tested.
+- **Composed from existing sections wherever one fits.** `why.php`,
+  `numbers.php`, `blog.php` and `final-cta.php` already exist, are approved and
+  are on-brand. Reusing them keeps the service page inside the design system by
+  construction rather than by discipline, and it is CLAUDE.md §4's rule anyway:
+  *templates compose sections, they do not contain section markup.*
+- **New partials only where nothing fits.** Expected: a capabilities grid and
+  the FAQ section in §8d. Anything beyond those two needs justifying.
+
+The design pass happens at the start of 6c, before template code, and produces
+something to approve rather than a page to react to.
+
+### 8d. Every service page carries an FAQ
+
+New requirement, and it is not in any earlier document. Every service page — and
+by extension every solution page, since D1 gives them one template — ends with a
+frequently-asked-questions block.
+
+This is well-founded rather than novel: `/shared-services-uae/` already carries
+an "FAQ" heading in its live content (`sitemap-and-navigation.md` §4), so the
+pattern exists on the site today and is being made consistent rather than
+introduced.
+
+What it costs:
+
+| Piece | Note |
+|---|---|
+| `_syn_faqs` field group | A repeater: question + answer. The answer sanitizes with `wp_kses_post()` — see CLAUDE.md §7b |
+| `sections/faq.php` + its CSS | A new partial. Disclosure pattern, one question per row |
+| `assets/js/sections/faq.js` | Accordion behaviour. Must be keyboard-operable, and must render every answer visible with JavaScript off (CLAUDE.md §10 definition of done) |
+| `FAQPage` JSON-LD | **Only after confirming Yoast is not already emitting it** on that page. CLAUDE.md §8 now records this |
+
+Estimated 2–3 hours, one time. Every page after the first is content entry.
+
+### 8e. What stays frozen, and what is still open
+
+**Frozen by the business, 27 Aug:** the homepage. 6b (the twelve-partial
+retrofit) and 6e (the four content changes and the new events section) do not
+run in this stage. The single-section retrofit in §8b is the deliberate
+exception.
+
+**6b must still land before handover.** A site where eleven page types are
+editable and the homepage is the only one requiring a developer is not a
+finished handover. It is deferred, not cancelled.
+
+**Still open, and unchanged from §4:** whether the five Solutions pages have
+copy written. It decides whether 6d builds five pages or one template and one
+page. 6d is held until marketing answers. 6a and 6c proceed regardless.
+
+### 8f. What this does to the estimate
+
+Revised on 27 Aug, replacing the numbers in §7. Hours are elapsed working-loop
+time — building, deploying to staging, testing, fixing — not one person's
+labour.
+
+| | Realistic hours |
+|---|---|
+| 6a, three records | 8 |
+| `numbers.php` retrofit (§8b) | 1.5 |
+| 6c, including the design pass (§8c) and the FAQ section (§8d) | 14 |
+| Content entry, the four remaining service pages | 5 |
+| **Active Stage 6** | **~28.5** |
+
+At four hours a day with same-day review, that completes around **Monday 7
+September 2026**. 6d, `market.php` and `guide.php` sit outside this and are
+scheduled once the solutions copy question is answered.
+
+The design pass and the FAQ section are what moved this from the 23 hours quoted
+for MVP earlier the same day. Both were the business's call, both were made with
+the cost stated, and neither is padding.

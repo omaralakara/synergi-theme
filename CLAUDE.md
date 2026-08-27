@@ -182,7 +182,7 @@ Site records live in the Options API under a single `syn_records` option, edited
 ### 7b. Field types
 
 - **Simple fields** (eyebrow, lede): plain inputs in a meta box, one postmeta each.
-- **Repeatable groups** (capabilities: title + description + tags; quick facts: label + value): a vanilla-JS repeater UI (add / remove / reorder rows) storing ONE JSON array per group in a single postmeta key (e.g. `_syn_capabilities`). Sanitize per-leaf on save, `wp_json_encode` for storage, escape per-leaf on render.
+- **Repeatable groups** (capabilities: title + description + tags; quick facts: label + value; **FAQs: question + answer**): a vanilla-JS repeater UI (add / remove / reorder rows) storing ONE JSON array per group in a single postmeta key (e.g. `_syn_capabilities`). Sanitize per-leaf on save, `wp_json_encode` for storage, escape per-leaf on render. The FAQ answer is the one leaf that accepts editor HTML, so it sanitizes with `wp_kses_post()` rather than `sanitize_textarea_field()` — a link inside an answer is legitimate content.
 - **Image fields** store an attachment ID and are chosen through the core media modal (`wp.media`), which is already in WordPress and needs no build step. A field shows a thumbnail, a "Choose image" button and a "Remove" button.
 - **Link fields** store a URL and a label as two keys, so a card can point somewhere without an editor touching markup.
 
@@ -201,7 +201,7 @@ Site records live in the Options API under a single `syn_records` option, edited
 - **Exactly one `<h1>` per page, emitted by the template**, never typed by an editor. `single.php` renders the post title as the `<h1>` (this fixes all 22 posts). Heading levels never skip.
 - **Yoast owns `<title>`, meta description, canonical, OG tags.** The theme outputs none of these — no duplicate meta, ever. The theme declares `add_theme_support( 'title-tag' )` and otherwise stays out of the `<head>`.
 - **URLs never change** (restriction §2.8). If one ever must, it gets a 301 and a written record.
-- **Schema:** `LocalBusiness` JSON-LD on the contact/locations context, added once in a template part — check Yoast isn't already emitting an equivalent piece before adding.
+- **Schema:** `LocalBusiness` JSON-LD on the contact/locations context, added once in a template part — check Yoast isn't already emitting an equivalent piece before adding. The same check applies to `FAQPage` on service and solution pages (decided 27 Aug, §7b): Yoast ships an FAQ block that emits it, so the theme emits `FAQPage` from the FAQ field group **only** after confirming Yoast is not already doing so on that page. Two `FAQPage` blocks on one URL is a Search Console error, not a bonus.
 - **Semantic landmarks:** one `<main>`, `<header>`/`<footer>`/`<nav>` with accessible names. Real `<article>` for posts.
 - **Images:** meaningful `alt` required at upload for content images; empty `alt=""` for decorative ones. Alt text is backfilled for every image on a page as that page is migrated.
 - Page titles under 60 characters; flag any over during migration, don't silently rewrite.

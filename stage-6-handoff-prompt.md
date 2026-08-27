@@ -5,13 +5,50 @@ written to be self-contained: it says what the project is, what is already
 built, what was decided, what to build next, and the rules that must not be
 broken. It does not assume the new chat has seen any earlier conversation.
 
-Written 26 August 2026, at the end of Stage 5 and before Stage 6a begins.
+Written 26 August 2026, at the end of Stage 5. **Revised 27 August** after the
+business narrowed the scope — see the block headed "Scope as of 27 August",
+which overrides anything later in this brief that disagrees with it.
 
 ---
 
 You are continuing an in-progress WordPress theme build. Read this whole brief
 before doing anything, then confirm the rules and the stage goal back to me
 before you write a single line of code.
+
+## Scope as of 27 August — this overrides the rest of this brief
+
+Five decisions were taken on 27 Aug, after this brief was first written. They
+are recorded in full in `stage-6-scope.md` §8, which is the authority. Where
+anything below contradicts them, they win.
+
+1. **The homepage is frozen.** 6b (retrofitting the twelve homepage partials)
+   and 6e (the four content changes and the new events section) **do not run in
+   this stage**. Do not propose them. They are deferred, not cancelled — 6b must
+   still land before handover, because a site where the homepage is the only
+   page a developer must edit is not a finished handover.
+2. **6a ships three records, not six** — `services`, `figures`, `locations`.
+   `partners`, `events` and `social` are deferred; nothing built in this stage
+   reads them.
+3. **One section is retrofitted inside 6a**, as the deliberate exception to the
+   freeze: `sections/numbers.php` reads the `figures` record, with its current
+   `$args` defaults as the empty-value fallback. Nothing about the rendered
+   homepage may change, and that is proved by diffing the HTML — not by looking
+   at it. This exists because 6b was originally the fields engine's safety test
+   and freezing it removed that test.
+4. **The service page gets a design pass, using the `design` skill, at the start
+   of 6c.** There is no service page design anywhere in this repo — the approved
+   design covers the homepage and nothing else. It must be structurally
+   consistent with the homepage rather than a new visual direction, reuse the
+   existing section partials wherever one fits, and produce **one template that
+   carries all six service lines**, differing in content and photographs only.
+5. **Every service and solution page carries an FAQ.** A `_syn_faqs` repeater
+   (question + answer), a new `sections/faq.php`, keyboard-operable, every answer
+   visible with JavaScript off, and `FAQPage` JSON-LD **only** after confirming
+   Yoast is not already emitting it on that page.
+
+**Active Stage 6 is therefore 6a → 6c.** 6d (solutions), `market.php` and
+`guide.php` are held until the business confirms whether the five Solutions
+pages have copy written.
 
 ## 0. Read these files first, in this order
 
@@ -190,19 +227,25 @@ Do not build them during Stage 6 even if it seems convenient.
 
 ### Site records — the `syn_records` option
 
-Six records, stored **once** in a single `syn_records` option, edited on one
+Six records are designed; **three are built in 6a.** Stored **once** in a single `syn_records` option, edited on one
 Settings screen, read by whichever templates need them. This exists because the
 business asked for *"key figures — same numbers as the homepage, one set, used
 everywhere"*, and postmeta cannot express that without copies that drift apart.
 
-| Record | Fields | Read by |
-|---|---|---|
-| `figures` | value, label, **as-at date** | Homepage 06, About Us |
-| `locations` | city, country, entity, function, email, image | Homepage 08, Contact Us, Global Locations |
-| `partners` | name, logo, link | Homepage 07, `/our-partners/` |
-| `services` | name, slug, icon, one-liner, URL | Homepage 02, Our Services listing, service pages, menu |
-| `events` | title, date, place, link | Homepage (new section), Media |
-| `social` | network, URL | Contact Us, footer, homepage 10 |
+| Record | Fields | Read by | In 6a? |
+|---|---|---|---|
+| `services` | name, slug, icon, one-liner, URL | Homepage 02, Our Services listing, service pages, menu | **Yes** |
+| `figures` | value, label, **as-at date** | Homepage 06, About Us | **Yes** |
+| `locations` | city, country, entity, function, email, image | Homepage 08, Contact Us, Global Locations | **Yes** |
+| `partners` | name, logo, link | Homepage 07, `/our-partners/` | Deferred |
+| `events` | title, date, place, link | Homepage (new section), Media | Deferred |
+| `social` | network, URL | Contact Us, footer, homepage 10 | Deferred |
+
+**Only the first three are built in 6a** (27 Aug decision, `stage-6-scope.md`
+§8a). The deferred three are read only by pages that do not exist yet, and each
+costs roughly half an hour to add later because it is the same mechanism with
+different field definitions. Build the store so adding one is a data change, not
+a code change.
 
 **The test for whether something is a page field or a site record is one
 question: if this changes, how many pages should change with it?** More than one
@@ -259,6 +302,13 @@ template and no SEO of their own — a CPT would invent URLs nobody asked for.
   unused and get deleted at Stage 7. Only Main Menu is assigned, to `primary`.
 
 ## 6. The order to build Stage 6 in — 6a to 6e
+
+> **Superseded in part, 27 Aug.** This section is kept because it explains *why*
+> each sub-stage exists and why the order is what it is — reasoning that is still
+> correct and worth reading. But the scope block at the top of this brief is
+> later: **6b and 6e do not run**, 6a ships three records not six, one section is
+> retrofitted inside 6a, and 6c begins with a design pass and adds an FAQ. Read
+> the descriptions below for the reasoning; take the scope from the top.
 
 Build in this order. **Do not reorder, do not merge two sub-stages, and do not
 start the next one until I have confirmed the previous one.**
@@ -448,23 +498,48 @@ or 6c.**
 
 **Stage 6a, and only Stage 6a.**
 
-> Build `synergi/inc/fields.php` per CLAUDE.md §7, and nothing else — no
-> templates, no changes to any existing section partial, no front-end change of
-> any kind. Four field types: simple text, a JSON repeater with a vanilla-JS
-> add/remove/move-up/move-down UI, an image field using the core media modal, and
-> a link field storing url plus label. Then the site-record store: one
-> `syn_records` option, one Settings screen, the same repeater UI, holding
-> `figures`, `locations`, `partners`, `services`, `events` and `social` per §4 of
-> this brief. Nonces, `current_user_can`, bail on autosave and revisions,
-> per-leaf sanitise on save, escape on render, and an admin notice naming
-> anything rejected. Admin assets under `synergi/assets/admin/`, enqueued only on
-> the screens that use them. Register `fields.php` in `functions.php`.
->
-> Then stop, and give me the ten-item stage report in §11 below. Show me the
-> admin screens before we put any template on top of this.
+6a runs in **three steps, with a stop after each.** Do not run them together.
 
-Before you start, confirm back to me: the rules you have read, what 6a includes,
-what it deliberately excludes, and anything in this brief you think is wrong.
+**Step 1 — the four field types.**
+
+> Build the page-field engine and nothing else — no templates, no site records
+> yet, no change to any existing section partial, no front-end change of any
+> kind. `synergi/inc/fields.php`, registered from `functions.php`. Four field
+> types: simple text, a JSON repeater with a vanilla-JS add / remove / move-up /
+> move-down UI, an image field using the core `wp.media` modal, and a link field
+> storing url plus label. Nonces, `current_user_can( 'edit_post', $post_id )`,
+> bail on autosave and revisions, per-leaf sanitise on save, escape on render,
+> and an admin notice naming anything rejected. Field boxes appear only on pages
+> using a matching template. Admin assets under `synergi/assets/admin/`,
+> enqueued only on the screens that use them. Then stop and hand me a zip — I am
+> going to spend half an hour trying to break the repeater before you go on.
+
+**Step 2 — the site records.** Only after I have tested step 1.
+
+> Build `synergi/inc/records.php` — a separate file from `fields.php`, because
+> CLAUDE.md §7a says page fields and site records are two different things and a
+> single thousand-line module is not readable. One `syn_records` option, one
+> Settings screen, the same repeater UI, holding **three records only**:
+> `services` (name, slug, icon, one-liner, URL), `figures` (value, label, as-at
+> date) and `locations` (city, country, entity, function, email, image). Same
+> security rules as step 1, plus shape validation on read — never trust stored
+> option data at render time.
+
+**Step 3 — the one-section safety retrofit.**
+
+> Wire `synergi/sections/numbers.php` to read the `figures` record, keeping its
+> current `$args` defaults as the empty-value fallback so nothing breaks when
+> the record is empty. **Nothing about the rendered homepage may change.** Prove
+> it: capture the rendered HTML before and after and diff them. If the diff is
+> not empty, the retrofit is wrong — fix it, do not explain it away. This is the
+> only part of the frozen homepage this stage touches, and it exists to find a
+> bad record shape now rather than after four templates sit on it.
+
+After each step, stop and give me the ten-item stage report in §11 below.
+
+Before you start step 1, confirm back to me: the rules you have read, what 6a
+includes, what it deliberately excludes, the three records and why the other
+three are deferred, and anything in this brief you think is wrong.
 
 ## 10. Safety, testing and regression rules — non-negotiable
 

@@ -160,11 +160,13 @@ They belong in Stage 3 rather than earlier or later because: every page needs th
 
 **Before starting:** Stage 5 verified, and decisions D1–D4 in `stage-6-scope.md` answered.
 
+> **Scope narrowed again 27 Aug — read `stage-6-scope.md` §8 before this section.** The business froze the homepage, so **6b and 6e do not run in this stage**; 6a ships **three records, not six**; one section (`numbers.php`) is retrofitted inside 6a as the engine's safety test; the service page gets a real design pass because none existed; and **every service and solution page now carries an FAQ**. The sub-stage prompts below already reflect all of it. Active Stage 6 is **6a → 6c**, with 6d held until marketing confirms the solutions copy exists.
+
 **What changed from the original Stage 6:** six service lines, not five (CLAUDE.md §12a is now answered). A new group of five Solutions pages. Fields split into page fields and site records (CLAUDE.md §7a), because the business asked for "one set of numbers, used everywhere". Images move from slug lookups to media-picker fields. And the homepage is retrofitted onto fields before any new template is built.
 
 ### 6a — the fields engine
 
-> Stage 6a. Build `inc/fields.php` per CLAUDE.md §7, and nothing else — no templates yet. Four field types: simple text, a JSON repeater with a vanilla-JS add/remove/up/down UI, an image field using the core media modal, and a link field storing url plus label. Then the site-record store: one `syn_records` option, one Settings screen, same repeater UI, holding the key figures, the locations, the partners and the service lines. Nonces, `current_user_can`, bail on autosave and revisions, per-leaf sanitise on save, escape on render, an admin notice naming anything rejected. Admin assets under `assets/admin/`, enqueued only on the screens that use them. Show me the admin screens before we put any template on top of this.
+> Stage 6a. Build the fields engine per CLAUDE.md §7, and nothing else — no templates. Split it: `inc/fields.php` for page fields, `inc/records.php` for site records, because §7a says they are two different things and one 1,000-line file is not readable. Four field types: simple text, a JSON repeater with a vanilla-JS add/remove/up/down UI, an image field using the core media modal, and a link field storing url plus label. Then the site-record store: one `syn_records` option, one Settings screen, same repeater UI, holding **three records only — `services`, `figures` and `locations`** (`partners`, `events` and `social` are deferred per `stage-6-scope.md` §8a). Nonces, `current_user_can`, bail on autosave and revisions, per-leaf sanitise on save, escape on render, an admin notice naming anything rejected. Admin assets under `assets/admin/`, enqueued only on the screens that use them. **Then, and only then, the one-section safety retrofit:** wire `sections/numbers.php` to read the `figures` record with its current `$args` defaults as the empty-value fallback, and prove the rendered homepage HTML is unchanged by diffing it before and after. Show me the admin screens before we put any template on top of this.
 
 ### 6b — retrofit the homepage
 
@@ -172,7 +174,7 @@ They belong in Stage 3 rather than earlier or later because: every page needs th
 
 ### 6c — the service template
 
-> Stage 6c. `templates/service.php`, composing section partials plus fields. Build Human Resources completely on staging and verify. Then build **Project Management** entering content only — it is the sixth line and has no existing page, so it proves the template can create a page as well as re-skin one. If Project Management needs a single code change, the template is not done.
+> Stage 6c. **Start with the design pass, before any template code** — there is no service page design in the repo and `stage-6-scope.md` §8c decided to make one. Use the `design` skill. Structurally consistent with the approved homepage, not a new visual direction: reuse `why.php`, `numbers.php`, `blog.php` and `final-cta.php` where they fit, and add new partials only where nothing does — expect a capabilities grid and the FAQ block, and justify anything beyond those two. One template, six pages, differing in content and photographs only. Get the design approved, then build `templates/service.php` composing section partials plus fields, including the `_syn_faqs` repeater and `sections/faq.php` per §8d — keyboard-operable, every answer visible with JavaScript off, and `FAQPage` JSON-LD only after confirming Yoast is not already emitting it. Build Human Resources completely on staging and verify. Then build **Project Management** entering content only — it is the sixth line and has no existing page, so it proves the template can create a page as well as re-skin one. If Project Management needs a single code change, the template is not done.
 
 ### 6d — the solutions template
 
@@ -185,11 +187,12 @@ They belong in Stage 3 rather than earlier or later because: every page needs th
 **Verify:**
 - [ ] Every field: nonce, capability check, autosave/revision bail, per-leaf sanitise, escape on render
 - [ ] Repeater: add/remove/reorder works, saves survive reload, weird input (quotes, emoji, HTML, a 5,000-word paste) is stored and displayed safely
-- [ ] Site records: changing a key figure once changes it on the homepage **and** About Us
+- [ ] Site records: changing a key figure once, in Settings, changes it everywhere it is rendered
 - [ ] Images: a photograph can be replaced by someone who has never heard of a slug
-- [ ] Homepage after 6b renders byte-identical markup to before it, and the same measured payload
-- [ ] HR page matches the service prototype; fields editable by a non-developer
+- [ ] **The `numbers.php` retrofit renders byte-identical homepage markup** to before it, and the same measured payload — diffed, not eyeballed (`stage-6-scope.md` §8b)
+- [ ] HR page matches **the design approved in the 6c design pass**; fields editable by a non-developer
 - [ ] Project Management built with zero code changes
+- [ ] **FAQ block:** operable by keyboard alone, every answer visible with JavaScript disabled, and `FAQPage` JSON-LD emitted only after confirming Yoast is not already emitting it on that page (CLAUDE.md §8)
 - [ ] No field can change a colour, a width, a spacing value or a section order (CLAUDE.md §7c)
 - [ ] Fields invisible on ordinary pages
 - [ ] All service, solution and market pages under budget
