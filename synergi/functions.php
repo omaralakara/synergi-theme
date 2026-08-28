@@ -72,6 +72,7 @@ require_once SYN_DIR . 'inc/about-fields.php';
 require_once SYN_DIR . 'inc/solution-fields.php';
 require_once SYN_DIR . 'inc/market-fields.php';
 require_once SYN_DIR . 'inc/contact-fields.php';
+require_once SYN_DIR . 'inc/podcast-fields.php';
 
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';

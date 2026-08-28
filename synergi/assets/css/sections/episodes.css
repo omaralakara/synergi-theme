@@ -1,0 +1,283 @@
+/*
+ * episodes.css — Media: a row of videos, each played where it sits.
+ * Contents: 1 local tokens · 2 shell · 3 the head · 4 the grid · 5 the card ·
+ * 6 the poster and the play button · 7 the copy · 8 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-episodes", only on pages that
+ * declare the section. Markup: sections/episodes.php.
+ * Behaviour: assets/js/sections/episodes.js.
+ *
+ * The card is a poster with a play button on it and the title beneath. The
+ * player is not there until the button is pressed — see sections/episodes.php
+ * for why that is the point of the band rather than an optimisation of it.
+ *
+ * Two surfaces, because the podcast page renders this band twice in a row and
+ * two identical stripes would read as one very long section. The template picks
+ * which; nothing here decides for itself.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-episodes {
+	/*
+	 * The scrim over a poster. Barely there at the top and heavy at the foot,
+	 * so a play button and a focus ring both stay visible whatever the frame
+	 * behind them happens to be — the same construction why.css uses.
+	 */
+	--syn-episodes-scrim: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--syn-ink) 6%, transparent) 0%,
+		color-mix(in srgb, var(--syn-ink) 34%, transparent) 100%
+	);
+
+	/* The bed a card falls back to when no poster has been uploaded. */
+	--syn-episodes-bed: var(--syn-gradient-brand);
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-episodes {
+	background-color: var(--syn-white);
+}
+
+.syn-episodes--paper {
+	background-color: var(--syn-paper);
+}
+
+/* ==========================================================================
+   3. The head
+   ========================================================================== */
+
+.syn-episodes__head {
+	max-inline-size: 46rem;
+	margin-block-end: var(--syn-space-6);
+}
+
+.syn-episodes__title {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+}
+
+.syn-episodes__lede {
+	margin-block-start: var(--syn-space-3);
+	margin-block-end: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   4. The grid
+   Flex and not grid, and centred, for the reason offices.css sets out at
+   length: a trailing row with one card in a three-column track reads as a
+   missing episode. Seven episodes are three, three and one centred.
+   ========================================================================== */
+
+.syn-episodes__list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--syn-space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-episodes__item {
+	display: grid;
+	flex: 1 1 20rem;
+	max-inline-size: calc((100% - (2 * var(--syn-space-4))) / 3);
+}
+
+/* ==========================================================================
+   5. The card
+   ========================================================================== */
+
+.syn-episodes__card {
+	display: flex;
+	overflow: hidden;
+	flex-direction: column;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-episodes__card:hover {
+		transform: translateY(-3px);
+		border-color: var(--syn-cyan);
+		box-shadow: var(--syn-shadow-card);
+	}
+}
+
+/* ==========================================================================
+   6. The poster and the play button
+   ========================================================================== */
+
+/*
+ * 16:9, which is the shape the player will be. Fixing it here means the card
+ * does not resize when the poster is replaced by the iframe — the video simply
+ * appears where the picture was.
+ */
+.syn-episodes__frame {
+	position: relative;
+	display: grid;
+	aspect-ratio: 16 / 9;
+	place-items: center;
+	background-image: var(--syn-episodes-bed);
+}
+
+.syn-episodes__poster {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.syn-episodes__frame::after {
+	position: absolute;
+	inset: 0;
+	background-image: var(--syn-episodes-scrim);
+	content: "";
+}
+
+/*
+ * Hidden until there is a script to answer it. Without JavaScript the "Watch on
+ * YouTube" link below is the whole interface, which is why that link is a real
+ * link and not a second button (CLAUDE.md §10).
+ */
+.syn-episodes__play {
+	display: none;
+	position: relative;
+	z-index: 1;
+	inline-size: 4rem;
+	block-size: 4rem;
+	place-items: center;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--syn-white) 92%, transparent);
+	box-shadow: var(--syn-shadow-card);
+	cursor: pointer;
+	transition:
+		transform var(--syn-duration-fast) var(--syn-ease-out),
+		background-color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+@media (scripting: enabled) {
+
+	.syn-episodes__play {
+		display: grid;
+	}
+}
+
+.syn-episodes__card:hover .syn-episodes__play,
+.syn-episodes__play:focus-visible {
+	transform: scale(1.08);
+	background-color: var(--syn-white);
+}
+
+/*
+ * The triangle, drawn with borders rather than shipped as an icon file: it is
+ * three lines of CSS against a request and a file to keep, and a play mark is
+ * the one glyph that is genuinely just a triangle.
+ */
+.syn-episodes__play-mark {
+	inline-size: 0;
+	block-size: 0;
+	/* Optically centred: a triangle's visual centre sits behind its geometric
+	   one, so it is nudged forward by a quarter of its own width. */
+	margin-inline-start: 0.25rem;
+	border-block: 0.6rem solid transparent;
+	border-inline-start: 1rem solid var(--syn-navy);
+	border-inline-end: 0;
+}
+
+/* The player episodes.js drops in, filling the frame the poster held open. */
+.syn-episodes__frame iframe {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	border: 0;
+}
+
+/* ==========================================================================
+   7. The copy
+   ========================================================================== */
+
+.syn-episodes__copy {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	padding: var(--syn-space-4);
+}
+
+.syn-episodes__card-title {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+	text-wrap: pretty;
+}
+
+.syn-episodes__note {
+	margin: 0.5rem 0 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	line-height: 1.6;
+	text-wrap: pretty;
+}
+
+/* Pinned to the foot, so the links line up across a row of cards whose titles
+   run to different lengths. */
+.syn-episodes__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	margin-block-start: auto;
+	padding-block-start: var(--syn-space-3);
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.syn-episodes__link:hover {
+	color: var(--syn-cyan);
+	text-decoration: underline;
+}
+
+/* ==========================================================================
+   8. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-episodes__item {
+		flex-basis: 100%;
+		max-inline-size: none;
+	}
+
+	.syn-episodes__copy {
+		padding: var(--syn-space-3);
+	}
+}
