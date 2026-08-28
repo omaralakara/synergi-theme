@@ -241,6 +241,8 @@ function syn_inline_icon( $slug, $class = '' ) {
 		 */
 		'social-linkedin',
 		'social-instagram',
+		'social-youtube',
+		'social-facebook',
 	);
 
 	if ( ! in_array( $slug, $allowed, true ) ) {

@@ -91,6 +91,8 @@ function syn_social_icon_slug( $network ) {
 	$known = array(
 		'linkedin'  => 'social-linkedin',
 		'instagram' => 'social-instagram',
+		'youtube'   => 'social-youtube',
+		'facebook'  => 'social-facebook',
 	);
 
 	$key = preg_replace( '/[^a-z]/', '', strtolower( $network ) );

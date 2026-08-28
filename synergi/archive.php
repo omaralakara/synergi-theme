@@ -24,10 +24,26 @@ get_header();
  * is stripped here. The posts page has no archive title of its own, so it
  * borrows the title of the page assigned to it in Settings > Reading.
  */
+$syn_image = 0;
+
 if ( is_home() ) {
 	$syn_posts_page = (int) get_option( 'page_for_posts' );
 	$syn_title      = $syn_posts_page ? get_the_title( $syn_posts_page ) : __( 'Blog', 'synergi' );
 	$syn_lede       = '';
+
+	/*
+	 * The blog gets the photographic hero every other page gets, from the
+	 * Featured Image on the page assigned to Posts in Settings → Reading
+	 * (28 Aug). It was the one landing page still on the flat navy band, for no
+	 * reason other than that this template had never been given the picture —
+	 * page.php has passed one since the same day. The excerpt comes with it,
+	 * because a listing with a sentence of context reads better than a title
+	 * alone and there is nowhere else on this page to put one.
+	 */
+	if ( $syn_posts_page ) {
+		$syn_image = (int) get_post_thumbnail_id( $syn_posts_page );
+		$syn_lede  = has_excerpt( $syn_posts_page ) ? wp_strip_all_tags( get_the_excerpt( $syn_posts_page ) ) : '';
+	}
 } else {
 	$syn_title = wp_strip_all_tags( get_the_archive_title() );
 	$syn_lede  = wp_strip_all_tags( get_the_archive_description() );
@@ -39,6 +55,7 @@ get_template_part(
 	array(
 		'title' => $syn_title,
 		'lede'  => $syn_lede,
+		'image' => $syn_image,
 	)
 );
 ?>

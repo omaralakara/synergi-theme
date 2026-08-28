@@ -92,6 +92,18 @@
 	margin-block-end: var(--syn-space-4);
 }
 
+/*
+ * The plugin sizes fields as a share of the form -- "medium" is 60% -- which on
+ * a column this narrow left every input floating in half a field. The panel is
+ * already the right width, so the fields take all of it.
+ */
+.syn-enquiry__form .wpforms-field-small,
+.syn-enquiry__form .wpforms-field-medium,
+.syn-enquiry__form .wpforms-field-large {
+	inline-size: 100%;
+	max-inline-size: 100%;
+}
+
 .syn-enquiry__form .wpforms-field-row {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));

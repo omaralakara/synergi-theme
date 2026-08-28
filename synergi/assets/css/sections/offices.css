@@ -67,14 +67,23 @@
 }
 
 /* ==========================================================================
-   4. The grid
-   auto-fit rather than a fixed count: the business opened two offices in 2025
-   and a grid that needs a developer for the sixth is a grid that goes stale.
+   4. The row
+   FLEX, NOT GRID, AND THAT IS THE WHOLE POINT (28 Aug). A grid of five cards in
+   a three-column track leaves the last row two-thirds full, and a gap where a
+   card should be reads as a missing office rather than as a layout. Flex wraps
+   the same way but centres whatever is left over, so five offices are three and
+   two centred beneath them — deliberate, and correct for six, seven or four as
+   well. No count is written down anywhere.
+
+   The basis is a size rather than a share: each card wants about 19rem, grows
+   to fill the row it lands on, and never exceeds a third of a wide container,
+   so three cards never stretch to the width of a page.
    ========================================================================== */
 
 .syn-offices__list {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 	gap: var(--syn-space-4);
 	margin: 0;
 	padding: 0;
@@ -84,6 +93,10 @@
 /* A grid, so the card fills the cell whatever its neighbours' heights are. */
 .syn-offices__item {
 	display: grid;
+	flex: 1 1 19rem;
+	/* Three to a row at the container's full width, and the subtraction is the
+	   two gaps that sit between them. */
+	max-inline-size: calc((100% - (2 * var(--syn-space-4))) / 3);
 }
 
 /* ==========================================================================
@@ -127,20 +140,21 @@
 }
 
 /*
- * The two share one size and one shape, so a card with a flag and a card
- * without line up exactly and the row does not step where the pictures run out.
+ * The two share a height so a card with a flag and a card without line up
+ * exactly and the row does not step where the pictures run out. They do NOT
+ * share a width: a flag is a rectangle and is drawn as one.
  */
 .syn-offices__code,
 .syn-offices__flag {
 	display: grid;
 	flex: none;
-	inline-size: 2.5rem;
-	block-size: 2.5rem;
+	block-size: 1.6rem;
 	place-items: center;
-	border-radius: 50%;
 }
 
 .syn-offices__code {
+	inline-size: 2.4rem;
+	border-radius: var(--syn-radius-sm);
 	background-image: var(--syn-gradient-brand);
 	color: var(--syn-white);
 	font-size: var(--syn-step--1);
@@ -149,22 +163,26 @@
 }
 
 /*
- * A flag is a rectangle and the badge is a circle, so the picture is cropped to
- * fill rather than letterboxed into it — a flag with bars of card either side
- * reads as a broken image. The hairline keeps a white-edged flag from
- * dissolving into the card.
+ * DRAWN WHOLE, NOT CROPPED TO A DISC (28 Aug). A circle crops a flag at its
+ * edges, and the edges are where the meaning is: the UAE flag lost its red
+ * hoist band entirely and rendered as three horizontal stripes, which is a
+ * different country's flag. The badge is now the flag's own shape at a fixed
+ * height, so every one keeps its real proportions — Qatar is wider than
+ * Romania, because it is. The hairline stops a white-edged flag dissolving
+ * into the card.
  */
 .syn-offices__flag {
 	overflow: hidden;
+	inline-size: auto;
 	border: 1px solid var(--syn-border);
-	background-color: var(--syn-paper);
+	border-radius: 2px;
 }
 
 .syn-offices__flag-image {
 	display: block;
-	inline-size: 100%;
-	block-size: 100%;
-	object-fit: cover;
+	inline-size: auto;
+	block-size: 1.6rem;
+	object-fit: contain;
 }
 
 .syn-offices__country {
@@ -316,8 +334,11 @@
 
 @media (max-width: 47.99rem) {
 
-	.syn-offices__list {
-		grid-template-columns: minmax(0, 1fr);
+	/* One per row, and the third-of-a-container ceiling has to go with it or a
+	   single card would be drawn a third of the screen wide. */
+	.syn-offices__item {
+		flex-basis: 100%;
+		max-inline-size: none;
 	}
 
 	.syn-offices__card {
