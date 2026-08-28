@@ -8,7 +8,8 @@
  * A row of outbound links: the platform’s own mark in a disc, the platform and
  * the account beside it, an arrow at the trailing edge. It was a navy band until
  * 28 Aug; on a page that now ends here rather than on the closing CTA, a dark
- * stripe at the foot read as a footer that was not the footer.
+ * stripe at the foot read as a footer that was not the footer. It carries no
+ * band colour at all now — see section 1.
  *
  * THE MARKS ARE THE PLATFORMS' OWN, drawn as published rather than redrawn in
  * the brand's style — they are other companies' trademarks, and they are only
@@ -26,8 +27,14 @@
    1. Shell
    ========================================================================== */
 
+/*
+ * No band colour of its own (28 Aug, on request). The accounts sit on the same
+ * ground as the form above them; the heading and the cards are what separate
+ * the two, not a stripe. Painted explicitly rather than left transparent, so
+ * the section still declares its own surface.
+ */
 .syn-social {
-	background-color: var(--syn-paper);
+	background-color: var(--syn-white);
 }
 
 /* ==========================================================================
