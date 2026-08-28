@@ -324,6 +324,74 @@ function syn_allowed_svg_tags() {
 }
 
 /**
+ * The eleven-character video id inside any YouTube address.
+ *
+ * Handles every form an editor will paste — youtu.be/ID, watch?v=ID, embed/ID
+ * and shorts/ID — with or without the tracking parameters YouTube's share
+ * button appends. Returns "" for anything else, which is what makes a mistyped
+ * address skip its card rather than build a player pointing at nothing.
+ *
+ * HERE AND NOT IN sections/episodes.php, and the reason is worth keeping: that
+ * band renders twice on the podcast page, a section partial is included once
+ * per render, and a function declared at a partial's scope is a fatal "cannot
+ * redeclare" the second time. It took the page down on 28 Aug. Anything a
+ * section needs beyond markup belongs in this file (CLAUDE.md §4: a section is
+ * markup; §13: no hidden coupling).
+ *
+ * @param string $url Any YouTube address.
+ * @return string The video id, or "".
+ */
+function syn_youtube_id( $url ) {
+	$url = trim( (string) $url );
+
+	if ( '' === $url ) {
+		return '';
+	}
+
+	$patterns = array(
+		'#youtu\.be/([A-Za-z0-9_-]{11})#',
+		'#[?&]v=([A-Za-z0-9_-]{11})#',
+		'#/embed/([A-Za-z0-9_-]{11})#',
+		'#/shorts/([A-Za-z0-9_-]{11})#',
+	);
+
+	foreach ( $patterns as $pattern ) {
+		if ( preg_match( $pattern, $url, $found ) ) {
+			return $found[1];
+		}
+	}
+
+	return '';
+}
+
+/**
+ * The icon file for a social platform, or "" when the theme ships none.
+ *
+ * Matched on the network's name lowercased and stripped to letters, so
+ * "LinkedIn", "linkedin" and "Linked In" all land on the same mark. A platform
+ * with no file returns "" rather than a default, because sections/social.php
+ * draws its initial instead and a wrong logo is worse than a letter.
+ *
+ * In this file rather than in the partial for the same reason as
+ * syn_youtube_id() above.
+ *
+ * @param string $network The platform's name as typed.
+ * @return string Icon slug, or "".
+ */
+function syn_social_icon_slug( $network ) {
+	$known = array(
+		'linkedin'  => 'social-linkedin',
+		'instagram' => 'social-instagram',
+		'youtube'   => 'social-youtube',
+		'facebook'  => 'social-facebook',
+	);
+
+	$key = preg_replace( '/[^a-z]/', '', strtolower( (string) $network ) );
+
+	return $known[ $key ] ?? '';
+}
+
+/**
  * Finds an attachment by its slug.
  *
  * A Stage 5 bridge. Sections that show photographs need attachment IDs, and

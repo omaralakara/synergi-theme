@@ -72,33 +72,13 @@ if ( ! $syn_accounts ) {
 	return;
 }
 
-/**
- * The icon file for a platform, or "" when the theme does not ship one.
- *
- * Matched on the network's name lowercased, so an editor typing "LinkedIn",
- * "linkedin" or "Linked In" all land on the same mark. A platform with no file
- * gets its initial in a disc instead, which is why this returns "" rather than
- * a default icon: a wrong logo is worse than a letter.
- *
- * The map is here and not in inc/sections.php because it is a naming decision
- * about content, not about the icon library — sections.php owns which files may
- * be printed, this owns which word points at which file.
- *
- * @param string $network The platform's name as typed.
- * @return string Icon slug, or "".
+/*
+ * syn_social_icon_slug() lives in inc/sections.php, for the reason set out
+ * there and demonstrated by sections/episodes.php on 28 Aug: a partial can be
+ * rendered more than once on a page, and a function declared at a partial's
+ * scope is a fatal error the second time it is included. Nothing a section
+ * defines may live inside the section.
  */
-function syn_social_icon_slug( $network ) {
-	$known = array(
-		'linkedin'  => 'social-linkedin',
-		'instagram' => 'social-instagram',
-		'youtube'   => 'social-youtube',
-		'facebook'  => 'social-facebook',
-	);
-
-	$key = preg_replace( '/[^a-z]/', '', strtolower( $network ) );
-
-	return $known[ $key ] ?? '';
-}
 
 $syn_uid = wp_unique_id( 'syn-social-' );
 ?>

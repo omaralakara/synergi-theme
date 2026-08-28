@@ -44,39 +44,15 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * The eleven-character video id inside any YouTube address.
- *
- * Handles the three forms an editor will paste: youtu.be/ID, watch?v=ID and
- * embed/ID, each with or without the tracking parameters YouTube's share button
- * appends. Returns "" for anything else, which is what makes a mistyped address
- * skip its card rather than build a player pointing at nothing.
- *
- * @param string $url Any YouTube address.
- * @return string The video id, or "".
+/*
+ * syn_youtube_id() lives in inc/sections.php, not here. A section partial is
+ * included once per render and this band renders TWICE on the podcast page —
+ * episodes, then webinars — so a function declared at this file's scope was a
+ * fatal "cannot redeclare" the second time round, and took the page down with
+ * it (28 Aug). Nothing that a section defines may live in the section: a
+ * partial is markup, and anything reusable belongs where the other shared
+ * section helpers are.
  */
-function syn_youtube_id( $url ) {
-	$url = trim( (string) $url );
-
-	if ( '' === $url ) {
-		return '';
-	}
-
-	$patterns = array(
-		'#youtu\.be/([A-Za-z0-9_-]{11})#',
-		'#[?&]v=([A-Za-z0-9_-]{11})#',
-		'#/embed/([A-Za-z0-9_-]{11})#',
-		'#/shorts/([A-Za-z0-9_-]{11})#',
-	);
-
-	foreach ( $patterns as $pattern ) {
-		if ( preg_match( $pattern, $url, $found ) ) {
-			return $found[1];
-		}
-	}
-
-	return '';
-}
 
 $syn_eyebrow = trim( (string) ( $args['eyebrow'] ?? '' ) );
 $syn_heading = trim( (string) ( $args['heading'] ?? '' ) );
