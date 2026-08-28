@@ -36,7 +36,7 @@ $syn_id = get_the_ID();
  * page that skips its journey band shows that in view-source rather than
  * quietly downloading a stylesheet for nothing.
  */
-syn_use_sections( array( 'story', 'values', 'journey', 'numbers', 'final-cta' ) );
+syn_use_sections( array( 'story', 'values', 'journey', 'why', 'numbers', 'final-cta' ) );
 
 get_header();
 
@@ -91,6 +91,7 @@ $syn_about_paragraphs = static function ( $key, $postid ) {
 syn_section(
 	'story',
 	array(
+		'eyebrow'    => __( 'Who we are', 'synergi' ),
 		'heading'    => syn_field( 'story_heading', $syn_id ),
 		'paragraphs' => $syn_about_paragraphs( 'story_paragraphs', $syn_id ),
 		'pillars'    => syn_field_rows( 'story_pillars', $syn_id ),
@@ -123,8 +124,20 @@ syn_section(
 	)
 );
 
-// The figures record and the closing band, both shared with the homepage and
-// every service page. See the file header for why neither takes arguments.
+/*
+ * The three record-driven bands that close the page, none of them taking
+ * arguments and all three shared with the homepage and the six service pages.
+ * See the file header for why.
+ *
+ * "Why companies choose Synergi" is here rather than being written again as
+ * About Us copy (28 Aug). It already answers the question this page raises —
+ * the reader has just been told what the company is, what it values and where
+ * it has been — and it is the same paragraph on eight pages, edited once at
+ * Settings → Site records. Writing an About-only version of it would be a
+ * second copy of the same claim, drifting from the first within a month, which
+ * is the failure CLAUDE.md §7a exists to prevent.
+ */
+syn_section( 'why' );
 syn_section( 'numbers' );
 syn_section( 'final-cta' );
 
