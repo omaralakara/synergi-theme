@@ -97,14 +97,24 @@
    4. The track and its band
    ========================================================================== */
 
-/* The scroll container. See sections/journey.php for why it has no tabindex. */
+/*
+ * The scroll container. See sections/journey.php for why it has no tabindex.
+ *
+ * overflow-y is hidden and not left alone, which is the fix for a scrollbar
+ * that appeared and then went away again (28 Aug). Setting overflow-x makes
+ * the other axis compute to auto rather than staying visible, and the reveal
+ * holds every stop 1.25rem below its resting place until it arrives — so the
+ * track overflowed downwards for exactly as long as the animation ran, and the
+ * page grew a vertical scrollbar mid-scroll. The padding is what keeps hiding
+ * it from clipping anything: it is wider than that 1.25rem, so the stops are
+ * inside the box even at the start of the reveal.
+ */
 .syn-journey__scroller {
 	overflow-x: auto;
+	overflow-y: hidden;
 	/* Vertical scrolling stays with the page. */
 	overscroll-behavior-inline: contain;
-	/* Room for the discs' rings and the shadow they cast on hover, which would
-	   otherwise be clipped by the scroll container. */
-	padding-block: var(--syn-space-2);
+	padding-block: var(--syn-space-4);
 }
 
 .syn-journey__track {
@@ -116,15 +126,18 @@
 	grid-auto-columns: minmax(8rem, 1fr);
 	grid-template-rows: 1fr;
 	/*
-	 * The pair matters. min-inline-size keeps the track the full width of the
-	 * page while its stops fit, so the columns share the room as 1fr and the
-	 * rail spans the page; inline-size lets it grow past that when they do not,
-	 * so a fifteen-stop timeline scrolls WITH its rail rather than leaving it
-	 * behind at the width of the screen. Eight stops fit from 75rem up, which
-	 * is where section 10 hands over.
+	 * The pair matters, and max-content was the wrong half of it (28 Aug):
+	 * it sized every column to its longest unwrapped line, which pushed eight
+	 * stops past the container and left the timeline permanently scrolled with
+	 * its last stop cut off. min-content is the sum of the 8rem minimums
+	 * instead — so the track is exactly the page's width while the stops fit,
+	 * and only grows past it when they genuinely cannot, at which point it
+	 * scrolls WITH its rail rather than leaving the rail behind at the width of
+	 * the screen. Eight stops fit from 75rem up, which is where section 10
+	 * hands over.
 	 */
-	inline-size: max-content;
-	min-inline-size: 100%;
+	inline-size: 100%;
+	min-inline-size: min-content;
 	min-block-size: 26rem;
 	margin: 0;
 	padding: 0;
