@@ -160,6 +160,24 @@
 }
 
 /*
+ * Once a player is in the frame the scrim has to go, and this is not a
+ * cosmetic detail: a pseudo-element is not a child node, so emptying the frame
+ * in JavaScript leaves it lying over the iframe where it intercepts every
+ * click meant for the video's own controls. The episode played and could not
+ * be paused, scrubbed or made fullscreen (28 Aug). episodes.js adds the class.
+ *
+ * The bed goes with it, so nothing is painted behind a player that fills its
+ * frame anyway.
+ */
+.syn-episodes__frame.syn-is-playing::after {
+	content: none;
+}
+
+.syn-episodes__frame.syn-is-playing {
+	background-image: none;
+}
+
+/*
  * Hidden until there is a script to answer it. Without JavaScript the "Watch on
  * YouTube" link below is the whole interface, which is why that link is a real
  * link and not a second button (CLAUDE.md §10).

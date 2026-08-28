@@ -60,14 +60,29 @@
 		 */
 		iframe.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent( id ) + '?autoplay=1&rel=0';
 		iframe.title = card.getAttribute( 'data-syn-episode-title' ) || 'Video';
-		iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+
+		/*
+		 * "fullscreen" belongs in the allow list, not only in the legacy
+		 * allowfullscreen attribute: with an allow list present, browsers take
+		 * it as the authority, and a player that cannot be made bigger is a
+		 * player nobody watches to the end.
+		 */
+		iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share';
 		iframe.referrerPolicy = 'strict-origin-when-cross-origin';
 		iframe.allowFullscreen = true;
 
-		// Everything the poster was — the picture, the scrim and the button —
-		// goes at once, so the player is not layered over a still frame.
+		// The picture and the button are child nodes and go with this.
 		frame.textContent = '';
 		frame.appendChild( iframe );
+
+		/*
+		 * The scrim is NOT a child node — it is the frame's own ::after — so
+		 * emptying the frame leaves it sitting on top of the player, where it
+		 * swallows every click meant for the controls. The video played and
+		 * could not be paused, scrubbed or expanded (28 Aug). This class is
+		 * what takes it off; episodes.css turns the pseudo-element off with it.
+		 */
+		frame.classList.add( 'syn-is-playing' );
 
 		/*
 		 * Focus was on the button, which no longer exists. Moving it to the
