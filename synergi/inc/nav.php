@@ -31,6 +31,15 @@ defined( 'ABSPATH' ) || exit;
 defined( 'SYN_SUBMENU_WIDE_MIN' ) || define( 'SYN_SUBMENU_WIDE_MIN', 4 );
 
 /**
+ * The class that turns a top-level menu item into the header's button.
+ *
+ * Typed by an editor into the "CSS Classes" box on Appearance -> Menus. Named
+ * here rather than written out at both of its call sites, so the string an
+ * editor types and the string the code looks for cannot drift apart.
+ */
+defined( 'SYN_NAV_CTA_CLASS' ) || define( 'SYN_NAV_CTA_CLASS', 'syn-nav-cta' );
+
+/**
  * Renders the primary navigation, which is also the menu toggle's target.
  *
  * Outputs nothing at all when no menu is assigned to the "primary" location —
@@ -162,6 +171,22 @@ function syn_nav_item_classes( $classes, $item, $args, $depth ) {
 		syn_nav_current_parent( $item );
 	}
 
+	/*
+	 * The one class an editor may type into the "CSS Classes" box on
+	 * Appearance -> Menus and have survive this filter, which otherwise replaces
+	 * core's list wholesale. It turns a top-level item into the header's button
+	 * — Contact Us, as of 28 Aug.
+	 *
+	 * A whitelist of exactly one rather than "keep anything starting syn-",
+	 * because the second is a door into the stylesheet from the menu screen and
+	 * this is a link that looks like a button, not a styling field (CLAUDE.md
+	 * §7c). syn_nav_link_attributes() below gives it the theme's shared button
+	 * classes, so the geometry is base.css's and is not written twice.
+	 */
+	if ( 0 === $depth && in_array( SYN_NAV_CTA_CLASS, (array) $classes, true ) ) {
+		$out[] = SYN_NAV_CTA_CLASS;
+	}
+
 	return $out;
 }
 
@@ -212,6 +237,16 @@ function syn_nav_link_attributes( $atts, $item, $args, $depth ) {
 	}
 
 	$atts['class'] = 0 === $depth ? 'syn-nav-list__link' : 'syn-submenu__link';
+
+	/*
+	 * The button item borrows base.css's shared button rather than getting a
+	 * second copy of its geometry in header.css. --light is the dark-surface
+	 * variant, which is the right one here: the header bar is transparent over
+	 * the hero and navy once scrolled, and white-on-navy outline works on both.
+	 */
+	if ( 0 === $depth && in_array( SYN_NAV_CTA_CLASS, (array) $item->classes, true ) ) {
+		$atts['class'] .= ' syn-button syn-button--light';
+	}
 
 	if ( ! empty( $item->current ) ) {
 		$atts['aria-current'] = 'page';

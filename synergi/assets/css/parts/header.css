@@ -225,6 +225,39 @@
 }
 
 /*
+ * The call-to-action item.
+ *
+ * One top-level item may be a button: an editor types "syn-nav-cta" into its
+ * CSS Classes box on Appearance -> Menus, and inc/nav.php adds the theme's
+ * shared .syn-button --light classes to the link. The geometry, the asymmetric
+ * radius and the hover inversion are all base.css's and are not repeated here.
+ *
+ * These three rules exist only to undo what .syn-nav-list__link above imposes
+ * on it — this file loads after base.css, so its padding, its pointer and its
+ * hover colour would otherwise win over the button's.
+ *
+ * The design shipped a "Start a Conversation" button in this position and it
+ * was removed on 25 Aug as a duplicate of the Contact Us link beside it. It is
+ * back on request, 28 Aug — as that link, rather than as a second one.
+ */
+.syn-nav-cta > .syn-nav-list__link {
+	padding-inline: 1.35rem;
+}
+
+/* The pointer marks the current page under a plain item. On a button the
+   button's own fill says the same thing. */
+.syn-nav-cta > .syn-nav-list__link::before {
+	content: none;
+}
+
+/* Navy on the white fill the button takes on hover, not the mint a plain nav
+   link brightens to — which on white would measure 1.6:1 (CLAUDE.md §9). */
+.syn-nav-cta > .syn-nav-list__link:hover,
+.syn-nav-cta > .syn-nav-list__link:focus-visible {
+	color: var(--syn-navy);
+}
+
+/*
  * The chevron points at whatever the panel is actually doing. aria-expanded
  * covers the tap route and is kept accurate by main.js for assistive tech; the
  * hover block covers the pointer route without waiting on script.
