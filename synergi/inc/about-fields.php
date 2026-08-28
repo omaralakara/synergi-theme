@@ -188,7 +188,7 @@ function syn_register_about_fields() {
 							'key'         => 'image',
 							'type'        => 'image',
 							'label'       => __( 'Photograph', 'synergi' ),
-							'description' => __( 'Optional. Choose one with meaningful alt text already set on it.', 'synergi' ),
+							'description' => __( 'Optional. The front of the card, with the heading over it; the statement is on the back. Choose one with meaningful alt text already set on it.', 'synergi' ),
 						),
 					),
 				),
@@ -226,7 +226,7 @@ function syn_register_about_fields() {
 					'key'         => 'values_image',
 					'type'        => 'image',
 					'label'       => __( 'Photograph', 'synergi' ),
-					'description' => __( 'Optional. Sits beside the list.', 'synergi' ),
+					'description' => __( 'Optional. Sits at the centre of the values wheel on a wide screen, and above the values on a narrow one.', 'synergi' ),
 				),
 				array(
 					'key'       => 'values',
@@ -320,6 +320,14 @@ function syn_register_about_fields() {
 				 * are laid out around a graphic rather than in a list, so which
 				 * year each label belongs to is a reading of the artwork and
 				 * wants a check from someone who was there.
+				 *
+				 * Corrected 28 Aug against the slide itself. The first reading
+				 * had Lebanon in 2023 and the UAE in 2026; the artwork puts the
+				 * UAE flag over the first 2023 stop and Lebanon over 2024, and
+				 * hangs "New structure" below that same 2024 stop. The slide
+				 * therefore has seven discs and eight labels — one year carries
+				 * two events — which is why 2024 appears twice below. Still
+				 * worth a check from someone who was there.
 				 */
 				array(
 					'key'         => 'journey_milestones',
@@ -333,13 +341,13 @@ function syn_register_about_fields() {
 					'max_rows'    => 20,
 					'default'     => array(
 						array( 'year' => '2022', 'title' => 'Ideation', 'note' => '' ),
-						array( 'year' => '2023', 'title' => 'Lebanon', 'note' => '' ),
+						array( 'year' => '2023', 'title' => 'UAE', 'note' => '' ),
 						array( 'year' => '2023', 'title' => 'Romania', 'note' => '' ),
+						array( 'year' => '2024', 'title' => 'Lebanon', 'note' => '' ),
 						array( 'year' => '2024', 'title' => 'New structure', 'note' => '' ),
-						array( 'year' => '2025', 'title' => 'KSA', 'note' => '' ),
 						array( 'year' => '2025', 'title' => 'Qatar', 'note' => '' ),
-						array( 'year' => '2026', 'title' => 'UAE', 'note' => '' ),
-						array( 'year' => '2026', 'title' => 'Partnership', 'note' => '' ),
+						array( 'year' => '2025', 'title' => 'KSA', 'note' => '' ),
+						array( 'year' => '2026', 'title' => 'Partnership', 'note' => 'Odoo' ),
 					),
 					'subfields'   => array(
 						array(
