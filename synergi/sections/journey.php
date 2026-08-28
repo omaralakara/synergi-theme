@@ -11,9 +11,9 @@
  *   heading    string  The band's <h2>.
  *   lede       string  Optional line under the heading.
  *   milestones array[] Optional. The timeline, oldest first, each:
- *                        year  string Shown above the stop. A row without one
- *                                     still renders; a row without a title does
- *                                     not, since the title is the milestone.
+ *                        year  string Shown in the stop's disc. A row without
+ *                                     one still renders; a row without a title
+ *                                     does not, since the title is the milestone.
  *                        title string What happened.
  *                        note  string Optional line under it.
  *   image      int     Optional attachment ID. The fallback, and only used when
@@ -32,6 +32,12 @@
  * timeline (28 Aug). The picture stays as the fallback so a page that has one
  * and no milestones renders exactly what it rendered before, and so the band is
  * never empty during the changeover.
+ *
+ * THE YEAR IS IN THE DISC (28 Aug). The deck draws each year inside the circle
+ * on the track, with the milestone's name on a dotted lead above or below it,
+ * and the band now draws the same thing. The disc is therefore real text and
+ * not a decoration: the marker that used to be aria-hidden has become the
+ * element the year is printed in, so nothing is repeated and nothing is hidden.
  *
  * The heading levels are <h2> for the band and <h3> per milestone, so the
  * outline is unbroken whatever an editor types (CLAUDE.md §8).
@@ -87,7 +93,7 @@ $syn_uid = wp_unique_id( 'syn-journey-' );
 
 		<div class="syn-journey__head syn-reveal">
 			<?php if ( '' !== $syn_eyebrow ) : ?>
-				<p class="syn-eyebrow syn-journey__eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
+				<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
 			<?php endif; ?>
 
 			<h2 class="syn-journey__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
@@ -102,36 +108,48 @@ $syn_uid = wp_unique_id( 'syn-journey-' );
 			/*
 			 * An ordered list, because the order is the meaning: this is a
 			 * sequence of years, not a set of cards that happen to be beside
-			 * each other. The line between the stops is drawn by CSS on each
-			 * stop rather than as one long rule across the track, so a timeline
-			 * that wraps onto a second row — or stacks on a phone — never
-			 * leaves a line running through empty space.
+			 * each other.
+			 *
+			 * The wrapper is a scroll container, and it exists for the case the
+			 * old CSS comment already worried about: the company adds a country
+			 * every year or so, and a timeline that needs a developer for its
+			 * twelfth stop is a timeline that stops being updated. Eight stops
+			 * fit a desktop without scrolling; more of them scroll rather than
+			 * squeezing every name into four characters. It carries no
+			 * tabindex on purpose — browsers make a scrollable region
+			 * keyboard-focusable on their own, and below the horizontal
+			 * breakpoint the track is stacked and there is nothing to scroll.
 			 */
 			?>
-			<ol class="syn-journey__track">
-				<?php foreach ( $syn_stops as $syn_index => $syn_stop ) : ?>
-					<li class="syn-journey__stop syn-reveal" style="--syn-journey-order: <?php echo (int) $syn_index; ?>;">
-						<?php if ( '' !== $syn_stop['year'] ) : ?>
-							<p class="syn-journey__year"><?php echo esc_html( $syn_stop['year'] ); ?></p>
-						<?php endif; ?>
+			<div class="syn-journey__scroller">
+				<ol class="syn-journey__track">
+					<?php foreach ( $syn_stops as $syn_index => $syn_stop ) : ?>
+						<li class="syn-journey__stop syn-reveal" style="--syn-journey-order: <?php echo (int) $syn_index; ?>;">
+							<?php
+							/*
+							 * The disc. It holds the year when there is one and
+							 * is an empty circle when there is not, which keeps
+							 * a year-less milestone on the track instead of
+							 * dropping it a row out of line.
+							 */
+							?>
+							<span class="syn-journey__marker">
+								<?php if ( '' !== $syn_stop['year'] ) : ?>
+									<span class="syn-journey__year"><?php echo esc_html( $syn_stop['year'] ); ?></span>
+								<?php endif; ?>
+							</span>
 
-						<?php
-						/*
-						 * Decoration: the dot and the line are the drawing of a
-						 * sequence the markup already states as a numbered
-						 * list, so reading them out would say it twice.
-						 */
-						?>
-						<span class="syn-journey__marker" aria-hidden="true"></span>
+							<div class="syn-journey__copy">
+								<h3 class="syn-journey__milestone"><?php echo esc_html( $syn_stop['title'] ); ?></h3>
 
-						<h3 class="syn-journey__milestone"><?php echo esc_html( $syn_stop['title'] ); ?></h3>
-
-						<?php if ( '' !== $syn_stop['note'] ) : ?>
-							<p class="syn-journey__note"><?php echo esc_html( $syn_stop['note'] ); ?></p>
-						<?php endif; ?>
-					</li>
-				<?php endforeach; ?>
-			</ol>
+								<?php if ( '' !== $syn_stop['note'] ) : ?>
+									<p class="syn-journey__note"><?php echo esc_html( $syn_stop['note'] ); ?></p>
+								<?php endif; ?>
+							</div>
+						</li>
+					<?php endforeach; ?>
+				</ol>
+			</div>
 		<?php else : ?>
 			<figure class="syn-journey__figure syn-reveal">
 				<?php
