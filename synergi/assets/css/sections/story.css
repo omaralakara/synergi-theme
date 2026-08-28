@@ -1,22 +1,49 @@
 /*
  * story.css — About Us: who we are, then the mission and the vision.
- * Contents: 1 shell · 2 the intro · 3 the statements · 4 narrow screens.
+ * Contents: 1 local tokens · 2 shell · 3 the intro · 4 the columns ·
+ * 5 the statements, flat · 6 the front face · 7 the back face ·
+ * 8 the flip (wide screens with a hovering pointer) · 9 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-story", only on pages that
  * declare the section. Markup: sections/story.php. No script.
  *
- * The composition is the homepage's paired band, simplified: a two-column
- * intro, then alternating picture-and-paragraph rows. Alternating is done with
- * row-reverse rather than by putting a class on every second card, so the
- * markup carries no idea of which side anything is on and the Arabic phase
- * mirrors it for nothing (CLAUDE.md §2.11).
+ * Written flat first and turned into flip cards last. Everything above section
+ * 8 is what a phone, a printer, a browser without JavaScript and a browser
+ * without a hovering pointer all get: a photograph wearing the statement's
+ * name, with the statement itself underneath it. Section 8 is the only place
+ * anything rotates, and it is gated on BOTH a wide screen and a real pointer —
+ * a card whose words can only be reached by hovering is a card a touch screen
+ * cannot read (CLAUDE.md §9).
  *
  * No hard-coded design values: every colour, size and radius resolves to a
  * theme.json custom property through the base.css alias layer (CLAUDE.md §2.7).
+ * Logical properties only (CLAUDE.md §2.11).
  */
 
 /* ==========================================================================
-   1. Shell
+   1. Local tokens
+   ========================================================================== */
+
+.syn-story {
+	/*
+	 * The scrim under the statement's name on the front of a card. Heavier at
+	 * the foot, where the words sit, so white type clears 4.5:1 wherever the
+	 * photograph happens to be pale (CLAUDE.md §9). Same construction as the
+	 * one why.css puts on its deck, so the two read as the same treatment.
+	 */
+	--syn-story-scrim: linear-gradient(
+		180deg,
+		color-mix(in srgb, var(--syn-ink) 10%, transparent) 0%,
+		color-mix(in srgb, var(--syn-ink) 45%, transparent) 52%,
+		color-mix(in srgb, var(--syn-ink) 88%, transparent) 100%
+	);
+
+	/* The bed a card falls back to when no photograph has been chosen. */
+	--syn-story-bed: var(--syn-gradient-brand);
+}
+
+/* ==========================================================================
+   2. Shell
    ========================================================================== */
 
 .syn-story {
@@ -24,7 +51,7 @@
 }
 
 /* ==========================================================================
-   2. The intro
+   3. The intro
    ========================================================================== */
 
 .syn-story__intro {
@@ -32,7 +59,17 @@
 	grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
 	gap: var(--syn-space-5);
 	align-items: start;
-	margin-block-end: var(--syn-space-7);
+}
+
+/*
+ * The eyebrow and the heading share the first cell. Without this wrapper each
+ * would be auto-placed into a column of its own and the heading would land
+ * beside the eyebrow instead of under it. min-inline-size keeps a long word in
+ * the heading from pushing the grid wider than the page, which a grid child
+ * will otherwise do.
+ */
+.syn-story__intro-head {
+	min-inline-size: 0;
 }
 
 .syn-story__title {
@@ -40,102 +77,146 @@
 	line-height: 1.15;
 	letter-spacing: -0.01em;
 	color: var(--syn-navy);
-}
-
-.syn-story__body {
-	display: flex;
-	flex-direction: column;
-	gap: var(--syn-space-2);
-}
-
-.syn-story__paragraph {
-	margin: 0;
-	color: var(--syn-text-soft);
-	font-size: var(--syn-step-0);
-	line-height: 1.75;
+	text-wrap: balance;
 }
 
 /*
- * The first paragraph carries the weight of a standfirst. It is the sentence a
- * reader who reads nothing else will read, which is a typographic job rather
- * than a field an editor should have to know about.
+ * The standfirst. It is the sentence a reader who reads nothing else will
+ * read, which is a typographic job rather than a field an editor should have
+ * to know about — sections/story.php picks the first paragraph for it.
  */
-.syn-story__body > .syn-story__paragraph:first-child {
+.syn-story__lede {
+	margin: 0;
 	color: var(--syn-text);
 	font-size: var(--syn-step-1);
 	line-height: 1.55;
+	text-wrap: pretty;
 }
 
 /* ==========================================================================
-   3. The statements
+   4. The columns
+   The supporting paragraphs, set side by side with a rule over each. auto-fit
+   rather than a fixed three, because the number of paragraphs is an editor's
+   decision and a fourth one must not need a developer.
+   ========================================================================== */
+
+.syn-story__notes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: var(--syn-space-4);
+	margin-block-start: var(--syn-space-6);
+}
+
+.syn-story__note {
+	margin: 0;
+	padding-block-start: var(--syn-space-3);
+	border-block-start: 2px solid var(--syn-cyan-soft);
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.75;
+	text-wrap: pretty;
+}
+
+/* The first column's rule is the brand cyan, so the row starts on an accent
+   rather than reading as three equal-weight footnotes. */
+.syn-story__note:first-child {
+	border-block-start-color: var(--syn-cyan);
+}
+
+/* ==========================================================================
+   5. The statements, flat
+   The state every device gets before section 8 turns anything over.
    ========================================================================== */
 
 .syn-story__pillars {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
 	gap: var(--syn-space-4);
+	margin-block-start: var(--syn-space-7);
 }
 
-/*
- * Two statements, side by side, each a card rather than a full-width band of
- * its own (28 Aug). Alternating picture-then-words rows read as a slideshow and
- * pushed the values band most of a screen further down; a pair reads as what it
- * is — one claim about purpose and one about ambition, of equal weight.
- *
- * The soft blue is the surface the team cards use, so the two pages that
- * describe the company look like each other.
- */
 .syn-story__pillar {
-	display: flex;
+	/* A grid, so the inner box fills the card without a percentage height —
+	   which the card cannot give it once section 8 sets an aspect ratio. */
+	display: grid;
 	overflow: hidden;
-	flex-direction: column;
 	border-radius: var(--syn-radius-lg);
 	background-color: var(--syn-paper-blue);
 	box-shadow: var(--syn-shadow-card);
-	transition:
-		transform var(--syn-duration) var(--syn-ease-out),
-		box-shadow var(--syn-duration) var(--syn-ease-out);
 }
 
-@media (hover: hover) {
-
-	.syn-story__pillar:hover {
-		transform: translateY(-3px);
-		box-shadow: var(--syn-shadow-soft);
-	}
+.syn-story__pillar-inner {
+	display: flex;
+	flex-direction: column;
 }
 
-.syn-story__pillar-media {
-	flex: none;
+/* ==========================================================================
+   6. The front face — the photograph and the statement's name
+   ========================================================================== */
+
+.syn-story__pillar-face--front {
+	position: relative;
+	display: grid;
+	min-block-size: 14rem;
+	align-content: end;
+	/* The fallback when no photograph has been chosen. A picture on top of it
+	   covers it completely, so it costs nothing when one has. */
+	background-image: var(--syn-story-bed);
 }
 
 .syn-story__pillar-image {
-	display: block;
+	position: absolute;
+	inset: 0;
 	inline-size: 100%;
-	aspect-ratio: 16 / 9;
+	block-size: 100%;
 	object-fit: cover;
 }
 
-.syn-story__pillar-copy {
+/* The scrim, over the photograph and under the words. */
+.syn-story__pillar-face--front::after {
+	position: absolute;
+	inset: 0;
+	background-image: var(--syn-story-scrim);
+	content: "";
+}
+
+.syn-story__pillar-label {
+	position: relative;
+	/* Above the scrim, which is the card's own ::after. */
+	z-index: 1;
 	padding: var(--syn-space-4);
 }
 
 .syn-story__pillar-title {
-	margin-block-end: var(--syn-space-2);
-	color: var(--syn-navy);
-	font-size: var(--syn-step-1);
-	line-height: 1.25;
+	margin: 0;
+	color: var(--syn-white);
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
 }
 
-/* The cyan rule the eyebrow wears, borrowed so a statement reads as a heading
-   of the same family rather than as a stray <h3>. */
-.syn-story__pillar-title::before {
-	display: block;
-	inline-size: 2.25rem;
-	block-size: 2px;
-	margin-block-end: var(--syn-space-2);
-	background-color: var(--syn-cyan);
-	content: "";
+/* Shown only where the card can actually turn — see section 8. */
+.syn-story__pillar-hint {
+	display: none;
+}
+
+/* ==========================================================================
+   7. The back face — the statement itself
+   ========================================================================== */
+
+.syn-story__pillar-face--back {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	justify-content: center;
+	gap: var(--syn-space-2);
+	padding: var(--syn-space-4);
+}
+
+/* The name repeated on the back. Redundant while the two faces are stacked,
+   so it is only drawn once they are not. */
+.syn-story__pillar-back-title {
+	display: none;
 }
 
 .syn-story__pillar-text {
@@ -143,10 +224,118 @@
 	color: var(--syn-text-soft);
 	font-size: var(--syn-step-0);
 	line-height: 1.75;
+	text-wrap: pretty;
 }
 
 /* ==========================================================================
-   4. Narrow screens
+   8. The flip
+   Wide screens with a hovering pointer only. On a touch screen the words would
+   be unreachable, and on a narrow one the two faces have no room to be the
+   same size — which a flip needs, since they occupy the same box.
+   ========================================================================== */
+
+@media (hover: hover) and (min-width: 62rem) {
+
+	.syn-story__pillar {
+		position: relative;
+		overflow: visible;
+		/* One vanishing point per card: they turn independently, unlike the
+		   why deck, where all four share the stage's. */
+		perspective: 1400px;
+		background-color: transparent;
+		box-shadow: none;
+		/* The two faces are stacked in the same box, so the card needs a height
+		   of its own — nothing inside it can set one. */
+		aspect-ratio: 4 / 3;
+	}
+
+	/* Still the card's only grid item, so it fills the 4:3 box without asking
+	   for a percentage of a height that came from an aspect ratio. */
+	.syn-story__pillar-inner {
+		position: relative;
+		display: block;
+		transform-style: preserve-3d;
+		transition: transform var(--syn-duration-slow) var(--syn-ease-out);
+	}
+
+	/*
+	 * :focus-visible on the card itself, because sections/story.php gives it
+	 * tabindex="0" — a keyboard reaches the back of the card the same way a
+	 * pointer does. :focus-within as well, so anything focusable added inside a
+	 * face later keeps the card turned while it is being used.
+	 */
+	.syn-story__pillar:hover .syn-story__pillar-inner,
+	.syn-story__pillar:focus-visible .syn-story__pillar-inner,
+	.syn-story__pillar:focus-within .syn-story__pillar-inner {
+		transform: rotateY(180deg);
+	}
+
+	.syn-story__pillar-face {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		border-radius: var(--syn-radius-lg);
+		box-shadow: var(--syn-shadow-card);
+		/* Without this the two faces show through each other mid-turn. */
+		backface-visibility: hidden;
+	}
+
+	.syn-story__pillar-face--front {
+		min-block-size: 0;
+	}
+
+	.syn-story__pillar-hint {
+		display: block;
+		margin-block-start: var(--syn-space-2);
+		color: color-mix(in srgb, var(--syn-white) 82%, transparent);
+		font-size: var(--syn-step--1);
+		font-weight: 700;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+	}
+
+	/*
+	 * The back starts already turned, so that rotating the pair by 180deg
+	 * brings it square on. Navy-deep rather than the brand gradient: white type
+	 * on the gradient's cyan end measures 2.3:1, and this face is nothing but
+	 * type (CLAUDE.md §9).
+	 */
+	.syn-story__pillar-face--back {
+		justify-content: center;
+		padding: var(--syn-space-5);
+		background-color: var(--syn-navy-deep);
+		transform: rotateY(180deg);
+	}
+
+	.syn-story__pillar-back-title {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0;
+		color: var(--syn-mint);
+		font-size: var(--syn-step--1);
+		font-weight: 700;
+		letter-spacing: 0.13em;
+		line-height: 1.3;
+		text-transform: uppercase;
+	}
+
+	/* The cyan rule the eyebrow wears, so the label reads as the same thing on
+	   a dark surface. */
+	.syn-story__pillar-back-title::before {
+		inline-size: 2.25rem;
+		block-size: 2px;
+		background-color: var(--syn-cyan);
+		content: "";
+	}
+
+	.syn-story__pillar-text {
+		color: color-mix(in srgb, var(--syn-white) 84%, transparent);
+	}
+}
+
+/* ==========================================================================
+   9. Narrow screens
    ========================================================================== */
 
 @media (max-width: 61.25rem) {
@@ -156,9 +345,21 @@
 		gap: var(--syn-space-3);
 	}
 
-	/* The pair stacks on its own through auto-fit; only the intro needs telling.
-	   Kept as a rule so the card padding tightens with everything else. */
-	.syn-story__pillar-copy {
+	.syn-story__notes {
+		margin-block-start: var(--syn-space-5);
+		gap: var(--syn-space-3);
+	}
+
+	.syn-story__pillars {
+		margin-block-start: var(--syn-space-6);
+	}
+
+	.syn-story__pillar-face--front {
+		min-block-size: 11rem;
+	}
+
+	.syn-story__pillar-label,
+	.syn-story__pillar-face--back {
 		padding: var(--syn-space-3);
 	}
 }
