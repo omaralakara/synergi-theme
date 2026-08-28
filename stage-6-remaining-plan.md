@@ -43,7 +43,8 @@ Executive Podcast · Blog · Connect · Shared Services UAE · BPO Services KSA.
 **Records still missing:** `partners`, `events`, `social` — deferred in 6a, and
 now blocking three separate pieces of work.
 
-**Templates built:** `homepage.php`, `service.php`.
+**Templates built:** `homepage.php`, `service.php`, `about.php`, `people.php`
+(the last two on 27–28 Aug; their pages still need creating and filling).
 **Post types:** none. Case studies and podcast episodes are both post types in
 the architecture and neither exists.
 
@@ -64,14 +65,14 @@ the architecture and neither exists.
 | Upcoming events | **Does not exist.** New section, not in the design source, so it needs designing. Needs the `events` record |
 | Social media latest posts | Built as the Instagram band. **Outstanding:** needs the `social` record and must link to `/contact-us/#social` |
 
-### 2. About Us — nothing rebuilt
+### 2. About Us — templates built, pages not yet filled
 
 | Row | Becomes | State |
 |---|---|---|
-| The team | Page `/our-leadership/` | Exists, 215w, Elementor |
-| Vision, mission, values | Section of About Us | Not built |
-| Our approach | Page `/our-approach/` | Exists, **1,118w**, Elementor — the biggest page on the site |
-| Key figures | `figures` record → section | Record ✓ and `sections/numbers.php` ✓ both exist; just need placing |
+| The team | Page `/our-leadership/` | `templates/people.php` ✓ with its fields. Page still Elementor, 215w |
+| Vision, mission, values | Section of About Us | Built ✓ — `sections/story.php` (mission and vision as flip cards) and `sections/values.php` (the wheel), redesigned 28 Aug |
+| Our approach | Page `/our-approach/` | **Not started.** No template, no sections. 1,118w, the biggest page on the site |
+| Key figures | `figures` record → section | Record ✓, `sections/numbers.php` ✓, and `templates/about.php` now places it ✓ |
 
 ### 3. Our Services — done, except the case studies
 
@@ -122,6 +123,30 @@ About Us on a template composing vision/mission/values and the figures band.
 `/our-leadership/` for the team. `/our-approach/` rebuilt — 1,118 words, the
 single heaviest content migration in the project.
 **Blocked by:** nothing structural.
+
+**Where it got to, 28 Aug.** `templates/about.php` and `templates/people.php`
+both exist, with their field groups. The About bands then had a design pass on
+28 Aug, because as first built they were three stacks of words rather than the
+page the company's own deck draws:
+
+- **Mission and vision** are photographic flip cards — the name on the picture,
+  the statement on the back, turned by pointer or keyboard. Below 62rem, and on
+  any touch screen, the picture simply sits above the words.
+- **The values** are discs on a ring around the photograph above 66rem, placed
+  from an index over a count so a fifth or a fourth value needs no developer.
+  Four to six get the wheel; any other number keeps the card grid.
+- **The journey** is the deck's own drawing: a pale rail, the year inside each
+  disc, names alternating above and below on dotted leads. Off the navy, so the
+  page alternates white / paper / white / paper / navy down its length. It
+  scrolls with its rail past eight stops and stacks below 75rem.
+- **The why band** is rendered here rather than written again — the same record
+  the homepage and the six service pages read.
+- The milestone defaults were corrected against the slide: the UAE belongs to
+  2023 and Lebanon to 2024. **Wants a check from someone who was there.**
+
+**Still open in 6f:** `/our-approach/` has no template and no sections — it is
+the 1,118 words and it has not started. The two photographs About Us needs
+(mission, vision) and the values photograph are not uploaded.
 
 ### 6g — Contact Us
 Three sections. Reuses `sections/locations.php`. The enquiry form goes through
