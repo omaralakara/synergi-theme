@@ -36,7 +36,7 @@ $syn_id = get_the_ID();
  * page that skips its journey band shows that in view-source rather than
  * quietly downloading a stylesheet for nothing.
  */
-syn_use_sections( array( 'story', 'values', 'journey', 'why', 'numbers', 'final-cta' ) );
+syn_use_sections( array( 'story', 'process', 'values', 'journey', 'why', 'numbers', 'final-cta' ) );
 
 get_header();
 
@@ -95,6 +95,28 @@ syn_section(
 		'heading'    => syn_field( 'story_heading', $syn_id ),
 		'paragraphs' => $syn_about_paragraphs( 'story_paragraphs', $syn_id ),
 		'pillars'    => syn_field_rows( 'story_pillars', $syn_id ),
+	)
+);
+
+/*
+ * Our approach, on the band the six service pages already use for "how we
+ * work" (28 Aug). Not a section of its own: this band is a heading, a line and
+ * a numbered list, which is exactly what sections/process.php is, and its own
+ * default heading is the company deck's phrase — "From assessment to action" —
+ * because the deck is where that partial's copy came from in the first place.
+ *
+ * It replaces the old /our-approach/ page as the place this is said. That page
+ * is 1,118 words of material the business says no longer describes what
+ * happens; the three stages below are read off the 2026 company overview
+ * instead. See inc/about-fields.php for which pages of it.
+ */
+syn_section(
+	'process',
+	array(
+		'eyebrow' => __( 'Our approach', 'synergi' ),
+		'heading' => syn_field( 'approach_heading', $syn_id ),
+		'lede'    => syn_field( 'approach_lede', $syn_id ),
+		'steps'   => syn_field_rows( 'approach_steps', $syn_id ),
 	)
 );
 

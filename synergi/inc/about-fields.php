@@ -37,12 +37,12 @@ define( 'SYN_PEOPLE_TEMPLATE', 'templates/people.php' );
 
 add_action( 'syn_register_fields', 'syn_register_about_fields' );
 /**
- * Registers the four field groups an About Us page carries.
+ * Registers the five field groups an About Us page carries.
  *
  * One group per band, in the order the bands appear down the page, so the edit
  * screen reads in the same order the page does.
  *
- * Side effects: registers four field groups on templates/about.php.
+ * Side effects: registers five field groups on templates/about.php.
  *
  * @return void
  */
@@ -197,7 +197,92 @@ function syn_register_about_fields() {
 	);
 
 	/*
-	 * 3. VALUES — the pillars. A repeater and not six fields for the ordinary
+	 * 3. APPROACH — how an engagement actually runs.
+	 *
+	 * Rendered through sections/process.php, which the six service pages
+	 * already use for the same job, rather than through a section of its own
+	 * (28 Aug). Two reasons: the band is a heading, a line and a numbered list,
+	 * which is exactly what that partial is, and its own default heading is
+	 * already "From assessment to action" — the company deck's phrase, because
+	 * the deck is where the partial's copy came from. A second section drawing
+	 * the same shape would be the override layer CLAUDE.md §4 exists to stop.
+	 *
+	 * The keys are approach_* and not process_*, because inc/service-fields.php
+	 * has already claimed the latter for the service template and field keys
+	 * are global to the registry.
+	 *
+	 * The defaults are read off "Synergi — Company Overview — 2026", page 9
+	 * (the methodology and the assessment's outputs) and page 11 (the project
+	 * management track record). The old /our-approach/ page is deliberately not
+	 * the source: its 1,118 words are stale and the business says most of them
+	 * no longer describe what happens.
+	 */
+	syn_register_field_group(
+		array(
+			'id'          => 'about_approach',
+			'title'       => __( 'About — our approach', 'synergi' ),
+			'description' => __( 'How an engagement runs, as numbered stages. The order here is the order on the page, and the numbers are drawn from it.', 'synergi' ),
+			'templates'   => array( SYN_ABOUT_TEMPLATE ),
+			'fields'      => array(
+				array(
+					'key'        => 'approach_heading',
+					'type'       => 'text',
+					'label'      => __( 'Section heading', 'synergi' ),
+					'default'    => __( 'From assessment to action', 'synergi' ),
+					'max_length' => 90,
+				),
+				array(
+					'key'        => 'approach_lede',
+					'type'       => 'textarea',
+					'label'      => __( 'Opening sentence', 'synergi' ),
+					'default'    => __( 'Our proprietary methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution.', 'synergi' ),
+					'rows'       => 3,
+					'max_length' => 320,
+				),
+				array(
+					'key'       => 'approach_steps',
+					'type'      => 'repeater',
+					'label'     => __( 'Stages', 'synergi' ),
+					'row_noun'  => __( 'Stage', 'synergi' ),
+					'button'    => __( 'Add stage', 'synergi' ),
+					'row_label' => 'title',
+					'min_rows'  => 1,
+					'max_rows'  => 8,
+					'default'   => array(
+						array(
+							'title'       => 'An AI-driven assessment',
+							'description' => 'Our AI-driven support services assessment reads a function against its own data rather than against opinion. It returns a business case and financial model, a location and operating model, a process evaluation with recommendations, and a technology enablement roadmap.',
+						),
+						array(
+							'title'       => 'Milestone-led project management',
+							'description' => 'From global SAP implementations to running a transformation office, we lead execution end to end — so a recommendation becomes a dated plan with an owner, rather than a report on a shelf.',
+						),
+						array(
+							'title'       => 'The combined expertise of the team',
+							'description' => 'The work is then run by partners across HR, accounting, procurement, marketing, technology and project management — delivered as consulting, manpower augmentation or full BPO, with one accountable lead across all of them.',
+						),
+					),
+					'subfields' => array(
+						array(
+							'key'        => 'title',
+							'type'       => 'text',
+							'label'      => __( 'Stage', 'synergi' ),
+							'max_length' => 80,
+						),
+						array(
+							'key'   => 'description',
+							'type'  => 'textarea',
+							'label' => __( 'What happens', 'synergi' ),
+							'rows'  => 4,
+						),
+					),
+				),
+			),
+		)
+	);
+
+	/*
+	 * 4. VALUES — the pillars. A repeater and not six fields for the ordinary
 	 * reason: the business may have five of them next year.
 	 */
 	syn_register_field_group(
@@ -283,7 +368,7 @@ function syn_register_about_fields() {
 	);
 
 	/*
-	 * 4. JOURNEY — the timeline graphic. Its heading and caption are copy; the
+	 * 5. JOURNEY — the timeline graphic. Its heading and caption are copy; the
 	 * picture is a picture. There is no field for how it is laid out, because
 	 * that is the whole point of the architecture (CLAUDE.md §7c).
 	 */
