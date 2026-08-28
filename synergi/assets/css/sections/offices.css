@@ -1,0 +1,298 @@
+/*
+ * offices.css — Contact Us: every office, its address and its map.
+ * Contents: 1 local tokens · 2 shell · 3 the head · 4 the grid · 5 the card ·
+ * 6 the country badge · 7 the details · 8 the map · 9 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-offices", only on pages that
+ * declare the section. Markup: sections/offices.php.
+ * Behaviour: assets/js/sections/offices.js.
+ *
+ * A grid of office cards. Each one carries a country badge, the city, the
+ * address, the ways to reach it, and a map that is not there until somebody
+ * asks for it — see sections/offices.php for why that is the whole point of
+ * the band rather than an optimisation of it.
+ *
+ * The card language is the theme's existing one: white on paper, one-pixel
+ * border, the same lift on hover the values cards and the service cards use.
+ * Nothing new is invented here; only the badge is particular to this band.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-offices {
+	/* The map's height once it is loaded. A 4:3 box on a card this wide reads
+	   as a map rather than as a strip, and it is the same shape the card's
+	   photograph would have been. */
+	--syn-offices-map: 15rem;
+}
+
+/* ==========================================================================
+   2. Shell
+   ========================================================================== */
+
+.syn-offices {
+	background-color: var(--syn-paper);
+}
+
+/* ==========================================================================
+   3. The head
+   ========================================================================== */
+
+.syn-offices__head {
+	max-inline-size: 46rem;
+	margin-block-end: var(--syn-space-6);
+}
+
+.syn-offices__title {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+}
+
+.syn-offices__lede {
+	margin-block-start: var(--syn-space-3);
+	margin-block-end: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   4. The grid
+   auto-fit rather than a fixed count: the business opened two offices in 2025
+   and a grid that needs a developer for the sixth is a grid that goes stale.
+   ========================================================================== */
+
+.syn-offices__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	gap: var(--syn-space-4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* A grid, so the card fills the cell whatever its neighbours' heights are. */
+.syn-offices__item {
+	display: grid;
+}
+
+/* ==========================================================================
+   5. The card
+   ========================================================================== */
+
+.syn-offices__card {
+	display: flex;
+	flex-direction: column;
+	padding: var(--syn-space-4);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-offices__card:hover {
+		transform: translateY(-3px);
+		border-color: var(--syn-cyan);
+		box-shadow: var(--syn-shadow-card);
+	}
+}
+
+/* ==========================================================================
+   6. The country badge
+   The two-letter code in a filled chip, with the country beside it. It is the
+   one element particular to this band, and it exists so a reader scanning five
+   cards finds the country before reading the city.
+   ========================================================================== */
+
+.syn-offices__place {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin: 0 0 var(--syn-space-2);
+}
+
+.syn-offices__code {
+	display: grid;
+	inline-size: 2.25rem;
+	block-size: 2.25rem;
+	place-items: center;
+	border-radius: 50%;
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+}
+
+.syn-offices__country {
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+
+/* ==========================================================================
+   7. The details
+   ========================================================================== */
+
+.syn-offices__city {
+	margin: 0 0 0.35rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.2;
+}
+
+.syn-offices__entity {
+	margin: 0 0 var(--syn-space-2);
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+.syn-offices__address {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+.syn-offices__contacts {
+	display: grid;
+	gap: 0.35rem;
+	margin: var(--syn-space-3) 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-offices__contact-link {
+	color: var(--syn-navy);
+	font-size: var(--syn-step-0);
+	font-weight: 700;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+
+.syn-offices__contact-link:hover {
+	color: var(--syn-cyan);
+	text-decoration: underline;
+}
+
+/* ==========================================================================
+   8. The map
+   Pinned to the foot of the card with margin-block-start: auto, so the maps on
+   a row of cards line up whatever the addresses above them do.
+   ========================================================================== */
+
+.syn-offices__map {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--syn-space-2) var(--syn-space-3);
+	margin-block-start: auto;
+	padding-block-start: var(--syn-space-3);
+}
+
+/*
+ * Hidden until there is a script to make it work. Without JavaScript the link
+ * beside it is the whole interface, which is why that link is a real link to
+ * Google Maps and not a second button.
+ */
+.syn-offices__map-button {
+	display: none;
+	min-block-size: 2.75rem;
+	align-items: center;
+	padding-block: 0.5rem;
+	padding-inline: 1rem;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-md);
+	background-color: var(--syn-white);
+	color: var(--syn-navy);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	transition:
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		background-color var(--syn-duration-fast) var(--syn-ease-out),
+		color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-offices__map-button:hover {
+	border-color: transparent;
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+}
+
+@media (scripting: enabled) {
+
+	.syn-offices__map-button {
+		display: inline-flex;
+	}
+}
+
+.syn-offices__map-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.syn-offices__map-link:hover {
+	color: var(--syn-cyan);
+	text-decoration: underline;
+}
+
+/*
+ * The frame offices.js puts the map into. It only exists once somebody has
+ * asked for it, so there is no empty box holding the card open in the meantime.
+ */
+.syn-offices__map-frame {
+	overflow: hidden;
+	inline-size: 100%;
+	block-size: var(--syn-offices-map);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-md);
+}
+
+.syn-offices__map-frame iframe {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	border: 0;
+}
+
+/* ==========================================================================
+   9. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-offices__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.syn-offices__card {
+		padding: var(--syn-space-3);
+	}
+}

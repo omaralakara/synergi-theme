@@ -1,0 +1,145 @@
+/*
+ * social.css — Contact Us: the company's social accounts.
+ * Contents: 1 shell · 2 the head · 3 the list · 4 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-social", only on pages that
+ * declare the section. Markup: sections/social.php. No script.
+ *
+ * A row of outbound links on the navy band, sized as cards so the row reads as
+ * a set of destinations rather than as a sentence of links. Dark, because it
+ * sits between the white enquiry band and the closing call to action and is
+ * what stops the foot of the page reading as one long pale scroll.
+ *
+ * No platform logos. They are third-party trademarks with their own brand
+ * guidelines, they would each be an asset the theme has to carry and keep
+ * current, and the network's name in the brand's own typeface is clearer at
+ * this size than a monochrome glyph. The name is also what a screen reader
+ * would have had to be given anyway.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-social {
+	background-color: var(--syn-navy-deep);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. The head
+   ========================================================================== */
+
+.syn-social__head {
+	max-inline-size: 46rem;
+	margin-block-end: var(--syn-space-5);
+}
+
+/* The shared eyebrow is navy on white elsewhere; on this ground it has to be
+   the mint the page header already uses for the same job on the same shade. */
+.syn-social__eyebrow {
+	color: var(--syn-mint);
+}
+
+.syn-social__title {
+	margin: 0;
+	color: var(--syn-white);
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+}
+
+.syn-social__lede {
+	margin-block-start: var(--syn-space-3);
+	margin-block-end: 0;
+	color: color-mix(in srgb, var(--syn-white) 78%, transparent);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   3. The list
+   ========================================================================== */
+
+.syn-social__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	gap: var(--syn-space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-social__link {
+	display: flex;
+	block-size: 100%;
+	flex-direction: column;
+	gap: 0.3rem;
+	padding: var(--syn-space-4);
+	border: 1px solid var(--syn-border-dark);
+	border-radius: var(--syn-radius-lg);
+	color: var(--syn-white);
+	text-decoration: none;
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		background-color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-social__link:hover {
+		transform: translateY(-3px);
+		border-color: var(--syn-cyan);
+		background-color: color-mix(in srgb, var(--syn-white) 6%, transparent);
+		color: var(--syn-white);
+	}
+}
+
+.syn-social__network {
+	color: var(--syn-white);
+	font-size: var(--syn-step-1);
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.syn-social__handle {
+	color: var(--syn-mint);
+	font-size: var(--syn-step--1);
+	overflow-wrap: anywhere;
+}
+
+/* The arrow sits at the foot of the card, pushed there so it lines up across a
+   row whose handles are different lengths. It slides on hover, the same
+   gesture the shared text link makes. */
+.syn-social__arrow {
+	margin-block-start: auto;
+	padding-block-start: var(--syn-space-3);
+	color: var(--syn-cyan);
+	font-size: var(--syn-step-1);
+	transition: transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-social__link:hover .syn-social__arrow {
+	transform: translateY(-0.25rem);
+}
+
+/* ==========================================================================
+   4. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-social__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.syn-social__link {
+		padding: var(--syn-space-3);
+	}
+}
