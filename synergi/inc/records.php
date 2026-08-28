@@ -676,6 +676,41 @@ function syn_register_default_records() {
 					'label'      => __( 'Country', 'synergi' ),
 					'max_length' => 60,
 				),
+				/*
+				 * Three columns added 28 Aug for Contact Us, and record-level
+				 * rather than page-level for the ordinary reason: an office's
+				 * address is a fact about the business, and it is wanted on
+				 * Contact Us, on Global Locations and in the footer. Typed once
+				 * (CLAUDE.md §7a).
+				 *
+				 * The country code is typed rather than derived. Deriving it
+				 * would mean a country-name-to-code table living in the theme,
+				 * which is data in code, and it would be wrong for the first
+				 * office opened somewhere the table did not anticipate.
+				 */
+				array(
+					'key'         => 'code',
+					'type'        => 'text',
+					'label'       => __( 'Country code', 'synergi' ),
+					'description' => __( 'Two letters, e.g. AE, SA, QA. Shown as the badge above the city name.', 'synergi' ),
+					'max_length'  => 3,
+					'placeholder' => 'AE',
+				),
+				array(
+					'key'         => 'address',
+					'type'        => 'textarea',
+					'label'       => __( 'Street address', 'synergi' ),
+					'description' => __( 'As it should be read and posted. It is also what the map button searches for, so keep it accurate rather than short.', 'synergi' ),
+					'max_length'  => 300,
+					'rows'        => 3,
+				),
+				array(
+					'key'         => 'phone',
+					'type'        => 'text',
+					'label'       => __( 'Phone', 'synergi' ),
+					'description' => __( 'Optional, in international format, e.g. +966 11 279 5100. Only add a number that is answered.', 'synergi' ),
+					'max_length'  => 40,
+				),
 				array(
 					'key'         => 'entity',
 					'type'        => 'text',
