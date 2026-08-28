@@ -231,6 +231,16 @@ function syn_inline_icon( $slug, $class = '' ) {
 		'hub-procurement',
 		'hub-project-management',
 		'hub-technology-ai',
+		/*
+		 * The social platforms' own marks, added 28 Aug for Contact Us. They are
+		 * other companies' trademarks, so they are drawn as published rather
+		 * than restyled, and they are only ever used to link to Synergi's own
+		 * account on that platform. A network with no file here falls back to
+		 * its initial in a disc, which is sections/social.php's job — this list
+		 * grows when a mark is actually added, never in anticipation.
+		 */
+		'social-linkedin',
+		'social-instagram',
 	);
 
 	if ( ! in_array( $slug, $allowed, true ) ) {

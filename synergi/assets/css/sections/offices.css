@@ -126,17 +126,45 @@
 	margin: 0 0 var(--syn-space-2);
 }
 
-.syn-offices__code {
+/*
+ * The two share one size and one shape, so a card with a flag and a card
+ * without line up exactly and the row does not step where the pictures run out.
+ */
+.syn-offices__code,
+.syn-offices__flag {
 	display: grid;
-	inline-size: 2.25rem;
-	block-size: 2.25rem;
+	flex: none;
+	inline-size: 2.5rem;
+	block-size: 2.5rem;
 	place-items: center;
 	border-radius: 50%;
+}
+
+.syn-offices__code {
 	background-image: var(--syn-gradient-brand);
 	color: var(--syn-white);
 	font-size: var(--syn-step--1);
 	font-weight: 700;
 	letter-spacing: 0.06em;
+}
+
+/*
+ * A flag is a rectangle and the badge is a circle, so the picture is cropped to
+ * fill rather than letterboxed into it — a flag with bars of card either side
+ * reads as a broken image. The hairline keeps a white-edged flag from
+ * dissolving into the card.
+ */
+.syn-offices__flag {
+	overflow: hidden;
+	border: 1px solid var(--syn-border);
+	background-color: var(--syn-paper);
+}
+
+.syn-offices__flag-image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
 }
 
 .syn-offices__country {

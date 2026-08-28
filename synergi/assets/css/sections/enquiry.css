@@ -6,9 +6,10 @@
  * declare the section. Markup: sections/enquiry.php. No script.
  *
  * Copy on one side, the plugin's form on the other. The form's own fields are
- * styled through element selectors rather than through the plugin's class
- * names, so consolidating the form stack later changes which plugin renders
- * the inputs and not this file (CLAUDE.md §11).
+ * styled through element selectors wherever the plugin gives one to hook, so
+ * consolidating the form stack later changes which plugin renders the inputs
+ * and not most of this file (CLAUDE.md §11). The five plugin class names it
+ * does need are grouped in section 3 and each one says why it is there.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only.
  */
@@ -53,6 +54,8 @@
 .syn-enquiry__note {
 	margin-block-start: var(--syn-space-3);
 	margin-block-end: 0;
+	padding-inline-start: var(--syn-space-3);
+	border-inline-start: 2px solid var(--syn-cyan);
 	color: var(--syn-text-soft);
 	font-size: var(--syn-step--1);
 	line-height: 1.6;
@@ -60,14 +63,64 @@
 
 /* ==========================================================================
    3. The form column
-   Element selectors, not the plugin's classes - see the file header.
+   Mostly element selectors; the five plugin class names are grouped and
+   justified below.
    ========================================================================== */
 
 .syn-enquiry__form {
 	padding: var(--syn-space-5);
 	border: 1px solid var(--syn-border);
 	border-radius: var(--syn-radius-lg);
+	/* The brand rule across the top, the same device the closing CTA band uses
+	   to mark a panel as the thing being asked of the reader. */
+	border-block-start: 4px solid var(--syn-cyan);
 	background-color: var(--syn-paper);
+	box-shadow: var(--syn-shadow-card);
+}
+
+/*
+ * FIVE PLUGIN CLASS NAMES, AND WHY THEY ARE HERE. Everything else in this file
+ * is element selectors, so consolidating the form stack later changes which
+ * plugin renders the inputs and not most of this file. These five are the
+ * exceptions: the spacing between fields, the two-column name row and the
+ * required marker are all carried on wrappers with no element to hook, and the
+ * alternative is a form whose fields touch each other. They are grouped here,
+ * named, and kept to the smallest set that does the job (CLAUDE.md §4).
+ */
+.syn-enquiry__form .wpforms-field {
+	padding: 0;
+	margin-block-end: var(--syn-space-4);
+}
+
+.syn-enquiry__form .wpforms-field-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+	gap: var(--syn-space-3);
+}
+
+/* The plugin sizes its half-width columns with percentages and a float; the
+   grid above already does that job, so the widths are handed back to it. */
+.syn-enquiry__form .wpforms-one-half {
+	inline-size: auto;
+	margin: 0;
+	float: none;
+}
+
+.syn-enquiry__form .wpforms-required-label {
+	margin-inline-start: 0.2rem;
+	color: var(--syn-cyan);
+}
+
+/* The small "First" / "Last" captions under a split name field. They are
+   labels, so they inherit the label rule below and have to be told they are
+   captions rather than headings for their field. */
+.syn-enquiry__form .wpforms-field-sublabel {
+	margin-block: 0.35rem 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 400;
+	letter-spacing: 0;
+	text-transform: none;
 }
 
 .syn-enquiry__form label {
@@ -96,7 +149,9 @@
 	color: var(--syn-text);
 	font-family: inherit;
 	font-size: var(--syn-step-0);
-	transition: border-color var(--syn-duration-fast) var(--syn-ease-out);
+	transition:
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration-fast) var(--syn-ease-out);
 }
 
 .syn-enquiry__form textarea {
@@ -108,13 +163,26 @@
 .syn-enquiry__form select:focus,
 .syn-enquiry__form textarea:focus {
 	border-color: var(--syn-cyan);
+	/*
+	 * A ring, not a colour change alone. Colour on its own is not a sufficient
+	 * focus indicator, and base.css's amber :focus-visible outline does not
+	 * fire when a mouse click puts the caret in a text field — which is how
+	 * most people will reach these (CLAUDE.md §9).
+	 */
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--syn-cyan) 22%, transparent);
+	outline: none;
+}
+
+.syn-enquiry__form input::placeholder,
+.syn-enquiry__form textarea::placeholder {
+	color: color-mix(in srgb, var(--syn-text-soft) 70%, var(--syn-white));
 }
 
 /*
- * The submit button, given the the theme’s own button rather than the plugin’s.
- * The geometry is repeated here rather than shared, because the markup belongs
- * to the plugin and cannot be given a class - which is the one case CLAUDE.md
- * §4's "no override layer" rule does not cover.
+ * The submit button, given the theme's own rather than the plugin's. The
+ * geometry is repeated here instead of shared, because the markup belongs to
+ * the plugin and cannot be given a class — the one case CLAUDE.md §4's
+ * "no override layer" rule does not reach.
  */
 .syn-enquiry__form button[type="submit"],
 .syn-enquiry__form input[type="submit"] {
@@ -123,7 +191,7 @@
 	align-items: center;
 	justify-content: center;
 	padding-block: 0.8rem;
-	padding-inline: 1.35rem;
+	padding-inline: 1.75rem;
 	border: 1px solid transparent;
 	border-start-start-radius: 0;
 	border-end-start-radius: 0;
@@ -137,6 +205,7 @@
 	font-size: var(--syn-step--1);
 	font-weight: 700;
 	letter-spacing: 0.025em;
+	text-transform: uppercase;
 	transition:
 		transform var(--syn-duration-fast) var(--syn-ease-out),
 		box-shadow var(--syn-duration-fast),
@@ -165,6 +234,6 @@
 @media (max-width: 47.99rem) {
 
 	.syn-enquiry__form {
-		padding: var(--syn-space-3);
+		padding: var(--syn-space-4);
 	}
 }

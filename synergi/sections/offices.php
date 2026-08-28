@@ -70,6 +70,7 @@ foreach ( (array) ( $args['places'] ?? array() ) as $syn_row ) {
 		'city'    => $syn_city,
 		'country' => trim( (string) ( $syn_row['country'] ?? '' ) ),
 		'code'    => strtoupper( trim( (string) ( $syn_row['code'] ?? '' ) ) ),
+		'flag'    => (int) ( $syn_row['flag'] ?? 0 ),
 		'address' => trim( (string) ( $syn_row['address'] ?? '' ) ),
 		'email'   => trim( (string) ( $syn_row['email'] ?? '' ) ),
 		'phone'   => trim( (string) ( $syn_row['phone'] ?? '' ) ),
@@ -125,14 +126,35 @@ $syn_uid = wp_unique_id( 'syn-offices-' );
 					<article class="syn-offices__card" aria-labelledby="<?php echo esc_attr( $syn_card_id ); ?>-city">
 
 						<p class="syn-offices__place">
-							<?php if ( '' !== $syn_place['code'] ) : ?>
-								<?php
-								/*
-								 * Decoration: the country is written out beside
-								 * it, so reading the code aloud would say the
-								 * same thing twice in a less useful way.
-								 */
+							<?php
+							/*
+							 * The badge: the country's flag where one has been
+							 * chosen, its two-letter code where one has not.
+							 * Both are decoration — the country is written out
+							 * in full right beside them, so a flag with alt
+							 * text or a code read aloud would say the same
+							 * thing twice (CLAUDE.md §8). The picture is
+							 * therefore given an empty alt deliberately rather
+							 * than by omission.
+							 */
+							if ( $syn_place['flag'] ) :
 								?>
+								<span class="syn-offices__flag">
+									<?php
+									echo wp_get_attachment_image(
+										$syn_place['flag'],
+										'thumbnail',
+										false,
+										array(
+											'class'    => 'syn-offices__flag-image',
+											'alt'      => '',
+											'loading'  => 'lazy',
+											'decoding' => 'async',
+										)
+									);
+									?>
+								</span>
+							<?php elseif ( '' !== $syn_place['code'] ) : ?>
 								<span class="syn-offices__code" aria-hidden="true"><?php echo esc_html( $syn_place['code'] ); ?></span>
 							<?php endif; ?>
 

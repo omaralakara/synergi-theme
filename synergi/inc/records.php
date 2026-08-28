@@ -692,9 +692,23 @@ function syn_register_default_records() {
 					'key'         => 'code',
 					'type'        => 'text',
 					'label'       => __( 'Country code', 'synergi' ),
-					'description' => __( 'Two letters, e.g. AE, SA, QA. Shown as the badge above the city name.', 'synergi' ),
+					'description' => __( 'Two letters, e.g. AE, SA, QA. Shown in the badge when no flag has been chosen below.', 'synergi' ),
 					'max_length'  => 3,
 					'placeholder' => 'AE',
+				),
+				/*
+				 * The flag, as a picture rather than as an emoji or a drawing.
+				 * An emoji flag renders as a pair of letters on Windows, which
+				 * is most of the audience; and drawing them would mean the
+				 * theme carrying an SVG of the Saudi flag, which bears the
+				 * shahada and should not be approximated by a build. A picture
+				 * an editor chose is the honest version of this.
+				 */
+				array(
+					'key'         => 'flag',
+					'type'        => 'image',
+					'label'       => __( 'Country flag', 'synergi' ),
+					'description' => __( 'Optional. Shown in the badge beside the country name. Without one the badge shows the country code instead.', 'synergi' ),
 				),
 				array(
 					'key'         => 'address',

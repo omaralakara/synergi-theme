@@ -14,6 +14,11 @@
  * with no form and no social accounts is a page of offices rather than a page
  * of empty headings.
  *
+ * NO CLOSING CTA (28 Aug). Every other designed page ends on the shared "talk
+ * to us" band; this page IS that band. A page whose entire purpose is to be
+ * contacted does not need a panel at the bottom inviting the reader to make
+ * contact, and dropping it lets the social accounts be where the page stops.
+ *
  * THE OFFICES AND THE ACCOUNTS ARE RECORDS, NOT PAGE FIELDS. An office address
  * and a LinkedIn URL are facts about the business, and the footer, Global
  * Locations and the market pages will all want them. Typed here they would be
@@ -57,8 +62,6 @@ if ( '' !== trim( (string) $syn_form_shortcode ) ) {
 if ( $syn_accounts ) {
 	$syn_sections[] = 'social';
 }
-
-$syn_sections[] = 'final-cta';
 
 syn_use_sections( $syn_sections );
 
@@ -119,8 +122,5 @@ if ( $syn_accounts ) {
 		)
 	);
 }
-
-// The closing band, the same record every other designed page reads.
-syn_section( 'final-cta' );
 
 get_footer();

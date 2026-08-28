@@ -72,6 +72,32 @@ if ( ! $syn_accounts ) {
 	return;
 }
 
+/**
+ * The icon file for a platform, or "" when the theme does not ship one.
+ *
+ * Matched on the network's name lowercased, so an editor typing "LinkedIn",
+ * "linkedin" or "Linked In" all land on the same mark. A platform with no file
+ * gets its initial in a disc instead, which is why this returns "" rather than
+ * a default icon: a wrong logo is worse than a letter.
+ *
+ * The map is here and not in inc/sections.php because it is a naming decision
+ * about content, not about the icon library — sections.php owns which files may
+ * be printed, this owns which word points at which file.
+ *
+ * @param string $network The platform's name as typed.
+ * @return string Icon slug, or "".
+ */
+function syn_social_icon_slug( $network ) {
+	$known = array(
+		'linkedin'  => 'social-linkedin',
+		'instagram' => 'social-instagram',
+	);
+
+	$key = preg_replace( '/[^a-z]/', '', strtolower( $network ) );
+
+	return $known[ $key ] ?? '';
+}
+
 $syn_uid = wp_unique_id( 'syn-social-' );
 ?>
 <section class="syn-social syn-section" id="social" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title">
@@ -100,11 +126,31 @@ $syn_uid = wp_unique_id( 'syn-social-' );
 					 */
 					?>
 					<a class="syn-social__link" href="<?php echo esc_url( $syn_account['url'] ); ?>" target="_blank" rel="noopener noreferrer">
-						<span class="syn-social__network"><?php echo esc_html( $syn_account['network'] ); ?></span>
+						<?php
+						$syn_icon = syn_social_icon_slug( $syn_account['network'] );
 
-						<?php if ( '' !== $syn_account['handle'] ) : ?>
-							<span class="syn-social__handle"><?php echo esc_html( $syn_account['handle'] ); ?></span>
-						<?php endif; ?>
+						if ( '' !== $syn_icon ) {
+							/*
+							 * Decoration: the platform is named in words right
+							 * beside it, so the mark is hidden from assistive
+							 * technology rather than given a label that would
+							 * read the name twice (CLAUDE.md §8).
+							 */
+							syn_inline_icon( $syn_icon, 'syn-social__icon' );
+						} else {
+							?>
+							<span class="syn-social__icon syn-social__icon--letter" aria-hidden="true"><?php echo esc_html( mb_substr( $syn_account['network'], 0, 1 ) ); ?></span>
+							<?php
+						}
+						?>
+
+						<span class="syn-social__body">
+							<span class="syn-social__network"><?php echo esc_html( $syn_account['network'] ); ?></span>
+
+							<?php if ( '' !== $syn_account['handle'] ) : ?>
+								<span class="syn-social__handle"><?php echo esc_html( $syn_account['handle'] ); ?></span>
+							<?php endif; ?>
+						</span>
 
 						<span class="syn-social__arrow" aria-hidden="true">&#8599;</span>
 					</a>

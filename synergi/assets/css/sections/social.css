@@ -1,20 +1,22 @@
 /*
  * social.css — Contact Us: the company's social accounts.
- * Contents: 1 shell · 2 the head · 3 the list · 4 narrow screens.
+ * Contents: 1 shell · 2 the head · 3 the list · 4 the mark · 5 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-social", only on pages that
  * declare the section. Markup: sections/social.php. No script.
  *
- * A row of outbound links on the navy band, sized as cards so the row reads as
- * a set of destinations rather than as a sentence of links. Dark, because it
- * sits between the white enquiry band and the closing call to action and is
- * what stops the foot of the page reading as one long pale scroll.
+ * A row of outbound links on the navy band: the platform's own mark in a disc,
+ * the platform and the account beside it, an arrow at the trailing edge. Dark,
+ * because it sits between the white enquiry band and the footer and is what
+ * stops the foot of the page reading as one long pale scroll.
  *
- * No platform logos. They are third-party trademarks with their own brand
- * guidelines, they would each be an asset the theme has to carry and keep
- * current, and the network's name in the brand's own typeface is clearer at
- * this size than a monochrome glyph. The name is also what a screen reader
- * would have had to be given anyway.
+ * THE MARKS ARE THE PLATFORMS' OWN, drawn as published rather than redrawn in
+ * the brand's style — they are other companies' trademarks, and they are only
+ * used here to link to Synergi's own account on that platform. They are tinted
+ * rather than recoloured: the glyph inherits currentColor, so one rule covers
+ * every platform and none of them arrives with a colour that fights the band.
+ * A platform the theme ships no mark for gets its initial in the same disc, so
+ * a new account added at Settings → Site records never renders as a gap.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
  * (CLAUDE.md §2.11).
@@ -64,11 +66,14 @@
 
 /* ==========================================================================
    3. The list
+   A row rather than a stack: the mark is what the eye lands on, and setting it
+   beside the words instead of above them keeps every card the height of two
+   lines whatever the handle's length.
    ========================================================================== */
 
 .syn-social__list {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
 	gap: var(--syn-space-3);
 	margin: 0;
 	padding: 0;
@@ -78,9 +83,9 @@
 .syn-social__link {
 	display: flex;
 	block-size: 100%;
-	flex-direction: column;
-	gap: 0.3rem;
-	padding: var(--syn-space-4);
+	align-items: center;
+	gap: var(--syn-space-3);
+	padding: var(--syn-space-3) var(--syn-space-4);
 	border: 1px solid var(--syn-border-dark);
 	border-radius: var(--syn-radius-lg);
 	color: var(--syn-white);
@@ -101,25 +106,30 @@
 	}
 }
 
+.syn-social__body {
+	display: flex;
+	min-inline-size: 0;
+	flex-direction: column;
+	gap: 0.15rem;
+}
+
 .syn-social__network {
 	color: var(--syn-white);
-	font-size: var(--syn-step-1);
-	font-weight: 600;
+	font-size: var(--syn-step-0);
+	font-weight: 700;
 	line-height: 1.2;
 }
 
 .syn-social__handle {
-	color: var(--syn-mint);
+	color: color-mix(in srgb, var(--syn-white) 66%, transparent);
 	font-size: var(--syn-step--1);
 	overflow-wrap: anywhere;
 }
 
-/* The arrow sits at the foot of the card, pushed there so it lines up across a
-   row whose handles are different lengths. It slides on hover, the same
-   gesture the shared text link makes. */
+/* Pushed to the trailing edge, and it slides on hover — the same gesture the
+   shared text link makes everywhere else on the site. */
 .syn-social__arrow {
-	margin-block-start: auto;
-	padding-block-start: var(--syn-space-3);
+	margin-inline-start: auto;
 	color: var(--syn-cyan);
 	font-size: var(--syn-step-1);
 	transition: transform var(--syn-duration-fast) var(--syn-ease-out);
@@ -130,7 +140,42 @@
 }
 
 /* ==========================================================================
-   4. Narrow screens
+   4. The mark
+   ========================================================================== */
+
+.syn-social__icon {
+	display: grid;
+	flex: none;
+	inline-size: 3rem;
+	block-size: 3rem;
+	place-items: center;
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--syn-white) 10%, transparent);
+	color: var(--syn-mint);
+	transition:
+		background-color var(--syn-duration-fast) var(--syn-ease-out),
+		color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-social__icon svg {
+	inline-size: 1.35rem;
+	block-size: 1.35rem;
+}
+
+/* The fallback for a platform the theme ships no mark for. */
+.syn-social__icon--letter {
+	font-size: var(--syn-step-1);
+	font-weight: 700;
+	line-height: 1;
+}
+
+.syn-social__link:hover .syn-social__icon {
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   5. Narrow screens
    ========================================================================== */
 
 @media (max-width: 47.99rem) {
