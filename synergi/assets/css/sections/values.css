@@ -1,47 +1,79 @@
 /*
  * values.css — About Us: the pillars the company works to.
- * Contents: 1 shell · 2 the head · 3 the list · 4 narrow screens.
+ * Contents: 1 local tokens · 2 shell · 3 the head · 4 the grid (every width) ·
+ * 5 the wheel (wide screens, four to six values) · 6 phones.
  *
  * Loaded by inc/assets.php as "synergi-section-values", only on pages that
  * declare the section. Markup: sections/values.php. No script.
  *
- * A head across the width — the words beside the picture — over a grid of
- * numbered cards. The counter is drawn by CSS from the <ol>'s own numbering, so
- * a value moved in the editor renumbers itself and the markup never carries a
- * number that can disagree with its position.
+ * Written grid-first. Section 4 is what every device gets: a centred head over
+ * a row of numbered cards, with the photograph above them. Section 5 is the
+ * enhancement — on a screen wide enough to hold it, and only when there are
+ * four to six values, the same cards become discs on a dashed ring around the
+ * photograph. No markup changes between the two; nothing is duplicated and
+ * nothing is hidden.
+ *
+ * THE GEOMETRY, ONCE, SO IT CANNOT DRIFT. Every measurement in the wheel is a
+ * percentage of the wheel's own width:
+ *
+ *   disc     30%   of the wheel
+ *   ring     70%   of the wheel — so the discs' centres sit 35% out
+ *   hub      34%   of the wheel — clears the discs by 3% on each side
+ *
+ * The disc is pushed out along its own angle with translateY, whose percentages
+ * resolve against the disc's height rather than the wheel's — which is why the
+ * radius is written as 116.667% (35 ÷ 30) and not as 35%. Change the disc size
+ * and that number changes with it; they are the same measurement twice.
+ *
+ * Six discs on a 70% ring sit 35% of the wheel apart, so a 30% disc leaves a 5%
+ * gap. Seven touch, eight overlap — which is why sections/values.php only asks
+ * for the wheel between four and six.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
- * (CLAUDE.md §2.11).
+ * (CLAUDE.md §2.11) — the transforms are the documented exception, and a wheel
+ * mirrors onto itself, so Arabic needs nothing here.
  */
 
 /* ==========================================================================
-   1. Shell
+   1. Local tokens
+   ========================================================================== */
+
+.syn-values {
+	/* The widest the wheel is ever drawn. Below this the container decides, and
+	   below 66rem there is no wheel at all (section 5). */
+	--syn-values-size: 58rem;
+
+	/* Where each disc sits on the ring — see the header for the two numbers. */
+	--syn-values-disc: 30%;
+	--syn-values-radius: 116.667%;
+}
+
+/* ==========================================================================
+   2. Shell
    ========================================================================== */
 
 .syn-values {
 	background-color: var(--syn-paper);
 }
 
-/*
- * One column, not two (28 Aug). The heading used to sit in a sticky 4fr rail
- * beside the list, which held the six values inside half the page and made a
- * short band feel cramped. The head now spans the width and the values get all
- * of it.
- */
-.syn-values__inner {
-	display: block;
-}
-
 /* ==========================================================================
-   2. The heading column
+   3. The head
+   Centred over the values, because what follows is centred too — and because
+   the heading used to sit in a rail beside the list, which held six values
+   inside half the page (28 Aug).
    ========================================================================== */
 
 .syn-values__head {
-	display: grid;
-	grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-	gap: var(--syn-space-5);
-	align-items: center;
+	max-inline-size: 46rem;
+	margin-inline: auto;
 	margin-block-end: var(--syn-space-6);
+	text-align: center;
+}
+
+/* The shared eyebrow is a flex row with a rule before it, so centring the text
+   is not enough — the row has to be centred as well. */
+.syn-values__head .syn-eyebrow {
+	justify-content: center;
 }
 
 .syn-values__title {
@@ -49,6 +81,7 @@
 	line-height: 1.15;
 	letter-spacing: -0.01em;
 	color: var(--syn-navy);
+	text-wrap: balance;
 }
 
 .syn-values__intro {
@@ -56,12 +89,16 @@
 	color: var(--syn-text-soft);
 	font-size: var(--syn-step-0);
 	line-height: 1.7;
+	text-wrap: pretty;
 }
 
-/* The head has exactly two children — the words and this — so the columns are
-   filled by document order and nothing needs placing by hand. */
-.syn-values__media {
+/* ==========================================================================
+   4. The grid — every width
+   ========================================================================== */
+
+.syn-values__hub {
 	overflow: hidden;
+	margin-block-end: var(--syn-space-5);
 	border-radius: var(--syn-radius-lg);
 	box-shadow: var(--syn-shadow-card);
 }
@@ -73,10 +110,6 @@
 	object-fit: cover;
 }
 
-/* ==========================================================================
-   3. The list
-   ========================================================================== */
-
 .syn-values__list {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
@@ -87,13 +120,25 @@
 	list-style: none;
 }
 
+/* A grid, so the card fills the cell without a percentage height — which the
+   <li> cannot give it once section 5 sizes it from an aspect ratio. */
 .syn-values__item {
-	position: relative;
+	display: grid;
+	counter-increment: syn-values;
+}
+
+/*
+ * The card is the inner box, not the <li>. In the wheel the <li> is the thing
+ * being placed on the ring, and an element cannot both carry the orbital
+ * transform and be scaled on hover without one cancelling the other.
+ */
+.syn-values__item-inner {
+	display: flex;
+	flex-direction: column;
 	padding: var(--syn-space-4);
 	border: 1px solid var(--syn-border);
 	border-radius: var(--syn-radius-lg);
 	background-color: var(--syn-white);
-	counter-increment: syn-values;
 	transition:
 		transform var(--syn-duration) var(--syn-ease-out),
 		border-color var(--syn-duration-fast) var(--syn-ease-out),
@@ -102,7 +147,7 @@
 
 @media (hover: hover) {
 
-	.syn-values__item:hover {
+	.syn-values__item-inner:hover {
 		transform: translateY(-3px);
 		border-color: var(--syn-cyan);
 		box-shadow: var(--syn-shadow-card);
@@ -111,16 +156,17 @@
 
 /*
  * The number. Decoration on top of an <ol> that already says the same thing to
- * assistive technology, so it is generated content rather than markup.
+ * assistive technology, so it is generated content rather than markup. It sits
+ * on the inner box so that it is a flex child in both layouts.
  */
-.syn-values__item::before {
-	display: block;
+.syn-values__item-inner::before {
 	margin-block-end: var(--syn-space-2);
 	color: var(--syn-cyan);
 	content: counter( syn-values, decimal-leading-zero );
 	font-size: var(--syn-step--1);
 	font-weight: 700;
 	letter-spacing: 0.13em;
+	line-height: 1;
 }
 
 .syn-values__item-title {
@@ -128,6 +174,7 @@
 	color: var(--syn-navy);
 	font-size: var(--syn-step-1);
 	line-height: 1.25;
+	text-wrap: pretty;
 }
 
 .syn-values__item-text {
@@ -135,24 +182,139 @@
 	color: var(--syn-text-soft);
 	font-size: var(--syn-step-0);
 	line-height: 1.7;
+	text-wrap: pretty;
 }
 
 /* ==========================================================================
-   4. Narrow screens
+   5. The wheel
+   66rem, because the wheel is drawn at 58rem and the container's gutters take
+   the rest: any narrower and the discs would have to shrink under the type
+   they hold. Everything here is scoped to .syn-values--wheel, which
+   sections/values.php only adds for four to six values.
    ========================================================================== */
 
-@media (max-width: 61.25rem) {
+@media (min-width: 66rem) {
 
-	/* The picture drops under the words rather than squeezing them. */
-	.syn-values__head {
-		grid-template-columns: minmax(0, 1fr);
-		gap: var(--syn-space-4);
+	/*
+	 * EVERYTHING IN THE WHEEL IS CENTRED BY ONE GRID CELL. The wheel, the ring,
+	 * the hub, the list and every disc are all placed in the same 1×1 grid area
+	 * and centred by place-items. Nothing is absolutely positioned, so nothing
+	 * depends on auto margins resolving against a height that came from an
+	 * aspect ratio — and nothing needs a translate(-50%), which would be a
+	 * physical direction in a file that has none (CLAUDE.md §2.11). The one
+	 * transform on a disc is therefore free to be the orbit, and only the orbit.
+	 */
+	.syn-values--wheel .syn-values__wheel {
+		display: grid;
+		grid-template: 1fr / 1fr;
+		place-items: center;
+		inline-size: min(100%, var(--syn-values-size));
+		aspect-ratio: 1;
+		margin-inline: auto;
+	}
+
+	/* The ring the discs sit on. One element for the whole diagram: a line
+	   drawn per disc would have to know where the next one is. */
+	.syn-values--wheel .syn-values__wheel::before {
+		grid-area: 1 / 1;
+		inline-size: 70%;
+		aspect-ratio: 1;
+		border: 1px dashed var(--syn-border);
+		border-radius: 50%;
+		content: "";
+	}
+
+	.syn-values--wheel .syn-values__hub {
+		grid-area: 1 / 1;
+		inline-size: 34%;
+		margin-block-end: 0;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		box-shadow: var(--syn-shadow-soft);
+	}
+
+	.syn-values--wheel .syn-values__image {
+		block-size: 100%;
+		aspect-ratio: 1;
+	}
+
+	.syn-values--wheel .syn-values__list {
+		grid-area: 1 / 1;
+		display: grid;
+		grid-template: 1fr / 1fr;
+		place-items: center;
+		justify-self: stretch;
+		align-self: stretch;
+		gap: 0;
+	}
+
+	.syn-values--wheel .syn-values__item {
+		grid-area: 1 / 1;
+		inline-size: var(--syn-values-disc);
+		aspect-ratio: 1;
+		/*
+		 * Turn to the disc's angle, push it out along the ring, then turn the
+		 * disc back upright so the words stay level. The angle is the item's
+		 * index over the count, which sections/values.php sets on the two
+		 * elements as custom properties.
+		 */
+		transform:
+			rotate(calc(var(--syn-values-index) * (360deg / var(--syn-values-count))))
+			translateY(calc(var(--syn-values-radius) * -1))
+			rotate(calc(var(--syn-values-index) * (-360deg / var(--syn-values-count))));
+	}
+
+	.syn-values--wheel .syn-values__item-inner {
+		align-items: center;
+		justify-content: center;
+		padding: 0;
+		border-radius: 50%;
+		text-align: center;
+	}
+
+	/*
+	 * The measure inside a disc. 72% of the diameter is the widest box that
+	 * still clears the curve once the copy is vertically centred, which is
+	 * where the flex box above puts it.
+	 */
+	.syn-values--wheel .syn-values__item-title,
+	.syn-values--wheel .syn-values__item-text {
+		max-inline-size: 72%;
+	}
+
+	/* A step down from the card, because a disc has corners it cannot use. */
+	.syn-values--wheel .syn-values__item-title {
+		font-size: var(--syn-step-0);
+		font-weight: 700;
+	}
+
+	.syn-values--wheel .syn-values__item-text {
+		font-size: var(--syn-step--1);
+		line-height: 1.5;
+	}
+
+	.syn-values--wheel .syn-values__item-inner::before {
+		margin-block-end: 0.35rem;
+	}
+
+	/* A disc has nowhere to lift to — it would leave the ring. It grows
+	   instead, which reads as the same gesture. */
+	.syn-values--wheel .syn-values__item-inner:hover {
+		transform: scale(1.06);
 	}
 }
+
+/* ==========================================================================
+   6. Phones
+   ========================================================================== */
 
 @media (max-width: 47.99rem) {
 
 	.syn-values__list {
 		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.syn-values__item-inner {
+		padding: var(--syn-space-3);
 	}
 }
