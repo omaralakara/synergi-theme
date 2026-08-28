@@ -16,18 +16,25 @@
  * THE GEOMETRY, ONCE, SO IT CANNOT DRIFT. Every measurement in the wheel is a
  * percentage of the wheel's own width:
  *
- *   disc     30%   of the wheel
+ *   disc     32%   of the wheel
  *   ring     70%   of the wheel — so the discs' centres sit 35% out
- *   hub      34%   of the wheel — clears the discs by 3% on each side
+ *   hub      30%   of the wheel — clears the discs by 4% on each side
  *
  * The disc is pushed out along its own angle with translateY, whose percentages
  * resolve against the disc's height rather than the wheel's — which is why the
- * radius is written as 116.667% (35 ÷ 30) and not as 35%. Change the disc size
+ * radius is written as 109.375% (35 ÷ 32) and not as 35%. Change the disc size
  * and that number changes with it; they are the same measurement twice.
  *
- * Six discs on a 70% ring sit 35% of the wheel apart, so a 30% disc leaves a 5%
+ * Six discs on a 70% ring sit 35% of the wheel apart, so a 32% disc leaves a 3%
  * gap. Seven touch, eight overlap — which is why sections/values.php only asks
  * for the wheel between four and six.
+ *
+ * IT IS 52rem, NOT 58rem (28 Aug). A square diagram costs its own width in
+ * height, so six rem off the wheel is six rem off the band — and at 58rem the
+ * discs were carrying about a third more room than the longest value needs. The
+ * discs grew as a share of it at the same time, so each one holds MORE of its
+ * measure than it did before while the section reads as a diagram rather than
+ * as a page of its own.
  *
  * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
  * (CLAUDE.md §2.11) — the transforms are the documented exception, and a wheel
@@ -40,12 +47,12 @@
 
 .syn-values {
 	/* The widest the wheel is ever drawn. Below this the container decides, and
-	   below 66rem there is no wheel at all (section 5). */
-	--syn-values-size: 58rem;
+	   below 62rem there is no wheel at all (section 5). */
+	--syn-values-size: 52rem;
 
 	/* Where each disc sits on the ring — see the header for the two numbers. */
-	--syn-values-disc: 30%;
-	--syn-values-radius: 116.667%;
+	--syn-values-disc: 32%;
+	--syn-values-radius: 109.375%;
 }
 
 /* ==========================================================================
@@ -66,7 +73,7 @@
 .syn-values__head {
 	max-inline-size: 46rem;
 	margin-inline: auto;
-	margin-block-end: var(--syn-space-6);
+	margin-block-end: var(--syn-space-5);
 	text-align: center;
 }
 
@@ -187,13 +194,13 @@
 
 /* ==========================================================================
    5. The wheel
-   66rem, because the wheel is drawn at 58rem and the container's gutters take
+   62rem, because the wheel is drawn at 52rem and the container’s gutters take
    the rest: any narrower and the discs would have to shrink under the type
    they hold. Everything here is scoped to .syn-values--wheel, which
    sections/values.php only adds for four to six values.
    ========================================================================== */
 
-@media (min-width: 66rem) {
+@media (min-width: 62rem) {
 
 	/*
 	 * EVERYTHING IN THE WHEEL IS CENTRED BY ONE GRID CELL. The wheel, the ring,
@@ -226,7 +233,7 @@
 
 	.syn-values--wheel .syn-values__hub {
 		grid-area: 1 / 1;
-		inline-size: 34%;
+		inline-size: 30%;
 		margin-block-end: 0;
 		aspect-ratio: 1;
 		border-radius: 50%;
@@ -279,7 +286,7 @@
 	 */
 	.syn-values--wheel .syn-values__item-title,
 	.syn-values--wheel .syn-values__item-text {
-		max-inline-size: 72%;
+		max-inline-size: 74%;
 	}
 
 	/* A step down from the card, because a disc has corners it cannot use. */
