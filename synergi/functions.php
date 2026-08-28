@@ -64,5 +64,13 @@ require_once SYN_DIR . 'inc/homepage-fields.php';
 // Added in Stage 6f, and a sibling of the two files above for the same reason.
 require_once SYN_DIR . 'inc/about-fields.php';
 
+// The solutions and the market pages. Each file carries BOTH its site record
+// and its page fields, and registers the record through the
+// "syn_register_records" action rather than by editing inc/records.php — which
+// is what keeps a new page type to new files (CLAUDE.md §4, one concern per
+// file; §10, one concern per commit).
+require_once SYN_DIR . 'inc/solution-fields.php';
+require_once SYN_DIR . 'inc/market-fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
