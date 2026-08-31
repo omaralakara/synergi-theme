@@ -1,0 +1,248 @@
+/*
+ * offers.css — the card deck that is the body of a listing page.
+ * Contents: 1 shell · 2 head · 3 grid · 4 cards · 5 accents ·
+ * 6 reduced motion · 7 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-offers", only on pages that
+ * declare the section. Markup: sections/offers.php. No script.
+ *
+ * Read alongside related-services.css: the two bands share the accents and the
+ * card language deliberately, so a reader arriving on Our Services from a
+ * service page's "keep exploring" tiles sees the same six colours in the same
+ * order. They differ where their jobs differ — these cards carry a summary and
+ * an icon and are sized to be read, those are a wordless footer.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-offers {
+	background-color: var(--syn-white);
+}
+
+/* ==========================================================================
+   2. Head
+   ========================================================================== */
+
+.syn-offers__head {
+	max-inline-size: 46rem;
+	margin-block-end: var(--syn-space-5);
+}
+
+.syn-offers__title {
+	margin-block: 0;
+	margin-inline: 0;
+	font-size: var(--syn-step-3);
+	line-height: 1.1;
+	letter-spacing: -0.015em;
+	color: var(--syn-navy);
+}
+
+.syn-offers__lede {
+	margin-block: 1rem 0;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+}
+
+.syn-offers__empty {
+	margin-block: 0;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+}
+
+/* ==========================================================================
+   3. Grid
+   auto-fit rather than a fixed count: the record decides how many cards exist,
+   so the page has to look right at four, five, six or nine without a media
+   query per count. 19rem is the width at which a two-line name and a two-line
+   summary both stop wrapping awkwardly.
+   ========================================================================== */
+
+.syn-offers__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+	gap: var(--syn-space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/*
+ * display:grid, not flex. The <li> is itself a grid item and stretches to the
+ * row's height, and a lone grid CHILD then stretches to fill it on both axes
+ * with no flex-grow or percentage height to get wrong. A flex row here would
+ * size the card to its content width instead.
+ */
+.syn-offers__item {
+	display: grid;
+}
+
+/* ==========================================================================
+   4. Cards
+   ========================================================================== */
+
+.syn-offers__card {
+	display: flex;
+	block-size: 100%;
+	min-block-size: 15.5rem;
+	flex-direction: column;
+	align-items: flex-start;
+
+	/*
+	 * The card fills bottom-up, and the icon then pushes itself to the top with
+	 * margin-block-end:auto. That is what lines a card with an icon up with one
+	 * without: both put the name, the summary and the link on the same baseline,
+	 * and no rule has to know which kind of card it is looking at.
+	 */
+	justify-content: flex-end;
+	padding: var(--syn-space-4);
+	border-radius: var(--syn-radius-lg);
+	border-start-end-radius: 2.75rem;
+	background-color: var(--syn-navy);
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+	text-decoration: none;
+	transition:
+		transform var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration-fast);
+}
+
+a.syn-offers__card:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--syn-shadow-card);
+	color: var(--syn-white);
+}
+
+/* The icon inherits currentColor, so the same file is white here and cyan on a
+   light surface with no second copy — see syn_inline_icon(). */
+.syn-offers__icon {
+	display: block;
+	inline-size: 2rem;
+	block-size: 2rem;
+	margin-block-end: auto;
+	color: color-mix(in srgb, var(--syn-white) 82%, transparent);
+}
+
+.syn-offers__icon svg {
+	inline-size: 100%;
+	block-size: 100%;
+}
+
+.syn-offers__name {
+	margin-block: var(--syn-space-3) 0;
+	margin-inline: 0;
+	font-size: var(--syn-step-1);
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--syn-white);
+}
+
+.syn-offers__summary {
+	margin-block: 0.65rem 0;
+	margin-inline: 0;
+	font-size: var(--syn-step--1);
+	line-height: 1.55;
+	color: color-mix(in srgb, var(--syn-white) 80%, transparent);
+}
+
+.syn-offers__more {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-block-start: var(--syn-space-2);
+	color: color-mix(in srgb, var(--syn-white) 68%, transparent);
+	font-size: 0.7875rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.syn-offers__arrow {
+	transition: transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+a.syn-offers__card:hover .syn-offers__arrow {
+	transform: translateX(0.25rem);
+}
+
+/* ==========================================================================
+   5. Accents
+   The same six gradients the "keep exploring" band uses, keyed off the same
+   data-accent attribute, so a service keeps its colour from the homepage deck
+   to the listing page to the foot of its own page. Written out one selector per
+   accent rather than assembled from the name, so every selector is findable by
+   searching for it (CLAUDE.md §13). Values come from theme.json's serviceAccent
+   set — nothing new is defined here.
+
+   A card whose accent matches none of these keeps the brand gradient set on
+   .syn-offers__card above. That is the fallback, not a bug.
+   ========================================================================== */
+
+.syn-offers__card[data-accent="accounting"] {
+	background-image: var(--syn-service-accounting);
+}
+
+.syn-offers__card[data-accent="human-resources"] {
+	background-image: var(--syn-service-human-resources);
+}
+
+.syn-offers__card[data-accent="marketing"] {
+	background-image: var(--syn-service-marketing);
+}
+
+.syn-offers__card[data-accent="procurement"] {
+	background-image: var(--syn-service-procurement);
+}
+
+.syn-offers__card[data-accent="project-management"] {
+	background-image: var(--syn-service-project-management);
+}
+
+.syn-offers__card[data-accent="technology-ai"] {
+	background-image: var(--syn-service-technology-ai);
+}
+
+/* ==========================================================================
+   6. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-offers__card,
+	.syn-offers__arrow {
+		transition: none;
+	}
+
+	a.syn-offers__card:hover {
+		transform: none;
+	}
+
+	a.syn-offers__card:hover .syn-offers__arrow {
+		transform: none;
+	}
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 40rem) {
+
+	.syn-offers__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.syn-offers__card {
+		min-block-size: 0;
+		border-start-end-radius: 2rem;
+	}
+
+	.syn-offers__icon {
+		margin-block-end: var(--syn-space-2);
+	}
+}
