@@ -92,6 +92,51 @@ function syn_register_solution_records() {
 }
 
 /**
+ * Every solution in the record, each with the accent its card wears.
+ *
+ * One reader for the record, used by both the "keep exploring" band at the foot
+ * of a solution page and the Our Solutions listing, so the two can never
+ * disagree about which solutions exist or what colour each one is.
+ *
+ * THE ACCENT IS ASSIGNED HERE, not by whoever renders the cards, and that is the
+ * whole point of this function. A solution page leaves itself out of its own
+ * "other solutions" band; if the accent were picked from position in that
+ * shortened list, Systems Implementation would be violet on one page and
+ * magenta on the next. Numbering the full record once means a solution keeps its
+ * colour everywhere it appears, which is what makes the colours read as
+ * navigation rather than decoration (asked for 31 Aug).
+ *
+ * Rows with no name or no reference are dropped rather than numbered, so a
+ * half-filled row an editor has not finished does not silently consume a colour
+ * and shift every card after it.
+ *
+ * @return array[] Rows from the solutions record, in record order, each with a
+ *                 sanitised "slug" and an "accent" added.
+ */
+function syn_solutions() {
+	if ( ! function_exists( 'syn_record' ) ) {
+		return array();
+	}
+
+	$solutions = array();
+
+	foreach ( syn_record( 'solutions' ) as $solution ) {
+		$slug = sanitize_key( $solution['slug'] ?? '' );
+
+		if ( '' === $slug || '' === trim( (string) ( $solution['name'] ?? '' ) ) ) {
+			continue;
+		}
+
+		$solution['slug']   = $slug;
+		$solution['accent'] = syn_accent_for_index( count( $solutions ) );
+
+		$solutions[] = $solution;
+	}
+
+	return $solutions;
+}
+
+/**
  * Every solution in the record except the one named.
  *
  * The mirror of syn_other_services(), and it exists for the same reason: a
@@ -99,21 +144,18 @@ function syn_register_solution_records() {
  * itself. A sixth solution added at Settings → Site records appears on all five
  * existing pages with no code change.
  *
+ * Filters syn_solutions() rather than the record, so the accents were already
+ * settled against the full list before this page took itself out of it.
+ *
  * @param string $exclude Reference of the solution to leave out — this page's own.
  * @return array[] Rows from the solutions record, in record order.
  */
 function syn_other_solutions( $exclude ) {
-	if ( ! function_exists( 'syn_record' ) ) {
-		return array();
-	}
-
 	$exclude = sanitize_key( $exclude );
 	$others  = array();
 
-	foreach ( syn_record( 'solutions' ) as $solution ) {
-		$slug = sanitize_key( $solution['slug'] ?? '' );
-
-		if ( '' === $slug || $slug === $exclude || '' === ( $solution['name'] ?? '' ) ) {
+	foreach ( syn_solutions() as $solution ) {
+		if ( $solution['slug'] === $exclude ) {
 			continue;
 		}
 
@@ -444,6 +486,93 @@ function syn_register_solution_fields() {
 							'rows'  => 5,
 						),
 					),
+				),
+			),
+		)
+	);
+}
+
+/** The template the Our Solutions listing page uses. */
+define( 'SYN_SOLUTIONS_LISTING_TEMPLATE', 'templates/solutions-listing.php' );
+
+add_action( 'syn_register_fields', 'syn_register_solutions_listing_fields' );
+/**
+ * Registers the one field group the Our Solutions listing page carries.
+ *
+ * The mirror of syn_register_services_listing_fields(), and the same rule holds:
+ * there is NO field here for listing the solutions. They exist once, at
+ * Settings → Site records, and syn_solutions() is what reads them — including
+ * the accent each one wears, so a solution is the same colour here as it is at
+ * the foot of every sibling page (CLAUDE.md §7a).
+ *
+ * Side effects: registers one field group on templates/solutions-listing.php.
+ *
+ * @return void
+ */
+function syn_register_solutions_listing_fields() {
+
+	syn_register_field_group(
+		array(
+			'id'          => 'solutions_list',
+			'title'       => __( 'Our Solutions — the page', 'synergi' ),
+			'description' => __( 'The top of the page and the wording over the grid. The grid itself is the solutions at Settings → Site records, so adding one there adds a card here.', 'synergi' ),
+			'templates'   => array( SYN_SOLUTIONS_LISTING_TEMPLATE ),
+			'fields'      => array(
+				array(
+					'key'        => 'solutions_list_eyebrow',
+					'type'       => 'text',
+					'label'      => __( 'Eyebrow', 'synergi' ),
+					'default'    => __( 'Our Solutions', 'synergi' ),
+					'max_length' => 40,
+				),
+				array(
+					'key'         => 'solutions_list_lede',
+					'type'        => 'textarea',
+					'label'       => __( 'Opening sentence', 'synergi' ),
+					'description' => __( 'One or two sentences under the page title. This is the first thing a reader and a search engine see.', 'synergi' ),
+					'default'     => __( 'Defined engagements, run end to end by teams that have done them before.', 'synergi' ),
+					'rows'        => 3,
+					'max_length'  => 320,
+				),
+				array(
+					'key'         => 'solutions_list_image',
+					'type'        => 'image',
+					'label'       => __( 'Hero photograph', 'synergi' ),
+					'description' => __( 'Optional. Fills the band behind the page title. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it.', 'synergi' ),
+				),
+				array(
+					'key'     => 'solutions_list_cta',
+					'type'    => 'link',
+					'label'   => __( 'Button', 'synergi' ),
+					'default' => array(
+						'url'   => '',
+						'label' => '',
+					),
+				),
+				array(
+					'key'        => 'solutions_list_heading',
+					'type'       => 'text',
+					'label'      => __( 'Heading over the grid', 'synergi' ),
+					'default'    => __( 'Our solutions', 'synergi' ),
+					'max_length' => 90,
+				),
+				array(
+					'key'         => 'solutions_list_grid_lede',
+					'type'        => 'textarea',
+					'label'       => __( 'Sentence over the grid', 'synergi' ),
+					'description' => __( 'Optional.', 'synergi' ),
+					'default'     => '',
+					'rows'        => 2,
+					'max_length'  => 240,
+				),
+				array(
+					'key'         => 'solutions_list_empty',
+					'type'        => 'textarea',
+					'label'       => __( 'When the record is empty', 'synergi' ),
+					'description' => __( 'Shown in place of the grid if no solutions have been added at Settings → Site records, so the page is never a heading over nothing.', 'synergi' ),
+					'default'     => __( 'Our solutions are being updated. Please get in touch and we will talk you through the options.', 'synergi' ),
+					'rows'        => 3,
+					'max_length'  => 320,
 				),
 			),
 		)

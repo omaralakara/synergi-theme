@@ -414,3 +414,124 @@ function syn_other_services( $exclude ) {
 
 	return $others;
 }
+
+/**
+ * A service line's name, from its reference.
+ *
+ * The reference is what a page stores — "human-resources" — because it is
+ * stable and a name is not: renaming a line at Settings → Site records must
+ * change it everywhere at once, which is the whole reason the six are a record
+ * (CLAUDE.md §7a). Anything showing a service line to a reader therefore looks
+ * the name up here rather than storing a second copy of it.
+ *
+ * Returns "" for a reference the record does not have, so a caller can decide
+ * between showing nothing and showing the raw reference. It never invents a
+ * name by prettifying the slug: a line called "Technology & AI" would come back
+ * as "Technology Ai", which is worse than saying nothing.
+ *
+ * @param string $slug The service reference.
+ * @return string The name as an editor typed it, or "".
+ */
+function syn_service_name( $slug ) {
+	$slug = sanitize_key( $slug );
+
+	if ( '' === $slug || ! function_exists( 'syn_record' ) ) {
+		return '';
+	}
+
+	foreach ( syn_record( 'services' ) as $service ) {
+		if ( sanitize_key( $service['slug'] ?? '' ) === $slug ) {
+			return trim( (string) ( $service['name'] ?? '' ) );
+		}
+	}
+
+	return '';
+}
+
+/** The template the Our Services listing page uses. */
+define( 'SYN_SERVICES_LISTING_TEMPLATE', 'templates/services-listing.php' );
+
+add_action( 'syn_register_fields', 'syn_register_services_listing_fields' );
+/**
+ * Registers the one field group the Our Services listing page carries.
+ *
+ * One group, because the page is a hero over a grid and the grid is the
+ * "services" record. There is deliberately NO field here for listing the service
+ * lines: the six exist once, at Settings → Site records, and a field that let an
+ * editor retype them on this page would be the second copy this architecture
+ * exists to avoid (CLAUDE.md §7a). The fields below are the words around the
+ * grid, and nothing else.
+ *
+ * Side effects: registers one field group on templates/services-listing.php.
+ *
+ * @return void
+ */
+function syn_register_services_listing_fields() {
+
+	syn_register_field_group(
+		array(
+			'id'          => 'services_list',
+			'title'       => __( 'Our Services — the page', 'synergi' ),
+			'description' => __( 'The top of the page and the wording over the grid. The grid itself is the service lines at Settings → Site records, so adding a line there adds a card here.', 'synergi' ),
+			'templates'   => array( SYN_SERVICES_LISTING_TEMPLATE ),
+			'fields'      => array(
+				array(
+					'key'        => 'services_list_eyebrow',
+					'type'       => 'text',
+					'label'      => __( 'Eyebrow', 'synergi' ),
+					'default'    => __( 'Our Services', 'synergi' ),
+					'max_length' => 40,
+				),
+				array(
+					'key'         => 'services_list_lede',
+					'type'        => 'textarea',
+					'label'       => __( 'Opening sentence', 'synergi' ),
+					'description' => __( 'One or two sentences under the page title. This is the first thing a reader and a search engine see.', 'synergi' ),
+					'default'     => __( 'Six service lines, delivered by teams that run them every day.', 'synergi' ),
+					'rows'        => 3,
+					'max_length'  => 320,
+				),
+				array(
+					'key'         => 'services_list_image',
+					'type'        => 'image',
+					'label'       => __( 'Hero photograph', 'synergi' ),
+					'description' => __( 'Optional. Fills the band behind the page title. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it.', 'synergi' ),
+				),
+				array(
+					'key'     => 'services_list_cta',
+					'type'    => 'link',
+					'label'   => __( 'Button', 'synergi' ),
+					'default' => array(
+						'url'   => '',
+						'label' => '',
+					),
+				),
+				array(
+					'key'        => 'services_list_heading',
+					'type'       => 'text',
+					'label'      => __( 'Heading over the grid', 'synergi' ),
+					'default'    => __( 'Our service lines', 'synergi' ),
+					'max_length' => 90,
+				),
+				array(
+					'key'         => 'services_list_grid_lede',
+					'type'        => 'textarea',
+					'label'       => __( 'Sentence over the grid', 'synergi' ),
+					'description' => __( 'Optional.', 'synergi' ),
+					'default'     => '',
+					'rows'        => 2,
+					'max_length'  => 240,
+				),
+				array(
+					'key'         => 'services_list_empty',
+					'type'        => 'textarea',
+					'label'       => __( 'When the record is empty', 'synergi' ),
+					'description' => __( 'Shown in place of the grid if no service lines have been added at Settings → Site records, so the page is never a heading over nothing.', 'synergi' ),
+					'default'     => __( 'Our service lines are being updated. Please get in touch and we will point you to the right team.', 'synergi' ),
+					'rows'        => 3,
+					'max_length'  => 320,
+				),
+			),
+		)
+	);
+}
