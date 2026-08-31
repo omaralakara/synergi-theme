@@ -1493,7 +1493,18 @@ function syn_write_meta( $post_id, $meta_key, $value ) {
 		return;
 	}
 
-	update_post_meta( $post_id, $meta_key, $value );
+	/*
+	 * wp_slash() is not optional here. update_post_meta() runs wp_unslash() on
+	 * whatever it is given, so a value handed over unslashed comes back out of
+	 * the database with one layer of backslashes missing.
+	 *
+	 * That is invisible for plain text and destructive for the repeaters: their
+	 * rows are stored as JSON, wp_json_encode() writes a non-ASCII character as
+	 * the escape \u2014, and the silent unslash turns it into the literal text
+	 * u2014. It reached eight live pages before it was understood, which is why
+	 * this comment is longer than the fix.
+	 */
+	update_post_meta( $post_id, $meta_key, wp_slash( $value ) );
 }
 
 /* ==========================================================================
