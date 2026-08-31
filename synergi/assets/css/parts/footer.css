@@ -1,7 +1,7 @@
 /*
- * footer.css — the site footer.
- * Contents: 1 footer shell · 2 brand column · 3 social links · 4 link columns ·
- * 5 bottom bar · 6 narrow screens.
+ * footer.css â the site footer.
+ * Contents: 1 footer shell Â· 2 brand column Â· 3 social links Â· 4 link columns Â·
+ * 5 bottom bar Â· 6 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-footer", on every page, depending on the
  * "synergi-base" handle. Markup: footer.php and parts/footer-links.php.
@@ -22,8 +22,8 @@
  *
  * .footer-conversation is not carried across. Its only rules in main.min.css
  * were grid-column overrides inside media queries that a later unconditional
- * pass beats, so they never fire at any width — the class is dead weight there
- * and would be a class with no rule here, which CLAUDE.md §13 forbids.
+ * pass beats, so they never fire at any width â the class is dead weight there
+ * and would be a class with no rule here, which CLAUDE.md Â§13 forbids.
  *
  * .syn-footer-column is new. The design styles three columns that happen to be
  * identical; naming them once gives them one place to change.
@@ -33,8 +33,8 @@
 	--syn-footer-text: color-mix(in srgb, var(--syn-white) 86%, transparent);
 	--syn-footer-muted: color-mix(in srgb, var(--syn-white) 76%, transparent);
 	/*
-	 * 65%, not the design's 45%. The bottom bar is not decoration — it holds the
-	 * Terms and Privacy links, so §9's 4.5:1 applies to it like any other body
+	 * 65%, not the design's 45%. The bottom bar is not decoration â it holds the
+	 * Terms and Privacy links, so Â§9's 4.5:1 applies to it like any other body
 	 * text. 45% white on navy measures 3.04:1; 65% is the first step that clears
 	 * the floor, at 4.57:1. Still visibly quieter than the columns above it.
 	 */
@@ -50,14 +50,14 @@
  * Solid navy rather than the design's --gradient-brand-deep, decided 25 Aug.
  *
  * That gradient runs navy to cyan at 45deg, which puts its lightest point in the
- * top-right — exactly where the last column's heading sits. Measured against
+ * top-right â exactly where the last column's heading sits. Measured against
  * white: 8.39:1 at the navy end, 4.48:1 at the midpoint, 2.61:1 at the cyan end,
- * against the 4.5:1 floor in CLAUDE.md §9. Roughly half the footer failed, and
+ * against the 4.5:1 floor in CLAUDE.md Â§9. Roughly half the footer failed, and
  * the links failed further into it than the headings did.
  *
- * A navy scrim over the gradient was the alternative and reached only 4.78:1 —
+ * A navy scrim over the gradient was the alternative and reached only 4.78:1 â
  * passing by 0.28, and muting the gradient so far that it barely read as one.
- * Navy is an approved §3 token, passes at every position and every viewport, and
+ * Navy is an approved Â§3 token, passes at every position and every viewport, and
  * matches what the header already becomes once it is scrolled.
  */
 .syn-site-footer {
@@ -69,7 +69,7 @@
 .syn-footer-grid {
 	display: grid;
 	min-inline-size: 0;
-	grid-template-columns: minmax(16rem, 1.35fr) repeat(3, minmax(0, 0.8fr));
+	grid-template-columns: minmax(14rem, 1.2fr) repeat(4, minmax(0, 0.8fr));
 	gap: clamp(2rem, 4.5vw, 4rem);
 	padding-block-end: 4rem;
 }
@@ -169,9 +169,9 @@
 /*
  * Full white and a heavier weight, so a column heading reads as a heading
  * rather than as the first, slightly faded item in its own list. The design had
- * these at 72% white against links at 86% — the label was quieter than the
+ * these at 72% white against links at 86% â the label was quieter than the
  * things it labelled, which inverted the hierarchy. Changed on request, 25 Aug.
- * No new colour: white is already in the §3 palette, and the family is still
+ * No new colour: white is already in the Â§3 palette, and the family is still
  * inherited Montserrat.
  */
 .syn-footer-heading {
@@ -247,20 +247,36 @@
 
 /* ==========================================================================
    6. Narrow screens
+   Rebuilt 31 Aug. The footer used to end at one column below 27rem, which put
+   twenty links in a single stack taller than the phone showing it — the reader
+   scrolled past the whole site map to reach the copyright line. It now stops at
+   two columns and never goes narrower: two columns of short link text is
+   comfortably readable at 320px and halves the height.
    ========================================================================== */
 
+/* Tablet and small laptop: the brand takes its own row, the four link columns
+   share the next one. */
 @media (max-width: 61.25rem) {
 
 	.syn-footer-grid {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: clamp(1.75rem, 4vw, 2.5rem);
 	}
 
 	.syn-footer-brand {
 		grid-column: 1 / -1;
+		max-inline-size: 34rem;
 	}
 }
 
+/* Large phone and below: two columns, and they stay two. */
 @media (max-width: 47.99rem) {
+
+	.syn-footer-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 2rem clamp(1.25rem, 5vw, 2rem);
+		padding-block-end: 2.5rem;
+	}
 
 	.syn-footer-bottom,
 	.syn-footer-bottom > div {
@@ -276,18 +292,18 @@
 	}
 }
 
-@media (max-width: 34rem) {
+/*
+ * Small phone. Still two columns; only the spacing and the heading tighten, so
+ * the footer stays a footer rather than becoming a second page.
+ */
+@media (max-width: 30rem) {
 
 	.syn-footer-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 2.25rem clamp(1.25rem, 6vw, 2rem);
+		gap: 1.75rem 1.25rem;
 	}
-}
 
-@media (max-width: 27rem) {
-
-	.syn-footer-grid {
-		grid-template-columns: 1fr;
+	.syn-footer-heading {
+		margin-block-end: 0.75rem;
 	}
 
 	.syn-footer-bottom div {

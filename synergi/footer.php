@@ -91,52 +91,72 @@ defined( 'ABSPATH' ) || exit;
 
 			<?php
 			/*
-			 * Three link columns. Each is rendered by the same helper, so a
+			 * Four link columns. Each is rendered by the same helper, so a
 			 * column is a heading plus a list and nothing else — see
 			 * parts/footer-links.php for the $args it takes.
+			 *
+			 * Rebuilt 31 Aug, when the footer had drifted from the site. It was
+			 * three columns, one of which ("Explore") was a grab-bag that
+			 * repeated Our Services from the column beside it; it linked Project
+			 * Management to the services hub because that page did not exist
+			 * yet; it linked Our Approach, which is now a draft and would have
+			 * 404ed; and it did not mention the five solutions or the case
+			 * studies at all, because neither existed when it was written.
+			 *
+			 * The rule applied: a footer link earns its place by being somewhere
+			 * a visitor would actually want to go. Every entry below is a
+			 * published page on a theme template.
 			 */
 			$syn_columns = array(
 				/*
-				 * The five service lines lead, because they are what the site
-				 * sells and the old footer did not list a single one of them —
-				 * reaching Accounting from the footer meant going via Our
-				 * Services. Project Management has no page of its own yet and
-				 * points at the hub, which is exactly what the approved homepage
-				 * does with its sixth service card.
+				 * Services lead, because they are what the site sells. All six
+				 * now have their own page — Project Management included, which
+				 * is why it no longer points at the hub.
 				 */
 				array(
 					'heading' => __( 'Services', 'synergi' ),
 					'links'   => array(
-						__( 'Human Resources', 'synergi' )   => '/our-services/human-resources/',
-						__( 'Technology & AI', 'synergi' )   => '/our-services/technology-ai/',
-						__( 'Accounting', 'synergi' )        => '/our-services/accounting/',
-						__( 'Marketing', 'synergi' )         => '/our-services/marketing/',
-						__( 'Procurement', 'synergi' )       => '/our-services/procurement/',
-						// The approved homepage links this to the services hub, since the
-						// page itself does not exist yet. Matching that here beats both a
-						// 404 and an unlinked item.
-						__( 'Project Management', 'synergi' ) => '/our-services/',
+						__( 'Human Resources', 'synergi' )    => '/our-services/human-resources/',
+						__( 'Technology & AI', 'synergi' )    => '/our-services/technology-ai/',
+						__( 'Accounting', 'synergi' )         => '/our-services/accounting/',
+						__( 'Marketing', 'synergi' )          => '/our-services/marketing/',
+						__( 'Procurement', 'synergi' )        => '/our-services/procurement/',
+						__( 'Project Management', 'synergi' ) => '/our-services/project-management/',
+					),
+				),
+				/*
+				 * Shared Services points at /shared-services-uae/ and not at a
+				 * tidier path under /our-solutions/. That is the page with the
+				 * traffic and the history, and sitemap-and-navigation.md §4 says
+				 * this solution lives there.
+				 */
+				array(
+					'heading' => __( 'Solutions', 'synergi' ),
+					'links'   => array(
+						__( 'Shared Services', 'synergi' )        => '/shared-services-uae/',
+						__( 'Build-Operate-Transfer', 'synergi' ) => '/our-solutions/build-operate-transfer/',
+						__( 'Systems Implementation', 'synergi' ) => '/our-solutions/systems-implementation/',
+						__( 'Carve-Out & Integration', 'synergi' ) => '/our-solutions/carve-out-integration/',
+						__( 'Fractional Leadership', 'synergi' )  => '/our-solutions/fractional-leadership/',
 					),
 				),
 				array(
 					'heading' => __( 'Company', 'synergi' ),
 					'links'   => array(
 						__( 'About Us', 'synergi' )         => '/about-us/',
-						__( 'Our Approach', 'synergi' )     => '/our-approach/',
 						__( 'Engagement Team', 'synergi' )  => '/engagement-team/',
 						__( 'Global Locations', 'synergi' ) => '/global-locations/',
-						__( 'Media', 'synergi' )            => '/media/',
+						__( 'Markets', 'synergi' )          => '/markets/',
+						__( 'Contact Us', 'synergi' )       => '/contact-us/',
 					),
 				),
 				array(
-					'heading' => __( 'Explore', 'synergi' ),
+					'heading' => __( 'Insights', 'synergi' ),
 					'links'   => array(
-						__( 'Our Services', 'synergi' )      => '/our-services/',
-						__( 'Shared Services', 'synergi' )   => '/shared-services-uae/',
-						__( 'BPO Services', 'synergi' )      => '/bpo-services-in-saudi-arabia-ksa-riyadh/',
+						__( 'Case Studies', 'synergi' )      => '/case-studies/',
+						__( 'Blog', 'synergi' )              => '/blog/',
 						__( 'Executive Podcast', 'synergi' ) => '/executive-podcast/',
-						__( 'Our Blog', 'synergi' )          => '/blog/',
-						__( 'Contact Us', 'synergi' )        => '/contact-us/',
+						__( 'Media', 'synergi' )             => '/media/',
 					),
 				),
 			);
