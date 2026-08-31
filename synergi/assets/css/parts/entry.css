@@ -1,0 +1,235 @@
+/*
+ * entry.css — what editor-written prose looks like.
+ * Contents: 1 measure and headings · 2 links · 3 lists · 4 quotes ·
+ * 5 pictures and captions · 6 tables · 7 code · 8 rules and small print.
+ *
+ * Loaded by inc/assets.php as "synergi-entry", only on views that actually
+ * render .syn-entry-content: a post, an ordinary page, a case study, a search
+ * result and the 404. A designed page never downloads it (CLAUDE.md §6).
+ * Markup: whatever the block editor produced. Sits on top of "synergi-base".
+ *
+ * WHY THIS IS NOT IN base.css. base.css was 19.7 KB against a 20 KB budget
+ * (CLAUDE.md §4), and this is the styling for one kind of view rather than a
+ * primitive every page needs. Splitting it keeps both files honest.
+ *
+ * WHAT IS DELIBERATELY ABSENT: heading colour, size, weight and family. Those
+ * come from theme.json's styles.elements, so the block editor shows the same
+ * thing the front end does. Setting them again here would be a second source of
+ * truth and the editor would start lying (CLAUDE.md §1).
+ *
+ * Everything below is a block the editor can insert and that had no styling of
+ * its own before, which is why a quote or a table in a post used to render as
+ * unstyled browser default in the middle of a designed site.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Measure and headings
+   Only spacing and rhythm here. The look of a heading is theme.json's.
+   ========================================================================== */
+
+.syn-entry-content {
+	color: var(--syn-text);
+}
+
+/*
+ * A comfortable line length for reading, independent of the container. The
+ * narrow container is 68rem; prose wants closer to 38em, and blocks an editor
+ * deliberately widened (alignwide, alignfull) opt out below.
+ */
+.syn-entry-content > p,
+.syn-entry-content > ul,
+.syn-entry-content > ol,
+.syn-entry-content > h2,
+.syn-entry-content > h3,
+.syn-entry-content > h4,
+.syn-entry-content > h5,
+.syn-entry-content > h6 {
+	max-inline-size: 42em;
+}
+
+.syn-entry-content > .alignwide,
+.syn-entry-content > .alignfull {
+	max-inline-size: none;
+}
+
+/*
+ * A short cyan rule above every second-level heading, which is the same signal
+ * .syn-eyebrow uses across the site. It is what makes a long article scan like
+ * the rest of the pages rather than like a document.
+ */
+.syn-entry-content > h2::before {
+	display: block;
+	inline-size: 2.25rem;
+	block-size: 2px;
+	margin-block-end: 0.9rem;
+	background-color: var(--syn-cyan);
+	content: "";
+}
+
+/* ==========================================================================
+   2. Links
+   Colour is theme.json's elements.link. What it does not give a link is a way
+   to be seen as one inside a paragraph, which is what this adds.
+   ========================================================================== */
+
+.syn-entry-content a:not(.syn-button) {
+	text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.18em;
+	transition: text-decoration-color var(--syn-duration-fast);
+}
+
+.syn-entry-content a:not(.syn-button):hover {
+	text-decoration-color: currentColor;
+}
+
+/* ==========================================================================
+   3. Lists
+   ========================================================================== */
+
+.syn-entry-content li + li {
+	margin-block-start: 0.45rem;
+}
+
+.syn-entry-content li::marker {
+	color: var(--syn-cyan);
+}
+
+/* ==========================================================================
+   4. Quotes
+   ========================================================================== */
+
+.syn-entry-content blockquote {
+	margin-inline: 0;
+	padding-inline-start: var(--syn-space-4);
+	border-inline-start: 3px solid var(--syn-cyan);
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	font-style: normal;
+	line-height: 1.45;
+}
+
+.syn-entry-content blockquote cite {
+	display: block;
+	margin-block-start: 0.75rem;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-style: normal;
+}
+
+.syn-entry-content .wp-block-pullquote {
+	padding-block: var(--syn-space-4);
+	border-block: 1px solid var(--syn-border);
+	text-align: center;
+}
+
+/* ==========================================================================
+   5. Pictures and captions
+   ========================================================================== */
+
+.syn-entry-content figure {
+	margin-inline: 0;
+}
+
+.syn-entry-content img {
+	border-radius: var(--syn-radius-lg);
+}
+
+.syn-entry-content figcaption {
+	margin-block-start: 0.7rem;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	line-height: 1.5;
+}
+
+/* ==========================================================================
+   6. Tables
+   A table is the block most likely to overflow a phone, so it scrolls inside
+   its own box rather than widening the page.
+   ========================================================================== */
+
+.syn-entry-content .wp-block-table {
+	overflow-x: auto;
+}
+
+.syn-entry-content table {
+	inline-size: 100%;
+	border-collapse: collapse;
+	font-size: var(--syn-step--1);
+}
+
+.syn-entry-content th,
+.syn-entry-content td {
+	padding: 0.7rem 0.9rem;
+	border-block-end: 1px solid var(--syn-border);
+	text-align: start;
+	vertical-align: top;
+}
+
+.syn-entry-content thead th {
+	border-block-end: 2px solid var(--syn-navy);
+	color: var(--syn-navy);
+	font-weight: 700;
+}
+
+.syn-entry-content tbody tr:last-child td {
+	border-block-end: 0;
+}
+
+/* ==========================================================================
+   7. Code
+   ========================================================================== */
+
+.syn-entry-content code,
+.syn-entry-content kbd {
+	padding: 0.15em 0.4em;
+	border-radius: var(--syn-radius-sm);
+	background-color: var(--syn-paper-blue);
+	font-size: 0.9em;
+}
+
+.syn-entry-content pre {
+	overflow-x: auto;
+	padding: var(--syn-space-3);
+	border-radius: var(--syn-radius-md);
+	background-color: var(--syn-paper);
+	font-size: var(--syn-step--1);
+	line-height: 1.55;
+}
+
+.syn-entry-content pre code {
+	padding: 0;
+	background-color: transparent;
+}
+
+/* ==========================================================================
+   8. Rules and small print
+   ========================================================================== */
+
+.syn-entry-content hr {
+	block-size: 1px;
+	border: 0;
+	background-color: var(--syn-border);
+}
+
+.syn-entry-content .wp-block-separator {
+	max-inline-size: 6rem;
+	margin-inline: 0;
+	block-size: 2px;
+	background-color: var(--syn-cyan);
+}
+
+/* ==========================================================================
+   9. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-entry-content a:not(.syn-button) {
+		transition: none;
+	}
+}

@@ -109,6 +109,24 @@ function syn_enqueue_part_assets() {
 		$parts[] = 'post';
 	}
 
+	/*
+	 * The styling for editor-written prose, on the views that actually render
+	 * .syn-entry-content. The designed templates compose sections instead and
+	 * never open that wrapper, so they never download this.
+	 *
+	 * The page list is by template rather than by is_page(): an ordinary page
+	 * has no template slug at all, and a case study is the one designed
+	 * template that also renders a body written in the block editor.
+	 */
+	$syn_entry_templates = array( '', 'default', 'templates/case-study.php' );
+
+	if ( is_singular( 'post' )
+		|| is_search()
+		|| is_404()
+		|| ( is_page() && in_array( get_page_template_slug(), $syn_entry_templates, true ) ) ) {
+		$parts[] = 'entry';
+	}
+
 	foreach ( $parts as $part ) {
 		$path = 'assets/css/parts/' . $part . '.css';
 

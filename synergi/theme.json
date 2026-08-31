@@ -175,7 +175,7 @@
 					"fontWeight": "600",
 					"lineHeight": "1.15"
 				},
-				"color": { "text": "var(--wp--preset--color--ink)" }
+				"color": { "text": "var(--wp--preset--color--navy)" }
 			},
 			"h1": { "typography": { "fontSize": "var(--wp--preset--font-size--xxxl)", "lineHeight": "1.05" } },
 			"h2": { "typography": { "fontSize": "var(--wp--preset--font-size--xxl)" } },
