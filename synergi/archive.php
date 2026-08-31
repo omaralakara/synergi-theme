@@ -19,32 +19,36 @@ defined( 'ABSPATH' ) || exit;
 get_header();
 
 /*
- * get_the_archive_title() wraps its output in a <span> and prefixes it
- * ("Category: News"). The band takes plain text and escapes it, so the markup
- * is stripped here. The posts page has no archive title of its own, so it
- * borrows the title of the page assigned to it in Settings > Reading.
+ * The hero's words are the Posts page's own fields, so the blog is edited the
+ * way every other landing page is (31 Aug). syn_blog_hero() in
+ * inc/blog-fields.php applies the fallbacks: the field, then the excerpt or the
+ * Featured Image that used to be the only source, then nothing.
+ *
+ * The heading is NOT a field. On the posts page it is the title of the page
+ * assigned in Settings > Reading; on a category or tag archive it is the term's
+ * own name. Either way it is the thing the reader asked for, and a field here
+ * could only disagree with it.
  */
-$syn_image = 0;
+$syn_is_posts_page = is_home();
+$syn_hero          = function_exists( 'syn_blog_hero' )
+	? syn_blog_hero( $syn_is_posts_page )
+	: array(
+		'eyebrow' => '',
+		'lede'    => '',
+		'image'   => 0,
+	);
 
-if ( is_home() ) {
+if ( $syn_is_posts_page ) {
 	$syn_posts_page = (int) get_option( 'page_for_posts' );
 	$syn_title      = $syn_posts_page ? get_the_title( $syn_posts_page ) : __( 'Blog', 'synergi' );
-	$syn_lede       = '';
-
-	/*
-	 * The blog gets the photographic hero every other page gets, from the
-	 * Featured Image on the page assigned to Posts in Settings → Reading
-	 * (28 Aug). It was the one landing page still on the flat navy band, for no
-	 * reason other than that this template had never been given the picture —
-	 * page.php has passed one since the same day. The excerpt comes with it,
-	 * because a listing with a sentence of context reads better than a title
-	 * alone and there is nowhere else on this page to put one.
-	 */
-	if ( $syn_posts_page ) {
-		$syn_image = (int) get_post_thumbnail_id( $syn_posts_page );
-		$syn_lede  = has_excerpt( $syn_posts_page ) ? wp_strip_all_tags( get_the_excerpt( $syn_posts_page ) ) : '';
-	}
+	$syn_lede       = $syn_hero['lede'];
 } else {
+	/*
+	 * get_the_archive_title() wraps its output in a <span> and prefixes it
+	 * ("Category: News"). The band takes plain text and escapes it, so the
+	 * markup is stripped here. An archive's own description wins over the
+	 * blog's sentence when one has been written.
+	 */
 	$syn_title = wp_strip_all_tags( get_the_archive_title() );
 	$syn_lede  = wp_strip_all_tags( get_the_archive_description() );
 }
@@ -53,9 +57,10 @@ get_template_part(
 	'parts/page-header',
 	null,
 	array(
-		'title' => $syn_title,
-		'lede'  => $syn_lede,
-		'image' => $syn_image,
+		'title'   => $syn_title,
+		'eyebrow' => $syn_hero['eyebrow'],
+		'lede'    => $syn_lede,
+		'image'   => $syn_hero['image'],
 	)
 );
 ?>
