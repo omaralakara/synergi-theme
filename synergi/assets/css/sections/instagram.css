@@ -18,9 +18,11 @@
  *     it has not signed. If a plugin update renames sbi_item, this section
  *     loses its polish and nothing else breaks — which is why none of the
  *     rules below carry layout the section depends on.
- *   - The two !important declarations are the plugin's own doing: it prints
- *     those two properties inline from its settings screen, and an inline
- *     style cannot be beaten any other way (CLAUDE.md §2.12).
+ *   - The three !important declarations are all the plugin's doing, not ours:
+ *     two properties it prints inline from its settings screen, and one element
+ *     its script reveals with an inline style. An inline style cannot be beaten
+ *     any other way, and each rule says at its own site what forced it
+ *     (CLAUDE.md §2.12).
  *
  * The section renders correctly with no plugin at all: instagram.php omits the
  * feed wrapper entirely rather than leaving an empty frame.
@@ -127,6 +129,25 @@
  */
 .syn-instagram__feed #sb_instagram #sbi_images:empty {
 	min-block-size: clamp(9rem, 18vw, 15rem);
+}
+
+/*
+ * The caption's "…" expander, removed at the business's request (31 Aug). The
+ * band is a glance at the feed, not a reader for it: the picture already links
+ * to the post, which is where the whole caption lives with its hashtags, its
+ * line breaks and its comments intact.
+ *
+ * !important because the plugin's own stylesheet ships this element hidden and
+ * its script then reveals it with jQuery .show(), which writes display inline
+ * on the element — and an inline style yields to nothing else (CLAUDE.md §2.12).
+ *
+ * display:none rather than visibility or opacity, deliberately: the expander is
+ * an <a> with a click handler, so anything that merely made it invisible would
+ * leave a focusable control in the tab order that does nothing a reader can see
+ * (CLAUDE.md §9). Removing the box removes it from the tab order too.
+ */
+.syn-instagram__feed #sb_instagram .sbi_expand {
+	display: none !important;
 }
 
 /* ==========================================================================
