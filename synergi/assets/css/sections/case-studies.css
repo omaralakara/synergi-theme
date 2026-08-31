@@ -1,0 +1,325 @@
+/*
+ * case-studies.css — the grid of case-study cards.
+ * Contents: 1 shell · 2 head · 3 grid · 4 cards · 5 picture · 6 the facts line ·
+ * 7 the button · 8 reduced motion · 9 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-case-studies", only on pages that
+ * declare the section. Markup: sections/case-studies.php. No script.
+ *
+ * These are light cards on paper, not the gradient tiles of offers.css. The
+ * difference is deliberate: an offer card sells a service and has nothing to
+ * show, so it is the colour; a case study has a photograph and four facts, and
+ * a gradient behind those would fight all of them.
+ *
+ * THE WHOLE CARD IS CLICKABLE and there is still only one link in it. The
+ * heading's <a> is stretched over the card with an ::after overlay (section 4),
+ * so a mouse can hit anywhere and a keyboard gets one tab stop announced with
+ * the study's own headline. The "Read the case study" button is a <span>, not a
+ * second link — see the partial for why (CLAUDE.md §9).
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-case-studies {
+	background-color: var(--syn-paper);
+}
+
+/* ==========================================================================
+   2. Head
+   ========================================================================== */
+
+.syn-case-studies__head {
+	max-inline-size: 46rem;
+	margin-block-end: var(--syn-space-5);
+}
+
+.syn-case-studies__title {
+	margin-block: 0;
+	margin-inline: 0;
+	font-size: var(--syn-step-3);
+	line-height: 1.1;
+	letter-spacing: -0.015em;
+	color: var(--syn-navy);
+}
+
+.syn-case-studies__lede {
+	margin-block: 1rem 0;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+}
+
+.syn-case-studies__empty {
+	margin-block: 0;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+}
+
+/* ==========================================================================
+   3. Grid
+   auto-fit, because the number of published case studies is content and will
+   change. 20rem is the width at which the facts line stops wrapping under its
+   own flag.
+   ========================================================================== */
+
+.syn-case-studies__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+	gap: var(--syn-space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/*
+ * display:grid, not flex. The <li> is itself a grid item and stretches to the
+ * row's height, and a lone grid CHILD then stretches to fill it on both axes
+ * with no flex-grow or percentage height to get wrong. A flex row here would
+ * size the card to its content width instead.
+ */
+.syn-case-studies__item {
+	display: grid;
+}
+
+/* ==========================================================================
+   4. Cards
+   ========================================================================== */
+
+.syn-case-studies__card {
+	position: relative;
+	display: flex;
+	block-size: 100%;
+	flex-direction: column;
+	overflow: hidden;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	border-start-end-radius: 2.75rem;
+	background-color: var(--syn-white);
+	transition:
+		transform var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration-fast);
+}
+
+.syn-case-studies__card:hover,
+.syn-case-studies__card:focus-within {
+	transform: translateY(-3px);
+	box-shadow: var(--syn-shadow-card);
+}
+
+.syn-case-studies__body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	padding: var(--syn-space-4);
+}
+
+.syn-case-studies__service {
+	margin-block: 0 0.55rem;
+	margin-inline: 0;
+	color: var(--syn-cyan);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	line-height: 1.3;
+	text-transform: uppercase;
+}
+
+.syn-case-studies__name {
+	margin-block: 0;
+	margin-inline: 0;
+	font-size: var(--syn-step-1);
+	font-weight: 700;
+	line-height: 1.25;
+	color: var(--syn-navy);
+}
+
+.syn-case-studies__link {
+	color: inherit;
+	text-decoration: none;
+}
+
+/*
+ * The stretched link. The overlay is the card's whole area, so a click anywhere
+ * follows the heading's href without a second <a> existing to be tabbed to or
+ * announced. The card is position:relative and the overlay is the only
+ * positioned thing inside it, so nothing else can end up underneath it.
+ *
+ * The focus ring is left exactly as base.css draws it. An outline follows the
+ * element's own inline box, not its absolutely-positioned ::after, so the ring
+ * lands neatly around the headline text — which is the thing that was focused.
+ * Nothing in this file sets outline:none, so there is no keyboard stop this
+ * section can leave invisible (CLAUDE.md §9).
+ */
+.syn-case-studies__link::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+}
+
+.syn-case-studies__client {
+	margin-block: 0.6rem 0;
+	margin-inline: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	line-height: 1.55;
+}
+
+/* ==========================================================================
+   5. Picture
+   A fixed ratio rather than a fixed height, so the row of cards lines up
+   whatever an editor uploads and no photograph is ever letterboxed.
+   ========================================================================== */
+
+.syn-case-studies__media {
+	overflow: hidden;
+	background-color: var(--syn-paper-blue);
+}
+
+.syn-case-studies__image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
+	transition: transform var(--syn-duration) var(--syn-ease-out);
+}
+
+.syn-case-studies__card:hover .syn-case-studies__image,
+.syn-case-studies__card:focus-within .syn-case-studies__image {
+	transform: scale(1.04);
+}
+
+/* ==========================================================================
+   6. The facts line
+   The flag and the country, on the same badge sections/offices.php uses. The
+   button below it carries the auto margin, so this line sits directly under the
+   copy and the button drops to the card's bottom edge — which is what keeps a
+   row of cards with different headline lengths aligned along the foot.
+   ========================================================================== */
+
+.syn-case-studies__place {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	margin-block: var(--syn-space-3) 0;
+	margin-inline: 0;
+}
+
+.syn-case-studies__flag {
+	display: grid;
+	overflow: hidden;
+	flex: none;
+	block-size: 1.35rem;
+	inline-size: auto;
+	place-items: center;
+	border: 1px solid var(--syn-border);
+	border-radius: 2px;
+}
+
+.syn-case-studies__flag-image {
+	display: block;
+	inline-size: auto;
+	block-size: 1.35rem;
+	object-fit: contain;
+}
+
+.syn-case-studies__code {
+	flex: none;
+	inline-size: 2.2rem;
+	border-radius: var(--syn-radius-sm);
+	background-image: var(--syn-gradient-brand);
+	color: var(--syn-white);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-align: center;
+}
+
+.syn-case-studies__country {
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+}
+
+/* ==========================================================================
+   7. The button
+   A <span>, not a link — the card is already one. margin-block-start:auto is
+   what puts it on the bottom edge of every card in a row regardless of how much
+   text is above it.
+   ========================================================================== */
+
+.syn-case-studies__action {
+	margin-block: auto 0;
+	margin-inline: 0;
+	padding-block-start: var(--syn-space-3);
+}
+
+.syn-case-studies__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: var(--syn-navy);
+	font-size: 0.7875rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.syn-case-studies__arrow {
+	transition: transform var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-case-studies__card:hover .syn-case-studies__arrow,
+.syn-case-studies__card:focus-within .syn-case-studies__arrow {
+	transform: translateX(0.25rem);
+}
+
+/* ==========================================================================
+   8. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-case-studies__card,
+	.syn-case-studies__image,
+	.syn-case-studies__arrow {
+		transition: none;
+	}
+
+	.syn-case-studies__card:hover,
+	.syn-case-studies__card:focus-within {
+		transform: none;
+	}
+
+	.syn-case-studies__card:hover .syn-case-studies__image,
+	.syn-case-studies__card:focus-within .syn-case-studies__image {
+		transform: none;
+	}
+
+	.syn-case-studies__card:hover .syn-case-studies__arrow,
+	.syn-case-studies__card:focus-within .syn-case-studies__arrow {
+		transform: none;
+	}
+}
+
+/* ==========================================================================
+   9. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 40rem) {
+
+	.syn-case-studies__grid {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.syn-case-studies__card {
+		border-start-end-radius: 2rem;
+	}
+}

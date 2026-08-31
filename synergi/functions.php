@@ -74,5 +74,11 @@ require_once SYN_DIR . 'inc/market-fields.php';
 require_once SYN_DIR . 'inc/contact-fields.php';
 require_once SYN_DIR . 'inc/podcast-fields.php';
 
+// The case studies: the single study and the page listing them. Last of the
+// page-family files because syn_case_study_card() turns a stored service
+// reference into a name with service-fields.php's syn_service_name(), so that
+// file has to be loaded first.
+require_once SYN_DIR . 'inc/case-study-fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
