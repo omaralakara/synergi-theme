@@ -435,3 +435,46 @@ function syn_attachment_id_by_slug( $slug ) {
 
 	return $cache[ $slug ];
 }
+
+/**
+ * The accent a card takes when it has no accent of its own.
+ *
+ * theme.json defines six serviceAccent gradients and the six service lines each
+ * own one by name, which is why a service card is the same colour everywhere it
+ * appears. Nothing else that renders as a deck of cards has an accent of its
+ * own: the solutions and the Our Solutions listing borrow the six, in record
+ * order, so the colour language carries on from Our Services rather than
+ * stopping at a band of identical blue tiles (asked for 31 Aug).
+ *
+ * THE INDEX MUST BE THE ROW'S POSITION IN THE WHOLE RECORD, never its position
+ * in a filtered list. A solution page leaves itself out of its own "other
+ * solutions" band, so indexing the filtered list would give the same solution a
+ * different colour on every page it appeared on — which is the opposite of what
+ * this is for.
+ *
+ * Returns one of the six accent names rather than a colour, because the CSS
+ * keys off the name and nothing outside theme.json may name a colour
+ * (CLAUDE.md §2.7, §7c).
+ *
+ * @param int $index Row position, zero-based.
+ * @return string One of the six accent names.
+ */
+function syn_accent_for_index( $index ) {
+	/*
+	 * Record order, which is the order the homepage's services band draws them:
+	 * teal, violet, magenta, bronze, blue, navy. Written out rather than read
+	 * from the services record on purpose — the accents are a fixed set in
+	 * theme.json, and a record an editor can reorder must not silently repaint
+	 * every solution page.
+	 */
+	$accents = array(
+		'human-resources',
+		'technology-ai',
+		'marketing',
+		'procurement',
+		'accounting',
+		'project-management',
+	);
+
+	return $accents[ absint( $index ) % count( $accents ) ];
+}

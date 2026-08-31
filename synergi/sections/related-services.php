@@ -19,7 +19,11 @@
  *   eyebrow string  Small label above the heading.
  *   items   array[] Rows from the services record, each:
  *                     name    string Required.
- *                     slug    string Required — selects the accent.
+ *                     slug    string Required — the card's own reference.
+ *                     accent  string Optional. One of the six accent names
+ *                             in syn_accent_for_index(). Falls back to the
+ *                             slug, which is how a service card takes its
+ *                             own colour without being told to.
  *                     summary string Optional.
  *                     url     string Optional. Without one the card is not a link.
  *
@@ -42,17 +46,27 @@ foreach ( (array) $syn_items as $syn_item ) {
 		continue;
 	}
 
-	$syn_name = trim( (string) ( $syn_item['name'] ?? '' ) );
-	$syn_slug = sanitize_key( $syn_item['slug'] ?? '' );
+	$syn_name   = trim( (string) ( $syn_item['name'] ?? '' ) );
+	$syn_slug   = sanitize_key( $syn_item['slug'] ?? '' );
+	$syn_accent = sanitize_key( $syn_item['accent'] ?? '' );
 
 	if ( '' === $syn_name ) {
 		continue;
 	}
 
 	$syn_clean[] = array(
-		'name' => $syn_name,
-		'slug' => $syn_slug,
-		'url'  => trim( (string) ( $syn_item['url'] ?? '' ) ),
+		'name'   => $syn_name,
+		'url'    => trim( (string) ( $syn_item['url'] ?? '' ) ),
+
+		/*
+		 * A card with no accent of its own falls back to its slug, which is
+		 * how the six service lines keep their own colours: their slugs ARE
+		 * the six accent names. Anything else — a solution, a market — either
+		 * arrives with an accent already chosen for it or matches none of the
+		 * six and takes the brand gradient, which is what the CSS does when
+		 * no accent rule applies.
+		 */
+		'accent' => '' !== $syn_accent ? $syn_accent : $syn_slug,
 	);
 }
 
@@ -88,7 +102,7 @@ $syn_uid = wp_unique_id( 'syn-related-' );
 					?>
 					<<?php echo esc_html( $syn_tag ); ?>
 						class="syn-related__card"
-						data-service="<?php echo esc_attr( $syn_item['slug'] ); ?>"
+						data-accent="<?php echo esc_attr( $syn_item['accent'] ); ?>"
 						<?php echo '' !== $syn_item['url'] ? 'href="' . esc_url( $syn_item['url'] ) . '"' : ''; ?>
 					>
 						<span class="syn-related__name"><?php echo esc_html( $syn_item['name'] ); ?></span>

@@ -1,6 +1,6 @@
 /*
  * related-services.css — the "keep exploring" band at the foot of a service page.
- * Contents: 1 shell · 2 head · 3 grid · 4 cards · 5 service accents ·
+ * Contents: 1 shell · 2 head · 3 grid · 4 cards · 5 accents ·
  * 6 reduced motion · 7 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-related-services", only on pages
@@ -108,33 +108,43 @@ a.syn-related__card:hover .syn-related__arrow {
 }
 
 /* ==========================================================================
-   5. Service accents
-   Written out per service rather than assembled from the slug, so every
-   selector is findable by searching for it (CLAUDE.md §13). Values come from
-   theme.json's serviceAccent set — nothing new is defined.
+   5. Accents
+   Written out one selector per accent rather than assembled from the name, so
+   every selector is findable by searching for it (CLAUDE.md §13). Values come
+   from theme.json's serviceAccent set — nothing new is defined here.
+
+   The attribute is data-accent, not data-service, because this band is used by
+   more than the six service lines. A service card passes its own slug and the
+   slugs ARE the accent names, so the six keep their colours; a solution is
+   given one of the six by its position in the record, so Our Solutions carries
+   on the colour language instead of ending in a row of identical blue tiles
+   (asked for 31 Aug — see syn_accent_for_index() in inc/sections.php).
+
+   A card whose accent matches none of these keeps the brand gradient set on
+   .syn-related__card above. That is the fallback, not a bug.
    ========================================================================== */
 
-.syn-related__card[data-service="accounting"] {
+.syn-related__card[data-accent="accounting"] {
 	background-image: var(--syn-service-accounting);
 }
 
-.syn-related__card[data-service="human-resources"] {
+.syn-related__card[data-accent="human-resources"] {
 	background-image: var(--syn-service-human-resources);
 }
 
-.syn-related__card[data-service="marketing"] {
+.syn-related__card[data-accent="marketing"] {
 	background-image: var(--syn-service-marketing);
 }
 
-.syn-related__card[data-service="procurement"] {
+.syn-related__card[data-accent="procurement"] {
 	background-image: var(--syn-service-procurement);
 }
 
-.syn-related__card[data-service="project-management"] {
+.syn-related__card[data-accent="project-management"] {
 	background-image: var(--syn-service-project-management);
 }
 
-.syn-related__card[data-service="technology-ai"] {
+.syn-related__card[data-accent="technology-ai"] {
 	background-image: var(--syn-service-technology-ai);
 }
 
