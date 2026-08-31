@@ -85,5 +85,12 @@ require_once SYN_DIR . 'inc/case-study-fields.php';
 // file header for why that is the one exception in the theme.
 require_once SYN_DIR . 'inc/blog-fields.php';
 
+// Two pages built entirely out of bands that already exist: Global Locations
+// reuses the homepage's photograph band and Contact Us's address cards, and
+// the Media hub reuses the homepage's blog and Instagram bands. Each carries
+// only the words around those bands.
+require_once SYN_DIR . 'inc/global-locations-fields.php';
+require_once SYN_DIR . 'inc/media-fields.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
