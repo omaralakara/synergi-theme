@@ -78,7 +78,7 @@ if ( $syn_has_proof ) {
 	$syn_sections[] = 'case-study';
 }
 
-$syn_sections = array_merge( $syn_sections, array( 'numbers', 'faq' ) );
+$syn_sections = array_merge( $syn_sections, array( 'faq' ) );
 
 if ( '' !== $syn_blog_heading ) {
 	$syn_sections[] = 'blog';
@@ -308,7 +308,7 @@ syn_section( 'why', $syn_why_args );
 /*
  * 6. THE PROOF. Hides itself when the headline is empty, which is what the
  * brief asks for: a market with nothing verified shows nothing. The figures
- * band under it is the shared record, the same numbers as everywhere else.
+ * band under it is the shared record.
  */
 if ( $syn_has_proof ) {
 	syn_section(
@@ -324,7 +324,6 @@ if ( $syn_has_proof ) {
 	);
 }
 
-syn_section( 'numbers' );
 
 /*
  * 7. THE QUESTIONS. The band emits its FAQPage structured data from the same

@@ -35,7 +35,7 @@ $syn_service = sanitize_key( syn_field( 'service_ref', $syn_id ) );
  * inc/sections.php prints a comment naming anything declared but never rendered,
  * so the waste stays visible rather than becoming invisible habit.
  */
-syn_use_sections( array( 'capabilities', 'process', 'case-study', 'why', 'numbers', 'faq', 'related-services', 'final-cta' ) );
+syn_use_sections( array( 'capabilities', 'process', 'case-study', 'why', 'faq', 'related-services', 'final-cta' ) );
 
 get_header();
 
@@ -96,13 +96,20 @@ syn_section(
 );
 
 /*
- * Three approved homepage sections, unchanged and untouched. Reusing them is
- * what keeps this page inside the design system by construction rather than
- * by discipline — and numbers now reads the figures record, so the band says
- * the same thing here as it does on the homepage without anyone retyping it.
+ * The "why" band, unchanged and untouched. Reusing an approved homepage section
+ * is what keeps this page inside the design system by construction rather than
+ * by discipline.
  */
 syn_section( 'why' );
-syn_section( 'numbers' );
+
+/*
+ * The figures band is deliberately NOT here. "Synergi in numbers" is a
+ * company-level claim, and it used to render on seven templates — so a visitor
+ * walking from the homepage to a listing to a detail page met the same four
+ * figures three times. It now appears on the homepage and About Us only, where
+ * the company is what the page is about (asked for 31 Aug). The record is
+ * unchanged; only who reads it is.
+ */
 
 syn_section(
 	'faq',

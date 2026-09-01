@@ -38,7 +38,7 @@ $syn_id = get_the_ID();
  * Declared BEFORE get_header(), because assets are enqueued during wp_head() and
  * a section declared after that renders unstyled.
  */
-syn_use_sections( array( 'offers', 'why', 'numbers', 'final-cta' ) );
+syn_use_sections( array( 'offers', 'final-cta' ) );
 
 get_header();
 
@@ -80,13 +80,11 @@ syn_section(
 );
 
 /*
- * Two record-driven bands, unchanged and untouched, exactly as the service pages
- * take them: the same reasons to choose Synergi and the same figures, edited
- * once at Settings → Site records and never retyped per page (CLAUDE.md §7a).
+ * Neither the "why" band nor the figures band renders here. A listing page is a
+ * bridge between the homepage and a detail page, and both of those already carry
+ * them — three helpings of the same four figures in one journey was the
+ * repetition this removes (asked for 31 Aug).
  */
-syn_section( 'why' );
-syn_section( 'numbers' );
-
 syn_section( 'final-cta' );
 
 get_footer();

@@ -60,7 +60,7 @@ if ( $syn_has_proof ) {
 	$syn_sections[] = 'case-study';
 }
 
-$syn_sections = array_merge( $syn_sections, array( 'why', 'numbers', 'faq' ) );
+$syn_sections = array_merge( $syn_sections, array( 'why', 'faq' ) );
 
 if ( $syn_others ) {
 	$syn_sections[] = 'related-services';
@@ -138,13 +138,19 @@ if ( $syn_has_proof ) {
 }
 
 /*
- * Two record-driven bands, unchanged and untouched, exactly as the service
- * pages take them: the same reasons to choose Synergi and the same figures,
- * edited once at Settings → Site records and never retyped per page
- * (CLAUDE.md §7a).
+ * The "why" band, unchanged and untouched, exactly as the service pages take it:
+ * the same reasons to choose Synergi, edited once at Settings → Site records and
+ * never retyped per page (CLAUDE.md §7a).
+ */
+/*
+ * The figures band is deliberately NOT here. "Synergi in numbers" is a
+ * company-level claim, and it used to render on seven templates — so a visitor
+ * walking from the homepage to a listing to a detail page met the same four
+ * figures three times. It now appears on the homepage and About Us only, where
+ * the company is what the page is about (asked for 31 Aug). The record is
+ * unchanged; only who reads it is.
  */
 syn_section( 'why' );
-syn_section( 'numbers' );
 
 syn_section(
 	'faq',
