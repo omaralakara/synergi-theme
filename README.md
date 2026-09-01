@@ -1,6 +1,6 @@
 # Synergi website rebuild — project folder
 
-Everything needed to build the new synergi.ae theme, in the order you'd read it. Updated 28 August 2026. All earlier drafts have been removed; what's here is current.
+Everything needed to build the new synergi.ae theme, in the order you'd read it. Updated 1 September 2026. All earlier drafts have been removed; what's here is current.
 
 ## The documents
 
@@ -16,6 +16,8 @@ Everything needed to build the new synergi.ae theme, in the order you'd read it.
 | `stage-6-scope.md` | What the stakeholder structure changed about Stage 6, decisions D1–D4, and (§8) what the business narrowed on 27 Aug | Before Stage 6 |
 | `stage-6-remaining-plan.md` | What is left of Stage 6, re-planned on 28 Aug, in build order with its blockers | **Deciding what to do next** |
 | `stage-6-handoff-prompt.md` | A self-contained brief for starting Stage 6 in a clean session — what is built, what was decided, what to do next | Starting a new build session |
+| `stage-7-decisions.md` | The nine structural decisions with their outcomes, the URL disposition table, the accessibility audit, and what Stage 7 knowingly left | **The record of what the site's structure now is** |
+| `migration-plan.md` | How staging actually becomes production: the three options, what must not travel, and the runbook | **Before Stage 8** |
 | `stage-4-post-migration.md` · `stage-5-measurement.md` | What the blog migration found; the measured homepage payload and whose bytes they are | Checking budgets or the blog |
 | `open-questions.md` | The content and structure questions the build is waiting on | Anything is blocked |
 | `tools/` | Scripts used to split the design source: extract, diff, cascade, and `build-zip.ps1` for the staging upload | Packaging a build |
@@ -54,6 +56,13 @@ Every designed page uses a **template**, chosen in the editor sidebar under *Pag
 | **About Us** | About Us | Intro, Who we are, Our approach, Our values, Our journey |
 | **People page** | Our Leadership, Engagement Team | Intro, The list |
 
+**Case studies are not on this list**, because they are not pages. They are their
+own type — *Case studies* in the admin menu, like Posts. Add one, write the story
+in the ordinary editor, fill the facts and outcome boxes, and pick its service
+line in the *Service* box. It then appears on `/case-studies/`, on that service's
+own archive at `/case-studies/service/{reference}/`, and in every grid that asks
+for it. There is no list to keep in step.
+
 Three things are true of every one of them:
 
 - **The page title is the heading.** Templates emit the page's single `<h1>` from the title, so it can never disagree with the browser tab or the menu. There is no "heading" field, and there should not be one.
@@ -64,7 +73,7 @@ Fields carry **copy and pictures, never layout**. There is no colour field, no w
 
 ## Site records
 
-Settings → **Site records**. Eight of them, each a list of rows edited once and read everywhere:
+Settings → **Site records**. Nine of them, each a list of rows edited once and read everywhere:
 
 | Record | What it holds | Read by |
 |---|---|---|
@@ -75,6 +84,7 @@ Settings → **Site records**. Eight of them, each a list of rows edited once an
 | `locations` | The delivery offices | Homepage, Contact Us, Global Locations |
 | `why` · `why_cards` | The "Why companies choose Synergi" band | Eight pages |
 | `final_cta` | The closing call to action | Every designed page |
+| `social` | The social accounts | Contact Us, the homepage band |
 
 Change a figure here and it changes on every page that shows it. That is the point.
 
@@ -156,12 +166,25 @@ Under budget when measured · exactly one `<h1>` · keyboard focus visible on ev
 
 ---
 
-## Status — 28 August 2026
+## Status — 1 September 2026
 
 - Architecture: **agreed** (hybrid, 23 Aug)
-- **Stages 0–5: complete, verified and tagged** (`stage-1-done` … `stage-5-done`)
-- **Stage 6 in progress.** The theme is 107 files: 21 sections with their own CSS and JS, six page templates, the conditional section loader, the field and record engines, header, footer, nav, and the blog templates with all 22 posts migrated on staging.
-- **Built:** the homepage, the six service pages, About Us (redesigned 28 Aug), the people template, and the Solution and Market templates.
-- **Not built:** `/our-approach/` as a page, Contact Us, the four listing pages, the `partners`, `events` and `social` records, and the case-study and podcast post types. See `stage-6-remaining-plan.md`.
+- **Stages 0–7: complete, verified and tagged** (`stage-1-done` … `stage-7-done`)
+- **Built:** the homepage, the six service pages, About Us, the people template,
+  the Solution and Market templates and their pages, Contact Us, Global
+  Locations, the Media hub, the podcast page, the four listing pages, and twelve
+  case studies on a post type of their own with a term archive per service line.
+- **Stage 7 closed 1 Sep.** The nine structural decisions are recorded in
+  `stage-7-decisions.md`, with the URL disposition table and the accessibility
+  audit. Menus are built and every one of the 29 items resolves.
+- **Not built, knowingly:** podcast episodes as a post type, the `partners` and
+  `events` records, the Upcoming Events section, and the wiring that would let a
+  service page query its own case studies rather than show one typed by hand.
+  All four are named in `stage-7-decisions.md` so Stage 8 does not discover them.
 - Measured, honestly: the homepage is over budget at 2,165 KB — but **the theme is 36.8 KB of that, about 1.7%, and inside every budget it controls.** The overage is plugin payload. See `stage-5-measurement.md`.
-- Open: the nine structural decisions (block Stage 7) and the content questions in `open-questions.md` — three of the six remaining pieces are waiting on answers rather than on code.
+- **Next: Stage 8 — migration and launch.** Read `migration-plan.md` first: the
+  theme is in Git but the content is only in the staging database, and Stage 8's
+  one-line description does not cover that. Three things block it — the
+  production Novamira connection returns 404, the landing-page collision in
+  `open-questions.md` §6 is undecided, and the launch path is not formally
+  chosen.

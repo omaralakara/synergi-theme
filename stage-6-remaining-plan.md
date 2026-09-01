@@ -1,5 +1,33 @@
 # Stage 6 — what is left, re-planned
 
+> **SUPERSEDED, 1 September 2026.** Stage 6 and Stage 7 are both closed. Read
+> `stage-7-decisions.md` for what the structure now is, and `migration-plan.md`
+> for what Stage 8 has to do. This file is kept as the record of how the build
+> was sequenced, not as a description of the site.
+>
+> **What changed since this was written on 28 Aug.** Everything in "the remaining
+> build order" below shipped except where noted:
+>
+> - **6d, the three missing records** — `social` shipped. `partners` and `events`
+>   were dropped on 31 Aug: partners stay on the homepage band with no shared
+>   record, and Upcoming Events is deferred with nothing depending on it.
+> - **6e, the homepage** — shipped, minus the Upcoming Events section above.
+> - **6f, About Us and its children** — About Us shipped. `/our-approach/` was
+>   never rebuilt; its content was old and not rendering, so the page is a draft
+>   and the URL now 301s to `/about-us/`. `/our-leadership/` was built, then
+>   trashed on 1 Sep by decision, and 301s to `/engagement-team/`.
+> - **6g, Contact Us** — shipped 28 Aug.
+> - **6h, the Solutions template, listing and five pages** — all shipped.
+> - **6i, the listing pages** — all four shipped.
+> - **"Not Stage 6 — a stage of its own"** — half done. **Case studies became the
+>   `syn_case_study` post type on 1 Sep**, with a term archive per service line
+>   and all twelve URLs unchanged, reversing decision D4. Podcast episodes are
+>   still not a post type and still have no URLs of their own.
+>
+> One piece of D4's promise is outstanding: `templates/service.php` still shows
+> one hand-typed case study rather than querying its own. The query function and
+> the terms exist; the template is not wired to them.
+
 Written 28 August 2026, after 6a, 6b and 6c shipped. Supersedes the sub-stage
 list in `stage-6-scope.md` §6, which stopped at 6e and did not account for the
 pages the content architecture asks for.
