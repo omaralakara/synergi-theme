@@ -114,7 +114,8 @@
 				"border": "#d7e1e9",
 				"borderDark": "rgba(255, 255, 255, 0.16)",
 				"focus": "#ffd15c",
-				"success": "#8dd8b4"
+				"success": "#8dd8b4",
+				"scrim": "#192029"
 			},
 			"radius": {
 				"sm": "4px",

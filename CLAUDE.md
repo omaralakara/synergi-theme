@@ -57,7 +57,11 @@ These are verified from the approved design's `main.min.css` and the Elementor g
 | paper | `#f3f5f8` | Paper |
 | paper-blue | `#edf5fa` | Paper blue |
 
-**Utility values** (CSS variables in base.css, NOT in the editor palette): border `#d7e1e9`, focus ring `#ffd15c`, success `#8dd8b4`.
+**Utility values** (CSS variables in base.css, NOT in the editor palette): border `#d7e1e9`, focus ring `#ffd15c`, success `#8dd8b4`, hero scrim `#192029`.
+
+> **Added 1 Sep.** The hero scrim is the one colour every hero photograph on the site is read through — the homepage hero and the page-header hero band on every other page. It is `color-mix(in srgb, ink 35%, text)`, both palette colours, resolved to a literal in `theme.json` because the `custom.color` block takes no comments. It is not a twelfth brand colour and must not enter the editor palette.
+>
+> It replaced Ink straight, which is a strongly blue navy: at the 86–97% coverage these gradients run, it washed every hero photograph blue rather than letting the picture read. The mix keeps the same darkness and drops the blue cast by 62%, so contrast did not move — white over the scrim measures 16.41:1 (was 17.48:1), mint 10.30:1 (was 10.97:1), both far above the §9 floor. **If this is ever retuned, keep the darkness:** the stop percentages, not the hue, are what hold the fixed transparent header legible over an editor-chosen photograph.
 
 **Layout:** container `82rem`, narrow container `68rem`, gutter `clamp(1.25rem, 4vw, 3.5rem)`, header height `5.25rem`, section spacing `clamp(2.8rem, 4.5vw, 4.9rem)`, radius `4px / 6px / 8px / 8px` (sm/md/lg/xl).
 

@@ -109,10 +109,13 @@
 	/*
 	 * Still painted, and now doing two jobs: it is what shows while the
 	 * photograph is still downloading, and it is the colour the scrim below
-	 * mixes down to. Ink rather than navy, matching the homepage hero, which
-	 * is where this whole shade comes from (28 Aug).
+	 * mixes down to. The scrim colour rather than navy, matching the homepage
+	 * hero, which is where this whole shade comes from (28 Aug). It was Ink
+	 * until 1 Sep and is now --syn-scrim, the same near-neutral charcoal the
+	 * gradient below uses — the load-state colour has to match the scrim or a
+	 * slow connection shows a blue band that then turns grey.
 	 */
-	background-color: var(--syn-ink);
+	background-color: var(--syn-scrim);
 	/*
 	 * A floor under the band so a short page still reads as a photographic
 	 * hero rather than a thin strip. Derived from the header it has to clear;
@@ -173,8 +176,8 @@
  * narrower than the homepage's (sections/hero.css §2 is the original).
  *
  * Two stacked gradients, which is what lets the picture stay legible as a
- * picture. Across the inline axis, ink runs 97% behind the copy and opens to
- * 20% at the far end, so the photograph reads properly on the side with no
+ * picture. Across the inline axis, the scrim runs 97% behind the copy and opens
+ * to 20% at the far end, so the photograph reads properly on the side with no
  * text on it. Down the block axis, a scrim under the fixed header and a deep
  * foot so the band joins the section below instead of ending on a hard edge.
  *
@@ -198,17 +201,17 @@
 	background-image:
 		linear-gradient(
 			90deg,
-			color-mix(in srgb, var(--syn-ink) 97%, transparent) 0%,
-			color-mix(in srgb, var(--syn-ink) 86%, transparent) 46%,
-			color-mix(in srgb, var(--syn-ink) 42%, transparent) 76%,
-			color-mix(in srgb, var(--syn-ink) 20%, transparent) 100%
+			color-mix(in srgb, var(--syn-scrim) 97%, transparent) 0%,
+			color-mix(in srgb, var(--syn-scrim) 86%, transparent) 46%,
+			color-mix(in srgb, var(--syn-scrim) 42%, transparent) 76%,
+			color-mix(in srgb, var(--syn-scrim) 20%, transparent) 100%
 		),
 		linear-gradient(
 			180deg,
-			color-mix(in srgb, var(--syn-ink) 58%, transparent) 0%,
-			color-mix(in srgb, var(--syn-ink) 50%, transparent) 14%,
-			color-mix(in srgb, var(--syn-ink) 10%, transparent) 38%,
-			color-mix(in srgb, var(--syn-ink) 88%, transparent) 100%
+			color-mix(in srgb, var(--syn-scrim) 58%, transparent) 0%,
+			color-mix(in srgb, var(--syn-scrim) 50%, transparent) 14%,
+			color-mix(in srgb, var(--syn-scrim) 10%, transparent) 38%,
+			color-mix(in srgb, var(--syn-scrim) 88%, transparent) 100%
 		);
 }
 
@@ -219,7 +222,7 @@
 /*
  * The copy is lifted above the photograph and its shade, and is held to the
  * dark end of the inline gradient. 46rem is the lede's own measure from §1, so
- * the longest line of text stops well inside the 97%-to-86% ink band and the
+ * the longest line of text stops well inside the 97%-to-86% scrim band and the
  * open end of the picture is never asked to carry a letter.
  *
  * The lift is here rather than on __inner deliberately. __inner must stay
@@ -246,8 +249,8 @@
  * already give them — mint, 78% white and a 55% white border. The first pass
  * at this hero overrode all three, because a flat navy wash light enough to
  * show a photograph could not carry them. The homepage's shade can: behind the
- * copy it is ink at 97% falling to 86%, which is far darker than that wash
- * ever was. Measured on the rendered page, sampling every pixel behind each
+ * copy it is the scrim at 97% falling to 86%, which is far darker than that
+ * wash ever was. Measured on the rendered page, sampling every pixel behind each
  * element, the numbers are in the commit for this change. Nothing to override.
  */
 
@@ -275,15 +278,15 @@
 		background-image:
 			linear-gradient(
 				90deg,
-				color-mix(in srgb, var(--syn-ink) 94%, transparent) 0%,
-				color-mix(in srgb, var(--syn-ink) 84%, transparent) 100%
+				color-mix(in srgb, var(--syn-scrim) 94%, transparent) 0%,
+				color-mix(in srgb, var(--syn-scrim) 84%, transparent) 100%
 			),
 			linear-gradient(
 				180deg,
-				color-mix(in srgb, var(--syn-ink) 58%, transparent) 0%,
-				color-mix(in srgb, var(--syn-ink) 50%, transparent) 14%,
-				color-mix(in srgb, var(--syn-ink) 10%, transparent) 38%,
-				color-mix(in srgb, var(--syn-ink) 88%, transparent) 100%
+				color-mix(in srgb, var(--syn-scrim) 58%, transparent) 0%,
+				color-mix(in srgb, var(--syn-scrim) 50%, transparent) 14%,
+				color-mix(in srgb, var(--syn-scrim) 10%, transparent) 38%,
+				color-mix(in srgb, var(--syn-scrim) 88%, transparent) 100%
 			);
 	}
 }

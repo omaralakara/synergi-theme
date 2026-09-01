@@ -47,6 +47,32 @@
 	--syn-focus: var(--wp--custom--color--focus);
 	--syn-success: var(--wp--custom--color--success);
 
+	/*
+	 * The hero scrim base. Every hero photograph on the site is read through a
+	 * gradient of this colour: the homepage hero (sections/hero.css §2) and the
+	 * page-header hero band (parts/page-header.css §3), which is the one on all
+	 * the other pages. One token so the two can never drift apart.
+	 *
+	 * #192029 is not a new brand colour and is not eyeballed. It is Ink mixed
+	 * 35% into Text — color-mix(in srgb, #071a31 35%, #232324) — both §3 palette
+	 * colours, resolved to a literal here only because theme.json takes no
+	 * comments and the custom.color block next to it is written in literals too.
+	 *
+	 * Why it exists at all (1 Sep): the scrim used to be Ink straight, and Ink
+	 * is a strongly blue navy (its blue channel is 42 above its red). Over a
+	 * photograph at the 86-97% these gradients run, that read as a blue wash on
+	 * every hero rather than as a photograph. Mixing toward Text keeps the same
+	 * darkness and drops the blue cast by 62%, so the picture keeps its own
+	 * colour. Darkness is what the contrast depends on, so nothing regressed:
+	 * white over the scrim measures 16.41:1 (was 17.48:1) and mint 10.30:1 (was
+	 * 10.97:1), both far above the 4.5:1 floor in CLAUDE.md §9.
+	 *
+	 * Keep the darkness if this is ever retuned. The stop percentages, not this
+	 * colour, are what hold the fixed transparent header legible over an
+	 * editor-chosen photograph — see the note at parts/page-header.css §3.
+	 */
+	--syn-scrim: var(--wp--custom--color--scrim);
+
 	--syn-gradient-brand: var(--wp--preset--gradient--brand);
 	--syn-gradient-brand-deep: var(--wp--preset--gradient--brand-deep);
 

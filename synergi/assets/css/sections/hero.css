@@ -33,6 +33,14 @@
  * The design paints the shade and the copy in ink and white at many opacities.
  * All of them are derived with color-mix() from palette tokens rather than
  * written as rgba() literals (CLAUDE.md §2.7).
+ *
+ * One deviation from the design source, 1 Sep, asked for and approved: the
+ * shade is no longer painted in Ink but in --syn-scrim, a near-neutral charcoal
+ * defined in base.css §1. Ink is a strongly blue navy, and at the 86-97% these
+ * gradients run it washed the photograph blue instead of letting it read as a
+ * photograph. The stop percentages below are untouched, so the shade is exactly
+ * as dark as the design made it — only its hue moved. parts/page-header.css §3
+ * carries the identical change; the two must stay in step.
  */
 
 .syn-hero {
@@ -40,7 +48,7 @@
 	   hard-codes #76d0f1, which is not in the §3 palette; mixing cyan toward
 	   white reproduces it to within a shade and keeps the value tokenised. */
 	--syn-hero-highlight: color-mix(in srgb, var(--syn-cyan) 62%, var(--syn-white));
-	--syn-hero-ink-90: color-mix(in srgb, var(--syn-ink) 90%, transparent);
+	--syn-hero-scrim-90: color-mix(in srgb, var(--syn-scrim) 90%, transparent);
 	--syn-hero-copy: color-mix(in srgb, var(--syn-white) 78%, transparent);
 }
 
@@ -54,7 +62,7 @@
 	block-size: min(49rem, 92svh);
 	min-block-size: 41rem;
 	overflow: hidden;
-	background-color: var(--syn-ink);
+	background-color: var(--syn-scrim);
 	color: var(--syn-white);
 }
 
@@ -83,15 +91,15 @@
 	background-image:
 		linear-gradient(
 			90deg,
-			color-mix(in srgb, var(--syn-ink) 97%, transparent) 0%,
-			color-mix(in srgb, var(--syn-ink) 86%, transparent) 38%,
-			color-mix(in srgb, var(--syn-ink) 42%, transparent) 68%,
-			color-mix(in srgb, var(--syn-ink) 20%, transparent) 100%
+			color-mix(in srgb, var(--syn-scrim) 97%, transparent) 0%,
+			color-mix(in srgb, var(--syn-scrim) 86%, transparent) 38%,
+			color-mix(in srgb, var(--syn-scrim) 42%, transparent) 68%,
+			color-mix(in srgb, var(--syn-scrim) 20%, transparent) 100%
 		),
 		linear-gradient(
 			180deg,
-			color-mix(in srgb, var(--syn-ink) 10%, transparent) 34%,
-			var(--syn-hero-ink-90) 100%
+			color-mix(in srgb, var(--syn-scrim) 10%, transparent) 34%,
+			var(--syn-hero-scrim-90) 100%
 		);
 }
 
@@ -302,14 +310,14 @@
 		background-image:
 			linear-gradient(
 				90deg,
-				color-mix(in srgb, var(--syn-ink) 96%, transparent) 0%,
-				color-mix(in srgb, var(--syn-ink) 80%, transparent) 64%,
-				color-mix(in srgb, var(--syn-ink) 50%, transparent) 100%
+				color-mix(in srgb, var(--syn-scrim) 96%, transparent) 0%,
+				color-mix(in srgb, var(--syn-scrim) 80%, transparent) 64%,
+				color-mix(in srgb, var(--syn-scrim) 50%, transparent) 100%
 			),
 			linear-gradient(
 				180deg,
-				color-mix(in srgb, var(--syn-ink) 20%, transparent) 18%,
-				color-mix(in srgb, var(--syn-ink) 92%, transparent) 100%
+				color-mix(in srgb, var(--syn-scrim) 20%, transparent) 18%,
+				color-mix(in srgb, var(--syn-scrim) 92%, transparent) 100%
 			);
 	}
 
