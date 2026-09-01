@@ -61,7 +61,7 @@ define( 'SYN_CASE_SERVICE_TAXONOMY', 'syn_case_service' );
  * can flush exactly once after a deploy instead of on every request. Flushing on
  * every load is the classic way to make a site slow invisibly.
  */
-define( 'SYN_CASE_STUDY_REWRITE_VERSION', '1' );
+define( 'SYN_CASE_STUDY_REWRITE_VERSION', '2' );
 
 add_action( 'init', 'syn_register_case_study_post_type' );
 /**
@@ -73,6 +73,47 @@ add_action( 'init', 'syn_register_case_study_post_type' );
  * @return void
  */
 function syn_register_case_study_post_type() {
+	/*
+	 * THE TAXONOMY IS REGISTERED FIRST, AND THE ORDER IS LEAD, NOT STYLE.
+	 * WordPress builds its rewrite rules by walking the permastructs in the
+	 * order they were added, and the post type contributes an attachment rule —
+	 * case-studies/[^/]+/([^/]+)/?$ — that happily matches two segments. Register
+	 * the post type first and that rule swallows
+	 * /case-studies/service/human-resources/, resolves it to an attachment that
+	 * does not exist, 404s, and WordPress's own 404 guessing then redirects the
+	 * visitor to /our-services/human-resources/ — a term archive silently
+	 * becoming a service page. Registering the taxonomy first puts its rule
+	 * ahead of the attachment rule and the URL resolves correctly.
+	 * Verified on staging, 1 September 2026.
+	 */
+	register_taxonomy(
+		SYN_CASE_SERVICE_TAXONOMY,
+		array( SYN_CASE_STUDY_POST_TYPE ),
+		array(
+			'labels'            => array(
+				'name'          => __( 'Service lines', 'synergi' ),
+				'singular_name' => __( 'Service line', 'synergi' ),
+				'menu_name'     => __( 'Service lines', 'synergi' ),
+			),
+			'public'            => true,
+			'hierarchical'      => true,
+			'show_in_rest'      => true,
+
+			/*
+			 * Hidden from the editor screen on purpose. The _syn_case_service
+			 * field is the one place a service is chosen; this taxonomy is
+			 * written from it by syn_sync_case_study_service() below. Two boxes
+			 * that mean the same thing is how they drift apart.
+			 */
+			'show_ui'           => false,
+			'show_admin_column' => false,
+			'rewrite'           => array(
+				'slug'       => 'case-studies/service',
+				'with_front' => false,
+			),
+		)
+	);
+
 	register_post_type(
 		SYN_CASE_STUDY_POST_TYPE,
 		array(
@@ -111,34 +152,6 @@ function syn_register_case_study_post_type() {
 			),
 			'capability_type'    => 'post',
 			'map_meta_cap'       => true,
-		)
-	);
-
-	register_taxonomy(
-		SYN_CASE_SERVICE_TAXONOMY,
-		array( SYN_CASE_STUDY_POST_TYPE ),
-		array(
-			'labels'            => array(
-				'name'          => __( 'Service lines', 'synergi' ),
-				'singular_name' => __( 'Service line', 'synergi' ),
-				'menu_name'     => __( 'Service lines', 'synergi' ),
-			),
-			'public'            => true,
-			'hierarchical'      => true,
-			'show_in_rest'      => true,
-
-			/*
-			 * Hidden from the editor screen on purpose. The _syn_case_service
-			 * field is the one place a service is chosen; this taxonomy is
-			 * written from it by syn_sync_case_study_service() below. Two boxes
-			 * that mean the same thing is how they drift apart.
-			 */
-			'show_ui'           => false,
-			'show_admin_column' => false,
-			'rewrite'           => array(
-				'slug'       => 'case-studies/service',
-				'with_front' => false,
-			),
 		)
 	);
 
