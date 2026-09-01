@@ -264,11 +264,16 @@ add_filter( 'walker_nav_menu_start_el', 'syn_nav_parent_as_toggle', 10, 4 );
  * the row for both a link and a separate chevron — so a parent becomes a button
  * and stops linking to its own page.
  *
- * That is a real trade: "About Us", "Our Approach" and "Our Services" are all
- * real pages, and after this they are reachable from the footer and from
- * in-page links but not from the top level of the nav. It follows the approved
- * design, and CLAUDE.md hands final navigation structure to Stage 7 — flagged
- * there rather than decided here.
+ * That is a real trade: a parent's own page stops being reachable from the top
+ * level of the nav. RESOLVED 31 Aug, and not in this file: every parent now
+ * carries a link to its own page as the FIRST item in its submenu — "All
+ * Services", "All Solutions", "Media Hub", and the "About Us" entry that had
+ * always done this by hand. The menu is content, so the fix lives in the menu
+ * where an editor can see and reorder it, rather than in a filter here that
+ * would invent items nobody could find in Appearance > Menus.
+ *
+ * A parent added later needs the same treatment. Nothing enforces that, because
+ * the alternative is generating menu items no editor can see.
  *
  * A <button> is used rather than a link with role="button": with JavaScript off
  * the button does nothing, and header.css handles that case by leaving submenus
