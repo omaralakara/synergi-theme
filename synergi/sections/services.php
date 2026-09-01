@@ -24,9 +24,15 @@
  * Example:
  *   syn_section( 'services', array( 'title' => 'What we run for you' ) );
  *
- * Card copy is hard-coded here for Stage 5, the same way the hero's is. Stage 6
- * moves it to the hand-built fields (CLAUDE.md §7); the $args shape above is
- * already the shape those fields will fill, so nothing here has to be rewritten.
+ * WHERE THE CARDS COME FROM, since Stage 6e. syn_service_cards() builds them
+ * from the "services" record at Settings → Site records, and reads each card's
+ * bullet list from that service's own page — so a capability renamed on the HR
+ * page is renamed here, and a seventh service line added to the record appears
+ * in the deck with no code change (CLAUDE.md §7a).
+ *
+ * The six arrays below are the fallback and nothing else. They render only when
+ * the record is empty, which keeps the homepage from ever showing an empty deck
+ * (CLAUDE.md §7c). Passing $args['cards'] still overrides both.
  *
  * @package Synergi
  */
@@ -53,108 +59,125 @@ $syn_status_template = __( 'Showing %s.', 'synergi' );
  * designed. If a Project Management page is ever published, only its url below
  * changes.
  */
-$syn_cards = $args['cards'] ?? array(
-	array(
-		'slug'         => 'accounting',
-		'name'         => __( 'Accounting', 'synergi' ),
-		'label'        => __( 'Finance operations and reporting', 'synergi' ),
-		'summary'      => __( 'Support for day-to-day finance processes, transaction cycles, analysis, and reporting.', 'synergi' ),
-		'url'          => home_url( '/our-services/accounting/' ),
-		'capabilities' => array(
-			__( 'Bookkeeping, VAT & Tax', 'synergi' ),
-			__( 'Record to Report', 'synergi' ),
-			__( 'Order to Cash', 'synergi' ),
-			__( 'Procure to Pay', 'synergi' ),
-			__( 'Financial Planning & Analysis', 'synergi' ),
-			__( 'Analytics and Reporting', 'synergi' ),
+$syn_cards = $args['cards'] ?? array();
+
+if ( ! $syn_cards && function_exists( 'syn_service_cards' ) ) {
+	$syn_cards = syn_service_cards();
+}
+
+/*
+ * The fallback, and the reason it is this long: the homepage is the page the
+ * business is judged on, and an empty "services" record must not be able to
+ * empty it. These are the six cards as the approved design ships them.
+ */
+if ( ! $syn_cards ) {
+	if ( SYN_DEBUG ) {
+		echo "\n<!-- syn-section services: the services record is empty, so the built-in six are rendering. Fill it at Settings > Site records. -->\n";
+	}
+
+	$syn_cards = array(
+		array(
+			'slug'         => 'accounting',
+			'name'         => __( 'Accounting', 'synergi' ),
+			'label'        => __( 'Finance operations and reporting', 'synergi' ),
+			'summary'      => __( 'Support for day-to-day finance processes, transaction cycles, analysis, and reporting.', 'synergi' ),
+			'url'          => home_url( '/our-services/accounting/' ),
+			'capabilities' => array(
+				__( 'Bookkeeping, VAT & Tax', 'synergi' ),
+				__( 'Record to Report', 'synergi' ),
+				__( 'Order to Cash', 'synergi' ),
+				__( 'Procure to Pay', 'synergi' ),
+				__( 'Financial Planning & Analysis', 'synergi' ),
+				__( 'Analytics and Reporting', 'synergi' ),
+			),
 		),
-	),
-	array(
-		'slug'         => 'human-resources',
-		'name'         => __( 'Human Resources', 'synergi' ),
-		'label'        => __( 'People operations and development', 'synergi' ),
-		'summary'      => __( 'HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity.', 'synergi' ),
-		'url'          => home_url( '/our-services/human-resources/' ),
-		'capabilities' => array(
-			__( 'Hire to Retire', 'synergi' ),
-			__( 'Payroll and Pension', 'synergi' ),
-			__( 'Performance Management', 'synergi' ),
-			__( 'Organizational Development', 'synergi' ),
-			__( 'Learning & Development', 'synergi' ),
-			__( 'HRMS Implementation', 'synergi' ),
-			__( 'Manpower Augmentation', 'synergi' ),
-			__( 'CXO as a Service', 'synergi' ),
+		array(
+			'slug'         => 'human-resources',
+			'name'         => __( 'Human Resources', 'synergi' ),
+			'label'        => __( 'People operations and development', 'synergi' ),
+			'summary'      => __( 'HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity.', 'synergi' ),
+			'url'          => home_url( '/our-services/human-resources/' ),
+			'capabilities' => array(
+				__( 'Hire to Retire', 'synergi' ),
+				__( 'Payroll and Pension', 'synergi' ),
+				__( 'Performance Management', 'synergi' ),
+				__( 'Organizational Development', 'synergi' ),
+				__( 'Learning & Development', 'synergi' ),
+				__( 'HRMS Implementation', 'synergi' ),
+				__( 'Manpower Augmentation', 'synergi' ),
+				__( 'CXO as a Service', 'synergi' ),
+			),
 		),
-	),
-	array(
-		'slug'         => 'procurement',
-		'name'         => __( 'Procurement', 'synergi' ),
-		'label'        => __( 'Sourcing, contracts, and spend visibility', 'synergi' ),
-		'summary'      => __( 'Procurement outsourcing from sourcing and governance through administration, negotiation, and spend analysis.', 'synergi' ),
-		'url'          => home_url( '/our-services/procurement/' ),
-		'capabilities' => array(
-			__( 'Procurement Health Check', 'synergi' ),
-			__( 'Procurement Function Build-Up', 'synergi' ),
-			__( 'Governance, Compliance and Control', 'synergi' ),
-			__( 'Procurement Planning and Inventory Management', 'synergi' ),
-			__( 'Strategic Sourcing and Cost Optimization', 'synergi' ),
-			__( 'Supplier Lifecycle Management', 'synergi' ),
-			__( 'End-to-End Operational Support (BPO)', 'synergi' ),
+		array(
+			'slug'         => 'procurement',
+			'name'         => __( 'Procurement', 'synergi' ),
+			'label'        => __( 'Sourcing, contracts, and spend visibility', 'synergi' ),
+			'summary'      => __( 'Procurement outsourcing from sourcing and governance through administration, negotiation, and spend analysis.', 'synergi' ),
+			'url'          => home_url( '/our-services/procurement/' ),
+			'capabilities' => array(
+				__( 'Procurement Health Check', 'synergi' ),
+				__( 'Procurement Function Build-Up', 'synergi' ),
+				__( 'Governance, Compliance and Control', 'synergi' ),
+				__( 'Procurement Planning and Inventory Management', 'synergi' ),
+				__( 'Strategic Sourcing and Cost Optimization', 'synergi' ),
+				__( 'Supplier Lifecycle Management', 'synergi' ),
+				__( 'End-to-End Operational Support (BPO)', 'synergi' ),
+			),
 		),
-	),
-	array(
-		'slug'         => 'technology-ai',
-		'name'         => __( 'Technology & AI', 'synergi' ),
-		'label'        => __( 'Systems, support, and managed services', 'synergi' ),
-		'summary'      => __( 'Technology operations that connect end-user support, infrastructure, compliance, and business systems.', 'synergi' ),
-		'url'          => home_url( '/our-services/technology-ai/' ),
-		'capabilities' => array(
-			__( 'ERP Implementation', 'synergi' ),
-			__( 'Custom AI Applications', 'synergi' ),
-			__( 'AI-Enabled Business Process Automation', 'synergi' ),
-			__( 'Service Desk and End-User Support', 'synergi' ),
-			__( 'On-Premises and Cloud Managed Services', 'synergi' ),
-			__( 'Regulatory Compliance', 'synergi' ),
-			__( 'Procurement Support', 'synergi' ),
-			__( 'IT Managed Services', 'synergi' ),
-			__( 'Collaboration Tooling', 'synergi' ),
+		array(
+			'slug'         => 'technology-ai',
+			'name'         => __( 'Technology & AI', 'synergi' ),
+			'label'        => __( 'Systems, support, and managed services', 'synergi' ),
+			'summary'      => __( 'Technology operations that connect end-user support, infrastructure, compliance, and business systems.', 'synergi' ),
+			'url'          => home_url( '/our-services/technology-ai/' ),
+			'capabilities' => array(
+				__( 'ERP Implementation', 'synergi' ),
+				__( 'Custom AI Applications', 'synergi' ),
+				__( 'AI-Enabled Business Process Automation', 'synergi' ),
+				__( 'Service Desk and End-User Support', 'synergi' ),
+				__( 'On-Premises and Cloud Managed Services', 'synergi' ),
+				__( 'Regulatory Compliance', 'synergi' ),
+				__( 'Procurement Support', 'synergi' ),
+				__( 'IT Managed Services', 'synergi' ),
+				__( 'Collaboration Tooling', 'synergi' ),
+			),
 		),
-	),
-	array(
-		'slug'         => 'marketing',
-		'name'         => __( 'Marketing', 'synergi' ),
-		'label'        => __( 'Brand, communications, and experience', 'synergi' ),
-		'summary'      => __( 'Strategic and operational marketing support across brand, content, events, public relations, and customer experience.', 'synergi' ),
-		'url'          => home_url( '/our-services/marketing/' ),
-		'capabilities' => array(
-			__( 'Marketing Audit and Strategy Development', 'synergi' ),
-			__( 'Social Media Management and Paid Digital Ads', 'synergi' ),
-			__( 'SEO, GEO and Website Optimization', 'synergi' ),
-			__( 'Events Strategy and Management', 'synergi' ),
-			__( 'Brand Development and Positioning', 'synergi' ),
-			__( 'PR Representation and Media Relations', 'synergi' ),
-			__( 'Reporting, Performance Analysis and Data Management', 'synergi' ),
-			__( 'Fractional Chief Marketing Officer (CMO)', 'synergi' ),
+		array(
+			'slug'         => 'marketing',
+			'name'         => __( 'Marketing', 'synergi' ),
+			'label'        => __( 'Brand, communications, and experience', 'synergi' ),
+			'summary'      => __( 'Strategic and operational marketing support across brand, content, events, public relations, and customer experience.', 'synergi' ),
+			'url'          => home_url( '/our-services/marketing/' ),
+			'capabilities' => array(
+				__( 'Marketing Audit and Strategy Development', 'synergi' ),
+				__( 'Social Media Management and Paid Digital Ads', 'synergi' ),
+				__( 'SEO, GEO and Website Optimization', 'synergi' ),
+				__( 'Events Strategy and Management', 'synergi' ),
+				__( 'Brand Development and Positioning', 'synergi' ),
+				__( 'PR Representation and Media Relations', 'synergi' ),
+				__( 'Reporting, Performance Analysis and Data Management', 'synergi' ),
+				__( 'Fractional Chief Marketing Officer (CMO)', 'synergi' ),
+			),
 		),
-	),
-	array(
-		'slug'         => 'project-management',
-		'name'         => __( 'Project Management', 'synergi' ),
-		'label'        => __( 'Governance, delivery, and transformation offices', 'synergi' ),
-		'summary'      => __( 'Structured project and program delivery with clear governance, resources, controls, and performance reporting.', 'synergi' ),
-		'url'          => home_url( '/our-services/' ),
-		'capabilities' => array(
-			__( 'PMO Setup and Governance Frameworks', 'synergi' ),
-			__( 'End-to-End Project Planning and Delivery', 'synergi' ),
-			__( 'Program and Portfolio Management', 'synergi' ),
-			__( 'Project Resource Planning and Augmentation', 'synergi' ),
-			__( 'Risk, Budget and Schedule Control', 'synergi' ),
-			__( 'Vendor and Stakeholder Coordination', 'synergi' ),
-			__( 'Project Reporting and Performance Dashboards', 'synergi' ),
-			__( 'Transformation Office Setup and Management', 'synergi' ),
+		array(
+			'slug'         => 'project-management',
+			'name'         => __( 'Project Management', 'synergi' ),
+			'label'        => __( 'Governance, delivery, and transformation offices', 'synergi' ),
+			'summary'      => __( 'Structured project and program delivery with clear governance, resources, controls, and performance reporting.', 'synergi' ),
+			'url'          => home_url( '/our-services/' ),
+			'capabilities' => array(
+				__( 'PMO Setup and Governance Frameworks', 'synergi' ),
+				__( 'End-to-End Project Planning and Delivery', 'synergi' ),
+				__( 'Program and Portfolio Management', 'synergi' ),
+				__( 'Project Resource Planning and Augmentation', 'synergi' ),
+				__( 'Risk, Budget and Schedule Control', 'synergi' ),
+				__( 'Vendor and Stakeholder Coordination', 'synergi' ),
+				__( 'Project Reporting and Performance Dashboards', 'synergi' ),
+				__( 'Transformation Office Setup and Management', 'synergi' ),
+			),
 		),
-	),
-);
+	);
+}
 
 $syn_cards = array_values( array_filter( (array) $syn_cards, 'is_array' ) );
 

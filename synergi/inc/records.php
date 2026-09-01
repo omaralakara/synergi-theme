@@ -580,6 +580,19 @@ function syn_register_default_records() {
 					'description' => __( 'Chosen from the icons the theme ships. Leave blank for no icon.', 'synergi' ),
 					'choices'     => syn_service_icon_choices(),
 				),
+				/*
+				 * Added Stage 6e, when the homepage deck stopped carrying its six
+				 * cards in PHP. It is the small line the card prints beside the
+				 * index, e.g. "Finance operations and reporting". Optional: a card
+				 * with no label simply does not print one.
+				 */
+				array(
+					'key'         => 'label',
+					'type'        => 'text',
+					'label'       => __( 'Card strapline', 'synergi' ),
+					'description' => __( 'Optional. A few words shown above the name on the homepage card, e.g. Finance operations and reporting.', 'synergi' ),
+					'max_length'  => 60,
+				),
 				array(
 					'key'         => 'summary',
 					'type'        => 'textarea',

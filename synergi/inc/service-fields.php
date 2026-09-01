@@ -535,3 +535,113 @@ function syn_register_services_listing_fields() {
 		)
 	);
 }
+
+/**
+ * Every service line's capability titles, keyed by its reference.
+ *
+ * The homepage deck lists a few capabilities under each service. They are the
+ * same capabilities the service page itself lists, so they are read from those
+ * pages rather than typed a second time into a record — one source, and a
+ * capability renamed on the HR page is renamed on the homepage (CLAUDE.md §7a).
+ *
+ * One query for all six pages, cached for the request. The meta cache is primed
+ * by get_posts(), so the per-page field reads that follow cost nothing extra.
+ *
+ * Side effects: runs one secondary query the first time it is called.
+ *
+ * @return array<string,string[]> Service reference => capability titles, in order.
+ */
+function syn_service_capability_map() {
+	static $map = null;
+
+	if ( null !== $map ) {
+		return $map;
+	}
+
+	$map = array();
+
+	$pages = get_posts(
+		array(
+			'post_type'              => 'page',
+			'post_status'            => 'publish',
+			'posts_per_page'         => -1,
+			'no_found_rows'          => true,
+			'update_post_term_cache' => false,
+			// phpcs:ignore WordPress.DB.SlowMetaQuery.slow_query -- the only way to find pages by their template; six rows.
+			'meta_key'               => '_wp_page_template',
+			'meta_value'             => SYN_SERVICE_TEMPLATE,
+		)
+	);
+
+	foreach ( $pages as $page ) {
+		$slug = sanitize_key( syn_field( 'service_ref', $page->ID ) );
+
+		// First page wins. A duplicate reference is a content error, and taking
+		// the first is more predictable than taking whichever sorted last.
+		if ( '' === $slug || isset( $map[ $slug ] ) ) {
+			continue;
+		}
+
+		$titles = array();
+
+		foreach ( syn_field_rows( 'capabilities', $page->ID ) as $row ) {
+			$title = trim( (string) ( $row['title'] ?? '' ) );
+
+			if ( '' !== $title ) {
+				$titles[] = $title;
+			}
+		}
+
+		$map[ $slug ] = $titles;
+	}
+
+	return $map;
+}
+
+/**
+ * The service cards the homepage deck renders.
+ *
+ * Closes Stage 6e. The deck carried its six cards hard-coded in the partial
+ * since Stage 5, which made it the last thing on the homepage that needed a
+ * developer: adding a seventh service line, renaming one, or pointing one at a
+ * new page all meant editing PHP.
+ *
+ * Everything now comes from somewhere an editor can reach — the name, summary,
+ * reference and address from the "services" record at Settings → Site records,
+ * and the bullet list from that service's own page.
+ *
+ * Returns an empty array when the record is empty, which is the signal
+ * sections/services.php uses to fall back to its built-in six rather than
+ * render an empty deck (CLAUDE.md §7c).
+ *
+ * @return array[] Cards in sections/services.php's $args['cards'] shape.
+ */
+function syn_service_cards() {
+	if ( ! function_exists( 'syn_record' ) ) {
+		return array();
+	}
+
+	$capabilities = syn_service_capability_map();
+	$cards        = array();
+
+	foreach ( syn_record( 'services' ) as $service ) {
+		$slug = sanitize_key( $service['slug'] ?? '' );
+		$name = trim( (string) ( $service['name'] ?? '' ) );
+
+		// A row with no name or no reference is half-filled, not a card.
+		if ( '' === $slug || '' === $name ) {
+			continue;
+		}
+
+		$cards[] = array(
+			'slug'         => $slug,
+			'name'         => $name,
+			'label'        => trim( (string) ( $service['label'] ?? '' ) ),
+			'summary'      => trim( (string) ( $service['summary'] ?? '' ) ),
+			'url'          => trim( (string) ( $service['url'] ?? '' ) ),
+			'capabilities' => $capabilities[ $slug ] ?? array(),
+		);
+	}
+
+	return $cards;
+}
