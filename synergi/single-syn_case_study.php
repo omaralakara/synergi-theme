@@ -1,12 +1,15 @@
 <?php
 /**
- * Template Name: Case study
+ * One case study.
  *
  * One engagement, written up: what the situation was, what we did, and what
- * changed. Every page on this template is a card on the Case studies listing —
- * that is the only place they are listed, and it lists itself.
+ * changed. Every study is a card on the Case studies listing and on its own
+ * service line's page — both ask syn_case_studies() rather than keeping a list.
  *
- * Loaded by: the page editor's Template dropdown.
+ * Loaded by: the template hierarchy, for a single syn_case_study post. It was
+ * templates/case-study.php with a "Template Name" header until 1 Sep 2026, when
+ * the studies became a post type (inc/case-study-post-type.php) and the choice
+ * of template stopped being something an editor could get wrong.
  * Depends on: header.php, footer.php, inc/sections.php, inc/fields.php,
  * inc/case-study-fields.php, parts/page-header.php, sections/*.php.
  *

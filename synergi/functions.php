@@ -74,10 +74,16 @@ require_once SYN_DIR . 'inc/market-fields.php';
 require_once SYN_DIR . 'inc/contact-fields.php';
 require_once SYN_DIR . 'inc/podcast-fields.php';
 
-// The case studies: the single study and the page listing them. Last of the
-// page-family files because syn_case_study_card() turns a stored service
-// reference into a name with service-fields.php's syn_service_name(), so that
-// file has to be loaded first.
+// The case studies. The post type first, because case-study-fields.php scopes
+// its three single-study field groups to the type this registers, and because
+// syn_sync_case_study_service() needs the taxonomy to exist before a save can
+// mirror a reference into it.
+require_once SYN_DIR . 'inc/case-study-post-type.php';
+
+// Then the fields: the single study and the page listing them. After the post
+// type for the reason above, and after service-fields.php because
+// syn_case_study_card() turns a stored service reference into a name with
+// syn_service_name().
 require_once SYN_DIR . 'inc/case-study-fields.php';
 
 // The blog listing's own hero copy. Scoped by page ID rather than by

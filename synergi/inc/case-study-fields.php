@@ -7,25 +7,22 @@
  * reference into a name). Read by templates/case-study.php,
  * templates/case-studies-listing.php and sections/case-studies.php.
  *
- * WHY PAGES AND NOT A POST TYPE. stage-6-remaining-plan.md's decision D4 holds
- * case studies as a custom post type back to a stage of their own, after the
- * templates are proven and probably after the domain move. Nothing here changes
- * that decision: a case study is an ordinary page on an ordinary template, so it
- * has the URL an editor gives it, it needs no rewrite rules flushing, and it
- * cannot invent URLs nobody asked for (CLAUDE.md §2.8). The listing finds them
- * by asking which pages use the template, so there is no second list to keep in
- * step with the first.
+ * THEY ARE A POST TYPE NOW. Decision D4 in stage-6-remaining-plan.md held that
+ * back to a stage of its own; the business reversed it on 1 September 2026 so a
+ * service page could list its own studies without anybody retyping them.
+ * inc/case-study-post-type.php registers the type and explains what the move
+ * does and does not change — in particular that all twelve URLs are unchanged.
  *
- * If they do become a post type later, syn_case_studies() is the one function
- * that has to change — every caller asks it for cards, not for posts.
+ * This file's own header used to promise that "syn_case_studies() is the one
+ * function that has to change" if they ever became a post type. That turned out
+ * to be true: it, and the three groups' scope line, were the whole change. The
+ * promise is left recorded here because a prediction that held is worth more to
+ * the next reader than a tidy file.
  *
  * @package Synergi
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/** The template a single case study uses. */
-define( 'SYN_CASE_STUDY_TEMPLATE', 'templates/case-study.php' );
 
 /** The template the page listing them uses. */
 define( 'SYN_CASE_STUDIES_TEMPLATE', 'templates/case-studies-listing.php' );
@@ -68,17 +65,15 @@ function syn_case_studies( $args = array() ) {
 	$exclude = absint( $args['exclude'] );
 
 	/*
-	 * The template is stored in the page's own _wp_page_template meta by core,
-	 * so this is a plain meta comparison and not a direct database query
-	 * (CLAUDE.md §5). Both clauses are exact matches on indexed meta keys.
+	 * Since the post type landed (inc/case-study-post-type.php, 1 Sep 2026) the
+	 * post type IS the filter, so the template clause this used to carry is
+	 * gone. Only the optional service narrowing remains, and it reads the
+	 * _syn_case_service field rather than the taxonomy: the field is the one
+	 * place a service is chosen, and the taxonomy is a mirror of it kept for the
+	 * term archives. Querying the mirror would make a display convenience into a
+	 * source of truth.
 	 */
-	$meta = array(
-		array(
-			'key'     => '_wp_page_template',
-			'value'   => SYN_CASE_STUDY_TEMPLATE,
-			'compare' => '=',
-		),
-	);
+	$meta = array();
 
 	if ( '' !== $service ) {
 		$meta[] = array(
@@ -89,7 +84,7 @@ function syn_case_studies( $args = array() ) {
 	}
 
 	$query_args = array(
-		'post_type'              => 'page',
+		'post_type'              => SYN_CASE_STUDY_POST_TYPE,
 		'post_status'            => 'publish',
 		'posts_per_page'         => $count > 0 ? $count : -1,
 		'orderby'                => array(
@@ -101,8 +96,12 @@ function syn_case_studies( $args = array() ) {
 		// would be work nobody reads (CLAUDE.md §6).
 		'no_found_rows'          => true,
 		'update_post_term_cache' => false,
-		'meta_query'             => $meta, // phpcs:ignore WordPress.DB.SlowMetaQuery.slow_query -- the only way to find pages by their template; the set is small and the alternative is a hand-maintained list that drifts.
 	);
+
+	if ( $meta ) {
+		// phpcs:ignore WordPress.DB.SlowMetaQuery.slow_query -- one exact match on an indexed meta key, over a set of a few dozen; the alternative is a hand-maintained list that drifts.
+		$query_args['meta_query'] = $meta;
+	}
 
 	if ( $exclude ) {
 		$query_args['post__not_in'] = array( $exclude );
@@ -199,7 +198,7 @@ function syn_register_case_study_fields() {
 			'id'          => 'case_intro',
 			'title'       => __( 'Case study — the facts', 'synergi' ),
 			'description' => __( 'The band at the top of the page, and the four things this study shows on the Case studies grid. The page title is the headline, so it is not repeated here.', 'synergi' ),
-			'templates'   => array( SYN_CASE_STUDY_TEMPLATE ),
+			'post_types'  => array( SYN_CASE_STUDY_POST_TYPE ),
 			'fields'      => array(
 				array(
 					'key'        => 'case_eyebrow',
@@ -289,7 +288,7 @@ function syn_register_case_study_fields() {
 			'id'          => 'case_outcome',
 			'title'       => __( 'Case study — the outcome', 'synergi' ),
 			'description' => __( 'The numbers this engagement produced. Leave the list empty and the whole band is skipped.', 'synergi' ),
-			'templates'   => array( SYN_CASE_STUDY_TEMPLATE ),
+			'post_types'  => array( SYN_CASE_STUDY_POST_TYPE ),
 			'fields'      => array(
 				array(
 					'key'        => 'case_outcome_heading',
@@ -344,7 +343,7 @@ function syn_register_case_study_fields() {
 			'id'          => 'case_more',
 			'title'       => __( 'Case study — more studies', 'synergi' ),
 			'description' => __( 'The band at the foot of the page. It fills itself from the other published case studies, so there is nothing to keep up to date here beyond the wording.', 'synergi' ),
-			'templates'   => array( SYN_CASE_STUDY_TEMPLATE ),
+			'post_types'  => array( SYN_CASE_STUDY_POST_TYPE ),
 			'fields'      => array(
 				array(
 					'key'        => 'case_more_eyebrow',
