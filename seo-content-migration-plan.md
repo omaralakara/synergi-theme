@@ -841,3 +841,30 @@ business rule "real case study where one exists, empty where none does":
 100vw → 1920×1080+ WebP under ~300 KB; case-study band `large` at ~40vw cover
 → 1600×1200 (min 1200 wide); location cards `large` at ≤31rem → 1200×900 (min
 1000 wide); listing cards crop to 720×405 (16:9) → upload ≥1440×810.
+
+### Addendum — 2 Sep, third pass (photography)
+
+26 photographs sourced from Unsplash (free commercial license, no attribution
+required; five premium candidates rejected, every pick visually verified),
+delivered as WebP at the theme's own target sizes, uploaded to the staging
+media library (IDs 10719-10744) with descriptive filenames and alt text, and
+assigned:
+
+- **All six location-record cards** get their own city: Corniche skyline,
+  Kingdom Centre, West Bay, Raouche Rocks, Palace of the Parliament, and the
+  Umayyad Mosque courtyard for the Damascus "Coming soon" card. This also
+  fixed Beirut and Bucharest reusing other cities' photographs.
+- **13 page heroes**: the three market pages, both listings, About Us,
+  Engagement Team, Executive Podcast (as Featured Images, which their
+  templates read), HR, Procurement and Technology & AI service pages, Media,
+  and Global Locations. Blog and homepage untouched, as instructed.
+- **Seven case studies** (image field + featured image) and the five bands
+  that feature them on service pages and the UAE market page — replacing the
+  single generic photograph previously shared by everything.
+
+**Left for AI generation, by choice** (stock was weak for them): Marketing,
+Accounting and Project Management service heroes; Contact Us; the
+case-studies listing; the five solution heroes; and five case-study images
+(government HR, Abu Dhabi HR build, hotel transformation, KSA service line,
+clean energy). The manifest with sources and alt text is in the session
+scratchpad (`image-manifest.json`).
