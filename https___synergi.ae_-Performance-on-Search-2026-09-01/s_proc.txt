@@ -1,0 +1,79 @@
+GEN|procurement outsourcing companies|5|504|13.8
+GEO|procurement companies in dubai|4|271|10.88
+GEN|procurement company|3|347|14.57
+GEN|procurement support services|1|981|7.8
+GEN|procurement solutions provider|1|506|45.7
+GEN|procurement solutions|1|280|21.93
+GEN|sourcing and procurement providers|0|1705|7
+GEN|procurement operations services|0|1348|4.48
+GEN|sourcing services providers|0|1242|7.41
+GEN|procurement services|0|1193|7.18
+GEN|procurement services companies|0|1150|11.1
+GEN|procurement bpo companies|0|1057|24.07
+GEN|procurement services providers|0|1038|11.6
+GEN|procurement providers|0|967|15.63
+GEN|procurement services firms|0|934|16.38
+GEN|sourcing services|0|918|10.74
+GEN|sourcing services vendors|0|851|6.72
+GEN|sourcing support services|0|827|6.83
+GEN|procurement advice support service|0|808|9.48
+GEN|procurement logistics services|0|782|11.74
+GEN|sourcing services companies|0|729|9.68
+GEN|procurement bpo services|0|701|16.31
+GEN|procurement service provider|0|662|24.99
+GEN|sourcing services firms|0|647|16.55
+GEN|sourcing providers|0|609|13.12
+GEN|procurement support|0|608|11.14
+GEN|procurement firms|0|594|49.05
+GEN|sourcing logistics services|0|589|17.6
+GEN|procurement bpo firms|0|538|14.92
+GEN|end-to-end procurement providers|0|496|9.17
+GEN|procurement bpo|0|494|46.26
+GEN|end to end procurement providers|0|488|8.73
+GEN|procurement bpo consultants|0|475|34.89
+GEN|procurement bpo providers|0|471|28.48
+GEN|end-to-end procurement services|0|447|8.43
+GEN|end to end procurement services|0|437|7.35
+GEN|best procurement services|0|436|19.62
+GEN|it procurement services|0|419|20.26
+GEN|procurement solution providers|0|417|33.09
+GEN|procurement outsourcing providers|0|398|18.34
+GEN|top procurement services|0|386|22.3
+GEN|procurement consulting companies|0|379|64.45
+GEN|procurement consulting providers|0|337|73.32
+GEN|procurement bpo vendors|0|301|28.8
+GEN|procurement outsourcing firms|0|293|29.38
+GEN|procurement consultancy services|0|286|78.91
+GEN|procurement consulting firms|0|282|69.68
+GEN|procurement consultants|0|277|77.28
+GEN|sourcing bpo companies|0|275|23.17
+GEN|procurement advisory firms|0|271|70.85
+GEN|sourcing consultants|0|268|72.96
+GEO|procurement software dubai|0|229|31.18
+GEN|procurement consulting services|0|226|85.57
+GEO|sourcing services uae|0|215|16.33
+GEN|supply chain bpo companies|0|214|35.06
+GEN|procurement consulting|0|213|89.05
+GEN|managed procurement services|0|208|37.26
+GEN|sourcing support consultants|0|204|68.12
+GEN|procurement strategy services|0|198|72.62
+GEN|global procurement support|0|196|35.32
+GEN|procurement companies|0|187|9.84
+GEN|procurement strategy consultants|0|185|88.92
+GEN|powerful procurement solutions|0|184|15.05
+GEN|retail procurement consultants|0|184|82.96
+GEN|procurement strategy providers|0|174|58.39
+GEN|procurement management consultants|0|169|80.25
+GEN|procurement agency|0|150|32.55
+GEO|payroll outsourcing in syria|0|136|10.74
+GEN|outsourcing solutions|0|136|22.65
+GEN|sourcing bpo providers|0|130|46.55
+GEO|procurement companies dubai|0|129|12.99
+GEO|procurement solutions dubai|0|128|2.86
+GEN|procurement management companies|0|120|8.59
+GEO|procurement system dubai|0|120|14.41
+GEN|e procurement companies|0|118|63.09
+GEN|procurement service|0|116|21.67
+GEO|procurement software companies in dubai|0|111|22.5
+GEN|procurement strategy companies|0|111|61.7
+GEN|supply chain bpo vendors|0|104|50.69

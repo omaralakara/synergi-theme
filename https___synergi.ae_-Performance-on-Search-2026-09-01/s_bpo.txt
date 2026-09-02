@@ -1,0 +1,27 @@
+GEO|bpo companies in uae|7|371|6.56
+GEO|bpo in uae|3|248|6.55
+GEN|synergy bpo|3|67|8.25
+GEN|bpo|2|691|5.58
+GEO|bpo services in uae|2|53|2.6
+GEN|bpo company|1|727|7.73
+GEO|bpo companies in dubai|1|664|11.54
+GEN|bpo services|1|506|8.73
+GEN|bpo engineering|1|214|7.18
+GEO|bpo company in dubai|1|125|14.95
+GEO|bpo services uae|1|116|14.41
+GEN|marketing shared services|0|269|9.23
+GEO|bpo companies in saudi arabia|0|246|15.56
+GEN|bpo companies|0|233|13.94
+GEN|supply chain bpo companies|0|214|35.06
+GEO|outsource payroll for small business in syria|0|147|22.07
+GEO|gulf bpo|0|127|16.8
+GEN|supply chain bpo vendors|0|104|50.69
+GEO|bpo dubai|0|80|8.86
+GEO|bpo in dubai|0|70|23
+GEN|transition process in bpo|0|65|45.02
+GEO|bpo in abu dhabi|0|45|5.16
+GEN|supply chain bpo|0|45|62.62
+GEO|dubai bpo companies|0|44|15.66
+GEN|خدمات bpo|0|41|22.9
+GEN|bpo transformation|0|41|41.66
+GEO|e-bpo services in uae|0|40|9.3

@@ -1,0 +1,8 @@
+GEN|digital transformation and business process outsourcing|0|72|49.18
+GEO|enterprise solution uae|0|66|49.53
+GEO|dubai procurement companies|0|49|7.16
+GEO|dubai bpo companies|0|44|15.66
+GEN|bpo digital transformation|0|26|30.38
+GEO|best procurement and logistics services in dubai uae|0|25|39.64
+GEN|digital transformation in bpo|0|25|57.88
+GEN|scaling hr support with ai|0|12|63.08

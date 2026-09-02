@@ -1,0 +1,9 @@
+GEN|marketing shared services|0|269|9.23
+GEN|shared marketing services|0|220|20.79
+GEN|marketing services procurement|0|60|49.53
+GEN|shared marketing|0|35|37.57
+GEO|strategic cmo solutions uae|0|30|12.2
+GEO|uae fractional cmo services|0|28|13.07
+GEO|fractional cmo uae|0|15|62.33
+GEN|marketing shared|0|13|14.69
+GEN|shared marketing services inc|0|10|43.6
