@@ -179,22 +179,36 @@
 	}
 }
 
+/* One arrow style site-wide (2 Sep): these are the same square control the
+   blog and industries carousels draw, byte for byte, replacing this deck's
+   own larger circle. Three carousels, one look — a reader who has learned
+   one set of arrows has learned them all. */
 .syn-services__control {
-	display: grid;
-	inline-size: 3.65rem;
-	block-size: 3.65rem;
+	display: inline-grid;
+	inline-size: 3rem;
+	block-size: 3rem;
+	padding: 0;
 	place-items: center;
 	border: 1px solid var(--syn-border);
-	border-radius: 50%;
+	border-radius: 0.45rem;
 	background-color: var(--syn-white);
 	color: var(--syn-navy);
-	font-size: 1.05rem;
 	cursor: pointer;
 	transition:
 		color var(--syn-duration-fast),
-		background-color var(--syn-duration-fast),
 		border-color var(--syn-duration-fast),
-		transform var(--syn-duration-fast) var(--syn-ease-out);
+		background-color var(--syn-duration-fast),
+		transform var(--syn-duration-fast);
+}
+
+.syn-services__control svg {
+	inline-size: 1.35rem;
+	block-size: 1.35rem;
+	fill: none;
+	stroke: currentcolor;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	stroke-width: 1.8;
 }
 
 .syn-services__control:hover {
@@ -202,6 +216,10 @@
 	background-color: var(--syn-navy);
 	color: var(--syn-white);
 	transform: translateY(-2px);
+}
+
+.syn-services__control:focus-visible {
+	outline-offset: 3px;
 }
 
 /* ==========================================================================
@@ -823,8 +841,8 @@
 	}
 
 	.syn-services__control {
-		inline-size: 3rem;
-		block-size: 3rem;
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
 	}
 }
 

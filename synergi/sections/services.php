@@ -213,12 +213,21 @@ if ( ! $syn_cards ) {
 				 * anything are worse than no buttons.
 				 */
 				?>
+				<?php
+				/*
+				 * The same SVG chevrons the blog and industries carousels
+				 * draw (2 Sep). They were &#8592;/&#8594; text glyphs before,
+				 * which the arrow buttons on the other carousels do not use —
+				 * and a glyph the rendered font lacks can silently draw as
+				 * nothing, which is exactly what was reported from staging.
+				 */
+				?>
 				<div class="syn-services__controls">
 					<button class="syn-services__control" type="button" data-syn-service-prev aria-label="<?php esc_attr_e( 'Show previous service', 'synergi' ); ?>">
-						<span aria-hidden="true">&#8592;</span>
+						<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 6-6 6 6 6" /></svg>
 					</button>
 					<button class="syn-services__control" type="button" data-syn-service-next aria-label="<?php esc_attr_e( 'Show next service', 'synergi' ); ?>">
-						<span aria-hidden="true">&#8594;</span>
+						<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6" /></svg>
 					</button>
 				</div>
 			</div>
