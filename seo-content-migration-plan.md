@@ -892,3 +892,41 @@ scratchpad (`image-manifest.json`).
 The AI-generation list is now down to **four page heroes**: Marketing,
 Accounting, Project Management services and Contact Us, plus the
 case-studies listing hero. Everything else has real photography.
+
+### Addendum — 2 Sep, fifth pass (final verification before team review)
+
+A fresh end-to-end check of staging, verified by request before the link went
+to the team. Everything re-tested from the rendered pages, not from this
+document's earlier claims:
+
+- **All 66 published URLs return 200** (30 pages, 24 posts, 12 case studies).
+- **Yoast title + description present on all 66** — the 21-item backfill holds.
+- **Exactly one `<h1>`** on every sampled template (16 pages covering every
+  template type).
+- **All 35 redirect rules verified live**: single-hop 301s landing on 200s.
+- **FAQPage emitted exactly once** on FAQ-carrying pages, zero elsewhere — no
+  Yoast duplication. Yoast Organization schema present sitewide; LocalBusiness
+  remains the §5.7 deferred item.
+- **Staging noindex confirmed** (`blog_public` 0, robots noindex,nofollow on
+  every page). Canonicals are absent BECAUSE of the noindex — Yoast suppresses
+  them on noindexed pages — so the §5.5 canonical spot-check can only pass on
+  production after launch flips indexing. Expected, not a defect.
+- **Content ↔ company profile**: figures record (50+ / 5 / 100+ / 10–15%,
+  corrected earlier today — values had been scrambled against labels), all six
+  service lines with capability lists item-for-item, the About journey
+  (Ideation 2022 → Partnership 2026, eight stops), and the office list
+  (five open + Damascus "Coming soon") all match the profile PDF.
+- **Alt attributes on every image** on the golden pages; empty alts only on
+  the documented decorative cases (blog/case-study card thumbs, flags).
+- **The fourth pass's "four heroes left" is now stale**: Marketing, Accounting,
+  Project Management and Contact Us all render bespoke heroes with alt text.
+
+Small items found, none blocking review:
+
+1. The Contact hero's file is named `3453453535.webp` (alt text is proper) —
+   rename or replace when the photograph is next touched.
+2. The case-studies listing hero reuses the Project Management service hero —
+   still wants its own picture.
+3. The ICXI partnership post is the one post with no featured image.
+4. Office emails, LocalBusiness schema, §8 data asks and §7B launch-window
+   items remain open as already recorded.
