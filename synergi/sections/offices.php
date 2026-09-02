@@ -16,8 +16,17 @@
  *                     address string The street address, and what the map
  *                                    searches for.
  *                     email   string Optional. Rendered as a mailto link.
- *                     phone   string Optional. Rendered as a tel link.
  *                     entity  string Optional. The registered company name.
+ *                     badge   string Optional. A non-empty badge means the
+ *                                    office is not open yet: the card wears it
+ *                                    where the map controls would be, and no
+ *                                    map is offered for an office that is not
+ *                                    there. Same column the homepage band
+ *                                    reads.
+ *
+ * The record also stores a phone per office. It is deliberately NOT rendered
+ * (removed 2 Sep 2026 at the business's request) — the number stays on record
+ * for whenever that decision reverses.
  *
  * Example:
  *   syn_section( 'offices', array( 'places' => syn_record( 'locations' ) ) );
@@ -73,8 +82,8 @@ foreach ( (array) ( $args['places'] ?? array() ) as $syn_row ) {
 		'flag'    => (int) ( $syn_row['flag'] ?? 0 ),
 		'address' => trim( (string) ( $syn_row['address'] ?? '' ) ),
 		'email'   => trim( (string) ( $syn_row['email'] ?? '' ) ),
-		'phone'   => trim( (string) ( $syn_row['phone'] ?? '' ) ),
 		'entity'  => trim( (string) ( $syn_row['entity'] ?? '' ) ),
+		'badge'   => trim( (string) ( $syn_row['badge'] ?? '' ) ),
 	);
 }
 
@@ -179,57 +188,53 @@ $syn_uid = wp_unique_id( 'syn-offices-' );
 							<p class="syn-offices__address"><?php echo esc_html( $syn_place['address'] ); ?></p>
 						<?php endif; ?>
 
-						<?php if ( '' !== $syn_place['email'] || '' !== $syn_place['phone'] ) : ?>
+						<?php if ( '' !== $syn_place['email'] ) : ?>
 							<ul class="syn-offices__contacts">
-								<?php if ( '' !== $syn_place['email'] ) : ?>
-									<li class="syn-offices__contact">
-										<a class="syn-offices__contact-link" href="mailto:<?php echo esc_attr( sanitize_email( $syn_place['email'] ) ); ?>"><?php echo esc_html( $syn_place['email'] ); ?></a>
-									</li>
-								<?php endif; ?>
-
-								<?php if ( '' !== $syn_place['phone'] ) : ?>
-									<li class="syn-offices__contact">
-										<?php
-										/*
-										 * A tel: href cannot carry spaces, so the
-										 * dialled number is stripped to digits
-										 * and a leading plus while the visible
-										 * one keeps the grouping that makes it
-										 * readable.
-										 */
-										$syn_dial = preg_replace( '/[^0-9+]/', '', $syn_place['phone'] );
-										?>
-										<a class="syn-offices__contact-link" href="tel:<?php echo esc_attr( $syn_dial ); ?>"><?php echo esc_html( $syn_place['phone'] ); ?></a>
-									</li>
-								<?php endif; ?>
+								<li class="syn-offices__contact">
+									<a class="syn-offices__contact-link" href="mailto:<?php echo esc_attr( sanitize_email( $syn_place['email'] ) ); ?>"><?php echo esc_html( $syn_place['email'] ); ?></a>
+								</li>
 							</ul>
 						<?php endif; ?>
 
-						<div class="syn-offices__map" data-syn-office-map data-syn-map-query="<?php echo esc_attr( $syn_query ); ?>" data-syn-map-title="<?php echo esc_attr( sprintf( /* translators: %s: city name, e.g. Abu Dhabi. */ __( 'Map of the Synergi office in %s', 'synergi' ), $syn_place['city'] ) ); ?>">
-
+						<?php if ( '' !== $syn_place['badge'] ) : ?>
 							<?php
 							/*
-							 * Shown only where a script can swap the map in —
-							 * offices.css reveals it inside (scripting: enabled).
-							 * A button that cannot do anything is worse than no
-							 * button (CLAUDE.md §10).
+							 * Not open yet, so no map: an office that is not
+							 * there cannot be shown on one. The badge takes the
+							 * map's slot at the foot of the card, same as the
+							 * homepage band wears it over the photograph.
 							 */
 							?>
-							<button class="syn-offices__map-button" type="button" data-syn-map-show>
-								<?php
-								printf(
-									/* translators: %s: city name, e.g. Abu Dhabi. */
-									esc_html__( 'Show map of %s', 'synergi' ),
-									esc_html( $syn_place['city'] )
-								);
-								?>
-							</button>
+							<span class="syn-offices__badge"><?php echo esc_html( $syn_place['badge'] ); ?></span>
+						<?php else : ?>
+							<div class="syn-offices__map" data-syn-office-map data-syn-map-query="<?php echo esc_attr( $syn_query ); ?>" data-syn-map-title="<?php echo esc_attr( sprintf( /* translators: %s: city name, e.g. Abu Dhabi. */ __( 'Map of the Synergi office in %s', 'synergi' ), $syn_place['city'] ) ); ?>" data-syn-map-hide="<?php esc_attr_e( 'Hide map', 'synergi' ); ?>">
 
-							<a class="syn-offices__map-link" href="<?php echo esc_url( $syn_map_url ); ?>" target="_blank" rel="noopener noreferrer">
-								<?php esc_html_e( 'Open in Google Maps', 'synergi' ); ?>
-								<span aria-hidden="true">&#8599;</span>
-							</a>
-						</div>
+								<?php
+								/*
+								 * Shown only where a script can swap the map in —
+								 * offices.css reveals it inside (scripting: enabled).
+								 * A button that cannot do anything is worse than no
+								 * button (CLAUDE.md §10). Once the map is open the
+								 * same button closes it again — offices.js swaps
+								 * the label and keeps aria-expanded true.
+								 */
+								?>
+								<button class="syn-offices__map-button" type="button" data-syn-map-show aria-expanded="false">
+									<?php
+									printf(
+										/* translators: %s: city name, e.g. Abu Dhabi. */
+										esc_html__( 'Show map of %s', 'synergi' ),
+										esc_html( $syn_place['city'] )
+									);
+									?>
+								</button>
+
+								<a class="syn-offices__map-link" href="<?php echo esc_url( $syn_map_url ); ?>" target="_blank" rel="noopener noreferrer">
+									<?php esc_html_e( 'Open in Google Maps', 'synergi' ); ?>
+									<span aria-hidden="true">&#8599;</span>
+								</a>
+							</div>
+						<?php endif; ?>
 
 					</article>
 				</li>

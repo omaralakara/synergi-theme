@@ -89,8 +89,8 @@ if ( $syn_offices ) {
 		)
 	);
 
-	// The addresses, phone numbers and maps — the same band Contact Us renders,
-	// reading the same record.
+	// The addresses and maps — the same band Contact Us renders, reading the
+	// same record.
 	syn_section(
 		'offices',
 		array(

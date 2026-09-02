@@ -138,7 +138,7 @@ function syn_register_contact_fields() {
 		array(
 			'id'          => 'contact_offices',
 			'title'       => __( 'Contact — offices', 'synergi' ),
-			'description' => __( 'The wording around the office cards. The offices, their addresses, emails and phone numbers are edited once at Settings → Site records, because Global Locations and the footer show the same ones.', 'synergi' ),
+			'description' => __( 'The wording around the office cards. The offices, their addresses and emails are edited once at Settings → Site records, because Global Locations shows the same ones. Phone numbers are kept there too but no longer shown on the site.', 'synergi' ),
 			'templates'   => array( SYN_CONTACT_TEMPLATE ),
 			'fields'      => array(
 				array(

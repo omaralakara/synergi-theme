@@ -735,7 +735,7 @@ function syn_register_default_records() {
 					'key'         => 'phone',
 					'type'        => 'text',
 					'label'       => __( 'Phone', 'synergi' ),
-					'description' => __( 'Optional, in international format, e.g. +966 11 279 5100. Only add a number that is answered.', 'synergi' ),
+					'description' => __( 'Kept on record but NOT shown on the site — the office cards stopped rendering phone numbers on 2 Sep 2026, at the business’s request. International format, e.g. +966 11 279 5100.', 'synergi' ),
 					'max_length'  => 40,
 				),
 				array(

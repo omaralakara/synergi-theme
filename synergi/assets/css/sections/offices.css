@@ -1,7 +1,8 @@
 /*
  * offices.css — Contact Us: every office, its address and its map.
  * Contents: 1 local tokens · 2 shell · 3 the head · 4 the grid · 5 the card ·
- * 6 the country badge · 7 the details · 8 the map · 9 narrow screens.
+ * 6 the country badge · 7 the details · 8 the map, and the coming-soon badge
+ * that replaces it on an office not open yet · 9 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-offices", only on pages that
  * declare the section. Markup: sections/offices.php.
@@ -171,18 +172,24 @@
  * Romania, because it is. The hairline stops a white-edged flag dissolving
  * into the card.
  */
+/*
+ * A fixed 3:2 chip since 2 Sep, for the same reason as the case-study cards:
+ * the flags come in five ratios and equal-height-variable-width looked ragged.
+ * cover + left anchoring keeps each flag's hoist-side mark visible.
+ */
 .syn-offices__flag {
 	overflow: hidden;
-	inline-size: auto;
+	inline-size: 2.4rem;
 	border: 1px solid var(--syn-border);
 	border-radius: 2px;
 }
 
 .syn-offices__flag-image {
 	display: block;
-	inline-size: auto;
-	block-size: 1.6rem;
-	object-fit: contain;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+	object-position: left center;
 }
 
 .syn-offices__country {
@@ -326,6 +333,26 @@
 	inline-size: 100%;
 	block-size: 100%;
 	border: 0;
+}
+
+/*
+ * An office that is not open yet wears this instead of the map controls — the
+ * same chip shape the homepage's photographic band uses, recoloured for a
+ * white card. margin-block-start: auto pins it to the foot of the card, where
+ * the map sits on every open office, so the cards still line up.
+ */
+.syn-offices__badge {
+	align-self: flex-start;
+	margin-block-start: auto;
+	padding: 0.3rem 0.65rem;
+	border: 1px solid var(--syn-border);
+	border-radius: 10rem;
+	color: var(--syn-navy);
+	font-size: 0.58rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	white-space: nowrap;
 }
 
 /* ==========================================================================

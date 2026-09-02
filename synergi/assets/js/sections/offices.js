@@ -12,10 +12,12 @@
  * and the several hundred kilobytes a Maps embed weighs are never spent on a
  * reader who did not want one.
  *
- * The button is replaced rather than left in place: once the map is on screen
- * the button has nothing left to do, and a control that does nothing is worse
- * than no control. The "Open in Google Maps" link stays, because a map in a
- * 15rem box is not a substitute for directions.
+ * The button stays and becomes the way back out (2 Sep 2026 — it used to
+ * remove itself, which left an open map nobody could close). Closing hides the
+ * frame rather than destroying it, so reopening costs nothing: the embed was
+ * already paid for the moment it was first asked for. The "Open in Google
+ * Maps" link stays throughout, because a map in a 15rem box is not a
+ * substitute for directions.
  *
  * Rules: vanilla JS only, no jQuery, no libraries, no build step. Debug logging
  * is gated on window.synDebug, which inc/assets.php sets from SYN_DEBUG.
@@ -38,18 +40,17 @@
 	}
 
 	/**
-	 * Swaps the button for the map it describes.
+	 * Builds the map frame the first time it is asked for.
 	 *
-	 * @param {HTMLElement} map    The [data-syn-office-map] wrapper.
-	 * @param {HTMLElement} button The button that was pressed.
-	 * @return {void}
+	 * @param {HTMLElement} map The [data-syn-office-map] wrapper.
+	 * @return {HTMLElement|null} The frame, or null when there is no query.
 	 */
-	function show( map, button ) {
+	function build( map ) {
 		var query = map.getAttribute( 'data-syn-map-query' ) || '';
 		var title = map.getAttribute( 'data-syn-map-title' ) || 'Map';
 
 		if ( ! query ) {
-			return;
+			return null;
 		}
 
 		var frame = document.createElement( 'div' );
@@ -72,17 +73,9 @@
 		frame.appendChild( iframe );
 		map.insertBefore( frame, map.firstChild );
 
-		button.parentNode.removeChild( button );
-
-		/*
-		 * Focus would otherwise be left on an element that no longer exists,
-		 * which drops a keyboard user back to the top of the document. The
-		 * frame takes it instead, so the next Tab continues from the map.
-		 */
-		frame.setAttribute( 'tabindex', '-1' );
-		frame.focus();
-
 		log( 'loaded the map for "' + query + '"' );
+
+		return frame;
 	}
 
 	maps.forEach( function ( map ) {
@@ -92,8 +85,35 @@
 			return;
 		}
 
+		var frame     = null;
+		var showLabel = button.textContent;
+		var hideLabel = map.getAttribute( 'data-syn-map-hide' ) || 'Hide map';
+
 		button.addEventListener( 'click', function () {
-			show( map, button );
+			if ( ! frame ) {
+				frame = build( map );
+
+				if ( ! frame ) {
+					return;
+				}
+			} else {
+				frame.hidden = ! frame.hidden;
+			}
+
+			var open = ! frame.hidden;
+
+			button.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			button.textContent = open ? hideLabel : showLabel;
+
+			/*
+			 * On open, focus moves to the frame so the next Tab continues from
+			 * the map. On close it simply stays on the button that was pressed —
+			 * which is also where "show" now points again.
+			 */
+			if ( open ) {
+				frame.setAttribute( 'tabindex', '-1' );
+				frame.focus();
+			}
 		} );
 	} );
 
