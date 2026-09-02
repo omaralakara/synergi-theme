@@ -195,18 +195,19 @@
 
 /* ==========================================================================
    6. The facts line
-   The flag and the country, on the same badge sections/offices.php uses. The
-   button below it carries the auto margin, so this line sits directly under the
-   copy and the button drops to the card's bottom edge — which is what keeps a
-   row of cards with different headline lengths aligned along the foot.
+   The flag and the country. Since 2 Sep this line carries the auto margin, not
+   the button: the business asked for the country rows of a card row to align,
+   and pinning this line to the foot (with the button right under it) is what
+   keeps them level however long the headlines and client lines above run.
    ========================================================================== */
 
 .syn-case-studies__place {
 	display: flex;
 	align-items: center;
 	gap: 0.6rem;
-	margin-block: var(--syn-space-3) 0;
+	margin-block: auto 0;
 	margin-inline: 0;
+	padding-block-start: var(--syn-space-3);
 }
 
 .syn-case-studies__flag {
@@ -216,8 +217,8 @@
 	block-size: 1.35rem;
 	inline-size: auto;
 	place-items: center;
-	border: 1px solid var(--syn-border);
-	border-radius: 2px;
+	/* No border or radius since 2 Sep — the business asked for the flag to sit
+	   plain beside the country name rather than in a box. */
 }
 
 .syn-case-studies__flag-image {
@@ -249,13 +250,13 @@
 
 /* ==========================================================================
    7. The button
-   A <span>, not a link — the card is already one. margin-block-start:auto is
-   what puts it on the bottom edge of every card in a row regardless of how much
-   text is above it.
+   A <span>, not a link — the card is already one. The facts line above now
+   carries the auto margin, so this follows it at a fixed distance and both sit
+   on the card's bottom edge together.
    ========================================================================== */
 
 .syn-case-studies__action {
-	margin-block: auto 0;
+	margin-block: 0;
 	margin-inline: 0;
 	padding-block-start: var(--syn-space-3);
 }

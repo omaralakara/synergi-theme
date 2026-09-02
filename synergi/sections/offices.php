@@ -141,9 +141,15 @@ $syn_uid = wp_unique_id( 'syn-offices-' );
 								?>
 								<span class="syn-offices__flag">
 									<?php
+									/*
+									 * 'medium', not 'thumbnail': thumbnail is a square
+									 * CROP, which beheads a rectangular flag PNG. SVG
+									 * flags never showed this because they skip
+									 * intermediate sizes.
+									 */
 									echo wp_get_attachment_image(
 										$syn_place['flag'],
-										'thumbnail',
+										'medium',
 										false,
 										array(
 											'class'    => 'syn-offices__flag-image',
