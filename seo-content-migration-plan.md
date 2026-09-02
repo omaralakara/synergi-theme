@@ -811,3 +811,33 @@ the same day. Decisions received, all applied:
    reuses existing attachments meanwhile.
 3. Page-filtered GSC exports, Coverage counts, GA4/conversion baselines (§8).
 4. The launch-window items (§7B) — unchanged.
+
+### Addendum — 2 Sep, second pass (case bands and remaining placeholders)
+
+A full postmeta sweep found TEST case bands beyond Procurement: the Marketing,
+Technology & AI and Accounting service pages, and the Build-Operate-Transfer,
+Carve-Out and Fractional Leadership solution pages. Resolution, per the
+business rule "real case study where one exists, empty where none does":
+
+- **Filled from the built case studies** (title, client, brief, four scope
+  lines, and a "Read the case study" link to the study's own URL):
+  Technology & AI ← `hrms-sourcing-implementation-gcc` · Marketing ←
+  `marketing-bpo-business-destination` · Accounting ←
+  `accounting-bpo-digital-assets` · Project Management ←
+  `shared-services-assessment-family-office`. HR already carried a real one;
+  Systems Implementation and Shared Services already had real content.
+- **Emptied** (no matching study; the band hides itself): Procurement,
+  Build-Operate-Transfer, Carve-Out & Integration, Fractional Leadership.
+- **Metadata upgraded with GSC phrasing** on the three service pages whose
+  titles predated the data: Marketing → "Marketing Shared Services & Marketing
+  BPO" (269 + 220 imps on those phrasings), Technology & AI → "ERP, Automation
+  & IT", Accounting → "Accounting Outsourcing & Bookkeeping Services" (leaf
+  services from the profile).
+- Remaining page metas (About, Contact, Global Locations, Engagement Team,
+  Blog, Media, Podcast, Our Services) were reviewed against GSC and left as
+  written — no cluster contradicts them.
+
+**Image upload sizes** (from the theme's own rendering): hero band `full` at
+100vw → 1920×1080+ WebP under ~300 KB; case-study band `large` at ~40vw cover
+→ 1600×1200 (min 1200 wide); location cards `large` at ≤31rem → 1200×900 (min
+1000 wide); listing cards crop to 720×405 (16:9) → upload ≥1440×810.
