@@ -55,10 +55,17 @@ $syn_lead = $args['lead'] ?? sprintf(
 	'<a href="' . esc_url( home_url( '/our-services/procurement/' ) ) . '">' . esc_html__( 'procurement in the UAE', 'synergi' ) . '</a>'
 );
 
+/*
+ * Rewritten 2 Sep. This read "Our BPO services in Saudi Arabia support
+ * businesses in Riyadh and across KSA" and linked the legacy KSA landing
+ * page — which earned zero impressions in twelve months of GSC data and was
+ * trashed with a 301 to /markets/saudi-arabia/. The homepage no longer
+ * carries country keywords; the market pages do (seo-content-migration-plan.md §2).
+ */
 $syn_note = $args['note'] ?? sprintf(
-	/* translators: %s: link to the Saudi Arabia BPO page, reading "BPO services in Saudi Arabia". */
-	__( 'Looking to optimize operations beyond shared services? Our %s support businesses in Riyadh and across KSA — streamlining workflows, lifting performance, and sustaining growth.', 'synergi' ),
-	'<a href="' . esc_url( home_url( '/bpo-services-in-saudi-arabia-ksa-riyadh/' ) ) . '">' . esc_html__( 'BPO services in Saudi Arabia', 'synergi' ) . '</a>'
+	/* translators: %s: link to the markets hub, reading "across our markets". */
+	__( 'Looking to optimize operations beyond shared services? See how Synergi delivers %s — as consulting, manpower augmentation or full BPO, wherever you operate.', 'synergi' ),
+	'<a href="' . esc_url( home_url( '/markets/' ) ) . '">' . esc_html__( 'across our markets', 'synergi' ) . '</a>'
 );
 
 $syn_steps = $args['steps'] ?? array(
@@ -77,8 +84,8 @@ $syn_steps = $args['steps'] ?? array(
 );
 
 $syn_cta = $args['cta'] ?? array(
-	'label' => __( 'Discover Shared Services UAE', 'synergi' ),
-	'url'   => home_url( '/shared-services-uae/' ),
+	'label' => __( 'Discover Shared Services', 'synergi' ),
+	'url'   => home_url( '/our-solutions/shared-services/' ),
 );
 
 $syn_markets = $args['markets'] ?? array(

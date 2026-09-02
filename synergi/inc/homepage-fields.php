@@ -222,7 +222,7 @@ function syn_register_homepage_fields() {
 					'key'         => 'home_shared_cta_url',
 					'type'        => 'text',
 					'label'       => __( 'Button — address', 'synergi' ),
-					'placeholder' => '/shared-services-uae/',
+					'placeholder' => '/our-solutions/shared-services/',
 					'max_length'  => 200,
 				),
 				array(

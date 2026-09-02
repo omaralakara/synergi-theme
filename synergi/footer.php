@@ -125,15 +125,16 @@ defined( 'ABSPATH' ) || exit;
 					),
 				),
 				/*
-				 * Shared Services points at /shared-services-uae/ and not at a
-				 * tidier path under /our-solutions/. That is the page with the
-				 * traffic and the history, and sitemap-and-navigation.md §4 says
-				 * this solution lives there.
+				 * Shared Services moved to /our-solutions/shared-services/ on
+				 * 2 Sep (decision recorded in seo-content-migration-plan.md):
+				 * the geographic URL /shared-services-uae/ now 301s to the UAE
+				 * market page, and the solution sits with its siblings. This
+				 * supersedes sitemap-and-navigation.md §4.
 				 */
 				array(
 					'heading' => __( 'Solutions', 'synergi' ),
 					'links'   => array(
-						__( 'Shared Services', 'synergi' )        => '/shared-services-uae/',
+						__( 'Shared Services', 'synergi' )        => '/our-solutions/shared-services/',
 						__( 'Build-Operate-Transfer', 'synergi' ) => '/our-solutions/build-operate-transfer/',
 						__( 'Systems Implementation', 'synergi' ) => '/our-solutions/systems-implementation/',
 						__( 'Carve-Out & Integration', 'synergi' ) => '/our-solutions/carve-out-integration/',
