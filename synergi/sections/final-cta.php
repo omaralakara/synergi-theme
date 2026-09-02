@@ -69,14 +69,20 @@ $syn_primary = $args['primary'] ?? array(
  */
 $syn_has_secondary_record = '' !== ( $syn_cta['secondary_label'] ?? '' ) || '' !== ( $syn_cta['secondary_url'] ?? '' );
 
+/*
+ * No built-in second button since 2 Sep (business request). The old default
+ * read "Explore Our Services" and pointed at #services — an anchor that only
+ * exists on the homepage, so on every other page it was a dead link. The
+ * record can still add a real second button; empty means one button.
+ */
 $syn_secondary = $args['secondary'] ?? ( $syn_has_secondary_record
 	? array(
 		'label' => $syn_cta['secondary_label'] ?? '',
 		'url'   => $syn_cta['secondary_url'] ?? '',
 	)
 	: array(
-		'label' => __( 'Explore Our Services', 'synergi' ),
-		'url'   => '#services',
+		'label' => '',
+		'url'   => '',
 	) );
 
 $syn_note = $args['note'] ?? $syn_cta_value( $syn_cta, 'note', __( 'No generic package. Start with what your business needs next.', 'synergi' ) );
