@@ -44,7 +44,7 @@ $syn_id = get_the_ID();
  * heading and follow button and omits the feed, which is a tidy section rather
  * than a broken one.
  */
-syn_use_sections( array( 'blog', 'instagram', 'final-cta' ) );
+syn_use_sections( array( 'case-studies', 'blog', 'instagram', 'final-cta' ) );
 
 get_header();
 
@@ -78,6 +78,20 @@ $syn_blog_url = syn_field( 'media_blog_link_url', $syn_id );
 if ( '' !== trim( (string) $syn_blog_url ) ) {
 	$syn_blog_args['link_url'] = $syn_blog_url;
 }
+
+/*
+ * Three case studies above the blog — added 2 Sep at the business's request,
+ * so the Media hub leads with proof before opinion. The section fetches its
+ * own three most recent studies; /case-studies/ carries the full grid, one
+ * click away in the same navigation dropdown.
+ */
+syn_section(
+	'case-studies',
+	array(
+		'count' => 3,
+		'lede'  => __( 'How organizations across the Gulf run their operations with Synergi — three recent engagements.', 'synergi' ),
+	)
+);
 
 syn_section( 'blog', $syn_blog_args );
 

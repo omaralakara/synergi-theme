@@ -210,22 +210,28 @@
 	padding-block-start: var(--syn-space-3);
 }
 
+/*
+ * A fixed 3:2 chip since 2 Sep — the flags come in five different ratios
+ * (Kuwait 1:2, the US 19:10, Syria 3:2…) and equal-height-variable-width made
+ * a row of cards look ragged. cover fills the chip; the left anchoring keeps
+ * the hoist side, which is where every one of these flags carries its
+ * distinguishing mark (the UAE's red band, Kuwait's trapezoid, the US canton).
+ * No border or radius — the business asked for the flag to sit plain.
+ */
 .syn-case-studies__flag {
-	display: grid;
+	display: block;
 	overflow: hidden;
 	flex: none;
 	block-size: 1.35rem;
-	inline-size: auto;
-	place-items: center;
-	/* No border or radius since 2 Sep — the business asked for the flag to sit
-	   plain beside the country name rather than in a box. */
+	inline-size: 2rem;
 }
 
 .syn-case-studies__flag-image {
 	display: block;
-	inline-size: auto;
-	block-size: 1.35rem;
-	object-fit: contain;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+	object-position: left center;
 }
 
 .syn-case-studies__code {
