@@ -254,21 +254,14 @@
 
 @media (scripting: enabled) {
 
-	/* The arrows sit under the cards at the inline end, not flanking them
-	   (2 Sep): flanking arrows indented the cards by an arrow's width, so this
-	   was the one band whose content did not start on the container line every
-	   other section starts on. */
+	/* Arrows flank the cards, one each side — tried below the cards earlier
+	   on 2 Sep, put back to the sides the same day by request. */
 	.syn-blog__carousel {
 		display: grid;
-		grid-template-areas:
-			"viewport viewport viewport"
-			". prev next";
-		grid-template-columns: 1fr auto auto;
-		column-gap: 0.6rem;
-		/* The viewport's negative block-end margin (below) ends its grid row at
-		   the cards' own bottom edge, so this gap is the whole distance between
-		   cards and arrows. */
-		row-gap: clamp(1.1rem, 2vw, 1.5rem);
+		grid-template-areas: "prev viewport next";
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		column-gap: clamp(0.5rem, 1.5vw, 1.1rem);
 	}
 
 	.syn-blog__viewport {
