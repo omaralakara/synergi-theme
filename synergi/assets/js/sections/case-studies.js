@@ -1,21 +1,74 @@
 /*
- * case-studies.js — the arrows on the scrollable variant (added 2 Sep).
+ * case-studies.js — the carousel on the Media hub's case-study row.
  *
  * Loaded by inc/assets.php as "synergi-section-case-studies", deferred, only on
- * pages that declare the section. Markup: sections/case-studies.php. Styling:
- * assets/css/sections/case-studies.css, section 9.
+ * pages that declare the section. Markup: sections/case-studies.php (the
+ * 'scroll' => true variant). Styling: assets/css/sections/case-studies.css,
+ * section 10.
  *
- * Deliberately NOT the blog band's animated track. The row here is a native
- * overflow scroller with scroll-snap: touch swipes it and the browser owns the
- * physics, so all this file does is page the row when an arrow is clicked,
- * disable an arrow at its end, and hide both when every card already fits.
- * With JavaScript off the row still scrolls; the arrows just never appear.
+ * This is the blog band's carousel (assets/js/sections/blog.js), ported line
+ * for line into this section's own names on 2 Sep. It replaced a native
+ * scroll-snap row: that row worked, but it kept a visible scrollbar under the
+ * cards, which review rejected. The two files are kept separate rather than
+ * shared because a section's behaviour lives under its own name (CLAUDE.md
+ * §13) — a bug seen on this band is found in this file.
+ *
+ * The track is a flex row wider than its viewport. Paging slides it by whole
+ * cards and recycles cards between the two ends, so the row never runs out and
+ * there is no first or last. Dragging moves it with the pointer and then throws
+ * it to the nearest card boundary.
+ *
+ * With JavaScript off nothing here runs and case-studies.css leaves the plain
+ * listing grid with no arrows.
  */
 
 ( function () {
 	'use strict';
 
+	var carousel = document.querySelector( '[data-syn-cases-carousel]' );
+
+	if ( ! carousel ) {
+		return;
+	}
+
+	var viewport = carousel.querySelector( '[data-syn-cases-viewport]' );
+	var track = carousel.querySelector( '[data-syn-cases-track]' );
+	var previous = carousel.querySelector( '[data-syn-cases-prev]' );
+	var next = carousel.querySelector( '[data-syn-cases-next]' );
+	var status = carousel.querySelector( '[data-syn-cases-status]' );
+
+	if ( ! viewport || ! track || track.children.length < 2 ) {
+		return;
+	}
+
+	var cardCount = track.children.length;
+	var template = ( status && status.getAttribute( 'data-syn-cases-status' ) ) || '';
 	var reducedMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' );
+
+	var EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+	var TAP_SLOP_PX = 8;
+	// How long a flick's speed is projected forward when choosing where to land.
+	var THROW_MS = 140;
+
+	// The track's translateX, kept inside (-step, 0] by recycle().
+	var offset = 0;
+	var settleTimer = 0;
+	var queuedSteps = 0;
+
+	var pointerId = null;
+	var dragStartX = null;
+	var dragBaseOffset = 0;
+	var dragging = false;
+	var suppressClick = false;
+	var samples = [];
+
+	/*
+	 * Measured once and re-measured only when the viewport actually changes
+	 * size — same reasoning as blog.js: reading layout inside every click forces
+	 * a synchronous reflow mid-interaction.
+	 */
+	var step = 0;
+	var perView = 1;
 
 	function log( message ) {
 		if ( window.synDebug ) {
@@ -24,90 +77,454 @@
 		}
 	}
 
-	document.querySelectorAll( '[data-syn-cases-scroller]' ).forEach( function ( scroller ) {
-		var track = scroller.querySelector( '[data-syn-cases-track]' );
-		var previous = scroller.querySelector( '[data-syn-cases-prev]' );
-		var next = scroller.querySelector( '[data-syn-cases-next]' );
+	/**
+	 * Re-reads the one card width the whole file works in.
+	 *
+	 * @return {void}
+	 */
+	function measure() {
+		var first = track.children[ 0 ].getBoundingClientRect();
+		var second = track.children[ 1 ] ? track.children[ 1 ].getBoundingClientRect() : null;
 
-		if ( ! track || ! previous || ! next ) {
+		// Card-to-card distance, which includes the gap; not the card's width.
+		step = second ? second.left - first.left : first.width;
+		perView = step > 0 ? Math.max( 1, Math.round( viewport.getBoundingClientRect().width / step ) ) : 1;
+	}
+
+	function render() {
+		track.style.transform = 'translateX(' + offset + 'px)';
+	}
+
+	/**
+	 * Moves cards between the ends of the track so the offset stays within one
+	 * card of home. This is what makes the row endless.
+	 *
+	 * @return {void}
+	 */
+	function recycle() {
+		if ( ! ( step > 0 ) ) {
 			return;
 		}
 
-		/**
-		 * Card-to-card distance, including the gap — measured fresh on every
-		 * click because the row is short and a stale width after a resize would
-		 * page it wrong.
-		 *
-		 * @return {number} Pixels one page moves.
-		 */
-		function step() {
-			var cards = track.children;
+		// Bounded so a bad measurement can never spin here.
+		var guard = 0;
 
-			if ( cards.length > 1 ) {
-				return cards[ 1 ].getBoundingClientRect().left - cards[ 0 ].getBoundingClientRect().left;
+		while ( offset <= -step && guard < 64 ) {
+			track.append( track.children[ 0 ] );
+			offset += step;
+			guard += 1;
+		}
+
+		while ( offset > 0 && guard < 64 ) {
+			track.prepend( track.children[ track.children.length - 1 ] );
+			offset -= step;
+			guard += 1;
+		}
+	}
+
+	function announce() {
+		if ( ! status || ! template ) {
+			return;
+		}
+
+		var heading = track.children[ 0 ].querySelector( '.syn-case-studies__name' );
+
+		if ( heading ) {
+			status.textContent = template.replace( '%s', '"' + heading.textContent.trim() + '"' );
+		}
+	}
+
+	/**
+	 * Shows or hides the arrows. With every card on screen there is nothing to
+	 * page through and arrows would misrepresent the content.
+	 *
+	 * @return {boolean} Whether paging is possible at this width.
+	 */
+	function syncControls() {
+		var pageable = cardCount > perView;
+
+		carousel.classList.toggle( 'syn-is-static', ! pageable );
+
+		[ previous, next ].forEach( function ( button ) {
+			if ( button ) {
+				button.disabled = ! pageable;
+			}
+		} );
+
+		return pageable;
+	}
+
+	/**
+	 * Lands the track on a card boundary and runs anything that was asked for
+	 * while it was still gliding.
+	 *
+	 * @return {void}
+	 */
+	function settle() {
+		settleTimer = 0;
+		track.style.transition = 'none';
+		recycle();
+		render();
+		// Forces the style change above to be applied before the transition is
+		// handed back, or the browser coalesces the two and the next move has
+		// no transition at all.
+		void track.offsetWidth;
+		track.style.transition = '';
+		announce();
+
+		if ( queuedSteps ) {
+			var pending = queuedSteps;
+
+			queuedSteps = 0;
+			move( pending );
+		}
+	}
+
+	/**
+	 * Reads where the track actually is on screen right now, mid-glide.
+	 *
+	 * @return {number} Its translateX in pixels.
+	 */
+	function currentTranslate() {
+		var value = window.getComputedStyle( track ).transform;
+
+		if ( ! value || 'none' === value ) {
+			return 0;
+		}
+
+		var numbers = value.match( /matrix.*\((.+)\)/ );
+
+		if ( ! numbers ) {
+			return 0;
+		}
+
+		var parts = numbers[ 1 ].split( ',' ).map( Number );
+
+		// matrix3d puts translateX at 13th; matrix at 5th.
+		return parts.length > 6 ? parts[ 12 ] : parts[ 4 ];
+	}
+
+	// Freezes the track where the eye last saw it, so grabbing mid-glide picks
+	// the cards up from there rather than from where they were headed.
+	function stopAnimation() {
+		if ( settleTimer ) {
+			window.clearTimeout( settleTimer );
+			settleTimer = 0;
+		}
+
+		offset = currentTranslate();
+		track.style.transition = 'none';
+		render();
+	}
+
+	/**
+	 * Glides the track to a position.
+	 *
+	 * @param {number} target Offset in pixels.
+	 * @return {void}
+	 */
+	function animateTo( target ) {
+		var distance = Math.abs( target - offset );
+		// Longer travel takes longer, within reason, so a two-card page does not
+		// feel like a jump and a one-card page does not feel slow.
+		var duration = reducedMotion.matches ? 0 : Math.min( 560, Math.max( 300, distance * 0.55 ) );
+
+		if ( settleTimer ) {
+			window.clearTimeout( settleTimer );
+			settleTimer = 0;
+		}
+
+		offset = target;
+
+		if ( 0 === duration ) {
+			settle();
+
+			return;
+		}
+
+		track.style.transition = 'transform ' + duration + 'ms ' + EASE;
+		render();
+		settleTimer = window.setTimeout( settle, duration + 60 );
+	}
+
+	/**
+	 * Pages the track by whole cards.
+	 *
+	 * @param {number} steps Cards to move by. Negative goes back.
+	 * @return {void}
+	 */
+	function move( steps ) {
+		if ( ! steps || ! syncControls() ) {
+			return;
+		}
+
+		var spare = cardCount - perView;
+
+		if ( spare < 1 || ! ( step > 0 ) ) {
+			return;
+		}
+
+		/*
+		 * Every page starts from a card boundary. A press that arrives mid-glide
+		 * is queued for the settle instead: starting from a fractional offset
+		 * leaves the track resting between two cards, and it needs more travel
+		 * room than the off-screen cards can cover.
+		 */
+		if ( settleTimer ) {
+			var cap = Math.min( spare, Math.floor( cardCount / 2 ) );
+
+			queuedSteps = Math.max( -cap, Math.min( cap, queuedSteps + steps ) );
+
+			return;
+		}
+
+		recycle();
+		render();
+
+		if ( Math.abs( steps ) > spare ) {
+			// Further than the off-screen cards can cover, so animating would run
+			// the track onto empty space. Reposition with no transition instead.
+			var forward = steps > 0 ? steps : cardCount + steps;
+
+			for ( var i = 0; i < forward; i += 1 ) {
+				track.append( track.children[ 0 ] );
 			}
 
-			return track.clientWidth;
+			offset = 0;
+			settle();
+
+			return;
 		}
 
-		function page( direction ) {
-			track.scrollBy( {
-				left: direction * step(),
-				behavior: reducedMotion.matches ? 'auto' : 'smooth',
-			} );
+		if ( steps < 0 ) {
+			/*
+			 * Going back, the cards that are about to appear are sitting at the
+			 * END of the track, so they have to be moved to the front BEFORE the
+			 * animation with the offset compensated to match. Without this the
+			 * track just slides off empty space and every backwards page shows a
+			 * card-sized blank for the length of the glide.
+			 */
+			var count = -steps;
+
+			for ( var back = 0; back < count; back += 1 ) {
+				track.prepend( track.children[ track.children.length - 1 ] );
+				offset -= step;
+			}
+
+			track.style.transition = 'none';
+			render();
+			void track.offsetWidth;
+			animateTo( offset + ( count * step ) );
+
+			return;
 		}
 
-		/**
-		 * Disables an arrow at its end of the row, and hides both when there is
-		 * nothing to scroll — arrows on a row that fits would be lying.
-		 * scrollLeft is used magnitude-only so the same test holds under RTL,
-		 * where browsers count it negative.
-		 *
-		 * @return {void}
-		 */
-		function sync() {
-			var overflow = track.scrollWidth - track.clientWidth;
-			var travelled = Math.abs( track.scrollLeft );
+		animateTo( offset - ( steps * step ) );
+	}
 
-			scroller.classList.toggle( 'syn-is-static', overflow < 2 );
-			previous.disabled = travelled < 2;
-			next.disabled = travelled > overflow - 2;
-		}
-
-		previous.addEventListener( 'click', function () {
-			page( -1 );
-		} );
-
+	if ( next ) {
 		next.addEventListener( 'click', function () {
-			page( 1 );
+			move( 1 );
 		} );
+	}
 
-		// rAF-throttled: scroll fires continuously through a swipe and the sync
-		// is cheap, but there is no reason to run it more than once a frame.
-		var frame = 0;
+	if ( previous ) {
+		previous.addEventListener( 'click', function () {
+			move( -1 );
+		} );
+	}
 
-		track.addEventListener(
-			'scroll',
-			function () {
-				if ( frame ) {
-					return;
-				}
+	/* ------------------------------------------------------------------
+	 * Dragging
+	 * ------------------------------------------------------------------ */
 
-				frame = window.requestAnimationFrame( function () {
-					frame = 0;
-					sync();
-				} );
-			},
-			{ passive: true }
+	viewport.addEventListener( 'pointerdown', function ( event ) {
+		if ( ! event.isPrimary ) {
+			return;
+		}
+
+		stopAnimation();
+		queuedSteps = 0;
+		recycle();
+		render();
+
+		pointerId = event.pointerId;
+		dragStartX = event.clientX;
+		dragBaseOffset = offset;
+		dragging = false;
+		samples = [ { x: event.clientX, t: event.timeStamp } ];
+	} );
+
+	viewport.addEventListener( 'pointermove', function ( event ) {
+		if ( null === dragStartX || event.pointerId !== pointerId ) {
+			return;
+		}
+
+		var travelled = event.clientX - dragStartX;
+
+		if ( ! dragging ) {
+			if ( Math.abs( travelled ) <= TAP_SLOP_PX ) {
+				return;
+			}
+
+			/*
+			 * Capture is taken here, once the gesture is definitely a drag, not
+			 * on pointerdown — capturing early retargets the click and the card
+			 * links stop working. Same reason as the other decks.
+			 */
+			viewport.setPointerCapture( event.pointerId );
+			dragging = true;
+			viewport.classList.add( 'syn-is-dragging' );
+			track.style.transition = 'none';
+		}
+
+		samples.push( { x: event.clientX, t: event.timeStamp } );
+
+		if ( samples.length > 6 ) {
+			samples.shift();
+		}
+
+		offset = dragBaseOffset + travelled;
+		recycle();
+		// Recycling shifts the offset by whole cards, so the base is rebased to
+		// match and the track keeps tracking the pointer exactly.
+		dragBaseOffset = offset - travelled;
+		render();
+	} );
+
+	function endDrag( event, cancelled ) {
+		if ( null === dragStartX || event.pointerId !== pointerId ) {
+			return;
+		}
+
+		var wasDragging = dragging;
+
+		if ( wasDragging && viewport.releasePointerCapture ) {
+			viewport.releasePointerCapture( event.pointerId );
+			viewport.classList.remove( 'syn-is-dragging' );
+		}
+
+		dragStartX = null;
+		pointerId = null;
+		dragging = false;
+
+		if ( ! wasDragging ) {
+			return;
+		}
+
+		// Cleared on the next turn of the event loop, by which time the click
+		// this drag would otherwise have fired has been and gone.
+		suppressClick = true;
+		window.setTimeout( function () {
+			suppressClick = false;
+		}, 0 );
+
+		var velocity = 0;
+
+		if ( ! cancelled && samples.length > 1 ) {
+			var first = samples[ 0 ];
+			var last = samples[ samples.length - 1 ];
+			var elapsed = last.t - first.t;
+
+			if ( elapsed > 0 ) {
+				velocity = ( last.x - first.x ) / elapsed;
+			}
+		}
+
+		// Throw it a little past the finger, then snap to whichever card
+		// boundary that lands nearest — bounded by the cards actually sitting
+		// off screen, so the glide can never run onto empty track.
+		var spare = Math.max( 1, cardCount - perView );
+		var projected = offset + ( velocity * THROW_MS );
+		var glide = step * Math.min( 2, spare );
+		var target = Math.max(
+			Math.max( offset - glide, -spare * step ),
+			Math.min( offset + glide, Math.min( 0, Math.round( projected / step ) * step ) )
 		);
 
-		if ( 'ResizeObserver' in window ) {
-			new window.ResizeObserver( sync ).observe( track );
-		} else {
-			window.addEventListener( 'resize', sync, { passive: true } );
+		animateTo( target );
+	}
+
+	viewport.addEventListener( 'pointerup', function ( event ) {
+		endDrag( event, false );
+	} );
+
+	viewport.addEventListener( 'pointercancel', function ( event ) {
+		endDrag( event, true );
+	} );
+
+	// Thumbnails are images, so a drag usually starts on one; without this the
+	// browser begins a native image drag and swallows the gesture.
+	viewport.addEventListener( 'dragstart', function ( event ) {
+		event.preventDefault();
+	} );
+
+	// Capture phase, so a drag that ended on a card link never follows it.
+	carousel.addEventListener(
+		'click',
+		function ( event ) {
+			if ( ! suppressClick ) {
+				return;
+			}
+
+			event.preventDefault();
+			event.stopPropagation();
+			suppressClick = false;
+		},
+		true
+	);
+
+	/* ------------------------------------------------------------------
+	 * Width changes
+	 * ------------------------------------------------------------------ */
+
+	/*
+	 * A ResizeObserver on the viewport rather than a debounced window listener:
+	 * it fires for anything that changes the card width, including the container
+	 * being resized without the window being touched, and it does not run on
+	 * vertical-only resizes such as a mobile browser's toolbar sliding away.
+	 */
+	var resizeFrame = 0;
+	var lastWidth = 0;
+
+	function onResize() {
+		if ( resizeFrame ) {
+			return;
 		}
 
-		sync();
-		log( track.children.length + ' cards in the scroller' );
-	} );
+		resizeFrame = window.requestAnimationFrame( function () {
+			resizeFrame = 0;
+
+			var width = viewport.getBoundingClientRect().width;
+
+			if ( Math.abs( width - lastWidth ) < 1 ) {
+				return;
+			}
+
+			lastWidth = width;
+			stopAnimation();
+			measure();
+
+			// The pixel offset no longer lands on a card boundary at the new
+			// width, so realign on the leading card.
+			offset = 0;
+			track.style.transition = 'none';
+			render();
+			void track.offsetWidth;
+			track.style.transition = '';
+			syncControls();
+		} );
+	}
+
+	if ( 'ResizeObserver' in window ) {
+		new window.ResizeObserver( onResize ).observe( viewport );
+	} else {
+		window.addEventListener( 'resize', onResize, { passive: true } );
+	}
+
+	measure();
+	lastWidth = viewport.getBoundingClientRect().width;
+	syncControls();
+	announce();
+	log( cardCount + ' case studies, ' + perView + ' per view' );
 }() );

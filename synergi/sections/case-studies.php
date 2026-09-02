@@ -30,9 +30,9 @@
  *   service string  Optional. A service reference, to show only that line's.
  *   exclude int     Optional. A page ID to leave out — a case study's own, so
  *                   it does not link to itself.
- *   scroll    bool   Optional. True renders the cards as a horizontal
- *                    scroll-snap row with arrows (the Media hub's variant);
- *                    absent, the grid renders exactly as before.
+ *   scroll    bool   Optional. True renders the cards as the blog band's
+ *                    carousel — arrows, drag, no scrollbar (the Media hub's
+ *                    variant); absent, the grid renders exactly as before.
  *   link_url  string Optional, with link_text: a "View all case studies"
  *   link_text string button in the head, like the blog band's.
  *
@@ -53,12 +53,15 @@ $syn_lede    = trim( (string) ( $args['lede'] ?? '' ) );
 $syn_empty   = trim( (string) ( $args['empty'] ?? '' ) );
 
 /*
- * The scrollable variant, added 2 Sep for the Media hub: the same cards in a
- * horizontal row that scrolls, the way the blog band does. A template opts in
- * with 'scroll' => true; the listing page passes nothing and keeps its grid.
- * Native overflow scrolling with scroll-snap rather than the blog's animated
- * track — the row is short here, a swipe is the whole gesture on touch, and
- * assets/js/sections/case-studies.js only has to page the arrows.
+ * The carousel variant, added 2 Sep for the Media hub. A template opts in with
+ * 'scroll' => true; the listing page passes nothing and keeps its grid.
+ *
+ * Since later on 2 Sep this is the blog band's carousel, in this section's own
+ * name: an overflow-hidden viewport whose track case-studies.js slides and
+ * recycles, paged by arrows and draggable. It replaced a native scroll-snap
+ * row — that row worked, but it kept a visible scrollbar under the cards,
+ * which review rejected. With JavaScript off the cards fall back to the
+ * listing grid and the arrows never render.
  *
  * link_url + link_text render a "View all case studies" button in the head,
  * same pattern as the blog band's "View all articles".
@@ -66,6 +69,9 @@ $syn_empty   = trim( (string) ( $args['empty'] ?? '' ) );
 $syn_scroll    = ! empty( $args['scroll'] );
 $syn_link_url  = trim( (string) ( $args['link_url'] ?? '' ) );
 $syn_link_text = trim( (string) ( $args['link_text'] ?? '' ) );
+
+/* translators: %s: the heading of the first case study now on screen. */
+$syn_status_template = __( 'Showing case studies starting with %s.', 'synergi' );
 
 /*
  * Passed cards win; otherwise the section asks for its own. The fallback is what
@@ -131,16 +137,21 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 		<?php else : ?>
 
 			<?php if ( $syn_scroll ) : ?>
-			<div class="syn-case-studies__scroller" data-syn-cases-scroller>
+			<div
+				class="syn-case-studies__carousel syn-reveal"
+				data-syn-cases-carousel
+				role="region"
+				aria-roledescription="<?php esc_attr_e( 'carousel', 'synergi' ); ?>"
+				aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title"
+			>
 				<button class="syn-case-studies__control syn-case-studies__control--prev" type="button" data-syn-cases-prev aria-label="<?php esc_attr_e( 'Show previous case studies', 'synergi' ); ?>">
 					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 6-6 6 6 6" /></svg>
 				</button>
-				<button class="syn-case-studies__control syn-case-studies__control--next" type="button" data-syn-cases-next aria-label="<?php esc_attr_e( 'Show more case studies', 'synergi' ); ?>">
-					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6" /></svg>
-				</button>
+
+				<div class="syn-case-studies__viewport" data-syn-cases-viewport>
 			<?php endif; ?>
 
-			<ul class="syn-case-studies__grid syn-reveal"<?php echo $syn_scroll ? ' data-syn-cases-track tabindex="0"' : ''; ?>>
+			<ul class="syn-case-studies__grid<?php echo $syn_scroll ? '' : ' syn-reveal'; ?>"<?php echo $syn_scroll ? ' data-syn-cases-track' : ''; ?>>
 				<?php
 				foreach ( $syn_cards as $syn_card ) :
 					$syn_card_title = trim( (string) ( $syn_card['title'] ?? '' ) );
@@ -285,6 +296,25 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 			</ul>
 
 			<?php if ( $syn_scroll ) : ?>
+				</div>
+
+				<button class="syn-case-studies__control syn-case-studies__control--next" type="button" data-syn-cases-next aria-label="<?php esc_attr_e( 'Show more case studies', 'synergi' ); ?>">
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6" /></svg>
+				</button>
+
+				<?php
+				/*
+				 * The paging is silent to a screen reader without this: the track
+				 * moves visually, but focus never leaves the buttons.
+				 * case-studies.js writes the leading study's headline here.
+				 */
+				?>
+				<p
+					class="syn-visually-hidden"
+					data-syn-cases-status="<?php echo esc_attr( $syn_status_template ); ?>"
+					aria-live="polite"
+					aria-atomic="true"
+				></p>
 			</div>
 			<?php endif; ?>
 

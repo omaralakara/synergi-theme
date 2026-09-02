@@ -1,11 +1,12 @@
 /*
  * case-studies.css — the grid of case-study cards.
  * Contents: 1 shell · 2 head · 3 grid · 4 cards · 5 picture · 6 the facts line ·
- * 7 the button · 8 reduced motion · 9 narrow screens.
+ * 7 the button · 8 reduced motion · 9 narrow screens · 10 the carousel variant
+ * (the Media hub's row — the blog band's carousel in this section's names).
  *
  * Loaded by inc/assets.php as "synergi-section-case-studies", only on pages that
  * declare the section. Markup: sections/case-studies.php. Script:
- * assets/js/sections/case-studies.js — only the scrollable variant uses it.
+ * assets/js/sections/case-studies.js — only the carousel variant uses it.
  *
  * These are light cards on paper, not the gradient tiles of offers.css. The
  * difference is deliberate: an offer card sells a service and has nothing to
@@ -333,54 +334,78 @@
 }
 
 /* ==========================================================================
-   9. The scrollable variant (added 2 Sep — the Media hub's row)
-   Opted into with 'scroll' => true. The grid becomes a native scroll-snap row:
-   touch swipes it, the arrows page it (case-studies.js), and with JavaScript
-   off the row still scrolls — the arrows simply never appear. The listing
-   page passes no flag and keeps the grid above untouched.
+   10. The carousel variant (the Media hub's row)
+   Opted into with 'scroll' => true; the listing page passes no flag and keeps
+   the grid above untouched. Since 2 Sep this is the blog band's carousel
+   ported into this section's own names — it replaced a native scroll-snap row
+   whose visible scrollbar review rejected. Gated on scripting because only
+   case-studies.js can move the track: with JavaScript off the cards simply
+   keep the listing grid, in two full rows of three, and no arrows render.
    ========================================================================== */
 
 .syn-case-studies__all {
 	margin-block-start: var(--syn-space-3);
 }
 
-.syn-case-studies--scroll .syn-case-studies__scroller {
-	position: relative;
+.syn-case-studies--scroll {
+	/* One number for how many cards are on screen — the same pair the blog
+	   band keeps, read by the track's card width below. */
+	--syn-cases-per-view: 3;
+	--syn-cases-gap: clamp(1rem, 2vw, 1.75rem);
 }
 
-.syn-case-studies--scroll .syn-case-studies__grid {
-	display: flex;
-	overflow-x: auto;
-	scroll-snap-type: x mandatory;
-	gap: var(--syn-space-3);
-	padding-block-end: 0.75rem; /* room for the scrollbar, off the cards */
-	scrollbar-width: thin;
-	-webkit-overflow-scrolling: touch;
-}
-
-.syn-case-studies--scroll .syn-case-studies__grid:focus-visible {
-	outline: 3px solid var(--syn-focus);
-	outline-offset: 4px;
-}
-
-.syn-case-studies--scroll .syn-case-studies__item {
-	flex: 0 0 auto;
-	inline-size: min(88vw, 26rem);
-	scroll-snap-align: start;
-}
-
-/* The arrows: the blog band's control, in this section's own name. Hidden on
-   narrow screens, where the swipe IS the interface; hidden by case-studies.js
-   (.syn-is-static) when every card already fits. */
+/* Nothing can page them without a script, so the arrows are not rendered. */
 .syn-case-studies__control {
 	display: none;
 }
 
-@media (min-width: 62rem) {
+@media (scripting: enabled) {
+
+	.syn-case-studies--scroll .syn-case-studies__carousel {
+		display: grid;
+		grid-template-areas: "prev viewport next";
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		column-gap: clamp(0.5rem, 1.5vw, 1.1rem);
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__viewport {
+		grid-area: viewport;
+		overflow: hidden;
+		/* Negative margin then equal padding: a card lifted on hover has room
+		   to lift into, and its shadow is not clipped by the overflow. */
+		margin-block: -0.85rem -1.6rem;
+		padding-block: 0.85rem 1.6rem;
+		cursor: grab;
+		/* Vertical scrolling stays with the page; horizontal is the drag's. */
+		touch-action: pan-y;
+		user-select: none;
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__viewport.syn-is-dragging {
+		cursor: grabbing;
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__grid {
+		display: flex;
+		gap: var(--syn-cases-gap);
+		will-change: transform;
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__item {
+		display: flex;
+		flex: 0 0 calc((100% - ((var(--syn-cases-per-view) - 1) * var(--syn-cases-gap))) / var(--syn-cases-per-view));
+		min-inline-size: 0;
+	}
+
+	/* The card fills its slot, so every card in a row stands the same height
+	   whatever its text does. */
+	.syn-case-studies--scroll .syn-case-studies__item .syn-case-studies__card {
+		flex: 1 1 auto;
+		min-inline-size: 0;
+	}
+
 	.syn-case-studies--scroll .syn-case-studies__control {
-		position: absolute;
-		z-index: 1;
-		inset-block-start: 50%;
 		display: inline-grid;
 		inline-size: 3rem;
 		block-size: 3rem;
@@ -391,19 +416,19 @@
 		background-color: var(--syn-white);
 		color: var(--syn-navy);
 		cursor: pointer;
-		transform: translateY(-50%);
 		transition:
 			color var(--syn-duration-fast),
 			border-color var(--syn-duration-fast),
-			background-color var(--syn-duration-fast);
+			background-color var(--syn-duration-fast),
+			transform var(--syn-duration-fast);
 	}
 
 	.syn-case-studies--scroll .syn-case-studies__control--prev {
-		inset-inline-start: -1.25rem;
+		grid-area: prev;
 	}
 
 	.syn-case-studies--scroll .syn-case-studies__control--next {
-		inset-inline-end: -1.25rem;
+		grid-area: next;
 	}
 
 	.syn-case-studies__control svg {
@@ -420,6 +445,7 @@
 		border-color: var(--syn-navy);
 		background-color: var(--syn-navy);
 		color: var(--syn-white);
+		transform: translateY(-2px);
 	}
 
 	.syn-case-studies__control:disabled {
@@ -427,7 +453,43 @@
 		cursor: default;
 	}
 
-	.syn-case-studies--scroll .syn-is-static .syn-case-studies__control {
+	/* Every card already fits, so there is nothing to page through and the
+	   arrows would be lying. case-studies.js sets this class. */
+	.syn-case-studies--scroll .syn-case-studies__carousel.syn-is-static .syn-case-studies__control {
 		display: none;
+	}
+}
+
+/* One number changes the on-screen count at each width, matching the blog
+   band's breakpoints. */
+@media (max-width: 61.25rem) {
+
+	.syn-case-studies--scroll {
+		--syn-cases-per-view: 2;
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-case-studies--scroll {
+		--syn-cases-per-view: 1;
+	}
+}
+
+@media (scripting: enabled) and (max-width: 47.99rem) {
+
+	/* The arrows move under the cards, centred, where a thumb can reach them. */
+	.syn-case-studies--scroll .syn-case-studies__carousel {
+		grid-template-areas:
+			"viewport viewport viewport viewport"
+			". prev next .";
+		grid-template-columns: 1fr auto auto 1fr;
+		column-gap: 0.6rem;
+		row-gap: clamp(1.1rem, 2vw, 1.5rem);
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__control {
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
 	}
 }
