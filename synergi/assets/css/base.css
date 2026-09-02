@@ -588,11 +588,15 @@ textarea {
    warns about, because there is still exactly one place these are defined.
    ========================================================================== */
 
-/* Small uppercase label above a section heading, with a cyan rule before it. */
+/* Small uppercase label above a section heading, with a cyan rule stacked
+   above it. The rule ran inline before the label until 2 Sep; stacked, the
+   label's first letter sits flush with the heading and copy below it, so
+   every band's text starts on the same line. */
 .syn-eyebrow {
 	display: flex;
-	align-items: center;
-	gap: 0.75rem;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.6rem;
 	margin-block-end: 1rem;
 	color: var(--syn-navy);
 	font-size: var(--syn-step--1);
