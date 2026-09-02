@@ -391,6 +391,14 @@ function syn_register_solution_fields() {
 					'max_length' => 120,
 				),
 				array(
+					'key'         => 'solution_case_study',
+					'type'        => 'text',
+					'label'       => __( 'Original case study', 'synergi' ),
+					'description' => __( 'The last part of the study’s own address, e.g. hrms-sourcing-implementation-gcc. When set, the photograph and the Read more link come from that study itself, so they can never drift out of step with it. The Photograph and Read more boxes below then act as overrides only.', 'synergi' ),
+					'default'     => '',
+					'max_length'  => 200,
+				),
+				array(
 					'key'         => 'solution_case_client',
 					'type'        => 'text',
 					'label'       => __( 'Client type', 'synergi' ),

@@ -124,17 +124,43 @@ syn_section(
  * showing an empty frame.
  */
 if ( $syn_has_proof ) {
-	syn_section(
-		'case-study',
-		array(
-			'heading' => syn_field( 'solution_case_title', $syn_id ),
-			'client'  => syn_field( 'solution_case_client', $syn_id ),
-			'brief'   => syn_field( 'solution_case_brief', $syn_id ),
-			'image'   => syn_field_image_id( 'solution_case_image', $syn_id ),
-			'scope'   => syn_field_rows( 'solution_case_scope', $syn_id ),
-			'link'    => syn_field_link( 'solution_case_link', $syn_id ),
-		)
+	$syn_case_args = array(
+		'heading' => syn_field( 'solution_case_title', $syn_id ),
+		'client'  => syn_field( 'solution_case_client', $syn_id ),
+		'brief'   => syn_field( 'solution_case_brief', $syn_id ),
+		'image'   => syn_field_image_id( 'solution_case_image', $syn_id ),
+		'scope'   => syn_field_rows( 'solution_case_scope', $syn_id ),
+		'link'    => syn_field_link( 'solution_case_link', $syn_id ),
 	);
+
+	/*
+	 * The original study, when the page names one: its photograph and its own
+	 * URL fill whatever the boxes above left empty, so the band shows the
+	 * study's picture and can never hold a stale link — a photograph changed
+	 * on the study changes here with it (CLAUDE.md §7a, stored once). The
+	 * page's own Photograph and Read more boxes still win when filled.
+	 */
+	$syn_study_id = function_exists( 'syn_case_study_by_ref' )
+		? syn_case_study_by_ref( syn_field( 'solution_case_study', $syn_id ) )
+		: 0;
+
+	if ( $syn_study_id ) {
+		$syn_study = syn_case_study_card( $syn_study_id );
+
+		if ( ! $syn_case_args['image'] ) {
+			$syn_case_args['image'] = $syn_study['image'];
+		}
+
+		if ( '' === trim( (string) $syn_case_args['link']['url'] ) ) {
+			$syn_case_args['link']['url'] = $syn_study['url'];
+
+			if ( '' === trim( (string) $syn_case_args['link']['label'] ) ) {
+				$syn_case_args['link']['label'] = __( 'Read the full case study', 'synergi' );
+			}
+		}
+	}
+
+	syn_section( 'case-study', $syn_case_args );
 }
 
 /*

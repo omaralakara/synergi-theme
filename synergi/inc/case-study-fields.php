@@ -162,6 +162,34 @@ function syn_case_study_card( $post_id ) {
 	);
 }
 
+/**
+ * A published case study's ID, from its reference.
+ *
+ * The reference is the study's own slug — the last part of its URL — which is
+ * how a solution page names the study it cites without storing a URL that can
+ * go stale. Same reference style _syn_case_service already uses for service
+ * lines. Draft and binned studies resolve to 0 on purpose: a band must never
+ * send a reader to a study that will 404.
+ *
+ * @param string $ref The study's slug, e.g. "hrms-sourcing-implementation-gcc".
+ * @return int Post ID, or 0 when the reference matches no published study.
+ */
+function syn_case_study_by_ref( $ref ) {
+	$ref = sanitize_key( (string) $ref );
+
+	if ( '' === $ref ) {
+		return 0;
+	}
+
+	$study = get_page_by_path( $ref, OBJECT, SYN_CASE_STUDY_POST_TYPE );
+
+	if ( ! $study || 'publish' !== $study->post_status ) {
+		return 0;
+	}
+
+	return (int) $study->ID;
+}
+
 add_action( 'syn_register_fields', 'syn_register_case_study_fields' );
 /**
  * Registers the field groups the two case-study templates carry.
