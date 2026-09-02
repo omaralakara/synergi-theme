@@ -1,6 +1,0 @@
-KSA|bpo companies in saudi arabia|0|246|15.56
-KSA|hr bpo companies in saudi|0|125|43.29
-KSA|outsourcing companies in riyadh|0|93|29.39
-KSA|hr bpo companies in ksa|0|87|40.69
-KSA|outsourcing riyadh|0|49|11.35
-KSA|best outsourcing company in riyadh|0|48|14

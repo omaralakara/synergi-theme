@@ -1,2 +1,0 @@
-GEO|"bpo provider uae ""contact centre"" or ""our services"""|0|20|8.85
-GEN|customer experience bpo|0|9|31.33
