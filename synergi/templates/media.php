@@ -80,16 +80,19 @@ if ( '' !== trim( (string) $syn_blog_url ) ) {
 }
 
 /*
- * Three case studies above the blog — added 2 Sep at the business's request,
- * so the Media hub leads with proof before opinion. The section fetches its
- * own three most recent studies; /case-studies/ carries the full grid, one
- * click away in the same navigation dropdown.
+ * Case studies above the blog — added 2 Sep at the business's request, so the
+ * Media hub leads with proof before opinion. The scrollable variant, like the
+ * blog band below it: six recent studies in a row that swipes and pages, with
+ * the full grid behind the View-all button.
  */
 syn_section(
 	'case-studies',
 	array(
-		'count' => 3,
-		'lede'  => __( 'How organizations across the Gulf run their operations with Synergi — three recent engagements.', 'synergi' ),
+		'count'     => 6,
+		'scroll'    => true,
+		'lede'      => __( 'How organizations across the Gulf run their operations with Synergi.', 'synergi' ),
+		'link_url'  => home_url( '/case-studies/' ),
+		'link_text' => __( 'View all case studies', 'synergi' ),
 	)
 );
 

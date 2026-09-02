@@ -4,7 +4,8 @@
  * 7 the button · 8 reduced motion · 9 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-case-studies", only on pages that
- * declare the section. Markup: sections/case-studies.php. No script.
+ * declare the section. Markup: sections/case-studies.php. Script:
+ * assets/js/sections/case-studies.js — only the scrollable variant uses it.
  *
  * These are light cards on paper, not the gradient tiles of offers.css. The
  * difference is deliberate: an offer card sells a service and has nothing to
@@ -328,5 +329,105 @@
 
 	.syn-case-studies__card {
 		border-start-end-radius: 2rem;
+	}
+}
+
+/* ==========================================================================
+   9. The scrollable variant (added 2 Sep — the Media hub's row)
+   Opted into with 'scroll' => true. The grid becomes a native scroll-snap row:
+   touch swipes it, the arrows page it (case-studies.js), and with JavaScript
+   off the row still scrolls — the arrows simply never appear. The listing
+   page passes no flag and keeps the grid above untouched.
+   ========================================================================== */
+
+.syn-case-studies__all {
+	margin-block-start: var(--syn-space-3);
+}
+
+.syn-case-studies--scroll .syn-case-studies__scroller {
+	position: relative;
+}
+
+.syn-case-studies--scroll .syn-case-studies__grid {
+	display: flex;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	gap: var(--syn-space-3);
+	padding-block-end: 0.75rem; /* room for the scrollbar, off the cards */
+	scrollbar-width: thin;
+	-webkit-overflow-scrolling: touch;
+}
+
+.syn-case-studies--scroll .syn-case-studies__grid:focus-visible {
+	outline: 3px solid var(--syn-focus);
+	outline-offset: 4px;
+}
+
+.syn-case-studies--scroll .syn-case-studies__item {
+	flex: 0 0 auto;
+	inline-size: min(88vw, 26rem);
+	scroll-snap-align: start;
+}
+
+/* The arrows: the blog band's control, in this section's own name. Hidden on
+   narrow screens, where the swipe IS the interface; hidden by case-studies.js
+   (.syn-is-static) when every card already fits. */
+.syn-case-studies__control {
+	display: none;
+}
+
+@media (min-width: 62rem) {
+	.syn-case-studies--scroll .syn-case-studies__control {
+		position: absolute;
+		z-index: 1;
+		inset-block-start: 50%;
+		display: inline-grid;
+		inline-size: 3rem;
+		block-size: 3rem;
+		padding: 0;
+		place-items: center;
+		border: 1px solid var(--syn-border);
+		border-radius: 0.45rem;
+		background-color: var(--syn-white);
+		color: var(--syn-navy);
+		cursor: pointer;
+		transform: translateY(-50%);
+		transition:
+			color var(--syn-duration-fast),
+			border-color var(--syn-duration-fast),
+			background-color var(--syn-duration-fast);
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__control--prev {
+		inset-inline-start: -1.25rem;
+	}
+
+	.syn-case-studies--scroll .syn-case-studies__control--next {
+		inset-inline-end: -1.25rem;
+	}
+
+	.syn-case-studies__control svg {
+		inline-size: 1.35rem;
+		block-size: 1.35rem;
+		fill: none;
+		stroke: currentcolor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.8;
+	}
+
+	.syn-case-studies__control:hover:not(:disabled) {
+		border-color: var(--syn-navy);
+		background-color: var(--syn-navy);
+		color: var(--syn-white);
+	}
+
+	.syn-case-studies__control:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	.syn-case-studies--scroll .syn-is-static .syn-case-studies__control {
+		display: none;
 	}
 }

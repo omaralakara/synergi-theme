@@ -30,6 +30,11 @@
  *   service string  Optional. A service reference, to show only that line's.
  *   exclude int     Optional. A page ID to leave out — a case study's own, so
  *                   it does not link to itself.
+ *   scroll    bool   Optional. True renders the cards as a horizontal
+ *                    scroll-snap row with arrows (the Media hub's variant);
+ *                    absent, the grid renders exactly as before.
+ *   link_url  string Optional, with link_text: a "View all case studies"
+ *   link_text string button in the head, like the blog band's.
  *
  * Example:
  *   syn_section( 'case-studies', array( 'exclude' => get_the_ID(), 'count' => 3 ) );
@@ -46,6 +51,21 @@ $syn_eyebrow = $args['eyebrow'] ?? __( 'Proof', 'synergi' );
 $syn_heading = $args['heading'] ?? __( 'Case studies', 'synergi' );
 $syn_lede    = trim( (string) ( $args['lede'] ?? '' ) );
 $syn_empty   = trim( (string) ( $args['empty'] ?? '' ) );
+
+/*
+ * The scrollable variant, added 2 Sep for the Media hub: the same cards in a
+ * horizontal row that scrolls, the way the blog band does. A template opts in
+ * with 'scroll' => true; the listing page passes nothing and keeps its grid.
+ * Native overflow scrolling with scroll-snap rather than the blog's animated
+ * track — the row is short here, a swipe is the whole gesture on touch, and
+ * assets/js/sections/case-studies.js only has to page the arrows.
+ *
+ * link_url + link_text render a "View all case studies" button in the head,
+ * same pattern as the blog band's "View all articles".
+ */
+$syn_scroll    = ! empty( $args['scroll'] );
+$syn_link_url  = trim( (string) ( $args['link_url'] ?? '' ) );
+$syn_link_text = trim( (string) ( $args['link_text'] ?? '' ) );
 
 /*
  * Passed cards win; otherwise the section asks for its own. The fallback is what
@@ -68,7 +88,7 @@ if ( isset( $args['items'] ) ) {
 
 $syn_uid = wp_unique_id( 'syn-case-studies-' );
 ?>
-<section class="syn-case-studies syn-section" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title">
+<section class="syn-case-studies syn-section<?php echo $syn_scroll ? ' syn-case-studies--scroll' : ''; ?>" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title">
 	<div class="syn-container">
 
 		<div class="syn-case-studies__head syn-reveal">
@@ -80,6 +100,12 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 
 			<?php if ( '' !== $syn_lede ) : ?>
 				<p class="syn-case-studies__lede"><?php echo esc_html( $syn_lede ); ?></p>
+			<?php endif; ?>
+
+			<?php if ( '' !== $syn_link_url && '' !== $syn_link_text ) : ?>
+				<a class="syn-button syn-button--outline syn-case-studies__all" href="<?php echo esc_url( $syn_link_url ); ?>">
+					<?php echo esc_html( $syn_link_text ); ?>
+				</a>
 			<?php endif; ?>
 		</div>
 
@@ -104,7 +130,17 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 
 		<?php else : ?>
 
-			<ul class="syn-case-studies__grid syn-reveal">
+			<?php if ( $syn_scroll ) : ?>
+			<div class="syn-case-studies__scroller" data-syn-cases-scroller>
+				<button class="syn-case-studies__control syn-case-studies__control--prev" type="button" data-syn-cases-prev aria-label="<?php esc_attr_e( 'Show previous case studies', 'synergi' ); ?>">
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14.5 6-6 6 6 6" /></svg>
+				</button>
+				<button class="syn-case-studies__control syn-case-studies__control--next" type="button" data-syn-cases-next aria-label="<?php esc_attr_e( 'Show more case studies', 'synergi' ); ?>">
+					<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9.5 6 6 6-6 6" /></svg>
+				</button>
+			<?php endif; ?>
+
+			<ul class="syn-case-studies__grid syn-reveal"<?php echo $syn_scroll ? ' data-syn-cases-track tabindex="0"' : ''; ?>>
 				<?php
 				foreach ( $syn_cards as $syn_card ) :
 					$syn_card_title = trim( (string) ( $syn_card['title'] ?? '' ) );
@@ -247,6 +283,10 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 				endforeach;
 				?>
 			</ul>
+
+			<?php if ( $syn_scroll ) : ?>
+			</div>
+			<?php endif; ?>
 
 		<?php endif; ?>
 
