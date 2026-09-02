@@ -77,10 +77,10 @@
 	text-align: center;
 }
 
-/* The shared eyebrow stacks its rule above the text (base.css), so centring
-   this head means centring the column's items, not justifying the row. */
+/* The shared eyebrow is a flex row with a rule before it, so centring the text
+   is not enough — the row has to be centred as well. */
 .syn-values__head .syn-eyebrow {
-	align-items: center;
+	justify-content: center;
 }
 
 .syn-values__title {
