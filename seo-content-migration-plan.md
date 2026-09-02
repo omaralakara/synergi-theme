@@ -868,3 +868,27 @@ case-studies listing; the five solution heroes; and five case-study images
 (government HR, Abu Dhabi HR build, hotel transformation, KSA service line,
 clean energy). The manifest with sources and alt text is in the session
 scratchpad (`image-manifest.json`).
+
+### Addendum — 2 Sep, fourth pass (case studies complete, review fixes)
+
+- **All twelve case studies now carry twelve distinct images** — the last five
+  sourced and assigned (Louvre-dome architecture for the government HR story,
+  EV charging for clean energy, the hand-drawn growth chart for the KSA
+  service-line design, hotel reception for the hospitality transformation,
+  evening open office for the Abu Dhabi HR build). Verified on the grid: no
+  two cards share a file, none lacks one. The Saudi market band follows its
+  featured story's image.
+- **Five solution pages, five distinct heroes** (fitted-out office, tower
+  under construction, engineer at server rack, aerial interchange, executive
+  in navy).
+- **The closing CTA's built-in "Explore Our Services" button removed**
+  (commit `adb3e33`) — it pointed at a homepage-only anchor and was a dead
+  link on every other page.
+- **Every case band links to its full study** — the solutions, both market
+  pages and HR joined the four service bands already linked.
+- **Damascus flies the new Syrian flag** (three-star, visually verified
+  before upload) in its location badge.
+
+The AI-generation list is now down to **four page heroes**: Marketing,
+Accounting, Project Management services and Contact Us, plus the
+case-studies listing hero. Everything else has real photography.
