@@ -270,6 +270,13 @@
 	.syn-hero__lead {
 		max-inline-size: 43rem;
 	}
+
+	/* The editor's typed line break (hero.php). Only wide screens honour it —
+	   the design source hides .hero-lead-break at this same width, because in
+	   a narrower column a forced break leaves a ragged short line. */
+	.syn-hero__lead-break {
+		display: none;
+	}
 }
 
 @media (max-width: 61.25rem) {

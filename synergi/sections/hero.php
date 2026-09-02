@@ -8,7 +8,8 @@
  * Expected $args (every one optional — the defaults are the approved copy):
  *   title_lead  string   Text before the highlighted phrase.
  *   title_focus string   The highlighted phrase, rendered in cyan on its own line.
- *   lead        string   The paragraph under the heading.
+ *   lead        string   The paragraph under the heading. A newline in it
+ *                        renders as a line break on wide screens.
  *   motion_lead string   The static half of the animated line.
  *   motion_words string[] Words the typewriter cycles. The first is the one
  *                        rendered server-side, so it is what shows with JS off.
@@ -28,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 
 $syn_title_lead   = $args['title_lead'] ?? __( 'BPO Services in UAE & the Gulf to', 'synergi' );
 $syn_title_focus  = $args['title_focus'] ?? __( 'Power Your Business', 'synergi' );
-$syn_lead         = $args['lead'] ?? __( 'Synergi runs and transforms non-core business functions through BPO, consulting, manpower augmentation, and technology-enabled shared services across the Gulf.', 'synergi' );
+$syn_lead         = $args['lead'] ?? __( "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services across the Gulf.", 'synergi' );
 $syn_motion_lead  = $args['motion_lead'] ?? __( 'Helping your business remove', 'synergi' );
 $syn_motion_words = $args['motion_words'] ?? array(
 	__( 'manual work', 'synergi' ),
@@ -86,7 +87,16 @@ $syn_motion_words = array_values( array_filter( array_map( 'trim', (array) $syn_
 				<span><?php echo esc_html( $syn_title_focus ); ?></span>
 			</h1>
 
-			<p class="syn-hero__lead"><?php echo esc_html( $syn_lead ); ?></p>
+			<?php
+			/*
+			 * A line break typed into the lead field renders as a real break —
+			 * the approved design starts "manpower augmentation…" on its own
+			 * line this way (design source: .hero-lead-break). Each half is
+			 * escaped before the <br> joins them; hero.css hides the break
+			 * under 74rem, where natural wrapping reads better.
+			 */
+			?>
+			<p class="syn-hero__lead"><?php echo implode( '<br class="syn-hero__lead-break">', array_map( 'esc_html', preg_split( '/\r\n|\r|\n/', (string) $syn_lead ) ) ); ?></p>
 
 			<?php if ( $syn_motion_words ) : ?>
 				<p class="syn-hero__motion">
