@@ -7,7 +7,8 @@
  * Loaded by inc/assets.php as "synergi-section-ribbon", only on pages that
  * declare the section. Markup: sections/ribbon.php. No script.
  *
- * Two full-bleed strips crossing at a shallow angle over ink. The movement
+ * Two full-bleed strips crossing at a shallow angle over the page's own
+ * background. The movement
  * is a single translateX keyframe on the row; base.css's global
  * reduced-motion rule freezes it with the words still visible. rotate and
  * translateX are transforms, which is where CLAUDE.md par.2.11 permits
@@ -44,7 +45,8 @@
 	position: relative;
 	overflow: hidden;
 	padding-block: clamp(3.4rem, 7vw, 6rem);
-	background-color: var(--syn-ink);
+	/* No background of its own (removed 3 Sep on request): the bands cross
+	   over whatever the page shows here - white above, paper below. */
 }
 
 /* ==========================================================================
@@ -68,8 +70,8 @@
 /*
  * The crossing stroke. Textless on purpose: it exists to complete the X,
  * and the gradient reads as depth behind the lit front band. Dimmed with
- * opacity rather than darker colours so what shows through is the gradient
- * over ink - the same trick as the hero scrim, one layer cheaper.
+ * opacity rather than lighter colours so it stays the brand gradient over
+ * whatever the page shows behind it.
  */
 .syn-ribbon__band--back {
 	position: absolute;

@@ -9,7 +9,8 @@
  * JavaScript off, and base.css's global reduced-motion rule freezes it with
  * the words still visible (CLAUDE.md par.6).
  *
- * Two shallow diagonal bands crossing over ink. The front band is a cyan
+ * Two shallow diagonal bands crossing over the page's own background. The
+ * front band is a cyan
  * strip carrying the keywords in ink - ink on cyan measures 6.6:1, where
  * white on the brand gradient's cyan end is 2.6:1 and fails par.9, which is
  * why the bright-band-with-light-words look of the reference could not be
