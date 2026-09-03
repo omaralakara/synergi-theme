@@ -98,19 +98,22 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 	<div class="syn-container">
 
 		<div class="syn-case-studies__head syn-reveal">
-			<?php if ( '' !== $syn_eyebrow ) : ?>
-				<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
-			<?php endif; ?>
+			<div class="syn-case-studies__head-copy">
+				<?php if ( '' !== $syn_eyebrow ) : ?>
+					<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
+				<?php endif; ?>
 
-			<h2 class="syn-case-studies__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
+				<h2 class="syn-case-studies__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
 
-			<?php if ( '' !== $syn_lede ) : ?>
-				<p class="syn-case-studies__lede"><?php echo esc_html( $syn_lede ); ?></p>
-			<?php endif; ?>
+				<?php if ( '' !== $syn_lede ) : ?>
+					<p class="syn-case-studies__lede"><?php echo esc_html( $syn_lede ); ?></p>
+				<?php endif; ?>
+			</div>
 
 			<?php if ( '' !== $syn_link_url && '' !== $syn_link_text ) : ?>
 				<a class="syn-button syn-button--outline syn-case-studies__all" href="<?php echo esc_url( $syn_link_url ); ?>">
 					<?php echo esc_html( $syn_link_text ); ?>
+					<span aria-hidden="true">&rarr;</span>
 				</a>
 			<?php endif; ?>
 		</div>

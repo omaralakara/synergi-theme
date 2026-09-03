@@ -35,9 +35,22 @@
    2. Head
    ========================================================================== */
 
+/* Copy on one side, the optional View-all button on the other, on the same
+   baseline — the layout the blog, Instagram and episodes heads use (3 Sep).
+   The listing page passes no button and renders just the copy block. */
 .syn-case-studies__head {
-	max-inline-size: 46rem;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1.5rem;
 	margin-block-end: var(--syn-space-5);
+}
+
+/* Groups the eyebrow, heading and lede as one flex child, and lets a long
+   heading shrink rather than pushing the button off the row. */
+.syn-case-studies__head-copy {
+	min-inline-size: 0;
+	max-inline-size: 46rem;
 }
 
 .syn-case-studies__title {
@@ -339,7 +352,7 @@
    ========================================================================== */
 
 .syn-case-studies__all {
-	margin-block-start: var(--syn-space-3);
+	flex-shrink: 0;
 }
 
 .syn-case-studies--scroll {
