@@ -14,10 +14,12 @@
  * translateX are transforms, which is where CLAUDE.md par.2.11 permits
  * physical geometry - everything else here is logical.
  *
- * Colour logic (par.9): the words are ink on the flat cyan band, 6.6:1.
- * White on either brand gradient fails at the cyan end (2.6:1), so the
- * gradient is the textless back band and the text sits on the one bed that
- * passes everywhere.
+ * Colour logic (par.9): the front band is navy - the colour the header bar and
+ * the footer are painted in - carrying white words at 7.4:1. It shipped as ink
+ * on cyan (6.6:1), which passed but made the strip a third accent colour
+ * between two navy bars; the business asked for the header's colour on 3 Sep.
+ * The gradient stays on the textless back band, where its cyan end cannot fail
+ * anything.
  */
 
 /* ==========================================================================
@@ -60,10 +62,18 @@
 	block-size: var(--syn-ribbon-size);
 }
 
+/*
+ * NAVY, THE HEADER'S OWN COLOUR (3 Sep, asked for). The band shipped cyan with
+ * ink words; painting it the same navy the header bar and the footer take means
+ * the page opens, breaks and closes on one colour, and the strip reads as part
+ * of the site's furniture rather than as a third accent. White on navy measures
+ * 7.4:1, comfortably past §9's floor and better than the ink-on-cyan it
+ * replaces.
+ */
 .syn-ribbon__band--front {
 	z-index: 1;
 	transform: rotate(calc(-1 * var(--syn-ribbon-tilt)));
-	background-color: var(--syn-cyan);
+	background-color: var(--syn-navy);
 	box-shadow: var(--syn-shadow-soft);
 }
 
@@ -142,7 +152,7 @@
 	align-items: center;
 	gap: clamp(1.3rem, 2.6vw, 2.4rem);
 	padding-inline-end: clamp(1.3rem, 2.6vw, 2.4rem);
-	color: var(--syn-ink);
+	color: var(--syn-white);
 	font-size: clamp(0.78rem, 0.73rem + 0.25vw, 0.95rem);
 	font-weight: 700;
 	letter-spacing: 0.16em;
@@ -158,19 +168,26 @@
  * rather than punctuated by a neutral dot. Drawn in currentColor by
  * sections/ribbon.php, so this one rule sets it.
  */
+/*
+ * The diamond between phrases. Cyan on the navy band, which is the brand's own
+ * accent doing the job the logo's cyan dot does on the same navy in the header
+ * — a small point of colour in a row of white words. It is decoration and
+ * aria-hidden, so §9's text floor does not apply to it.
+ *
+ * A diamond rather than the logo's S, which the strip shipped with on 3 Sep and
+ * which read as a squiggle at this size: a separator has to be legible as a
+ * shape at about 12px, and a letterform is not.
+ */
 .syn-ribbon__mark {
 	display: flex;
 	flex: 0 0 auto;
 	align-items: center;
-	/* Navy, the exact colour the header bar and the footer are painted in
-	   (header.css and footer.css both take var(--syn-navy)) — corrected 3 Sep
-	   from navy-deep, which read as a different, darker blue against them. */
-	color: var(--syn-navy);
+	color: var(--syn-cyan);
 }
 
 .syn-ribbon__mark svg {
-	inline-size: 1.15em;
-	block-size: 1.15em;
+	inline-size: 0.62em;
+	block-size: 0.62em;
 	fill: currentcolor;
 }
 

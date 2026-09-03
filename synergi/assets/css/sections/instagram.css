@@ -111,22 +111,51 @@
 	min-block-size: clamp(9rem, 18vw, 15rem);
 }
 
-/* The card. A square crop, which is the shape a feed is read in, and which
-   keeps a row even whatever ratio each post was published at. */
+/*
+ * The card: the picture, then its caption underneath — the shape the band had
+ * before it became our own carousel, restored 3 Sep on request.
+ *
+ * A column, so every card in a row is the same height whatever its caption
+ * does, and the pictures all line up along the top.
+ */
 .syn-instagram__link {
-	position: relative;
-	display: block;
+	display: flex;
+	flex-direction: column;
+	block-size: 100%;
 	overflow: hidden;
 	border-radius: 0.65rem;
-	background-color: var(--syn-paper-blue);
+	background-color: var(--syn-white);
 	box-shadow: 0 14px 34px color-mix(in srgb, var(--syn-ink) 9%, transparent);
+	text-decoration: none;
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-instagram__link:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 18px 40px color-mix(in srgb, var(--syn-ink) 10%, transparent);
+	}
+}
+
+/*
+ * 4:5, the portrait shape Instagram publishes at and the one the feed plugin
+ * was set to. Fixing it here rather than letting each picture set its own is
+ * what keeps three cards in a row the same height.
+ */
+.syn-instagram__media {
+	display: block;
+	overflow: hidden;
+	aspect-ratio: 4 / 5;
+	background-color: var(--syn-paper-blue);
 }
 
 .syn-instagram__image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
-	aspect-ratio: 1 / 1;
 	object-fit: cover;
 	transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -134,6 +163,21 @@
 .syn-instagram__link:hover .syn-instagram__image,
 .syn-instagram__link:focus-visible .syn-instagram__image {
 	transform: scale(1.04);
+}
+
+/*
+ * The caption. Clamped to three lines: a post's first sentence is the useful
+ * part, and an unclamped caption would set one card's height for the whole row.
+ */
+.syn-instagram__caption {
+	display: -webkit-box;
+	overflow: hidden;
+	padding: var(--syn-space-3);
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	line-height: 1.6;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
 }
 
 @media (scripting: enabled) {

@@ -24,8 +24,8 @@
  *   title     string The section's <h2>.
  *   link_url  string The profile to follow.
  *   link_text string The button's label.
- *   count     int    How many posts to fetch. Six gives three on screen and
- *                    three in hand to page through.
+ *   count     int    How many posts to fetch. Nine gives three on screen and
+ *                    two further pages behind them.
  *   shortcode string The feed plugin's shortcode, used only as the fallback.
  *
  * Example:
@@ -41,7 +41,7 @@ $syn_title     = $args['title'] ?? __( 'Recent From Instagram', 'synergi' );
 $syn_link_url  = $args['link_url'] ?? 'https://www.instagram.com/synergi.bpo';
 $syn_link_text = $args['link_text'] ?? __( 'Follow Synergi', 'synergi' );
 $syn_shortcode = $args['shortcode'] ?? '[instagram-feed feed=1]';
-$syn_count     = isset( $args['count'] ) ? absint( $args['count'] ) : 6;
+$syn_count     = isset( $args['count'] ) ? absint( $args['count'] ) : 9;
 
 $syn_posts = function_exists( 'syn_instagram_posts' ) ? syn_instagram_posts( $syn_count ) : array();
 
@@ -124,15 +124,29 @@ $syn_uid = wp_unique_id( 'syn-instagram-' );
 								 */
 								?>
 								<a class="syn-instagram__link" href="<?php echo esc_url( $syn_post['permalink'] ); ?>" target="_blank" rel="noopener">
-									<img
-										class="syn-instagram__image"
-										src="<?php echo esc_url( $syn_post['image'] ); ?>"
-										alt="<?php echo esc_attr( $syn_post['alt'] ); ?>"
-										width="640"
-										height="640"
-										loading="lazy"
-										decoding="async"
-									>
+									<span class="syn-instagram__media">
+										<img
+											class="syn-instagram__image"
+											src="<?php echo esc_url( $syn_post['image'] ); ?>"
+											alt="<?php echo esc_attr( $syn_post['alt'] ); ?>"
+											width="640"
+											height="800"
+											loading="lazy"
+											decoding="async"
+										>
+									</span>
+
+									<?php
+									/*
+									 * The caption under the picture, as the band
+									 * showed it before this became our own
+									 * carousel. aria-hidden because it repeats
+									 * the image's alt text word for word, and a
+									 * screen reader meeting both would read the
+									 * post twice (CLAUDE.md §8).
+									 */
+									?>
+									<span class="syn-instagram__caption" aria-hidden="true"><?php echo esc_html( $syn_post['alt'] ); ?></span>
 									<span class="syn-visually-hidden"><?php esc_html_e( 'View this post on Instagram', 'synergi' ); ?></span>
 								</a>
 							</li>
