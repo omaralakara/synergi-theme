@@ -55,9 +55,23 @@
    3. The head
    ========================================================================== */
 
+/* Copy on one side, the optional View-all button on the other, on the same
+   baseline — the layout the blog and Instagram heads use. Without a button
+   (the podcast page's own bands) the flex row is just the copy block and
+   nothing changes. */
 .syn-episodes__head {
-	max-inline-size: 46rem;
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 1.5rem;
 	margin-block-end: var(--syn-space-6);
+}
+
+/* Groups the eyebrow, heading and lede as one flex child, and lets a long
+   heading shrink rather than pushing the button off the row. */
+.syn-episodes__head-copy {
+	min-inline-size: 0;
+	max-inline-size: 46rem;
 }
 
 .syn-episodes__title {
