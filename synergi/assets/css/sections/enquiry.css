@@ -123,6 +123,19 @@
 	color: var(--syn-cyan);
 }
 
+/*
+ * The split name field arrives as a real <fieldset>, and the browser's
+ * default fieldset chrome — a border, inline padding, an inset <legend> —
+ * pushed its two inputs out of line with every other field (reported 3 Sep).
+ * Stripped, the legend then takes the same style as the other labels below.
+ */
+.syn-enquiry__form fieldset {
+	min-inline-size: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
 /* The small "First" / "Last" captions under a split name field. They are
    labels, so they inherit the label rule below and have to be told they are
    captions rather than headings for their field. */
@@ -135,8 +148,12 @@
 	text-transform: none;
 }
 
-.syn-enquiry__form label {
+/* legend included: the stripped name fieldset's heading is a <legend>, and it
+   should read exactly like every other field's label. */
+.syn-enquiry__form label,
+.syn-enquiry__form legend {
 	display: block;
+	padding: 0;
 	margin-block-end: 0.4rem;
 	color: var(--syn-navy);
 	font-size: var(--syn-step--1);

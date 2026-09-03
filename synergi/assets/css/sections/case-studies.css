@@ -213,27 +213,22 @@
 }
 
 /*
- * A fixed 3:2 chip since 2 Sep — the flags come in five different ratios
- * (Kuwait 1:2, the US 19:10, Syria 3:2…) and equal-height-variable-width made
- * a row of cards look ragged. cover fills the chip; the left anchoring keeps
- * the hoist side, which is where every one of these flags carries its
- * distinguishing mark (the UAE's red band, Kuwait's trapezoid, the US canton).
- * No border or radius — the business asked for the flag to sit plain.
+ * The same uniform flag chip the office cards draw (3 Sep — offices.css
+ * carries the full history). The flags are one set on one 4:3 canvas, so the
+ * chip is a plain box and nothing is cropped or anchored.
  */
 .syn-case-studies__flag {
 	display: block;
-	overflow: hidden;
 	flex: none;
 	block-size: 1.35rem;
-	inline-size: 2rem;
+	aspect-ratio: 4 / 3;
 }
 
 .syn-case-studies__flag-image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
-	object-fit: cover;
-	object-position: left center;
+	object-fit: contain;
 }
 
 .syn-case-studies__code {

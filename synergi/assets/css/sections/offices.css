@@ -164,32 +164,25 @@
 }
 
 /*
- * DRAWN WHOLE, NOT CROPPED TO A DISC (28 Aug). A circle crops a flag at its
- * edges, and the edges are where the meaning is: the UAE flag lost its red
- * hoist band entirely and rendered as three horizontal stripes, which is a
- * different country's flag. The badge is now the flag's own shape at a fixed
- * height, so every one keeps its real proportions — Qatar is wider than
- * Romania, because it is. The hairline stops a white-edged flag dissolving
- * into the card.
- */
-/*
- * A fixed 3:2 chip since 2 Sep, for the same reason as the case-study cards:
- * the flags come in five ratios and equal-height-variable-width looked ragged.
- * cover + left anchoring keeps each flag's hoist-side mark visible.
+ * ONE FLAG SET, ONE CHIP (3 Sep). Two earlier approaches each failed a
+ * review: flags drawn whole at a fixed height had ragged widths (Qatar is
+ * 28:11), and a fixed cropped chip beheaded them (a left-anchored crop showed
+ * mostly Qatar's white hoist). The flags are now a single uniform set — the
+ * flagpedia/flagcdn waving style, every country on the same 4:3 canvas, free
+ * for commercial use — so nothing is cropped, nothing is ragged, and the same
+ * chip works for any country the record gains. No border and no radius: the
+ * waving artwork carries its own shape on a transparent ground. The
+ * case-study cards draw the identical chip (case-studies.css).
  */
 .syn-offices__flag {
-	overflow: hidden;
-	inline-size: 2.4rem;
-	border: 1px solid var(--syn-border);
-	border-radius: 2px;
+	aspect-ratio: 4 / 3;
 }
 
 .syn-offices__flag-image {
 	display: block;
 	inline-size: 100%;
 	block-size: 100%;
-	object-fit: cover;
-	object-position: left center;
+	object-fit: contain;
 }
 
 .syn-offices__country {
