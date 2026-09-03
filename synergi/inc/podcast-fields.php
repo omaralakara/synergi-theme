@@ -22,6 +22,33 @@ defined( 'ABSPATH' ) || exit;
 define( 'SYN_PODCAST_TEMPLATE', 'templates/podcast.php' );
 
 /**
+ * The published Executive Podcast page's ID, found by its template.
+ *
+ * The Media hub reads the podcast page's own episode rows through this, so the
+ * latest episodes live in exactly one place and the hub can never disagree with
+ * the podcast page (CLAUDE.md §7a). Found by template rather than by slug or a
+ * stored ID: the template is what makes a page THE podcast page, and it
+ * survives a retitle or a re-slug.
+ *
+ * @return int Page ID, or 0 when no published page uses the podcast template.
+ */
+function syn_podcast_page_id() {
+	$pages = get_posts(
+		array(
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'posts_per_page' => 1,
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- one exact match on an indexed meta key, over a few dozen pages; the alternative is a stored ID that goes stale.
+			'meta_key'       => '_wp_page_template',
+			'meta_value'     => SYN_PODCAST_TEMPLATE,
+			'fields'         => 'ids',
+		)
+	);
+
+	return $pages ? (int) $pages[0] : 0;
+}
+
+/**
  * The subfields a video row carries, shared by the episodes and the webinars.
  *
  * Written once and used twice, because the two bands are the same thing with

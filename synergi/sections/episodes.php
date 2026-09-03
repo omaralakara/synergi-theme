@@ -19,6 +19,9 @@
  *                     url   string Required — any YouTube address.
  *                     note  string Optional line under the title.
  *                     image int    Optional attachment ID for the poster.
+ *   link_url  string Optional, with link_text: a "View all episodes" button
+ *   link_text string in the head — how the Media hub points at the full
+ *                    podcast page, same pattern as the blog band's.
  *
  * Example:
  *   syn_section( 'episodes', array( 'items' => syn_field_rows( 'podcast_episodes' ) ) );
@@ -54,10 +57,12 @@ defined( 'ABSPATH' ) || exit;
  * section helpers are.
  */
 
-$syn_eyebrow = trim( (string) ( $args['eyebrow'] ?? '' ) );
-$syn_heading = trim( (string) ( $args['heading'] ?? '' ) );
-$syn_lede    = trim( (string) ( $args['lede'] ?? '' ) );
-$syn_tone    = 'paper' === ( $args['tone'] ?? '' ) ? 'paper' : 'white';
+$syn_eyebrow   = trim( (string) ( $args['eyebrow'] ?? '' ) );
+$syn_heading   = trim( (string) ( $args['heading'] ?? '' ) );
+$syn_lede      = trim( (string) ( $args['lede'] ?? '' ) );
+$syn_tone      = 'paper' === ( $args['tone'] ?? '' ) ? 'paper' : 'white';
+$syn_link_url  = trim( (string) ( $args['link_url'] ?? '' ) );
+$syn_link_text = trim( (string) ( $args['link_text'] ?? '' ) );
 
 $syn_items = array();
 
@@ -118,6 +123,12 @@ $syn_class = 'paper' === $syn_tone
 
 			<?php if ( '' !== $syn_lede ) : ?>
 				<p class="syn-episodes__lede"><?php echo esc_html( $syn_lede ); ?></p>
+			<?php endif; ?>
+
+			<?php if ( '' !== $syn_link_url && '' !== $syn_link_text ) : ?>
+				<a class="syn-button syn-button--outline syn-episodes__all" href="<?php echo esc_url( $syn_link_url ); ?>">
+					<?php echo esc_html( $syn_link_text ); ?>
+				</a>
 			<?php endif; ?>
 		</div>
 

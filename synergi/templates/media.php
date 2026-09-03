@@ -2,8 +2,9 @@
 /**
  * Template Name: Media hub
  *
- * The page at /media/ — the newest articles and the Instagram feed, on the two
- * bands the homepage already uses.
+ * The page at /media/ — the case studies, the newest articles, the latest
+ * podcast episodes and the Instagram feed, every band one the site already
+ * has.
  *
  * Loaded by: the page editor's Template dropdown.
  * Depends on: header.php, footer.php, inc/sections.php, inc/fields.php,
@@ -36,6 +37,17 @@ defined( 'ABSPATH' ) || exit;
 $syn_id = get_the_ID();
 
 /*
+ * The latest three podcast episodes, read from the podcast page's own episodes
+ * field rather than retyped here, so publishing an episode there updates this
+ * band with no edit anywhere (CLAUDE.md §7a). The newest episode sits at the
+ * top of that repeater, so the first three rows are the latest three. Fetched
+ * before syn_use_sections() because the band is only declared when there is
+ * something to show.
+ */
+$syn_podcast_id       = function_exists( 'syn_podcast_page_id' ) ? syn_podcast_page_id() : 0;
+$syn_podcast_episodes = $syn_podcast_id ? array_slice( syn_field_rows( 'podcast_episodes', $syn_podcast_id ), 0, 3 ) : array();
+
+/*
  * Declared BEFORE get_header(), because assets are enqueued during wp_head() and
  * a section declared after that renders unstyled.
  *
@@ -44,7 +56,16 @@ $syn_id = get_the_ID();
  * heading and follow button and omits the feed, which is a tidy section rather
  * than a broken one.
  */
-syn_use_sections( array( 'case-studies', 'blog', 'instagram', 'final-cta' ) );
+$syn_sections = array( 'case-studies', 'blog' );
+
+if ( $syn_podcast_episodes ) {
+	$syn_sections[] = 'episodes';
+}
+
+$syn_sections[] = 'instagram';
+$syn_sections[] = 'final-cta';
+
+syn_use_sections( $syn_sections );
 
 get_header();
 
@@ -97,6 +118,28 @@ syn_section(
 );
 
 syn_section( 'blog', $syn_blog_args );
+
+/*
+ * The latest three episodes, with the button through to the full podcast page
+ * — added 3 Sep at the business's request. tone stays white: the blog band
+ * above ends in a hairline, and the Instagram band below sits on paper, so
+ * white is what keeps the three reading as separate stripes (a composition
+ * decision, so it is the template's, not a field's — CLAUDE.md §7c).
+ */
+if ( $syn_podcast_episodes ) {
+	syn_section(
+		'episodes',
+		array(
+			'eyebrow'   => __( 'Listen', 'synergi' ),
+			'heading'   => __( 'Latest Podcast Episodes', 'synergi' ),
+			'lede'      => __( 'Senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region.', 'synergi' ),
+			'tone'      => 'white',
+			'items'     => $syn_podcast_episodes,
+			'link_url'  => get_permalink( $syn_podcast_id ),
+			'link_text' => __( 'View all episodes', 'synergi' ),
+		)
+	);
+}
 
 syn_section(
 	'instagram',
