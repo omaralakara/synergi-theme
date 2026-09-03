@@ -52,7 +52,7 @@ add_action( 'syn_register_fields', 'syn_register_homepage_fields' );
  * One group per band, in the order the bands appear down the page, so the edit
  * screen reads in the same order as the homepage does.
  *
- * Side effects: registers eleven field groups.
+ * Side effects: registers twelve field groups.
  *
  * @return void
  */
@@ -325,6 +325,37 @@ function syn_register_homepage_fields() {
 							'type'        => 'image',
 							'label'       => __( 'Photograph', 'synergi' ),
 							'description' => __( 'Choose one with meaningful alt text already set on it.', 'synergi' ),
+						),
+					),
+				),
+			),
+		)
+	);
+
+	/* 04b — KEYWORD RIBBON (between Industries and Why Synergi, added 3 Sep) */
+	syn_register_field_group(
+		array(
+			'id'          => 'home_ribbon',
+			'title'       => __( 'Homepage 04b — Keyword ribbon', 'synergi' ),
+			'description' => __( 'The moving band between Industries and Why Synergi. Leave the list empty to keep the built-in keywords.', 'synergi' ),
+			'templates'   => array( SYN_HOMEPAGE_TEMPLATE ),
+			'fields'      => array(
+				array(
+					'key'         => 'home_ribbon_words',
+					'type'        => 'repeater',
+					'label'       => __( 'Keywords', 'synergi' ),
+					'description' => __( 'Short phrases, shown as one continuous moving line. Search engines are told to read each one once, however often it drifts past.', 'synergi' ),
+					'row_noun'    => __( 'Keyword', 'synergi' ),
+					'button'      => __( 'Add keyword', 'synergi' ),
+					'row_label'   => 'word',
+					'min_rows'    => 1,
+					'max_rows'    => 12,
+					'subfields'   => array(
+						array(
+							'key'        => 'word',
+							'type'       => 'text',
+							'label'      => __( 'Keyword or short phrase', 'synergi' ),
+							'max_length' => 60,
 						),
 					),
 				),

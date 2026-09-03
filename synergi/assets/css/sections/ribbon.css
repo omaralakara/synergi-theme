@@ -1,0 +1,172 @@
+/*
+ * ribbon.css - the keyword ribbon, the moving break between Industries and
+ * Why Synergi.
+ * Contents: 1 local tokens . 2 shell . 3 the two bands . 4 the moving row .
+ * 5 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-ribbon", only on pages that
+ * declare the section. Markup: sections/ribbon.php. No script.
+ *
+ * Two full-bleed strips crossing at a shallow angle over ink. The movement
+ * is a single translateX keyframe on the row; base.css's global
+ * reduced-motion rule freezes it with the words still visible. rotate and
+ * translateX are transforms, which is where CLAUDE.md par.2.11 permits
+ * physical geometry - everything else here is logical.
+ *
+ * Colour logic (par.9): the words are ink on the flat cyan band, 6.6:1.
+ * White on either brand gradient fails at the cyan end (2.6:1), so the
+ * gradient is the textless back band and the text sits on the one bed that
+ * passes everywhere.
+ */
+
+/* ==========================================================================
+   1. Local tokens
+   ========================================================================== */
+
+.syn-ribbon {
+	/* One thickness for both bands, so the X crosses evenly. */
+	--syn-ribbon-size: clamp(3.2rem, 4.5vw, 4.4rem);
+
+	/* The bands run past both edges, so their rotated ends never show. */
+	--syn-ribbon-bleed: 6vw;
+
+	/* The front band's lean; the back band leans 1.2deg further the other way. */
+	--syn-ribbon-tilt: 2.4deg;
+}
+
+/* ==========================================================================
+   2. Shell
+   Not .syn-section: the band is its own break and sets its own, tighter
+   rhythm - the opt-out the base stylesheet anticipates.
+   ========================================================================== */
+
+.syn-ribbon {
+	position: relative;
+	overflow: hidden;
+	padding-block: clamp(3.4rem, 7vw, 6rem);
+	background-color: var(--syn-ink);
+}
+
+/* ==========================================================================
+   3. The two bands
+   ========================================================================== */
+
+.syn-ribbon__band {
+	position: relative;
+	inline-size: calc(100% + (2 * var(--syn-ribbon-bleed)));
+	margin-inline-start: calc(-1 * var(--syn-ribbon-bleed));
+	block-size: var(--syn-ribbon-size);
+}
+
+.syn-ribbon__band--front {
+	z-index: 1;
+	transform: rotate(calc(-1 * var(--syn-ribbon-tilt)));
+	background-color: var(--syn-cyan);
+	box-shadow: var(--syn-shadow-soft);
+}
+
+/*
+ * The crossing stroke. Textless on purpose: it exists to complete the X,
+ * and the gradient reads as depth behind the lit front band. Dimmed with
+ * opacity rather than darker colours so what shows through is the gradient
+ * over ink - the same trick as the hero scrim, one layer cheaper.
+ */
+.syn-ribbon__band--back {
+	position: absolute;
+	inset-block-start: 50%;
+	transform: translateY(-50%) rotate(calc(var(--syn-ribbon-tilt) + 1.2deg));
+	background: var(--syn-gradient-brand);
+	opacity: 0.45;
+}
+
+/* ==========================================================================
+   4. The moving row
+   Two identical tracks sit side by side; the row slides by exactly one
+   track width and snaps back, which the eye cannot see because the second
+   copy is standing where the first began.
+   ========================================================================== */
+
+.syn-ribbon__viewport {
+	block-size: 100%;
+	overflow: hidden;
+	/* The row can never affect layout or paint outside itself, which keeps a
+	   permanently animating transform off the critical path (CLAUDE.md par.6). */
+	contain: layout paint;
+}
+
+.syn-ribbon__loop {
+	display: flex;
+	align-items: center;
+	inline-size: max-content;
+	block-size: 100%;
+	will-change: transform;
+	animation: syn-ribbon-drift 55s linear infinite;
+}
+
+/* The stop for keyboard and pointer users (WCAG 2.2.2). The visible focus
+   ring comes from base.css's global :focus-visible rule. */
+.syn-ribbon__viewport:hover .syn-ribbon__loop,
+.syn-ribbon__viewport:focus-visible .syn-ribbon__loop {
+	animation-play-state: paused;
+}
+
+@keyframes syn-ribbon-drift {
+
+	from {
+		transform: translateX(0);
+	}
+
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+.syn-ribbon__track {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	min-inline-size: max-content;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-ribbon__word {
+	display: flex;
+	align-items: center;
+	gap: clamp(1.3rem, 2.6vw, 2.4rem);
+	padding-inline-end: clamp(1.3rem, 2.6vw, 2.4rem);
+	color: var(--syn-ink);
+	font-size: clamp(0.78rem, 0.73rem + 0.25vw, 0.95rem);
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	line-height: 1;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+/* The dot between words - drawn, not typed, so it can never be read aloud
+   or indexed as text. */
+.syn-ribbon__word::before {
+	content: "";
+	flex: 0 0 auto;
+	inline-size: 0.32em;
+	block-size: 0.32em;
+	border-radius: 50%;
+	background-color: var(--syn-navy-deep);
+}
+
+/* ==========================================================================
+   5. Narrow screens
+   A steeper lean, or at phone widths the X flattens into two parallel bars.
+   ========================================================================== */
+
+@media (max-width: 47.99rem) {
+
+	.syn-ribbon {
+		--syn-ribbon-size: 2.8rem;
+		--syn-ribbon-tilt: 3.4deg;
+
+		padding-block: 2.8rem;
+	}
+}
