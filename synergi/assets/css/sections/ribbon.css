@@ -162,7 +162,10 @@
 	display: flex;
 	flex: 0 0 auto;
 	align-items: center;
-	color: var(--syn-navy-deep);
+	/* Navy, the exact colour the header bar and the footer are painted in
+	   (header.css and footer.css both take var(--syn-navy)) — corrected 3 Sep
+	   from navy-deep, which read as a different, darker blue against them. */
+	color: var(--syn-navy);
 }
 
 .syn-ribbon__mark svg {

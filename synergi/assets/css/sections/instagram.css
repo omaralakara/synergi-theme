@@ -1,36 +1,28 @@
 /*
  * instagram.css — section 10, Recent From Instagram.
- * Contents: 1 shell · 2 heading · 3 the feed plugin's own markup ·
- * 4 narrow screens.
+ * Contents: 1 shell · 2 heading · 3 the post carousel · 4 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-instagram", only on pages that
- * declare the section. Markup: sections/instagram.php. No behaviour file.
+ * declare the section. Markup: sections/instagram.php.
+ * Behaviour: assets/js/sections/instagram.js.
  *
- * THIS IS THE ONE FILE IN THE THEME THAT STYLES MARKUP THE THEME DID NOT
- * WRITE. Section 3 reaches into the feed plugin's output (#sb_instagram and
- * its sbi_* classes) to make a third party's grid sit inside our page without
- * looking bolted on. That is a deliberate exception, and it comes with three
- * conditions:
+ * THIS FILE USED TO CARRY THE THEME'S ONLY OVERRIDE LAYER, and no longer does
+ * (3 Sep). Its section 3 reached into the feed plugin's markup (#sb_instagram
+ * and its sbi_* classes) to make a third party's grid sit inside our page,
+ * carrying three !important declarations to beat styles the plugin printed
+ * inline. The band now renders its own cards from the posts the plugin has
+ * already cached — see inc/instagram.php for why that is legitimate — so every
+ * one of those selectors is gone, and with them the last of the "styling markup
+ * we did not write" that CLAUDE.md §4 warns about.
  *
- *   - Every such selector is scoped under .syn-instagram__feed, so nothing
- *     here can affect the plugin anywhere else on the site.
- *   - Those selectors are the plugin's contract with us, and it is a contract
- *     it has not signed. If a plugin update renames sbi_item, this section
- *     loses its polish and nothing else breaks — which is why none of the
- *     rules below carry layout the section depends on.
- *   - The three !important declarations are all the plugin's doing, not ours:
- *     two properties it prints inline from its settings screen, and one element
- *     its script reveals with an inline style. An inline style cannot be beaten
- *     any other way, and each rule says at its own site what forced it
- *     (CLAUDE.md §2.12).
- *
- * The section renders correctly with no plugin at all: instagram.php omits the
- * feed wrapper entirely rather than leaving an empty frame.
+ * The plugin's shortcode is still the fallback when the cache cannot be read,
+ * and it is deliberately left unstyled: an emergency path should render the
+ * plugin's own working grid rather than a half-matched one.
  *
  * Class map, design source -> theme:
  *   .syg-social-section -> .syn-instagram    .syg-social-heading -> __heading
  *   .syg-social-heading-copy -> __heading-copy
- *   .syg-social-feed -> __feed
+ *   .syg-social-feed -> __feed (the fallback wrapper only)
  *   .button.button-outline -> .syn-button.syn-button--outline (base.css)
  *
  * Colours are derived from the §3 palette with color-mix(); the source writes
@@ -76,85 +68,191 @@
 }
 
 /* ==========================================================================
-   3. The feed plugin's own markup
-   See the note at the top of this file before changing anything here.
+   3. The post carousel
+   The blog band's carousel in this section's names, so the three rows on the
+   Media hub behave alike. Gated on scripting because only instagram.js can
+   move the track: with JavaScript off the first three posts render as a plain
+   grid and no arrows appear.
    ========================================================================== */
 
-.syn-instagram__feed #sb_instagram {
-	/*
-	 * The plugin prints this inline from its settings screen, and an inline
-	 * style yields to nothing but !important. Written logically even so: a
-	 * logical property resolves to the physical one and still wins, so there is
-	 * no reason to leave a physical direction in the theme (CLAUDE.md §2.11).
-	 */
-	padding-block-end: 0 !important;
+.syn-instagram {
+	/* One number for how many cards are on screen, matching the blog band's. */
+	--syn-instagram-per-view: 3;
+	--syn-instagram-gap: clamp(1rem, 2vw, 1.75rem);
 }
 
-.syn-instagram__feed #sb_instagram #sbi_images {
-	/* As above — inline, so unreachable without this. */
-	gap: clamp(0.75rem, 1.4vw, 1.15rem) !important;
+.syn-instagram__track {
+	display: grid;
+	grid-template-columns: repeat(var(--syn-instagram-per-view), minmax(0, 1fr));
+	gap: var(--syn-instagram-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
-/* The plugin's own header and "load more" duplicate the heading and the follow
-   button above, so they are not shown twice. */
-.syn-instagram__feed #sb_instagram .sbi_header_link,
-.syn-instagram__feed #sb_instagram #sbi_load {
+/* One full row with no script: the spare posts the carousel would page with
+   would otherwise drop onto a ragged second row. */
+.syn-instagram__item:nth-child(n + 4) {
 	display: none;
 }
 
-.syn-instagram__feed #sb_instagram .sbi_item {
-	overflow: hidden;
-	border-radius: 0.65rem;
-	background-color: var(--syn-white);
-	box-shadow: 0 14px 34px color-mix(in srgb, var(--syn-ink) 9%, transparent);
-}
-
-.syn-instagram__feed #sb_instagram .sbi_photo_wrap,
-.syn-instagram__feed #sb_instagram .sbi_photo {
-	border-radius: 0.65rem;
-}
-
-.syn-instagram__feed #sb_instagram .sbi_photo img {
-	transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.syn-instagram__feed #sb_instagram .sbi_item:hover .sbi_photo img,
-.syn-instagram__feed #sb_instagram .sbi_item:focus-within .sbi_photo img {
-	transform: scale(1.04);
+.syn-instagram__control {
+	display: none;
 }
 
 /*
- * Holds the section's height while the feed is still loading, so the rest of
- * the page does not jump when the pictures arrive.
+ * The fallback wrapper, holding the plugin's shortcode on the rare path where
+ * the cache cannot be read. The only rule it gets: reserve the band's height
+ * while the plugin's own script hydrates its grid, so the page below does not
+ * jump when the pictures arrive. Nothing inside it is styled — see the note at
+ * the top of this file.
  */
-.syn-instagram__feed #sb_instagram #sbi_images:empty {
+.syn-instagram__feed {
 	min-block-size: clamp(9rem, 18vw, 15rem);
 }
 
-/*
- * The caption's "…" expander, removed at the business's request (31 Aug). The
- * band is a glance at the feed, not a reader for it: the picture already links
- * to the post, which is where the whole caption lives with its hashtags, its
- * line breaks and its comments intact.
- *
- * !important because the plugin's own stylesheet ships this element hidden and
- * its script then reveals it with jQuery .show(), which writes display inline
- * on the element — and an inline style yields to nothing else (CLAUDE.md §2.12).
- *
- * display:none rather than visibility or opacity, deliberately: the expander is
- * an <a> with a click handler, so anything that merely made it invisible would
- * leave a focusable control in the tab order that does nothing a reader can see
- * (CLAUDE.md §9). Removing the box removes it from the tab order too.
- */
-.syn-instagram__feed #sb_instagram .sbi_expand {
-	display: none !important;
+/* The card. A square crop, which is the shape a feed is read in, and which
+   keeps a row even whatever ratio each post was published at. */
+.syn-instagram__link {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	border-radius: 0.65rem;
+	background-color: var(--syn-paper-blue);
+	box-shadow: 0 14px 34px color-mix(in srgb, var(--syn-ink) 9%, transparent);
+}
+
+.syn-instagram__image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	transition: transform 680ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.syn-instagram__link:hover .syn-instagram__image,
+.syn-instagram__link:focus-visible .syn-instagram__image {
+	transform: scale(1.04);
+}
+
+@media (scripting: enabled) {
+
+	.syn-instagram__carousel {
+		display: grid;
+		grid-template-areas: "prev viewport next";
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		column-gap: clamp(0.5rem, 1.5vw, 1.1rem);
+	}
+
+	.syn-instagram__viewport {
+		grid-area: viewport;
+		overflow: hidden;
+		/* Negative margin then equal padding: a card lifted on hover has room
+		   to lift into, and its shadow is not clipped by the overflow. */
+		margin-block: -0.85rem -1.6rem;
+		padding-block: 0.85rem 1.6rem;
+		cursor: grab;
+		/* Vertical scrolling stays with the page; horizontal is the drag's. */
+		touch-action: pan-y;
+		user-select: none;
+	}
+
+	.syn-instagram__viewport.syn-is-dragging {
+		cursor: grabbing;
+	}
+
+	.syn-instagram__track {
+		display: flex;
+		gap: var(--syn-instagram-gap);
+		will-change: transform;
+	}
+
+	/* Every post returns: the ones hidden above are exactly what the carousel
+	   pages with. Three classes deep so this outranks the nth-child rule at
+	   every width. */
+	.syn-instagram__carousel .syn-instagram__track .syn-instagram__item {
+		display: block;
+		flex: 0 0 calc((100% - ((var(--syn-instagram-per-view) - 1) * var(--syn-instagram-gap))) / var(--syn-instagram-per-view));
+	}
+
+	.syn-instagram__control {
+		display: inline-grid;
+		inline-size: 3rem;
+		block-size: 3rem;
+		padding: 0;
+		place-items: center;
+		border: 1px solid var(--syn-border);
+		border-radius: 0.45rem;
+		background-color: var(--syn-white);
+		color: var(--syn-navy);
+		cursor: pointer;
+		transition:
+			color var(--syn-duration-fast),
+			border-color var(--syn-duration-fast),
+			background-color var(--syn-duration-fast),
+			transform var(--syn-duration-fast);
+	}
+
+	.syn-instagram__control--prev {
+		grid-area: prev;
+	}
+
+	.syn-instagram__control--next {
+		grid-area: next;
+	}
+
+	.syn-instagram__control svg {
+		inline-size: 1.35rem;
+		block-size: 1.35rem;
+		fill: none;
+		stroke: currentcolor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.8;
+	}
+
+	.syn-instagram__control:hover:not(:disabled) {
+		border-color: var(--syn-navy);
+		background-color: var(--syn-navy);
+		color: var(--syn-white);
+		transform: translateY(-2px);
+	}
+
+	.syn-instagram__control:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	/* Every post already fits, so there is nothing to page and the arrows would
+	   be lying. instagram.js sets this class. */
+	.syn-instagram__carousel.syn-is-static .syn-instagram__control {
+		display: none;
+	}
 }
 
 /* ==========================================================================
    4. Narrow screens
+   One number changes the count, as in the blog band.
    ========================================================================== */
 
+@media (max-width: 61.25rem) {
+
+	.syn-instagram {
+		--syn-instagram-per-view: 2;
+	}
+
+	.syn-instagram__item:nth-child(n + 3) {
+		display: none;
+	}
+}
+
 @media (max-width: 47.99rem) {
+
+	.syn-instagram {
+		--syn-instagram-per-view: 1;
+	}
 
 	.syn-instagram__heading {
 		display: block;
@@ -162,5 +260,23 @@
 
 	.syn-instagram__follow {
 		margin-block-start: 1.1rem;
+	}
+}
+
+@media (scripting: enabled) and (max-width: 47.99rem) {
+
+	/* The arrows move under the cards, centred, where a thumb can reach them. */
+	.syn-instagram__carousel {
+		grid-template-areas:
+			"viewport viewport viewport viewport"
+			". prev next .";
+		grid-template-columns: 1fr auto auto 1fr;
+		column-gap: 0.6rem;
+		row-gap: clamp(1.1rem, 2vw, 1.5rem);
+	}
+
+	.syn-instagram__control {
+		inline-size: 2.75rem;
+		block-size: 2.75rem;
 	}
 }

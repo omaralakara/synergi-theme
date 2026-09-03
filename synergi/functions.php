@@ -98,5 +98,8 @@ require_once SYN_DIR . 'inc/blog-fields.php';
 require_once SYN_DIR . 'inc/global-locations-fields.php';
 require_once SYN_DIR . 'inc/media-fields.php';
 
+// Reads the Instagram plugin's own cache so the band can draw its own cards.
+require_once SYN_DIR . 'inc/instagram.php';
+
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
