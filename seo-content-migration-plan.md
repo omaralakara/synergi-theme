@@ -930,3 +930,49 @@ Small items found, none blocking review:
 3. The ICXI partnership post is the one post with no featured image.
 4. Office emails, LocalBusiness schema, §8 data asks and §7B launch-window
    items remain open as already recorded.
+
+### Addendum — 3 Sep, sixth pass (Saudi page photography)
+
+The Saudi market page carried the hero sourced on 2 Sep and its case band's own
+image, but every band between them still showed generic Gulf/Dubai stock or the
+old design's AI pictures, several of them shared with the UAE page and the
+service pages. Eleven photographs replace them, sourced the same way as the
+2 Sep passes — Unsplash License only (free commercial use, no attribution, no
+Unsplash+ premium), every pick opened and looked at before it was cut, then
+cropped to the size the template actually renders and encoded as WebP.
+
+Assigned on `/markets/saudi-arabia/` (IDs 10773–10782), by field:
+
+- **Story pillars** (`large`, 4:3, 1600×1200): a desert development under
+  construction seen from the air for "Built, not just advised"; an office
+  colonnade at golden hour for "Senior attention, boutique size".
+- **Industries** (`full`, 16:9, 1600×900): the King Fahad National Library and
+  Al Faisaliah across a Riyadh plaza (public sector); the Olaya business
+  district from above (PE, family offices and holdings); tower cranes over a
+  steel frame (real estate and construction); a desert solar array (energy,
+  agriculture and manufacturing — 1440×810, the detail is dense and 1600 wide
+  could not hold quality inside the weight budget).
+- **Why Synergi in the Kingdom** (`medium_large`, 3:4, 900×1200): the Kingdom
+  Centre at dusk, a glass building behind an elevated pedestrian bridge, the
+  Capital Market Authority tower (the regulator, for the governance card), and
+  the Riyadh skyline at night.
+
+The hero (`riyadh-skyline-night.webp`) and the case band (which follows its
+featured story) were left alone, as instructed.
+
+**Alt text says only what can be verified.** Where a landmark is recognisable
+the alt names it and the city; where the photograph came from a Saudi-tagged
+search but has no landmark in it (the aerial development, the colonnade, the
+cranes, the solar array) the alt describes the scene and claims no location.
+Filenames follow the same rule.
+
+**One homepage change, asked for separately.** The Why band's third card ran an
+AI image whose subject holds a melted, unreadable object — the clearest of the
+four cards' artefacts. `sections/why.php` resolves that deck by attachment slug
+when the `why_cards` record is empty, so the swap is data, not code: attachment
+10480 keeps its ID and its file but its slug moved to `compliance-ai-legacy`,
+and the new photograph (10783, hands going through a printed compliance form)
+took the `compliance` slug. The two HR case bands that reference 10480 **by ID**
+are untouched and still show the AI image — replacing those was not asked for
+and is the next obvious candidate. The other three Why cards remain AI images
+from the approved design.
