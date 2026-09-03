@@ -76,7 +76,17 @@ $syn_print_track = static function ( $syn_first_is_real ) use ( $syn_words, $syn
 	<ul class="syn-ribbon__track">
 		<?php for ( $syn_pass = 0; $syn_pass < $syn_repeats; $syn_pass++ ) : ?>
 			<?php foreach ( $syn_words as $syn_word ) : ?>
-				<li class="syn-ribbon__word"<?php echo ( $syn_first_is_real && 0 === $syn_pass ) ? '' : ' aria-hidden="true"'; ?>><?php echo esc_html( $syn_word ); ?></li>
+				<li class="syn-ribbon__word"<?php echo ( $syn_first_is_real && 0 === $syn_pass ) ? '' : ' aria-hidden="true"'; ?>>
+					<?php
+					/*
+					 * The Synergi mark between phrases, replacing the CSS dot
+					 * that was here (3 Sep). syn_inline_icon() already wraps it
+					 * aria-hidden, so it is decoration and never read aloud.
+					 */
+					syn_inline_icon( 'mark', 'syn-ribbon__mark' );
+					?>
+					<span class="syn-ribbon__label"><?php echo esc_html( $syn_word ); ?></span>
+				</li>
 			<?php endforeach; ?>
 		<?php endfor; ?>
 	</ul>
@@ -93,11 +103,11 @@ $syn_print_track = static function ( $syn_first_is_real ) use ( $syn_words, $syn
 		 * tabindex="0" is what makes the drift pausable from the keyboard.
 		 * Nothing inside the strip is focusable, so without a stop here a
 		 * keyboard user would have no way to halt something that never stops
-		 * moving (WCAG 2.2.2) - the same reasoning as the partners marquee,
-		 * done here in CSS alone because this strip is not draggable.
+		 * moving (WCAG 2.2.2). Hovering deliberately does NOT stop it (3 Sep):
+		 * focus is the pause mechanism, and it is the only one the rule needs.
 		 */
 		?>
-		<div class="syn-ribbon__viewport" tabindex="0" aria-label="<?php esc_attr_e( 'Synergi service keywords, drifting sideways. The movement pauses while this strip is hovered or focused.', 'synergi' ); ?>">
+		<div class="syn-ribbon__viewport" tabindex="0" aria-label="<?php esc_attr_e( 'Synergi service keywords, drifting sideways. The movement pauses while this strip has keyboard focus.', 'synergi' ); ?>">
 			<div class="syn-ribbon__loop">
 				<?php $syn_print_track( true ); ?>
 				<?php $syn_print_track( false ); ?>

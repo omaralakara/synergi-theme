@@ -98,7 +98,7 @@ if ( ! $syn_cards ) {
 			'summary'      => __( 'HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity.', 'synergi' ),
 			'url'          => home_url( '/our-services/human-resources/' ),
 			'capabilities' => array(
-				__( 'Hire to Retire', 'synergi' ),
+				__( 'HR Operations', 'synergi' ),
 				__( 'Payroll and Pension', 'synergi' ),
 				__( 'Performance Management', 'synergi' ),
 				__( 'Organizational Development', 'synergi' ),
@@ -155,6 +155,7 @@ if ( ! $syn_cards ) {
 				__( 'Events Strategy and Management', 'synergi' ),
 				__( 'Brand Development and Positioning', 'synergi' ),
 				__( 'PR Representation and Media Relations', 'synergi' ),
+				__( 'Digital Design', 'synergi' ),
 				__( 'Reporting, Performance Analysis and Data Management', 'synergi' ),
 				__( 'Fractional Chief Marketing Officer (CMO)', 'synergi' ),
 			),

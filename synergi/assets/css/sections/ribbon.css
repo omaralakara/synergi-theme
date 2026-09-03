@@ -105,9 +105,13 @@
 	animation: syn-ribbon-drift 55s linear infinite;
 }
 
-/* The stop for keyboard and pointer users (WCAG 2.2.2). The visible focus
-   ring comes from base.css's global :focus-visible rule. */
-.syn-ribbon__viewport:hover .syn-ribbon__loop,
+/*
+ * The stop, for keyboard users only (WCAG 2.2.2 still needs a mechanism to
+ * pause moving content). Hover NO LONGER pauses it — asked for 3 Sep: the
+ * strip is decoration rather than something to read, and stopping dead under a
+ * passing cursor read as the page snagging. The visible focus ring comes from
+ * base.css's global :focus-visible rule.
+ */
 .syn-ribbon__viewport:focus-visible .syn-ribbon__loop {
 	animation-play-state: paused;
 }
@@ -147,15 +151,30 @@
 	white-space: nowrap;
 }
 
-/* The dot between words - drawn, not typed, so it can never be read aloud
-   or indexed as text. */
-.syn-ribbon__word::before {
-	content: "";
+/*
+ * The Synergi mark between phrases, replacing a plain round dot (3 Sep). It is
+ * the header and footer logo's own shape, and it takes navy-deep — the colour
+ * those two bars are painted in — so the strip is stamped with the brand
+ * rather than punctuated by a neutral dot. Drawn in currentColor by
+ * sections/ribbon.php, so this one rule sets it.
+ */
+.syn-ribbon__mark {
+	display: flex;
 	flex: 0 0 auto;
-	inline-size: 0.32em;
-	block-size: 0.32em;
-	border-radius: 50%;
-	background-color: var(--syn-navy-deep);
+	align-items: center;
+	color: var(--syn-navy-deep);
+}
+
+.syn-ribbon__mark svg {
+	inline-size: 1.15em;
+	block-size: 1.15em;
+	fill: currentcolor;
+}
+
+/* The phrase itself. It is a span so the mark beside it can be a flex sibling
+   rather than a pseudo-element on the row. */
+.syn-ribbon__label {
+	display: block;
 }
 
 /* ==========================================================================

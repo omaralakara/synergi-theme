@@ -243,6 +243,13 @@ function syn_inline_icon( $slug, $class = '' ) {
 		'social-instagram',
 		'social-youtube',
 		'social-facebook',
+
+		/*
+		 * The Synergi mark — the logo's S and its dot, drawn as one shape in
+		 * currentColor so it takes the colour of whatever it sits in. Added
+		 * 3 Sep for the keyword ribbon, where it separates the phrases.
+		 */
+		'mark',
 	);
 
 	if ( ! in_array( $slug, $allowed, true ) ) {

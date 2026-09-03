@@ -139,9 +139,9 @@ function syn_register_about_fields() {
 					'max_rows'  => 10,
 					'default'   => array(
 						array( 'text' => 'Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven “Shared Services as-a-service (SSaaS)” provider.' ),
-						array( 'text' => 'Incepted in Abu Dhabi, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries.' ),
+						array( 'text' => 'Incepted in the GCC, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries.' ),
 						array( 'text' => 'We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale.' ),
-						array( 'text' => 'We are home-grown in the UAE with delivery centres both onshore and offshore.' ),
+						array( 'text' => 'We are home-grown in the GCC with delivery centres both onshore and offshore.' ),
 					),
 					'subfields' => array(
 						array(
@@ -432,7 +432,7 @@ function syn_register_about_fields() {
 						array( 'year' => '2024', 'title' => 'New structure', 'note' => '' ),
 						array( 'year' => '2025', 'title' => 'Qatar', 'note' => '' ),
 						array( 'year' => '2025', 'title' => 'KSA', 'note' => '' ),
-						array( 'year' => '2026', 'title' => 'Partnership', 'note' => 'Odoo' ),
+						array( 'year' => '2026', 'title' => 'Scaling', 'note' => '' ),
 					),
 					'subfields'   => array(
 						array(

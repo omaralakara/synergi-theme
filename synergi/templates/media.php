@@ -111,6 +111,9 @@ syn_section(
 	array(
 		'count'     => 6,
 		'scroll'    => true,
+		// One study per service line before any line repeats: seven of the
+		// twelve are HR, and without this the hub reads as an HR-only company.
+		'spread'    => true,
 		'lede'      => __( 'How organizations across the Gulf run their operations with Synergi.', 'synergi' ),
 		'link_url'  => home_url( '/case-studies/' ),
 		'link_text' => __( 'View all case studies', 'synergi' ),

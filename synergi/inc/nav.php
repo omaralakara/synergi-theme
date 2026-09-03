@@ -22,13 +22,17 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Child count at which a submenu switches to the two-column variant.
  *
- * Four is the point where a single 15rem column starts to run long against the
- * header: the design ships exactly two submenu widths (15rem one-column,
- * 21rem two-column) and no rule for choosing between them, so the theme picks
- * on item count rather than asking an editor to know. On the menu as it stands
- * only "Our Services" (5 children) crosses it.
+ * The design ships exactly two submenu widths (15rem one-column, 21rem
+ * two-column) and no rule for choosing between them, so the theme picks on item
+ * count rather than asking an editor to know.
+ *
+ * SIX since 3 Sep, was four. At four, Media's four items (Media Hub, Blog,
+ * Executive Podcast, Case Studies) split into a 2x2 grid, which the business
+ * asked to see as one list — four items read as a list and do not run long
+ * against the header. Six keeps the two menus that genuinely need the width in
+ * two columns: Our Services (7 children) and Our Solutions (6).
  */
-defined( 'SYN_SUBMENU_WIDE_MIN' ) || define( 'SYN_SUBMENU_WIDE_MIN', 4 );
+defined( 'SYN_SUBMENU_WIDE_MIN' ) || define( 'SYN_SUBMENU_WIDE_MIN', 6 );
 
 /**
  * The class that turns a top-level menu item into the header's button.

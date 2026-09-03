@@ -47,6 +47,10 @@ define( 'SYN_CASE_STUDIES_TEMPLATE', 'templates/case-studies-listing.php' );
  *     @type int    $count   How many to return. -1 (default) is all of them.
  *     @type string $service Service reference, to return only that line's.
  *     @type int    $exclude A page ID to leave out — a case study's own.
+ *     @type bool   $spread  One study per service line before any line repeats.
+ *                           For a band that shows a handful and should read as
+ *                           the range of the business rather than as whichever
+ *                           line published most recently.
  * }
  * @return array[] Cards in syn_case_study_card()'s shape, in order.
  */
@@ -57,12 +61,14 @@ function syn_case_studies( $args = array() ) {
 			'count'   => -1,
 			'service' => '',
 			'exclude' => 0,
+			'spread'  => false,
 		)
 	);
 
 	$count   = (int) $args['count'];
 	$service = sanitize_key( $args['service'] );
 	$exclude = absint( $args['exclude'] );
+	$spread  = (bool) $args['spread'];
 
 	/*
 	 * Since the post type landed (inc/case-study-post-type.php, 1 Sep 2026) the
@@ -86,7 +92,12 @@ function syn_case_studies( $args = array() ) {
 	$query_args = array(
 		'post_type'              => SYN_CASE_STUDY_POST_TYPE,
 		'post_status'            => 'publish',
-		'posts_per_page'         => $count > 0 ? $count : -1,
+
+		/*
+		 * A spread has to see every study before it can pick one per line, so
+		 * the limit is applied after the sorting below rather than in SQL.
+		 */
+		'posts_per_page'         => ( $count > 0 && ! $spread ) ? $count : -1,
 		'orderby'                => array(
 			'menu_order' => 'ASC',
 			'date'       => 'DESC',
@@ -108,9 +119,46 @@ function syn_case_studies( $args = array() ) {
 	}
 
 	$query = new WP_Query( $query_args );
+	$posts = $query->posts;
+
+	/*
+	 * THE SPREAD, added 3 Sep. Seven of the twelve studies are HR, so a plain
+	 * "newest six" filled the Media hub with one service line and read as if
+	 * Synergi only did HR. This deals the studies round the service lines
+	 * instead: the newest of each line first, then the next of each, and so on.
+	 * Order inside a line is untouched, so the Order box still pins a study to
+	 * the front of its own line, and a study with no service reference simply
+	 * lands in its own group rather than being dropped.
+	 */
+	if ( $spread ) {
+		$lines = array();
+
+		foreach ( $posts as $post ) {
+			$lines[ (string) syn_field( 'case_service', (int) $post->ID ) ][] = $post;
+		}
+
+		$dealt = array();
+
+		while ( $lines ) {
+			foreach ( $lines as $line => $queue ) {
+				$dealt[] = array_shift( $lines[ $line ] );
+
+				if ( ! $lines[ $line ] ) {
+					unset( $lines[ $line ] );
+				}
+			}
+		}
+
+		$posts = $dealt;
+	}
+
+	if ( $count > 0 ) {
+		$posts = array_slice( $posts, 0, $count );
+	}
+
 	$cards = array();
 
-	foreach ( $query->posts as $post ) {
+	foreach ( $posts as $post ) {
 		$cards[] = syn_case_study_card( (int) $post->ID );
 	}
 

@@ -30,6 +30,9 @@
  *   service string  Optional. A service reference, to show only that line's.
  *   exclude int     Optional. A page ID to leave out — a case study's own, so
  *                   it does not link to itself.
+ *   spread  bool    Optional. Deal the cards round the service lines, so a
+ *                   short row shows the range of the business rather than
+ *                   whichever line published most recently.
  *   scroll    bool   Optional. True renders the cards as the blog band's
  *                    carousel — arrows, drag, no scrollbar (the Media hub's
  *                    variant); absent, the grid renders exactly as before.
@@ -86,6 +89,7 @@ if ( isset( $args['items'] ) ) {
 			'count'   => isset( $args['count'] ) ? (int) $args['count'] : -1,
 			'service' => (string) ( $args['service'] ?? '' ),
 			'exclude' => (int) ( $args['exclude'] ?? 0 ),
+			'spread'  => ! empty( $args['spread'] ),
 		)
 	);
 } else {
