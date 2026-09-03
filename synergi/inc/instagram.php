@@ -37,6 +37,53 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * How much of a caption a card shows, in characters.
+ *
+ * 140, chosen against the real feed on 3 Sep rather than guessed: the twelve
+ * newest captions run from 363 to 834 characters, so every one of them is cut
+ * and the number decides what the cards look like. A card is about 24rem wide
+ * and its caption sets at step -1, which is roughly 55 characters a line, so
+ * 140 fills two and a half to three lines — enough for the opening thought,
+ * short enough that three cards in a row stay the same shape. instagram.css
+ * clamps to three lines as well, but only as a safety net at odd widths; the
+ * trimming happens here so a page never carries 800 characters per card it
+ * does not draw.
+ *
+ * The cut always falls back to the last whole word, so no card ends mid-word.
+ */
+defined( 'SYN_INSTAGRAM_CAPTION_CHARS' ) || define( 'SYN_INSTAGRAM_CAPTION_CHARS', 140 );
+
+/**
+ * A caption, trimmed to a character budget at a word boundary.
+ *
+ * @param string $text  The full caption, already stripped and collapsed.
+ * @param int    $limit Maximum characters before the ellipsis.
+ * @return string The caption, trimmed and ellipsised only if it was too long.
+ */
+function syn_trim_caption( $text, $limit ) {
+	$text  = trim( (string) $text );
+	$limit = max( 20, (int) $limit );
+
+	if ( mb_strlen( $text ) <= $limit ) {
+		return $text;
+	}
+
+	$cut   = mb_substr( $text, 0, $limit );
+	$space = mb_strrpos( $cut, ' ' );
+
+	/*
+	 * Back off to the last space, unless that would throw away most of the
+	 * budget — a caption written as one very long unbroken string would
+	 * otherwise be cut to almost nothing.
+	 */
+	if ( false !== $space && $space > ( $limit * 0.6 ) ) {
+		$cut = mb_substr( $cut, 0, $space );
+	}
+
+	return rtrim( $cut, " \t\n\r,;:.-" ) . '…';
+}
+
+/**
  * The newest Instagram posts, newest first.
  *
  * Side effects: one direct database read, cached in a transient for an hour.
@@ -136,17 +183,18 @@ function syn_read_instagram_cache( $count ) {
 		}
 
 		/*
-		 * The caption is the only text Instagram gives us, so it becomes the
-		 * card's alt text — trimmed to one readable line, because a caption can
-		 * run to several paragraphs of hashtags and a screen reader would read
-		 * every one of them. A post with no caption falls back to a plain
-		 * description rather than an empty alt: this picture IS the content
-		 * here, so it is not decorative (CLAUDE.md §8).
+		 * The caption is the only text Instagram gives us, so it is both what
+		 * the card shows and the picture's alt text — trimmed to
+		 * SYN_INSTAGRAM_CAPTION_CHARS, because a caption can run to several
+		 * paragraphs of hashtags and neither a card nor a screen reader wants
+		 * all of it. A post with no caption falls back to a plain description
+		 * rather than an empty alt: this picture IS the content here, so it is
+		 * not decorative (CLAUDE.md §8).
 		 */
 		$caption = isset( $data['caption'] ) ? trim( wp_strip_all_tags( (string) $data['caption'] ) ) : '';
 		$caption = preg_replace( '/\s+/', ' ', $caption );
 		$alt     = '' !== $caption
-			? wp_trim_words( $caption, 18, '…' )
+			? syn_trim_caption( $caption, SYN_INSTAGRAM_CAPTION_CHARS )
 			: __( 'A post from the Synergi Instagram account', 'synergi' );
 
 		$posts[] = array(
