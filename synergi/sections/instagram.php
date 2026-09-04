@@ -146,7 +146,9 @@ $syn_uid = wp_unique_id( 'syn-instagram-' );
 									 * post twice (CLAUDE.md §8).
 									 */
 									?>
-									<span class="syn-instagram__caption" aria-hidden="true"><?php echo esc_html( $syn_post['alt'] ); ?></span>
+									<span class="syn-instagram__body">
+										<span class="syn-instagram__caption" aria-hidden="true"><?php echo esc_html( $syn_post['alt'] ); ?></span>
+									</span>
 									<span class="syn-visually-hidden"><?php esc_html_e( 'View this post on Instagram', 'synergi' ); ?></span>
 								</a>
 							</li>

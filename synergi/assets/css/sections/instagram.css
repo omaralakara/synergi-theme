@@ -166,13 +166,24 @@
 }
 
 /*
+ * The caption's padding lives on this wrapper, not on the clamped span itself.
+ * `-webkit-line-clamp` sizes the content box to three lines but `overflow`
+ * clips at the PADDING box, so a padded clamped element lets the fourth line
+ * bleed into its own bottom padding and get sliced through the middle — which
+ * is exactly what the band was doing (reported 4 Sep). With the padding out
+ * here the clip lands on the third line's baseline, where the ellipsis is.
+ */
+.syn-instagram__body {
+	padding: var(--syn-space-3);
+}
+
+/*
  * The caption. Clamped to three lines: a post's first sentence is the useful
  * part, and an unclamped caption would set one card's height for the whole row.
  */
 .syn-instagram__caption {
 	display: -webkit-box;
 	overflow: hidden;
-	padding: var(--syn-space-3);
 	color: var(--syn-text-soft);
 	font-size: var(--syn-step--1);
 	line-height: 1.6;
