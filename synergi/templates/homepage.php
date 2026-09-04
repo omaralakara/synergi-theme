@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
  * 05 why synergi, 06 numbers, 07 partners, 08 locations, 09 blog,
  * 10 instagram, 11 podcast, 12 final CTA.
  */
-syn_use_sections( array( 'hero', 'services', 'shared-services', 'industries', 'ribbon', 'why', 'numbers', 'partners', 'locations', 'blog', 'instagram', 'podcast', 'final-cta' ) );
+syn_use_sections( array( 'hero', 'services', 'shared-services', 'ribbon', 'industries', 'why', 'numbers', 'partners', 'locations', 'blog', 'instagram', 'podcast', 'final-cta' ) );
 
 get_header();
 
@@ -185,6 +185,16 @@ if ( '' !== $syn_shared_cta_label && '' !== $syn_shared_cta_url ) {
 
 syn_section( 'shared-services', $syn_shared_args );
 
+/*
+ * The keyword ribbon (added 3 Sep, moved above Industries 4 Sep on request)
+ * breaks the page between the "what we do" zone above it and the sector and
+ * proof bands below. An empty list is dropped so the partial's approved
+ * keywords render (CLAUDE.md §7c).
+ */
+$syn_ribbon_words = $syn_home_list( 'home_ribbon_words', $syn_home_id, 'word' );
+
+syn_section( 'ribbon', $syn_ribbon_words ? array( 'words' => $syn_ribbon_words ) : array() );
+
 $syn_industry_cards = array();
 
 foreach ( syn_field_rows( 'home_industries_cards', $syn_home_id ) as $syn_row ) {
@@ -213,15 +223,6 @@ syn_section(
 			'title'   => syn_field( 'home_industries_title', $syn_home_id ),
 		)
 );
-
-/*
- * The keyword ribbon (added 3 Sep) breaks the page between the "what we do"
- * zone above it and the "why us" proof below. An empty list is dropped so
- * the partial's approved keywords render (CLAUDE.md §7c).
- */
-$syn_ribbon_words = $syn_home_list( 'home_ribbon_words', $syn_home_id, 'word' );
-
-syn_section( 'ribbon', $syn_ribbon_words ? array( 'words' => $syn_ribbon_words ) : array() );
 
 // Reads the "why" and "why_cards" records itself — seven pages, one source.
 syn_section( 'why' );
