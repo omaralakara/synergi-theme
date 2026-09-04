@@ -42,6 +42,7 @@ $syn_logos = $args['logos'] ?? array(
 	array( 'slug' => 'partner-sap' ),
 	array( 'slug' => 'partner-menaitech' ),
 	array( 'slug' => 'partner-zoho' ),
+	array( 'slug' => 'partner-fcxo-mena' ),
 );
 
 /*
