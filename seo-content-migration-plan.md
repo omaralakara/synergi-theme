@@ -976,3 +976,118 @@ took the `compliance` slug. The two HR case bands that reference 10480 **by ID**
 are untouched and still show the AI image — replacing those was not asked for
 and is the next obvious candidate. The other three Why cards remain AI images
 from the approved design.
+
+### Addendum — 4 Sep, seventh pass (market wording: region vs. members, markets vs. delivery)
+
+Stakeholder comment: *"we mentioned our markets are GCC & Gulf then Saudi and
+UAE separately (repetition?) while the Contact Us mentioned Europe, Lebanon and
+GCC as well. We are showing a wider presence while our services are focused on
+the GCC only."*
+
+Both observations were correct, and both were wording, not structure. Checked
+against the GSC export and §2–§3 before touching anything.
+
+**What the data says about the tempting fixes, and why they were not made:**
+
+- **Do not collapse the Markets tree.** `/markets/` (hub), `/markets/united-arab-emirates/`
+  and `/markets/saudi-arabia/` are the re-housing this plan is built on: the UAE
+  page carries ~7,500 impressions across 221 queries, and the Saudi page is the
+  301 target of the trashed legacy KSA URL. Merging them would undo §3 and the
+  2 Sep redirect table. Repetition is fixed by labelling, not by deleting a page.
+- **Do not drop Beirut, Bucharest or Damascus.** Query demand for Lebanon,
+  Romania, Bucharest and Europe is **zero** across 12 months — so no ranking is
+  at risk either way. But Lebanon is 189 clicks at 27.96% CTR, 19% of all site
+  clicks, brand searchers who want the Beirut office; and the Syria payroll
+  cluster (≈345 impressions) sits behind the "Coming soon" Damascus card. The
+  office list is also a 2 Sep business sign-off (§9). Removing offices would
+  cost real users and gain no search equity.
+- **Do not touch the homepage title, H1 or hero.** §2 Phase 1 keeps the UAE and
+  Gulf signals until GSC shows the UAE page has taken the cluster over.
+
+**Applied on staging (fields and records only — no theme code, backup in the
+option `syn_backup_market_wording_2026_09_04`):**
+
+1. **`markets` record, first row:** name `GCC & the Gulf` → **`Across the GCC`**;
+   summary now reads as the regional view rather than a third country. "GCC &
+   the Gulf" was itself a tautology, and as a peer of its own member states it
+   is what produced the comment. The header menu item (10617) was retitled to
+   match, per the record's own "as it should read in the menu" contract.
+   The hub's page title, H1 and Yoast metadata are untouched — "Gulf" survives
+   in the row summary, the hub's meta description and the page body.
+2. **Homepage shared-services band:** the "markets served" pills were
+   `UAE · GCC · KSA` — a region printed between two of its members, and a
+   Stage-5 leftover that contradicted the 2 Sep decision that Saudi appears on
+   the homepage only in the menu and the office list. Now `UAE · Wider GCC`,
+   set through the existing `home_shared_markets` field, so UAE is retained per
+   Phase 1 and nothing in the band's keyword-bearing lead sentence moved.
+3. **Contact Us offices lede:** "Five offices across the Gulf, the Levant and
+   Europe…" → "We serve clients across the GCC. Delivery runs from our Gulf
+   offices and from Beirut and Bucharest — onshore and offshore, as one team."
+   This is the answer to the comment: the GCC is the **market**, Beirut and
+   Bucharest are **delivery**. It also drops a count that was already wrong
+   (six office rows, not five).
+4. **Global Locations lede:** same distinction stated once, in the profile's own
+   language.
+5. **Stale internal links repaired** (found while reading the stored fields):
+   three FAQ answers still linked `/shared-services-uae/`, trashed on 2 Sep and
+   301'd to the UAE market page — so a "Shared services design and set-up"
+   anchor was sending readers through a redirect to a market page. Repointed at
+   `/our-solutions/shared-services/` on the GCC hub, the Saudi page and
+   Build-Operate-Transfer.
+6. **GCC hub FAQ** still said Saudi Arabia was the only market with a page of
+   its own. Now links down to both children (§3b wants links in to the UAE page).
+7. **The same slip on all six service pages.** The shared "Where is your team
+   based?" FAQ answered *"Synergi operates from five global delivery locations,
+   onshore and offshore, across the GCC, Lebanon and Romania"* — the comment's
+   exact complaint, repeated on HR, Procurement, Accounting, Marketing,
+   Technology & AI and Project Management. Now: *"Our clients are in the GCC.
+   The team delivering for them works from five locations, onshore and offshore:
+   Abu Dhabi, Riyadh and Doha in the Gulf, plus Beirut and Bucharest."* Market
+   first, delivery second, matching Contact Us and Global Locations. Backup in
+   `syn_backup_service_faqs_2026_09_04`; the only copy left is on the trashed
+   duplicate HR page.
+
+Verified: `/`, `/contact-us/`, `/global-locations/`, `/markets/saudi-arabia/`
+and `/our-services/human-resources/` all return 200 with the new copy rendered,
+no `GCC & the Gulf` and no `shared-services-uae` left on them, and every edited
+JSON field still decodes.
+
+**Checked and clean:** About Us stores no geography claim of its own (its
+defaults already read "home-grown in the GCC, delivery centres onshore and
+offshore"), and the `final_cta` record falls through to the same framing.
+
+**Correction to an earlier flag in this addendum.** The Blog page's
+`_syn_content_before_posts_page` does hold absolute `staging.synergi.ae` URLs,
+but no theme file reads that key and `/blog/` does not render it — dead
+migration data, not a launch blocker. The other `staging.synergi.ae` strings in
+published pages' `post_content` are the dead Elementor payload the 2 Sep pass
+deliberately kept for rollback (§2.9), and the ones in rendered HTML are upload
+srcsets, which follow `home_url()` at the move. What genuinely carries the
+staging domain into launch is configuration, not content: `wpseo`,
+`wpseo_titles` and `googlesitekit_search-console_settings`.
+
+### Addendum — 4 Sep, answers from the business
+
+- **Market focus confirmed: the GCC, with Saudi Arabia the priority.** Lebanon
+  and Romania are delivery, not markets. The wording pass above is therefore the
+  right framing and stands. Note this does *not* reverse the 2 Sep decision to
+  take country keywords off the homepage: focus on Saudi is delivered by
+  `/markets/saudi-arabia/` ranking for the KSA cluster, not by the homepage
+  competing with it (§2, §3c).
+- **Office emails: closed.** There is one company address, `info@synergibpo.com`,
+  already rendered in the footer on every page (`footer.php`). The per-office
+  email slots on the `locations` record stay deliberately empty — six copies of
+  one address is noise, and each card hides the slot when it is blank. §9's
+  "still open" item 1 is resolved.
+- **Photography: closed.** Audited every published templated page and case
+  study on staging: all carry a hero (featured image or image field). The only
+  page without one is `/connect/` (link-in-bio, default template, by design).
+  §9's "still open" item 2 is resolved; the "left for AI generation" list in the
+  third-pass addendum was overtaken by later passes.
+- **Measurement, still open and now the critical path.** Staging's Site Kit has
+  GA4 configured (property 462310803, `G-EX4ZJYVVPG`) but `useSnippet` empty, so
+  it emits nothing; its Search Console property is pointed at
+  `staging.synergi.ae`, and no admin is connected. Production could not be read
+  in this session. Until GA4 and a production-property GSC export exist, there
+  is no baseline to prove the migration improved search rather than harmed it —
+  which is the standard the business set for this work.
