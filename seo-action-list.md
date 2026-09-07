@@ -739,6 +739,170 @@ The SEO items in Part 2 remain correct. This is what now sits **above** them:
 
 ---
 
+# Part 10 — Tracking: what exists, what breaks, what to do
+
+Audited 7 September on both sites. **Answering the direct question first: no,
+the new site does not carry the tracking. As configured today, staging outputs
+no analytics at all, and the theme cannot load GA4 even if you asked it to.**
+
+## 10.1 What production runs today — three separate mechanisms
+
+Nobody has written this down before, and it matters because each one behaves
+differently at launch.
+
+| # | Mechanism | What it loads | Survives the new theme? |
+|---|---|---|---|
+| 1 | **Site Kit → Analytics** (`useSnippet: true`) | GA4 **G-EX4ZJYVVPG**, property 462310803 | **Yes** — Site Kit outputs this itself, independently of the theme |
+| 2 | **ASE code snippet "Google"** (published) | A **second, different** GA4: **G-F8BHKGB935** | **No** — the ASE snippets feature is off on staging |
+| 3 | **ASE code snippet "LinkedIn Tag"** (published) | LinkedIn Insight Tag, partner `9021449` | **No** — same reason |
+
+There is also a fourth ASE snippet, **"SEO: single post title H3 to H1"**, which
+rewrites post headings through an output buffer. It is not tracking, but note
+it: **the new theme emits a correct single `<h1>` natively** (CLAUDE.md §8), so
+this snippet must not travel — it would fight the template.
+
+**Two GA4 properties are collecting simultaneously.** `G-EX4ZJYVVPG` is the one
+Site Kit reports and the one the `datagsc/` landing-page export came from.
+`G-F8BHKGB935` is a second property nobody has mentioned. Decide which is the
+real one before launch — running both means every report is a guess about which
+number is authoritative.
+
+**There is no Google Tag Manager container.** Site Kit's Tag Manager module is
+inactive with an empty container ID. Earlier notes in this file said "20 minutes
+in GTM" — that was wrong: there is no GTM to configure. Everything is gtag,
+loaded directly.
+
+## 10.2 What staging runs today — nothing
+
+- Site Kit → Analytics: `useSnippet: **false**`. No snippet output.
+- Theme (`inc/integrations.php`): its GTM loader is present and correct, but
+  `syn_gtm_id` is **not set** and `SYN_GTM_ID` is undefined, so it renders
+  nothing. That is by design — the file's own header says Stage 1 ships it
+  unconfigured and Stage 8 sets the ID.
+- ASE snippets: all three exist but the ASE custom-code-snippets **feature is
+  disabled**, so none execute.
+
+Staging emitting nothing is correct for staging. The problem is only that
+nothing has been set up to switch on at launch.
+
+## 10.3 The gap nobody has hit yet
+
+`inc/integrations.php` validates its ID with `/^GTM-[A-Z0-9]{4,}$/`. **It accepts
+a GTM container ID and nothing else.** It has no gtag/GA4 path.
+
+So the theme, as built, cannot load `G-EX4ZJYVVPG` directly. Two ways forward:
+
+- **(a) Create a GTM container** and put GA4 and the LinkedIn tag inside it, then
+  set `syn_gtm_id`. *Recommended.* CLAUDE.md §11 already names GTM as the
+  intended single injection point; the theme was written for exactly this; it
+  fixes LinkedIn at the same time; and it gives conversion tracking somewhere
+  sensible to live. Roughly an hour, once.
+- **(b) Leave Site Kit's snippet on** (`useSnippet: true` on production already).
+  Zero work — it loads independently of the theme. But it covers GA4 only, so
+  the LinkedIn tag stays dead, and it loads in `<head>` rather than deferred,
+  which is the payload CLAUDE.md §6 wanted kept off the critical path.
+
+Whichever is chosen, **(b) is the safety net**: Site Kit's snippet is already on
+in production and will keep working through the launch whatever else happens. Do
+not turn it off until (a) is verified.
+
+## 10.4 Actions
+
+- [ ] Decide which GA4 property is authoritative — `G-EX4ZJYVVPG` or
+      `G-F8BHKGB935` — and retire the other.
+- [ ] Choose (a) or (b) above. If (a): create the container, add GA4 + LinkedIn,
+      set `syn_gtm_id` on staging, verify the tag fires, then set it on
+      production at launch.
+- [ ] **Set up form submissions as a GA4 key event** (§5). Currently zero key
+      events in eight months. Do this *before* launch or the before/after
+      comparison is impossible forever.
+- [ ] Do **not** carry the "SEO: single post title H3 to H1" snippet to the new
+      site.
+- [ ] Site Kit's Search Console module points at `https://staging.synergi.ae/`
+      on staging and `https://synergi.ae/` on production — correct on both, no
+      action, but do not let the staging value travel.
+
+---
+
+# Part 11 — Zoho Bigin: how leads reach sales, and why they stop
+
+Expanded because this is the one failure that costs money rather than rankings.
+
+## 11.1 How a lead reaches the CRM today
+
+1. Someone fills in the form on `/contact-us/`. That form is an **Elementor
+   Pro** form.
+2. On submission, Elementor Pro fires a WordPress event —
+   `elementor_pro/forms/new_record` — meaning *"a form was just submitted, here
+   is the data"*.
+3. **Bit Integrations** is listening for that exact event. It holds **two active
+   flows** (both named "Zoho Bigin", both `status = 1`).
+4. Each flow takes the submitted fields and creates a record in **Zoho Bigin**,
+   Zoho's small-business CRM.
+5. Sales work the lead from Bigin.
+
+Bit Integrations is the wiring between the form and the CRM. It is not
+optional plumbing — it *is* the connection.
+
+## 11.2 Exactly what breaks, and why it is silent
+
+On the new site:
+
+- Elementor is **deactivated**, so `elementor_pro/forms/new_record` will never
+  fire again.
+- The contact form is now **WPForms** (`[wpforms id="7560"]`, stored in the
+  `_syn_contact_form_shortcode` field on the Contact page).
+- WPForms fires a **different** event (`wpforms_process_complete`).
+- Bit Integrations is still listening for the Elementor one.
+
+**Result: the visitor fills in the form, sees "thank you", the entry is saved in
+WPForms — and nothing reaches Bigin.** No error appears. No warning in wp-admin.
+The flows still show as active, because they are: they are simply waiting for an
+event that will never come.
+
+This is why it is dangerous. A broken form gets reported within a day. A form
+that silently stops feeding the CRM gets noticed weeks later, when someone asks
+why the pipeline is empty.
+
+## 11.3 What has to be done — in order
+
+1. **Check the Zoho Bigin connection is still authorised.** Bit Integrations
+   holds OAuth tokens; they expire. Fix this first or every later test fails for
+   the wrong reason.
+2. **Open each of the two flows and find out why there are two.** Both are named
+   "Zoho Bigin" and both trigger on the same event. One may be for the contact
+   form and one for a lead magnet, or one may be an abandoned duplicate. Do not
+   rebuild a duplicate.
+3. **Change the trigger** from Elementor Forms to **WPForms → Simple Contact
+   Form (ID 7560)**.
+4. **Re-map every field.** This is not a re-point — Elementor and WPForms name
+   their fields differently, so the mapping from form field to Bigin field
+   (name, email, phone, company, message) must be rebuilt by hand. A flow that
+   triggers but maps nothing creates empty CRM records, which is worse than
+   none, because it looks like it is working.
+5. **Submit a real test enquiry on staging and confirm the record appears in
+   Bigin.** Not "the flow saved". Not "the log shows a run". The record, visible
+   in the CRM, with the right values in the right fields.
+6. **Repeat step 5 on production immediately after launch.** A flow verified on
+   staging can still point at the wrong Bigin pipeline once live.
+
+## 11.4 The related loss nobody has counted
+
+The three lead-magnet pages also used Elementor forms and fired the same event,
+so whatever they were sending to Bigin stops too:
+
+- `/procurement-readiness/` — now drafted
+- `/hr-digital-transformation-guide/` — now drafted
+- `/procurement-bpo-readiness-checklist/` — **still published, form gone**
+
+Drafting the first two was a decision. The third is still live with no form.
+
+- [ ] Confirm nobody in sales is expecting checklist or guide downloads to keep
+      arriving. If they are, those forms need rebuilding in WPForms and adding
+      to the flow work above.
+
+---
+
 # Appendix — one export still missing
 
 Everything asked for arrived except the **`/our-approach/` query list**, which
