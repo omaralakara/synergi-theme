@@ -42,6 +42,14 @@ documents can be corrected.
 | 9 | `/hr-digital-transformation-guide/` and `/procurement-readiness/` are **set to draft** rather than rebuilt. | **Applied on staging**, each with a 301 so the live URL does not 404 — HR guide → `/our-services/human-resources/`, readiness → `/our-services/procurement/`. Reversible: republish and the redirect can be removed. |
 | 10 | `/our-approach/` is dumped. | Confirmed. Already draft + 301 to `/about-us/`. |
 
+| 11 | **No board or governance section on the new site.** The Board of Directors and Strategic Advisors lists are not wanted. | Nothing to build — staging already has no such content, and `/our-leadership/` redirects to `/engagement-team/`. Decision closed. |
+
+**Still live on production, though:** `/our-leadership/` continues to publish the
+board and advisor names the business has now said are wrong. That page disappears
+at launch, so the only question is how long it stays up until then. Removing it
+sooner is a production content change and needs its own explicit go-ahead
+(CLAUDE.md §2.1 keeps production untouched until Stage 8).
+
 Reversing decision 5 later is one setting per type, once client names are
 cleared (`open-questions.md` §1) and the case studies can be thickened.
 
