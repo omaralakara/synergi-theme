@@ -49,7 +49,7 @@ and verified as single-hop 301s to a 200.
 ## Decisions Stage 6 made and never recorded
 
 **Case studies are a post type, not pages.** Decision D4 in
-`stage-6-remaining-plan.md` held `syn_case_study` back to a stage of its own and
+`archive/stage-6-remaining-plan.md` held `syn_case_study` back to a stage of its own and
 twelve studies shipped as pages instead. The business reversed that on 1 Sep so
 a service page could list its own studies automatically. Built the same day:
 `inc/case-study-post-type.php`, `single-syn_case_study.php`,

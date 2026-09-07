@@ -2,7 +2,7 @@
 
 Decided 26 Aug 2026, from the stakeholder content structure, the live page
 inventory on staging, the existing menus, and the Yoast focus keywords already
-earned. This is the decision record; `stage-6-scope.md` holds the Stage 6 plan
+earned. This is the decision record; `archive/stage-6-scope.md` holds the Stage 6 plan
 that follows from it.
 
 **The rule behind every decision below:** a thing gets its own URL when someone

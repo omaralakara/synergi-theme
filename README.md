@@ -1,29 +1,43 @@
 # Synergi website rebuild — project folder
 
-Everything needed to build the new synergi.ae theme, in the order you'd read it. Updated 1 September 2026. All earlier drafts have been removed; what's here is current.
+Everything needed to build the new synergi.ae theme, in the order you'd read it.
+Updated 7 September 2026. Finished work moved to `archive/`; what's at the root
+is current.
 
-## The documents
+## Start here
+
+Six living documents. If you read nothing else, read these.
 
 | File | What it is | Read it when |
 |---|---|---|
-| `Synergi-Website-Rebuild-Brief.docx` | The executive brief — the whole project explained clearly for the COO | Presenting or approving the project |
-| `synergi-architecture-explained.md` | The approach in plain language: why hybrid, who edits what, blog, Arabic, fields | You want to understand the decisions |
-| `synergi-build-plan.md` | The full plan (v2 + 23 Aug amendments): problem, trade-offs, phases, SEO, security, rollback | You want the complete reasoning and evidence |
-| `CLAUDE.md` | The build rules: hard restrictions, theme structure, tokens, security / performance / SEO / accessibility standards | **Every build session starts by reading this** |
-| `synergi-build-stages.md` | Stages 0–9 with copy-paste prompts, verification gates and rollbacks | Doing the actual build, one stage at a time |
-| `design-source/` | The approved homepage design as built by Synergi's own developer — HTML, CSS, JS, icons. **Input to the build, never shipped.** Snapshot from staging, 24 Aug; see its `SOURCE.md` | Stage 5 |
-| `sitemap-and-navigation.md` | The sitemap, the main menu, and what every row of the stakeholder structure becomes — page, section, archive, post type or record | **The authority on structure** |
-| `stage-6-scope.md` | What the stakeholder structure changed about Stage 6, decisions D1–D4, and (§8) what the business narrowed on 27 Aug | Before Stage 6 |
-| `stage-6-remaining-plan.md` | What is left of Stage 6, re-planned on 28 Aug, in build order with its blockers | **Deciding what to do next** |
-| `stage-6-handoff-prompt.md` | A self-contained brief for starting Stage 6 in a clean session — what is built, what was decided, what to do next | Starting a new build session |
-| `stage-7-decisions.md` | The nine structural decisions with their outcomes, the URL disposition table, the accessibility audit, and what Stage 7 knowingly left | **The record of what the site's structure now is** |
-| `migration-plan.md` | How staging actually becomes production: the three options, what must not travel, and the runbook | **Before Stage 8** |
-| `stage-4-post-migration.md` · `stage-5-measurement.md` | What the blog migration found; the measured homepage payload and whose bytes they are | Checking budgets or the blog |
-| `open-questions.md` | The content and structure questions the build is waiting on | Anything is blocked |
-| `tools/` | Scripts used to split the design source: extract, diff, cascade, and `build-zip.ps1` for the staging upload | Packaging a build |
-| `reference/theme.json` | The corrected design tokens as working code (from the 20 Aug scaffold — values verified against the live design) | Stage 2 |
-| `reference/montserrat-latin.woff2` | The design's only font, copied from the server, SHA-1 verified | Stage 2 |
-| `reference/token-notes.md` | Verified notes on the token values: cascade quirks, decisions needing eyeballing on staging | Stage 2 and the CSS split |
+| `CLAUDE.md` | The build rules: hard restrictions, theme structure, tokens, security / performance / SEO / accessibility standards | **Every build session starts here** |
+| `seo-action-list.md` | What to do before, during and after launch, in order — with the decisions already taken and what is still open | **Deciding what to do next** |
+| `open-questions.md` | The content questions the build is waiting on | Anything is blocked |
+| `migration-plan.md` | How staging actually becomes production: the options, what must not travel, the runbook | **Before Stage 8** |
+| `sitemap-and-navigation.md` | The sitemap, the menu, and what every row of the stakeholder structure becomes | **The authority on structure** |
+| `stage-7-decisions.md` | The structural decisions with their outcomes, the URL disposition table, the accessibility audit | The record of what the site's structure now is |
+
+## Reference — read when you need the reasoning
+
+| File | What it is |
+|---|---|
+| `seo-content-migration-plan.md` | The full SEO analysis and strategy: keyword clusters, the target map, market-page strategy, per-URL disposition. `seo-action-list.md` is the action layer on top of this; where the two disagree, the action list is newer and says so |
+| `synergi-architecture-explained.md` | The approach in plain language: why hybrid, who edits what, blog, Arabic, fields |
+| `synergi-build-plan.md` | The full plan: problem, trade-offs, phases, SEO, security, rollback |
+| `synergi-build-stages.md` | Stages 0–9 with prompts, verification gates and rollbacks |
+| `2026 – Synergi – Website Rebuild Brief – rev. #01.docx` | The executive brief for the COO |
+| `Synergi - Company Overview - 2026.pdf` | The company profile — source for figures, services and case studies |
+
+## Folders
+
+| Folder | What it holds |
+|---|---|
+| `synergi/` | **The theme.** This is the product |
+| `datagsc/` | Search Console and GA4 exports — the evidence behind every SEO decision. Has its own README mapping Google's opaque folder names to what they contain |
+| `design-source/` | The approved homepage design as built by Synergi's own developer — HTML, CSS, JS, icons. Input to the build, never shipped |
+| `reference/` | Corrected `theme.json`, the Montserrat font, token notes |
+| `tools/` | Scripts to split the design source and package a build (`build-zip.ps1`) |
+| `archive/` | Finished work kept as decision history. Nothing in it is current — see its README |
 
 ## The decision, in three lines
 
@@ -181,7 +195,7 @@ Under budget when measured · exactly one `<h1>` · keyboard focus visible on ev
   `events` records, the Upcoming Events section, and the wiring that would let a
   service page query its own case studies rather than show one typed by hand.
   All four are named in `stage-7-decisions.md` so Stage 8 does not discover them.
-- Measured, honestly: the homepage is over budget at 2,165 KB — but **the theme is 36.8 KB of that, about 1.7%, and inside every budget it controls.** The overage is plugin payload. See `stage-5-measurement.md`.
+- Measured, honestly: the homepage is over budget at 2,165 KB — but **the theme is 36.8 KB of that, about 1.7%, and inside every budget it controls.** The overage is plugin payload. See `archive/stage-5-measurement.md`.
 - **Next: Stage 8 — migration and launch.** Read `migration-plan.md` first: the
   theme is in Git but the content is only in the staging database, and Stage 8's
   one-line description does not cover that. Three things block it — the
