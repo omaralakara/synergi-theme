@@ -903,6 +903,207 @@ Drafting the first two was a decision. The third is still live with no form.
 
 ---
 
+# Part 12 — The step-by-step list
+
+Do these in order. Phase 0 is genuinely urgent and is not about SEO at all.
+
+---
+
+## PHASE 0 — Stop the leads disappearing (do this first)
+
+Three separate things each independently break lead capture, and together they
+mean **an enquiry on the new site would vanish completely** — no CRM record, no
+stored entry, no email.
+
+**0.1 — The notification email goes to a dead address.**
+WPForms form 7560 sends its notification to `info@y0r.256.myftpupload.com` — a
+leftover GoDaddy temporary-hosting address from whenever the form was first
+created. Nobody reads that mailbox.
+
+- [ ] WPForms → Simple Contact Form → Settings → Notifications
+- [ ] Change **Send To Email Address** to a real, monitored mailbox
+- [ ] Change **From Email** to a synergi address so it does not land in spam
+- [ ] Leave Reply-To as `{field_id="1"}` — that is correct, it replies to the
+      enquirer
+- [ ] Send a test and confirm it arrives
+
+**0.2 — WPForms Lite stores no entries.**
+There is no `wpforms_entries` table. On production, Elementor kept a copy of
+every submission (193 of them), so a CRM failure still left the lead recoverable.
+On the new site, **if the email fails and the CRM flow fails, the enquiry is
+gone forever.**
+
+- [ ] Treat 0.1 as the safety net it now is — that email is the only record
+- [ ] Decide whether entry storage is wanted. WPForms entry storage is a paid
+      feature; a free alternative or a simple database log would also do. Not
+      blocking if 0.1 is done, but know that you are running without a net
+
+**0.3 — The Zoho Bigin flows are listening for the wrong event.**
+Full explanation in Part 11. In short: Bit Integrations waits for an Elementor
+signal, Elementor is switched off, so nothing reaches the CRM.
+
+- [ ] Check the Zoho Bigin authorisation in Bit Integrations is still valid
+- [ ] Open both flows, work out why there are two, retire any duplicate
+- [ ] Change the trigger to **WPForms → Simple Contact Form (7560)**
+- [ ] Re-map the fields by hand — note the WPForms form has only **three**
+      fields (Name, Email, Message) where the Elementor form may have had more.
+      Anything Bigin expects that no longer exists must be dropped or the form
+      extended
+- [ ] Submit a real test enquiry on staging; confirm the record appears in Bigin
+      with correct values
+- [ ] Repeat on production immediately after launch
+
+**0.4 — Investigate the 85% drop in enquiries.**
+Elementor's stored submissions show this:
+
+| Month | Submissions | | Month | Submissions |
+|---|---|---|---|---|
+| Aug 2025 | 36 | | Feb 2026 | 5 |
+| Sep 2025 | 29 | | Mar 2026 | 1 |
+| Oct 2025 | 45 | | Apr 2026 | 6 |
+| Nov 2025 | 38 | | May 2026 | 3 |
+| Dec 2025 | 8 | | Jun 2026 | 6 |
+| Jan 2026 | 2 | | Jul 2026 | 8 |
+| | | | Aug 2026 | 6 |
+
+Something changed around **December 2025**: from roughly 37 enquiries a month to
+roughly 5. Either the earlier volume was spam that later got filtered, or real
+lead flow collapsed by 85% and nobody noticed.
+
+- [ ] Open a handful of submissions from Oct 2025 and from Jul 2026 and compare.
+      Spam or real? This single check decides whether the site has a lead
+      problem or just a spam-filter history
+- [ ] Note the HR guide form's last submission was **7 Dec 2025** — that offer
+      has been dead for nine months, which supports drafting it
+
+---
+
+## PHASE 1 — Keep the tracking (before launch)
+
+**1.1 — Decide which GA4 is real.**
+Two are collecting: `G-EX4ZJYVVPG` (Site Kit) and `G-F8BHKGB935` (an ASE
+snippet).
+
+- [ ] analytics.google.com → check both properties for data and for which is
+      linked to Google Ads (`adsLinked` is true on one)
+- [ ] Pick the survivor. Everything below uses that ID
+- [ ] Retire the other, or at minimum stop adding to the confusion
+
+**1.2 — Create a GTM container.**
+
+- [ ] tagmanager.google.com → Create Account → container type **Web**, for
+      synergi.ae
+- [ ] Copy the `GTM-XXXXXXX` ID
+- [ ] Inside GTM add a **Google Tag** with the surviving GA4 measurement ID,
+      trigger **All Pages**
+- [ ] Add the **LinkedIn Insight Tag** (partner ID `9021449`) as a Custom HTML
+      tag, trigger **All Pages** — this is currently loaded by an ASE snippet
+      that will not run on the new site
+- [ ] **Publish** the container (a saved-but-unpublished container does nothing)
+
+**1.3 — Connect it to the theme.**
+
+- [ ] On staging set the `syn_gtm_id` option to the container ID, or
+      `define( 'SYN_GTM_ID', 'GTM-XXXXXXX' );` in `wp-config.php`
+- [ ] Load a staging page and view source: the `syn-gtm-loader` script should
+      appear in the footer
+- [ ] Use GTM **Preview** mode against staging and confirm GA4 and LinkedIn both
+      fire
+
+**1.4 — Do not break the safety net.**
+
+- [ ] Leave Site Kit's `useSnippet` **on** in production until 1.3 is verified
+      live. It is theme-independent and will keep GA4 running through launch
+      whatever else happens
+- [ ] Only after the GTM tag is confirmed firing on production should Site Kit's
+      snippet be turned off, to avoid double-counting
+
+**1.5 — Conversion tracking, before launch.**
+
+- [ ] In GTM add a trigger for the WPForms confirmation, and a GA4 Event tag
+      named `generate_lead`
+- [ ] GA4 → Admin → Events → mark `generate_lead` as a **Key event**
+- [ ] Test a submission and confirm it shows in GA4 Realtime
+- [ ] For the pre-launch baseline you do **not** need to wait: use the Elementor
+      submissions table in 0.4. It already gives twelve months of real enquiry
+      counts, which is a better baseline than anything GA could collect in the
+      remaining weeks
+
+**1.6 — Things that must NOT travel to production.**
+
+- [ ] `blog_public = 0`
+- [ ] The homepage and `/media/` page-level noindex flags
+- [ ] The ASE snippet **"SEO: single post title H3 to H1"** — the new theme
+      emits a correct single `<h1>` natively and the snippet would fight it
+- [ ] Site Kit's Search Console property set to `staging.synergi.ae`
+
+---
+
+## PHASE 2 — Fix Search Console
+
+**2.1 — At launch, in order.**
+
+- [ ] Clear the three noindex flags (Settings → Reading, then the two pages)
+- [ ] Purge **LiteSpeed** and **Cloudflare**
+- [ ] View source on the homepage and one service page; grep for `noindex`
+- [ ] Confirm Site Kit's Search Console property is `https://synergi.ae/`
+
+**2.2 — Sitemap and indexing.**
+
+- [ ] Yoast → check the sitemap includes pages, posts and the `/case-studies/`
+      listing, and **excludes** the 12 case studies and the 5 case-service term
+      archives (they were noindexed on 7 Sep — confirm Yoast dropped them)
+- [ ] GSC → Sitemaps → resubmit `sitemap_index.xml`
+- [ ] GSC → URL Inspection → request indexing on the homepage and the six
+      service pages
+
+**2.3 — Verify the redirects.**
+
+- [ ] Replay all 68 production URLs from `datagsc/.../Pages.csv` against the new
+      site
+- [ ] Every one must be a **single hop** to a 200. Chains are the commonest
+      launch-day loss and there are now 39 rules
+
+**2.4 — Fix the indexing quality problem.**
+34 pages indexed, 35 not — including 9 "Crawled – currently not indexed" and 9
+"Discovered – currently not indexed".
+
+- [ ] GSC → Indexing → Pages → click into each of those two rows and **export
+      the URL list**. The summary CSV carries counts only
+- [ ] For each of the 18: does it still exist on the new site, is it redirected,
+      or should it go? These are Google telling you which pages it judged not
+      worth an index slot
+- [ ] Delete the old theme's demo content still live on production —
+      `/portfolio/*`, `/portfolio-category/*`, `/demo`, `/pricing`, `/help`,
+      `/support`, `/sales`. Likely contributors to that count
+- [ ] Take the Arabic URL offline until the Arabic phase
+
+**2.5 — Monitor, for six weeks.**
+
+- [ ] Weekly: `/our-services/procurement/`, the homepage, `/engagement-team/`,
+      `/our-solutions/shared-services/`
+- [ ] Judge on **non-brand clicks**, not impressions. If the procurement page is
+      rewritten for the Gulf, impressions should fall and that is the plan
+      working, not failing
+
+---
+
+## PHASE 3 — Still needs a decision
+
+- [ ] Does the site need a board / governance section? (see below)
+- [ ] Which GA4 property survives (1.1)
+- [ ] Procurement: Gulf-focused or generic — affects wording only, not launch
+
+## Closed on 7 September
+
+- `/procurement-bpo-readiness-checklist/` — **offer retired, no work needed.**
+  The post carries 519 words of real content, has **no form and no download
+  gate**, and ends on a plain "Talk to Synergi today". The gated landing page
+  `/procurement-readiness/` was the offer, and it is already drafted with a 301.
+  The post stays published exactly as it is.
+
+---
+
 # Appendix — one export still missing
 
 Everything asked for arrived except the **`/our-approach/` query list**, which
