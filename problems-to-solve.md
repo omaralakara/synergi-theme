@@ -112,12 +112,84 @@ with the right values in the right fields. Not "the flow saved". Not "the log
 shows a run". Then repeat the same test on production immediately after launch —
 a flow verified on staging can still point at the wrong Bigin pipeline once live.
 
-- [ ] Authorisation valid
-- [ ] Duplicate flow resolved
-- [ ] Trigger changed to WPForms
-- [ ] Fields re-mapped
-- [ ] Test enquiry confirmed in Bigin (staging)
+- [x] Authorisation valid — **verified 8 Sep**, see below
+- [x] "Duplicate" flow resolved — **they were not duplicates**, see below
+- [x] Trigger changed to WPForms
+- [x] Fields re-mapped
+- [ ] Test enquiry confirmed in Bigin (staging) — *the last step, needs a human*
 - [ ] Test enquiry confirmed in Bigin (production, post-launch)
+
+### What was done, 8 September
+
+Both flow rows were backed up first to the option
+`syn_btcbi_flow_backup_2026_09_08` before anything was changed. Restoring is a
+straight write-back of that option.
+
+**They were never duplicates.** Flow 1 served the Contact Us form
+(Elementor form `ff6e75b` on page 2014). Flow 2 served the HR Digital
+Transformation Guide form (`6781c14` on page 9115) — a different form with a
+different field map, including Company and Designation. The earlier note in this
+file guessing at "an abandoned duplicate" was wrong.
+
+| Flow | Was | Now |
+|---|---|---|
+| 1 — Contact Us | `Elementor` / `elementor_pro/forms/new_record`, active | **`WPF` / `7560`, active** |
+| 2 — HR guide | `Elementor`, active | **disabled** (`status = 0`), not deleted |
+
+Flow 2 is disabled rather than deleted because its source page is drafted and
+the offer retired; if the guide ever returns, the flow and its mapping are intact.
+
+**The new field mapping.** Bit Integrations' free plugin ships a WPForms trigger
+(`WPF`), which hooks `wpforms_process_complete`. Its field names were generated
+by the plugin's own `WPFController::fields(7560)` rather than guessed:
+
+| WPForms field | → | Zoho Bigin (Contacts) |
+|---|---|---|
+| `0:last` — Last Name | → | `Last_Name` *(the module's only mandatory field)* |
+| `0:first` — First Name | → | `First_Name` |
+| `1` — Email | → | `Email` |
+| `2` — Comment or Message | → | `Description` |
+
+The WPForms Name field is already set to `first-last` format and is required, so
+`Last_Name` can never arrive empty — which matters, because Bigin rejects a
+Contact without it.
+
+### Verified without submitting the form
+
+1. `Flow::exists('WPF', '7560')` → **1 flow matched.** This is the exact call
+   the plugin makes on submission, so the flow will be found.
+2. The same lookup for the old Elementor trigger now returns **false** — the
+   dead path is genuinely dead, and Elementor is confirmed inactive.
+3. `wpforms_process_complete` is **registered**, and WPForms is active.
+4. **Zoho authorisation is live.** The stored access token had expired (issued
+   21 Aug, one-hour life). Refreshing it against `accounts.zoho.com` returned
+   **HTTP 200** with a new token — Zoho accepted the client ID, client secret and
+   refresh token. The fresh token was written back to the flow.
+5. **The Bigin API answers.** A read-only call to
+   `/bigin/v1/settings/fields?module=Contacts` returned **HTTP 200**, 33 fields,
+   with `Last_Name` as the only mandatory one and all four mapped targets
+   present. The granted scope includes `ZohoBigin.modules.ALL`, which covers
+   creating Contacts.
+
+Everything up to the submission itself is confirmed working. The one remaining
+step is a real form submission, which was deliberately not done because it would
+send the notification email.
+
+### Three fields no longer reach the CRM
+
+The WPForms form collects less than the Elementor form did. Sales should know:
+
+| Zoho field | Was fed by | Now |
+|---|---|---|
+| `Mobile` | Elementor Phone field | **Nothing** — WPForms form 7560 has no phone field |
+| `Source_URL` | Elementor hidden "Page Url" field | **Nothing** — hidden fields are a WPForms Pro feature |
+| `Account_Name`, `Title` | HR guide form (Company, Designation) | **Nothing** — that offer is retired |
+
+Losing `Source_URL` matters little while the contact form lives on one page.
+**Losing `Mobile` is a real change** — every Bigin Contact will arrive without a
+phone number. If sales wants phone numbers, add a Phone field to WPForms form
+7560 and map it to `Mobile`; that is a form change, so it needs a decision
+rather than being done quietly.
 
 ## P4 — Enquiries fell 85% in December 2025 and nobody noticed
 
