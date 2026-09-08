@@ -635,6 +635,78 @@ go-ahead under CLAUDE.md §2.1.
 
 ---
 
+# Audit results — 8 September
+
+## Redirects: clean
+
+All 40 rules checked for chains, loops, dead targets, and origins still
+published live enough to shadow their own rule.
+
+**One real fault, and it was mine.** `our-services-2` pointed at
+`procurement-readiness`, which I drafted earlier that day — so it had become a
+two-hop chain into a drafted page. Repointed straight to
+`our-services/procurement`.
+
+Two others flagged by the first pass were **false positives**, checked and
+cleared rather than "fixed":
+
+- `category/synerginews → category/synergi-news` — the target is a *category
+  term*, not a page, so the page lookup missed it. The term exists (#3, 6 posts).
+- `ig → ?utm_source=instagram…` — a marketing short link to the homepage with
+  campaign tags. Working as intended.
+
+No chains, no loops, no dead targets remain.
+
+## Structure: matches the plan, with one exception
+
+52 published items on staging, checked against the agreed sitemap and the menu.
+Everything is where it should be — six service pages, five solutions, three
+market pages, the listings, the hub pages, the blog.
+
+The menu is complete: 29 items across About, Services, Solutions, Markets,
+Media and Contact.
+
+**One page was not in the agreed structure: `/connect/`.** A link-in-bio page —
+LinkedIn, Instagram, website — built entirely in Elementor, with 24 words of
+actual post content. Its links live in the Elementor data, which will not
+render, so it would have launched as unstyled text with no working links: the
+same fault as the HR guide page.
+
+It gets about 11 visits per eight months, almost certainly from a social profile
+bio, so simply deleting it would break a live external link.
+
+**Drafted, with a 301 to `/contact-us/`.** That page carries a "Follow Synergi"
+band reading from the `social` record — LinkedIn, Instagram, YouTube and
+Facebook, which is more than `/connect/` listed. Anyone arriving from a bio link
+lands somewhere better than a broken page.
+
+## Two posts are too thin to index, and one of them still ranks
+
+Not acted on — blog content is editorial, and these need a decision rather than
+a switch:
+
+| Post | Words | GSC |
+|---|---|---|
+| `beyond-payroll-how-modern-hr-services-drive-organizational-growth` | **92** | 1 click, 49 impressions |
+| `how-smart-procurement-transforms-business-performance-in-the-uae` | **106** | 2 clicks, **475 impressions** |
+
+Both are far below what Google will normally index, and are strong candidates
+for the "Crawled – currently not indexed" group in P10.
+
+- **`beyond-payroll`** earns almost nothing. Expand it or draft it.
+- **`how-smart-procurement`** should **not** be drafted — 475 impressions on 106
+  words means the topic has demand the page is too thin to convert. That is a
+  rewrite, and one of the better content opportunities on the site.
+
+## Minor, worth knowing
+
+The **United Arab Emirates** menu item is a *custom link* (`/markets/united-arab-emirates/`)
+while every sibling is a proper page link. It works, and the page is also linked
+from three blog posts — but a custom link does not follow the page if its slug
+ever changes. Worth converting to a page link when someone is next in the menu.
+
+---
+
 # Waiting on a decision
 
 | # | Decision | Blocks |
