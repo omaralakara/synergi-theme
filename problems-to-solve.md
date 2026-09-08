@@ -657,6 +657,44 @@ cleared rather than "fixed":
 
 No chains, no loops, no dead targets remain.
 
+## Dead ends: every historical URL checked
+
+The brief was "no customer from the old site should reach a dead end". So every
+URL that appears anywhere in the GSC exports or the GA4 landing-page export was
+collected — **136 unique paths** — and each one checked against staging: does it
+still exist, does a redirect catch it, or does it 404?
+
+**Result: 26 already redirected, 44 still live, 7 archives, 7 system paths, and
+52 dead ends.** Of those 52, twenty-two were real customer intent and now
+redirect. The rest 404 correctly.
+
+**Added 8 September — 22 rules** (61 total, still no chains or loops):
+
+| Old URL | Now goes to | Why |
+|---|---|---|
+| `/contact-details/`, `/contacts/`, `/get-in-touch/`, `/reach-us/` | `/contact-us/` | ~18 GA sessions of people guessing at a contact URL |
+| `/location/`, `/locations/` | `/global-locations/` | Same, for offices |
+| `/services/`, `/what-we-do/` | `/our-services/` | People guessing at the services URL |
+| `/our-services/digital-solutions/`, `/our-services/it-support/` | `/our-services/technology-ai/` | Old service names |
+| `/our-services/finance-solutions/` | `/our-services/accounting/` | Old service name |
+| `/our-services/human-capital-solutions/` | `/our-services/human-resources/` | Old service name |
+| `/our-services/public-relations-services/` | `/our-services/marketing/` | PR now sits inside Marketing |
+| `/our-impact/` + 7 children | the matching service page | An entire retired IA branch |
+| `/our-approach/automotive-trading/` | `/about-us/` | Its seven siblings already went there |
+
+**Deliberately left to 404** — these are not Synergi URLs and never were:
+
+- The old theme's demo content: 13 `/portfolio/*` and `/portfolio-category/*`
+  paths, plus `/demo/`, `/pricing/`, `/help/`, `/support/`, `/sales/`
+- Broken machine paths: `/404-2/`, `/headers/`, `/s-dashborad/`,
+  `/ot_mega_menu/*`, `/category/eihnews/`
+- Old build drafts: `/synergi-homepage-2026-draft-build/`, `/synergi-uae-2/`
+- `/ar/our-services/…` — Arabic, which should not be public until that phase
+- Two news posts that are drafts on **both** sites, so they 404 today too
+
+A 404 is the honest answer for all of these. Redirecting junk to the homepage
+teaches Google the site is full of soft-404s, which is worse than the 404 itself.
+
 ## Structure: matches the plan, with one exception
 
 52 published items on staging, checked against the agreed sitemap and the menu.
@@ -669,16 +707,19 @@ Media and Contact.
 **One page was not in the agreed structure: `/connect/`.** A link-in-bio page —
 LinkedIn, Instagram, website — built entirely in Elementor, with 24 words of
 actual post content. Its links live in the Elementor data, which will not
-render, so it would have launched as unstyled text with no working links: the
-same fault as the HR guide page.
+render, so it would launch as unstyled text with no working links: the same
+fault as the HR guide page.
 
-It gets about 11 visits per eight months, almost certainly from a social profile
-bio, so simply deleting it would break a live external link.
+It was briefly drafted and redirected. **That was reverted the same day** — the
+business confirmed `/connect/` is a deliberate link-tree for an event and **a
+printed QR code points at it.** It is published again and carries no redirect.
 
-**Drafted, with a 301 to `/contact-us/`.** That page carries a "Follow Synergi"
-band reading from the `social` record — LinkedIn, Instagram, YouTube and
-Facebook, which is more than `/connect/` listed. Anyone arriving from a bio link
-lands somewhere better than a broken page.
+- [ ] **Rebuild `/connect/` so it renders without Elementor.** It cannot ship as
+      it stands: the QR code would lead to a broken page, which is worse than a
+      404 because the visitor is standing in front of you at the time. It needs
+      a small page template — brand header, the link buttons, nothing else.
+      Roughly an hour of theme work, and it must be done before launch, not
+      after.
 
 ## Two posts are too thin to index, and one of them still ranks
 
