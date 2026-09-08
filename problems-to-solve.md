@@ -44,7 +44,44 @@ return $d['settings']['notifications'];
 **Done when.** You submit a test enquiry on staging and the email arrives in the
 real inbox — not when the setting is saved.
 
-- [ ] Fixed and verified
+- [x] Address changed to `info@synergibpo.com` — **8 Sep**
+- [x] A second, hidden fault found and fixed — see below
+- [ ] Confirmed by a real submission arriving in the inbox
+
+### What was changed, 8 September
+
+**The obvious fault — where the mail was going.**
+
+| Setting | Was | Now |
+|---|---|---|
+| Send To | `info@y0r.256.myftpupload.com` | `info@synergibpo.com` |
+| From address | `info@y0r.256.myftpupload.com` | `info@synergibpo.com` |
+| From name | `synergi` | `Synergi Website` |
+| Subject | `New Entry: Simple Contact Form` | `New enquiry from synergi.ae` |
+
+Reply-To was left as `{field_id="1"}`, which is correct — replying goes to the
+enquirer.
+
+**The hidden fault — why the mail would not have sent at all.**
+
+Fixing the address alone would not have worked. WP Mail SMTP sends through
+**Outlook**, and the authenticated mailbox is `info@synergibpo.com`. But its
+From address was set to `info@staging.synergi.ae` with **Force From Email
+turned on**.
+
+Microsoft 365 refuses to send as an address the authenticated account does not
+own. So every message was being forced into a sender the mailbox cannot use —
+meaning form notifications on staging were most likely failing outright, not
+just going to the wrong place.
+
+`wp_mail_smtp.mail.from_email` is now `info@synergibpo.com`, matching the
+authenticated mailbox. Force From Email was left on, which is now correct rather
+than harmful.
+
+**Check this on production too.** Production has its own WP Mail SMTP settings.
+If its From address is similarly mismatched, live form mail has the same
+problem — and that is one candidate explanation for P4's drop in recorded
+enquiries.
 
 ## P2 — Nothing stores the submission
 
