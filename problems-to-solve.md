@@ -748,6 +748,45 @@ ever changes. Worth converting to a page link when someone is next in the menu.
 
 ---
 
+# Launch readiness sweep — 8 September
+
+Seventeen pages plus a deliberate 404 were requested over HTTP from staging and
+the responses inspected.
+
+| Check | Result |
+|---|---|
+| HTTP status | **200 on all 17**; the 404 test correctly returns 404 with its own heading |
+| PHP errors, warnings, notices, deprecations | **None on any page** |
+| `<h1>` count | **Exactly one on every page**, as CLAUDE.md §8 requires |
+| HTML weight | 34–110 KB |
+| Broken image references in fields | **None** |
+| Case studies missing a service term | **None** — all 12 assigned |
+| Site records the theme reads | **All 9 present and populated** |
+| Placeholder copy (TEST / Lorem / TODO) | **None.** The one apparent hit was the word "test" inside "Migrate and test" |
+
+Every page also contains `staging.synergi.ae` strings. That is correct — it *is*
+staging. It only becomes a fault if those strings survive the migration, which
+is what the search-replace step in `migration-plan.md` exists to catch. Worth
+re-checking after the push, not before.
+
+## Cruft that should be cleaned, but blocks nothing
+
+Eleven meta fields across four keys (`_syn_artifact_backup_2026_08_25`,
+`_syn_content_backup_2026_08_28`, `_syn_content_backup_pre_template`,
+`_syn_heading_backup_2026_08_25`) hold about 93 KB of pre-edit backups. **The
+theme reads none of them.** Left in place deliberately — they are somebody's
+safety net and they cause no harm.
+
+One more worth naming, because it is a trap rather than clutter:
+`_syn_content_before_posts_page` on `/blog/` holds 5,676 characters of
+hand-pasted HTML — six frozen blog cards from late 2025, with hard-coded
+`staging.synergi.ae` image sources and links. **The theme does not render it**,
+so nothing breaks today. But if anyone ever wires that field up, or a
+search-replace misses it, it would send visitors from production to staging. It
+is orphaned legacy from the Elementor blog page and should simply be deleted.
+
+---
+
 # Waiting on a decision
 
 | # | Decision | Blocks |
