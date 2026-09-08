@@ -212,21 +212,91 @@ Everything up to the submission itself is confirmed working. The one remaining
 step is a real form submission, which was deliberately not done because it would
 send the notification email.
 
+### Phone added, 8 September
+
+The business confirmed phone numbers are wanted. WPForms here is **Lite**, and
+its dedicated Phone field is a Pro feature — so a Single Line Text field
+labelled "Phone" was added instead. It captures a number identically and maps to
+Bigin the same way; the only thing missing is input masking, which does not
+affect what reaches the CRM.
+
+It sits between Email and the message box, and is **optional**. Making a phone
+number mandatory costs completed enquiries, and the old Elementor form did not
+require one either. Say so if you would rather it were required.
+
+**The mapping is now:**
+
+| WPForms field | → | Zoho Bigin (Contacts) |
+|---|---|---|
+| `0:last` — Last Name | → | `Last_Name` *(mandatory)* |
+| `0:first` — First Name | → | `First_Name` |
+| `1` — Email | → | `Email` |
+| `3` — Phone | → | `Mobile` |
+| `2` — Comment or Message | → | `Description` |
+
+Verified against the plugin's own field list: every mapped field exists.
+
+### Staging and production share one Zoho connection — read before testing
+
+Staging flow 1 and production flow 1 carry the **identical refresh token**
+(fingerprint `5590989126da`) and the same client ID. This is not a copy of the
+connection; it is the same connection.
+
+**Consequence: a test submitted on staging creates a real contact in the live
+Zoho Bigin.** Nothing is sandboxed.
+
+- Use an obviously fake name — "Test Bigin", not a plausible person — so sales
+  can spot and delete it
+- Tell whoever watches Bigin that a test record is coming
+- Delete it afterwards
+
+This is not a fault to fix. It is how the connection was set up, and it is
+actually convenient: proving it on staging proves the production credentials
+too. It just must not be a surprise.
+
 ### Three fields no longer reach the CRM
 
 The WPForms form collects less than the Elementor form did. Sales should know:
 
 | Zoho field | Was fed by | Now |
 |---|---|---|
-| `Mobile` | Elementor Phone field | **Nothing** — WPForms form 7560 has no phone field |
+| ~~`Mobile`~~ | Elementor Phone field | **Restored 8 Sep** — Phone field added and mapped |
 | `Source_URL` | Elementor hidden "Page Url" field | **Nothing** — hidden fields are a WPForms Pro feature |
 | `Account_Name`, `Title` | HR guide form (Company, Designation) | **Nothing** — that offer is retired |
 
-Losing `Source_URL` matters little while the contact form lives on one page.
-**Losing `Mobile` is a real change** — every Bigin Contact will arrive without a
-phone number. If sales wants phone numbers, add a Phone field to WPForms form
-7560 and map it to `Mobile`; that is a form change, so it needs a decision
-rather than being done quietly.
+Losing `Source_URL` matters little while the contact form lives on one page. If
+it is ever wanted back, it needs either WPForms Pro or a small hidden input
+added by the theme.
+
+## P1a — Production may have the same sender mismatch
+
+**Found while fixing P1.** Production's WP Mail SMTP is configured as:
+
+| | |
+|---|---|
+| Mailer | Outlook |
+| Authenticated mailbox | `info@synergibpo.com` |
+| From address | `info@synergi.ae` |
+| Force From Email | **on** |
+
+The From address does not match the mailbox the site logs in with — the same
+shape of fault that was breaking staging.
+
+**This may be fine.** Microsoft allows sending as a different address when it is
+a configured alias or shared mailbox with send-as permission, and
+`info@synergi.ae` plausibly is one. Staging's `info@staging.synergi.ae` almost
+certainly was not.
+
+So this is a **check, not a diagnosis**:
+
+- [ ] Ask whoever administers the Microsoft 365 tenant whether
+      `info@synergi.ae` is a valid send-as alias for `info@synergibpo.com`
+- [ ] Or simply: has anyone actually received a contact-form notification email
+      from the live site recently? If not, this is why
+
+Note this is a *separate* question from P4's drop in submissions. P4 is about
+enquiries not being *made*; this is about nobody being *told* about the ones
+that were.
 
 ## P4 — Enquiries fell 85% in December 2025 and nobody noticed
 
