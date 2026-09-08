@@ -6,12 +6,13 @@ is current.
 
 ## Start here
 
-Six living documents. If you read nothing else, read these.
+Seven living documents. If you read nothing else, read these.
 
 | File | What it is | Read it when |
 |---|---|---|
 | `CLAUDE.md` | The build rules: hard restrictions, theme structure, tokens, security / performance / SEO / accessibility standards | **Every build session starts here** |
-| `seo-action-list.md` | What to do before, during and after launch, in order — with the decisions already taken and what is still open | **Deciding what to do next** |
+| `problems-to-solve.md` | Every open problem as a debugging card: symptom, evidence, the check to run, the fix, and how to prove it is fixed | **Working through the fixes one at a time** |
+| `seo-action-list.md` | What to do before, during and after launch, in order — with the decisions already taken and the reasoning behind them | **Understanding why a problem matters** |
 | `open-questions.md` | The content questions the build is waiting on | Anything is blocked |
 | `migration-plan.md` | How staging actually becomes production: the options, what must not travel, the runbook | **Before Stage 8** |
 | `sitemap-and-navigation.md` | The sitemap, the menu, and what every row of the stakeholder structure becomes | **The authority on structure** |
