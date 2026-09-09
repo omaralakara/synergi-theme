@@ -57,7 +57,16 @@ function syn_render_gtm_loader() {
 
 	if ( '' === $container_id ) {
 		if ( SYN_DEBUG ) {
-			echo "\n<!-- syn-integrations: no GTM container configured -->\n";
+			// Say which of the two failures happened. syn_gtm_container_id()
+			// rejects anything that is not GTM-XXXXXXX — a GA4 measurement ID or
+			// a lowercased paste included — and a comment reading "not
+			// configured" would send the reader looking for a missing setting
+			// rather than a malformed one (CLAUDE.md §13: never fail silently).
+			$raw = defined( 'SYN_GTM_ID' ) ? (string) SYN_GTM_ID : (string) get_option( 'syn_gtm_id', '' );
+
+			echo '' === trim( $raw )
+				? "\n<!-- syn-integrations: no GTM container configured -->\n"
+				: "\n<!-- syn-integrations: GTM container ID rejected, expected GTM-XXXXXXX, got " . esc_html( trim( $raw ) ) . " -->\n";
 		}
 
 		return;
