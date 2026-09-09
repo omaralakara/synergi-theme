@@ -268,35 +268,76 @@ Losing `Source_URL` matters little while the contact form lives on one page. If
 it is ever wanted back, it needs either WPForms Pro or a small hidden input
 added by the theme.
 
-## P1a — Production may have the same sender mismatch
+## The 9 September test failed — two separate faults, both now fixed
 
-**Found while fixing P1.** Production's WP Mail SMTP is configured as:
+Two test enquiries were submitted on staging. Neither the email nor the Zoho
+record arrived. The logs identified two unrelated causes.
 
-| | |
+### Fault 1 — the email: an expired Microsoft token
+
+WP Mail SMTP's own log shows both submissions **did** fire, at 05:49:14 and
+05:52:31, correctly addressed to `info@synergibpo.com` with the new subject. They
+failed on send with:
+
+> `InvalidAuthenticationToken: Lifetime validation failed, the token is expired.`
+
+Every message staging has attempted since at least 1 September failed the same
+way — weekly summaries, password-reset mails, everything. So this was not caused
+by the notification change; staging's mail had been dead for over a week and
+nobody noticed because nothing was watching it.
+
+**Fixed.** The stored refresh token was still valid, so a refresh against
+`login.microsoftonline.com` returned a new access token (HTTP 200), now saved.
+Verified against Microsoft Graph: HTTP 200, mailbox `info@synergibpo.com`,
+matching the configured From address exactly.
+
+### Fault 2 — Zoho: a cache that hid the new trigger
+
+Bit Integrations' log had **no entry at all** for either submission — the flow
+never ran. The cause was a transient, `bit_integrations_active_trigger_entities`,
+holding the list of trigger types the plugin bothers to load hooks for.
+
+It contained `["Elementor"]`.
+
+Because the flow was repointed **directly in the database** rather than through
+the plugin's own UI, nothing invalidated that cache. The plugin went on loading
+only the Elementor hook, so `wpforms_process_complete` was never even listened
+for.
+
+**Fixed.** The transient was deleted and rebuilt through the plugin's own
+`StoreInCache::getActiveFlowEntities(true)`. It now reads `["WPF"]`.
+
+**Lesson worth keeping:** editing this plugin's flow table directly works, but
+its caches must be cleared afterwards. Anyone repeating this on production must
+clear the same three transients (`..._active_trigger_entities`,
+`..._fallback_trigger_entities`, `..._action_hook_flows`) or the flow will look
+correct in the database and silently never fire.
+
+## P1a — CLOSED: production email is healthy
+
+Production sends as `info@synergi.ae` while authenticating as
+`info@synergibpo.com`, which looked like the same mismatch that was breaking
+staging. **It is not a fault.** Production's own mail log settles it:
+
+| Last 60 days | |
 |---|---|
-| Mailer | Outlook |
-| Authenticated mailbox | `info@synergibpo.com` |
-| From address | `info@synergi.ae` |
-| Force From Email | **on** |
+| Sent successfully | **31** |
+| Failed | **0** |
 
-The From address does not match the mailbox the site logs in with — the same
-shape of fault that was breaking staging.
+Contact-form notifications are arriving at `info@synergibpo.com` — the most
+recent on 27 August, matching that day's form submission and its Bigin contact.
+So `info@synergi.ae` **is** a valid send-as alias on that Microsoft account, and
+production email needs no change.
 
-**This may be fine.** Microsoft allows sending as a different address when it is
-a configured alias or shared mailbox with send-as permission, and
-`info@synergi.ae` plausibly is one. Staging's `info@staging.synergi.ae` almost
-certainly was not.
+This also rules production email out as an explanation for P4's drop in
+submissions. Notifications have been going out fine; the enquiries themselves
+are what fell away.
 
-So this is a **check, not a diagnosis**:
-
-- [ ] Ask whoever administers the Microsoft 365 tenant whether
-      `info@synergi.ae` is a valid send-as alias for `info@synergibpo.com`
-- [ ] Or simply: has anyone actually received a contact-form notification email
-      from the live site recently? If not, this is why
-
-Note this is a *separate* question from P4's drop in submissions. P4 is about
-enquiries not being *made*; this is about nobody being *told* about the ones
-that were.
+**One thing to carry into the launch:** production's mail works because its
+Microsoft token is being kept fresh. Staging's died silently and stayed dead for
+over a week. After launch, the same failure would be invisible — nothing watches
+it. Worth an occasional glance at WP Mail SMTP → Email Log, or its weekly
+summary going to someone who reads it.
 
 ## P4 — Enquiries fell 85% in December 2025 and nobody noticed
 
