@@ -764,6 +764,16 @@ differently at launch.
 | 2 | **ASE code snippet "Google"** (published) | A **second, different** GA4: **G-F8BHKGB935** | **No** — the ASE snippets feature is off on staging |
 | 3 | **ASE code snippet "LinkedIn Tag"** (published) | LinkedIn Insight Tag, partner `9021449` | **No** — same reason |
 
+> **Corrected 9 September.** The "Survives the new theme?" column is wrong for
+> rows 2 and 3, and the reason it gives is wrong for both. The migration is
+> option C (`migration-plan.md`) — a scripted content transfer — so staging
+> settings never reach production, and production keeps its own. **Verified:**
+> `enable_code_snippets_manager` is `true` on production *and* on staging, and
+> all three snippets are `publish` on both. Nothing switches itself off at
+> launch. All three keep running on production until someone disables them in
+> wp-admin, including the H3-to-H1 snippet in the paragraph below, which is the
+> one that actively fights the new theme. See `analytics-setup.md` §6b.
+
 There is also a fourth ASE snippet, **"SEO: single post title H3 to H1"**, which
 rewrites post headings through an output buffer. It is not tracking, but note
 it: **the new theme emits a correct single `<h1>` natively** (CLAUDE.md §8), so
@@ -816,12 +826,11 @@ not turn it off until (a) is verified.
 
 ## 10.4 Actions
 
-- [ ] Decide which GA4 property is authoritative — `G-EX4ZJYVVPG` or
-      `G-F8BHKGB935` — and retire the other.
+- [x] Decide which GA4 property is authoritative — **`G-EX4ZJYVVPG`** (property 462310803, Ads-linked). Retire `G-F8BHKGB935`. See `analytics-setup.md` §1.
 - [ ] Choose (a) or (b) above. If (a): create the container, add GA4 + LinkedIn,
       set `syn_gtm_id` on staging, verify the tag fires, then set it on
       production at launch.
-- [ ] **Set up form submissions as a GA4 key event** (§5). Currently zero key
+- [ ] **Set up form submissions as a GA4 key event** (§5) — trigger design in `analytics-setup.md` §3; the WPForms form is AJAX, so it needs a dataLayer push, not a confirmation-page trigger. Currently zero key
       events in eight months. Do this *before* launch or the before/after
       comparison is impossible forever.
 - [ ] Do **not** carry the "SEO: single post title H3 to H1" snippet to the new

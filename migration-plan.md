@@ -60,6 +60,11 @@ Everything below lives in the staging database and nowhere else:
 - **The redirect table** (`wpseo-premium-redirects-base`), which now carries
   `/our-approach/ → /about-us/` and `/our-leadership/ → /engagement-team/`.
 - **The media library additions** from August, and the alt text written 1 Sep.
+- **The `syn_gtm_id` option** — the GTM container ID. Not content, but the theme
+  renders no analytics at all without it, and it lives only in the staging
+  database. Easy to forget precisely because it is not content. See
+  `analytics-setup.md` §5.
+
 
 ## What must NOT travel
 
@@ -71,11 +76,37 @@ These are staging settings and every one of them would do damage on production:
 | Homepage per-page `noindex` | Deliberate on staging; catastrophic on production. |
 | `/media/` per-page `noindex` | Inherited from 2024, should be cleared, not copied. |
 | Site Kit's Search Console property | Points at `staging.synergi.ae`. |
-| The two ASE tag snippets | `G-F8BHKGB935` and the LinkedIn pixel, still firing on staging. |
+| The two ASE tag snippets | `G-F8BHKGB935` and the LinkedIn pixel. (Verified 9 Sep: they are **not** firing on staging — no `licdn`, no gtag in the rendered HTML. They exist as posts and would travel as content if anything swept the snippet CPT.) |
 | `WP_ENVIRONMENT_TYPE = production` | Wrong on staging; irrelevant but confusing on production. |
 | Any `staging.synergi.ae` string | The records were cleaned on 1 Sep; re-check before every run. |
 
 This list is the single strongest argument against option A.
+
+## What must be changed ON production — the category option C creates
+
+Option C leaves every production option untouched, which is the point. It also
+means **nothing on production turns itself off at launch.** Anything currently
+running there keeps running under the new theme unless somebody switches it off
+by hand.
+
+> **Corrected 9 Sep (evening) — the analytics rows below were reversed.**
+> `G-F8BHKGB935` is **not** a rogue duplicate. Confirmed from the GA Admin
+> screen: it is the measurement ID of property `499346155`, stream
+> `11748670071` — **the only GA4 property anyone at Synergi can open.** Property
+> `462310803`, which Site Kit feeds, sits in GA account `309167261` that nobody
+> here can reach any more. So snippet 8607 is the live analytics feed and
+> switching it off blinds the business. See `analytics-setup.md`, top box.
+
+| On production today | What happens at launch | Action |
+|---|---|---|
+| ASE snippet **"Google"** (8607) — `G-F8BHKGB935` | Keeps running — **this is the only readable analytics feed** | **Do NOT disable.** Not at launch, not after. Only once a GTM container is verified firing the same tag |
+| ASE snippet **"SEO: single post title H3 to H1"** (10379) | Keeps running, but its first line returns early when an `<h1>` already exists — and the new theme emits one (**verified**: a staging post renders exactly one `<h1>`). So it becomes a no-op | Disable for tidiness. **Nothing breaks if it is missed** |
+| ASE snippet **"LinkedIn Tag"** (9378) | Keeps running — *this is good*, LinkedIn retargeting is not interrupted | Disable only after a GTM LinkedIn tag is confirmed firing, or it double-fires |
+| Site Kit `useSnippet: true` | Keeps running, feeding the property nobody can open | Harmless. Leave it — re-authorising needs a Google account with access to `462310803`, which is exactly what is missing |
+
+These cannot be toggled from the database: ASE ignores `post_status` and the
+`_active` meta, so each one needs the wp-admin screen.
+
 
 ---
 

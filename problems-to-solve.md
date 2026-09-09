@@ -449,7 +449,7 @@ double-counting.
 LinkedIn tag firing, and view-source shows the `syn-gtm-loader` script in the
 footer.
 
-- [ ] Container created and published
+- [ ] Container created and published — tag-by-tag build sheet, including the Site Kit double-load trap, in `analytics-setup.md` §2
 - [ ] `syn_gtm_id` set on staging
 - [ ] Both tags confirmed firing in Preview
 - [ ] Site Kit snippet left on until GTM verified on production
@@ -475,7 +475,7 @@ at minimum stop adding to the confusion.
 **Done when.** One property is named as authoritative in writing, and only one
 tag loads on the new site.
 
-- [ ] Survivor chosen and recorded
+- [x] Survivor chosen and recorded — **G-EX4ZJYVVPG, property 462310803**. It is the Ads-linked property (`adsLinked: true`, verified 9 Sep) and the `datagsc/` export source. `G-F8BHKGB935` is a separate collector, not a destination of the same Google tag, and dies on its own at launch. Full evidence, plus why property `499346155` is an access problem rather than a third candidate: `analytics-setup.md` §1.
 
 ## P8 — Conversions have never been tracked
 
@@ -497,7 +497,7 @@ the weeks remaining. Set the tracking up properly rather than hastily.
 
 **Done when.** A test submission appears in GA4 Realtime as `generate_lead`.
 
-- [ ] Event firing and marked as a Key event
+- [ ] Event firing and marked as a Key event. **Step 1 above does not work as written:** GTM has no "WPForms confirmation" trigger, and form 7560 is AJAX with a message confirmation, so there is no page load and the built-in Form Submission trigger never fires. Working design in `analytics-setup.md` §3
 
 ## P9 — Three flags that must not reach production
 
