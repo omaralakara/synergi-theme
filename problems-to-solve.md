@@ -936,3 +936,57 @@ the OAuth client builds, and `get_mailer` returns the Outlook mailer.
 The missing `expires` value is also the likeliest explanation for the original
 failure: without it the plugin never knew the token had expired, so it never
 refreshed and kept presenting a stale one.
+
+---
+
+# Test 4 — 9 September, 06:11 — PASSED. P1 and P3 are closed.
+
+Submitted with an email not already in Bigin. All three links in the chain
+worked.
+
+**The CRM record exists.** Read back from Bigin directly by ID:
+
+| Field | Value |
+|---|---|
+| Record ID | `6777506000002480059` |
+| First / Last name | omar test 4 |
+| Email | omar.alakara3@gmail.com |
+| **Mobile** | **+961 71 384 052** |
+| Description | test personal email |
+| Created | 2026-09-09 10:11:15 +04:00 |
+| Owner | Ahmed Patel |
+
+Bit Integrations log 53: `response_type: success`, `message: "record added"`.
+
+**The email sent.** WP Mail SMTP log 197, 06:11:13, "New enquiry from
+synergi.ae" to `info@synergibpo.com`, **status 1**, no error.
+
+So the full chain now works: WPForms → `wpforms_process_complete` → Bit
+Integrations `WPF` trigger → Zoho Bigin, and separately → Outlook → inbox. The
+phone field carried through, which was the one piece of data the rebuild had
+dropped.
+
+- [x] **P1 — form notifications** — CLOSED
+- [x] **P3 — CRM connection** — CLOSED on staging
+- [ ] Repeat the same test on production immediately after launch
+
+## Housekeeping
+
+- **Delete the test contact** `6777506000002480059` from Bigin. Staging shares
+  the live Zoho connection, so this is a real record in the production CRM.
+- The 06:00 attempt created nothing — Zoho rejected it as a duplicate — so there
+  is only one test record to remove.
+
+## What has to be repeated on production at launch
+
+Both fixes live in the **database**, not in the theme, so neither travels with a
+Git deploy. After the content migration:
+
+1. Confirm the flow row reads `triggered_entity = WPF`, `triggered_entity_id = 7560`
+2. **Clear the three Bit Integrations transients** — `..._active_trigger_entities`,
+   `..._fallback_trigger_entities`, `..._action_hook_flows`. Skip this and the
+   flow will look perfect and silently never fire, exactly as it did here
+3. Check the WPForms notification still reads `info@synergibpo.com`
+4. Leave production's own `from_email` (`info@synergi.ae`) alone — it is a valid
+   send-as alias there, proven by 31 successful sends
+5. Submit one real enquiry and confirm it reaches Bigin, then delete it
