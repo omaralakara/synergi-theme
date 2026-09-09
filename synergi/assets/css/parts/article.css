@@ -1,0 +1,258 @@
+/*
+ * article.css — the long-form article structures inside a blog post.
+ * Contents: 1 measure · 2 the lede · 3 the jump nav · 4 sections and anchors ·
+ * 5 subheads and lead-ins · 6 figures · 7 the Arabic disclosure · 8 reduced motion.
+ *
+ * Loaded by inc/assets.php as "synergi-article", on single posts only,
+ * depending on "synergi-entry". No other view renders this markup.
+ * Markup: post_content on the seven imported long-form posts (see below).
+ *
+ * WHY THIS FILE EXISTS. Seven posts were imported as hand-built HTML articles
+ * that carried their own <style> block. Two things happened to them in the
+ * database, before this theme existed:
+ *
+ *   1. Every class attribute was stripped from the markup, so the <style>
+ *      block's selectors (.hero, .article-nav, .item, .cta-box) matched
+ *      nothing at all.
+ *   2. The <style> block itself was run through wpautop, which put a literal
+ *      "<br />" on the end of every CSS line. A "<" inside a declaration block
+ *      is a parse error, so every declaration in it was dropped.
+ *
+ * The result rendered as unstyled semantic HTML: <article>, <header>, <nav>,
+ * <section id>, <figure>, <strong>. Those <style> blocks are removed from the
+ * content (they were dead weight and hard-coded hex, against CLAUDE.md §2.7),
+ * and this file styles the semantic structure they left behind — which is the
+ * arrangement CLAUDE.md §1 asks for anyway: the words stay in the database,
+ * the way they look lives in a file.
+ *
+ * WHERE THIS FILE STOPS. entry.css owns generic editor prose — paragraphs,
+ * links, lists, quotes, tables, code. This file owns only what entry.css does
+ * not see: the landmark elements nested inside post_content, which no other
+ * stylesheet in the theme selects (verified: the theme declares no bare
+ * header/nav/section/article selector anywhere). It is not an override layer
+ * on entry.css (CLAUDE.md §4) — the two select disjoint sets of elements.
+ *
+ * Everything is scoped under .syn-entry-content so a bare <nav> or <section>
+ * in the site chrome can never be reached from here.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11). No !important (CLAUDE.md §2.12).
+ */
+
+/* ==========================================================================
+   1. Measure
+   entry.css caps its DIRECT children at 42em. In these posts the prose is
+   nested one or two levels down, inside <article><section>, so none of it was
+   capped and every paragraph ran the full 68rem of the narrow container —
+   roughly 160 characters a line. That alone made the posts hard to read.
+   ========================================================================== */
+
+.syn-entry-content article > header,
+.syn-entry-content section > p,
+.syn-entry-content section > ul,
+.syn-entry-content section > ol,
+.syn-entry-content section > h2,
+.syn-entry-content section > h3,
+.syn-entry-content section > h4 {
+	max-inline-size: 42em;
+}
+
+/*
+ * The imported <article> is a plain wrapper: single.php already opened the
+ * real <article> for the post, so this one carries no styling of its own.
+ */
+.syn-entry-content article {
+	display: block;
+}
+
+/* ==========================================================================
+   2. The lede
+   The opening statement, which was a tinted panel in the imported design. It
+   is the one block that reads as an introduction rather than body copy, so it
+   keeps that job — the cyan rule is the same signal .syn-eyebrow uses site-wide
+   and that entry.css puts above every h2.
+   ========================================================================== */
+
+.syn-entry-content article > header {
+	padding: var(--syn-space-4);
+	border-inline-start: 3px solid var(--syn-cyan);
+	border-start-end-radius: var(--syn-radius-lg);
+	border-end-end-radius: var(--syn-radius-lg);
+	margin-block-end: var(--syn-space-5);
+	background-color: var(--syn-paper-blue);
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.45;
+}
+
+.syn-entry-content article > header p {
+	margin-block: 0.6rem 0;
+}
+
+.syn-entry-content article > header p:last-child {
+	margin-block-end: 0;
+}
+
+/* ==========================================================================
+   3. The jump nav
+   In-page anchors to the sections below. It is a real <nav> with an accessible
+   name already (aria-label="Article navigation"), so it needs no extra
+   semantics — only a shape. Focus rings come from the global :focus-visible
+   rule in base.css (CLAUDE.md §9).
+   ========================================================================== */
+
+.syn-entry-content nav[aria-label] {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--syn-space-1);
+	padding: var(--syn-space-2);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	margin-block-end: var(--syn-space-5);
+	background-color: var(--syn-white);
+}
+
+/*
+ * wpautop turns the newline between two links into a <br>, which would become
+ * a blank flex item and break the row onto separate lines. The content repair
+ * removed those, and this keeps the row intact if an editor re-saves the post
+ * and wpautop puts them back. A nav is a list of links; a manual line break is
+ * never meaningful inside one.
+ */
+.syn-entry-content nav[aria-label] br {
+	display: none;
+}
+
+.syn-entry-content nav[aria-label] a {
+	display: inline-flex;
+	min-block-size: 2.375rem;
+	align-items: center;
+	padding-block: 0.45rem;
+	padding-inline: 0.85rem;
+	border-radius: var(--syn-radius-md);
+	background-color: var(--syn-paper-blue);
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	transition:
+		background-color var(--syn-duration-fast),
+		color var(--syn-duration-fast);
+}
+
+.syn-entry-content nav[aria-label] a:hover {
+	background-color: var(--syn-cyan-soft);
+	color: var(--syn-navy-deep);
+}
+
+/* ==========================================================================
+   4. Sections and anchors
+   ========================================================================== */
+
+.syn-entry-content section {
+	margin-block-end: var(--syn-space-5);
+}
+
+.syn-entry-content section:last-child {
+	margin-block-end: 0;
+}
+
+/*
+ * The site header is fixed, so an in-page link from the nav above would land
+ * with its heading hidden underneath it. The gutter is the header's own height
+ * plus a step of breathing room, which is what makes the jump land on the
+ * heading rather than just past it.
+ */
+.syn-entry-content section[id],
+.syn-entry-content [id]:target {
+	scroll-margin-block-start: calc(var(--syn-header-height) + var(--syn-space-3));
+}
+
+/*
+ * entry.css draws the short cyan rule above a top-level h2. These h2s are
+ * nested inside a section, so that selector never reached them — this restores
+ * the same signal rather than inventing a second one. If one changes, change
+ * both: they are deliberately identical.
+ */
+.syn-entry-content section > h2::before {
+	display: block;
+	inline-size: 2.25rem;
+	block-size: 2px;
+	margin-block-end: 0.9rem;
+	background-color: var(--syn-cyan);
+	content: "";
+}
+
+/* ==========================================================================
+   5. Subheads and lead-ins
+   Each of these paragraphs opens with a <strong> that names a point and then
+   explains it — they were cards in a grid before the classes were stripped.
+   Every one of the 64 in these posts sits alone on its own source line, so
+   promoting it to a block lead-in is safe and matches what it always meant.
+   ========================================================================== */
+
+.syn-entry-content section p > strong:first-child {
+	display: block;
+	margin-block-end: 0.3rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-0);
+	line-height: 1.35;
+}
+
+/* ==========================================================================
+   6. Figures
+   entry.css already gives a content image its radius. What it cannot give
+   these is a ratio, because the uploads are mixed: some are 1200x675, some are
+   600 wide. A max height keeps a run of them even without cropping anything.
+   ========================================================================== */
+
+.syn-entry-content section > figure {
+	margin-block: var(--syn-space-4);
+	margin-inline: 0;
+}
+
+.syn-entry-content section > figure img {
+	display: block;
+	inline-size: 100%;
+	block-size: auto;
+}
+
+/* ==========================================================================
+   7. The Arabic disclosure
+   One post carries its Arabic translation in a <details>. It is the only one
+   today, and it is styled here rather than left as a browser default because a
+   bare disclosure triangle on a designed page reads as a rendering fault.
+   ========================================================================== */
+
+.syn-entry-content details {
+	padding: var(--syn-space-3);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	margin-block: var(--syn-space-4);
+	background-color: var(--syn-paper);
+}
+
+.syn-entry-content details > summary {
+	color: var(--syn-navy);
+	cursor: pointer;
+	font-weight: 700;
+}
+
+.syn-entry-content details[open] > summary {
+	margin-block-end: var(--syn-space-2);
+	padding-block-end: var(--syn-space-2);
+	border-block-end: 1px solid var(--syn-border);
+}
+
+/* ==========================================================================
+   8. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-entry-content nav[aria-label] a {
+		transition: none;
+	}
+}

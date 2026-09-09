@@ -127,6 +127,16 @@ function syn_enqueue_part_assets() {
 		$parts[] = 'entry';
 	}
 
+	/*
+	 * The long-form article structures that live inside seven imported posts:
+	 * <article>, <header>, a jump <nav>, <section id>. Only a post carries that
+	 * markup, so only a post downloads the stylesheet. See article.css for what
+	 * happened to those posts and why the theme styles them from a file now.
+	 */
+	if ( is_singular( 'post' ) ) {
+		$parts[] = 'article';
+	}
+
 	foreach ( $parts as $part ) {
 		$path = 'assets/css/parts/' . $part . '.css';
 

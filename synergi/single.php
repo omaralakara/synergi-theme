@@ -24,6 +24,18 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/*
+ * Every post closes with the same band the case studies and the About page
+ * close with, so a reader who finishes an article is offered the same next step
+ * wherever they finished it. Declared before get_header() because assets are
+ * enqueued during wp_head(), which runs inside it (inc/sections.php).
+ *
+ * Its words come from the "final_cta" site record, edited once at
+ * Settings → Site records — not from the post. A CTA that belongs to nine pages
+ * is a site record, not page copy (CLAUDE.md §7a).
+ */
+syn_use_sections( array( 'final-cta' ) );
+
 get_header();
 
 while ( have_posts() ) :
@@ -120,5 +132,8 @@ while ( have_posts() ) :
 
 	<?php
 endwhile;
+
+// Outside the <article>: the band closes the page, not the post's own content.
+syn_section( 'final-cta' );
 
 get_footer();
