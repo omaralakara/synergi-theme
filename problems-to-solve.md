@@ -990,3 +990,51 @@ Git deploy. After the content migration:
 4. Leave production's own `from_email` (`info@synergi.ae`) alone — it is a valid
    send-as alias there, proven by 31 successful sends
 5. Submit one real enquiry and confirm it reaches Bigin, then delete it
+
+## Where the record actually was — closed 9 September
+
+The team reported the contact had not arrived. It had. Verified three ways
+after the report:
+
+- Fetched by ID `6777506000002480059` — **HTTP 200**, record present
+- Searched Bigin by email — **1 record found**
+- Token confirmed as acting for **Ahmed Patel** (`ahmed.patel@synergibpo.com`),
+  who is also the record's owner
+
+The record was never missing. It was being looked for in the wrong place, and
+the reason is worth keeping.
+
+**The integration writes to the `Contacts` module only.** The flow's `module` is
+`Contacts` and `RecordApiHelper` posts to `/bigin/v1/Contacts`. It has never
+created anything in **Pipelines** — which is Bigin's main working screen and
+where a sales team spends its day. Contacts sits behind that, closer to an
+address book.
+
+So every website enquiry becomes a Contact, owned by Ahmed Patel, attached to no
+pipeline and no deal. It is in the system but not in the workflow. That is not
+something the rebuild changed — it is how the integration was set up originally.
+
+**Where to look in Bigin:** `bigin.zoho.com` (not `crm.zoho.com`, a different
+product) → **Contacts** (not Pipelines) → view set to **All Contacts** (not "My
+Contacts", since the owner is Ahmed Patel) → search the email.
+
+**Where to look in WordPress:** log in at `/s-dashboard/` (`/wp-admin` is hidden
+by WPS Hide Login), then:
+
+| What | Where |
+|---|---|
+| Did the CRM flow run, and what did Zoho reply? | `admin.php?page=bit-integrations` → the Zoho Bigin flow → Logs |
+| Did the notification email send? | `admin.php?page=wp-mail-smtp-logs` |
+| Stored form entries | Nowhere — WPForms Lite keeps none (P2) |
+
+### Open question for the business, not a blocker
+
+**Should a website enquiry create a deal in a pipeline, or only a contact?**
+
+If it should create a deal, the flow needs pointing at the Pipelines module, or
+a second action adding one — which needs a decision on which pipeline and which
+stage new enquiries enter. Until then, web leads will keep arriving somewhere
+the sales team does not habitually look.
+
+**P1 and P3 are closed.** The remaining task is the production repeat at launch,
+listed above.
