@@ -871,3 +871,68 @@ launch blocker. Then **P4**, because ten minutes of reading old form submissions
 tells you whether you have a business problem nobody has noticed.
 
 Everything else can run alongside the launch.
+
+---
+
+# Test 3 — 9 September, 06:00
+
+## Zoho: the flow works
+
+Bit Integrations log entry 52, `06:00:51`:
+
+```
+triggered_entity: WPF      triggered_entity_id: 7560
+0:first  test new 9:00
+0:last   test new 9:00
+1        omar.alakara@synergibpo.com
+3        +961 71 384 052      <- the phone field mapped correctly
+2        test new 9:00
+```
+
+The new trigger fired, every field mapped including the phone number, and Zoho
+answered. **The integration is proven end to end.**
+
+Zoho's answer was `DUPLICATE_DATA` — it declined to create the contact because
+`omar.alakara@synergibpo.com` already exists in Bigin (record
+`6777506000002222008`). That is Zoho working as designed, not a fault in the
+connection.
+
+### But it exposes a real behaviour worth knowing
+
+`RecordApiHelper` only ever calls `insertRecord` — a plain POST to
+`/bigin/v1/{module}`. **There is no upsert.** So when somebody already in Bigin
+submits the form again, their enquiry never reaches the CRM.
+
+This is **not new** — production log entry 45 shows the same rejection on
+29 July. It has always behaved this way. But it means:
+
+- The **email notification is the only backstop** for a returning enquirer,
+  which is a second reason the mail fix matters
+- Anyone measuring "leads in Bigin" is undercounting repeat enquiries
+
+Also noted for later: the field map supports `formField: 'custom'` with a
+`customValue`, so `Source_URL` could be set to a static string if it is ever
+wanted back.
+
+## Email: still failing, and it was my fault
+
+Test 3 failed with a **different** error: `The selected mailer not found.`
+
+Yesterday's token refresh wrote the access token as a plain string. WP Mail SMTP
+stores it as a structured array — `new AccessToken( (array) $options['access_token'] )`
+— so a string produced an array with no `access_token` key, the OAuth client
+could not be built, and the mailer never existed.
+
+**Fixed.** The token is written back in the correct shape:
+
+```
+access_token  => [ access_token, refresh_token, expires ]
+```
+
+with the `expires` timestamp the structure needs, and the two stray keys added
+yesterday removed. Verified: `is_clients_saved` true, `is_auth_required` **false**,
+the OAuth client builds, and `get_mailer` returns the Outlook mailer.
+
+The missing `expires` value is also the likeliest explanation for the original
+failure: without it the plugin never knew the token had expired, so it never
+refreshed and kept presenting a stale one.
