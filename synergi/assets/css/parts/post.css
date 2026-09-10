@@ -1,7 +1,7 @@
 /*
- * post.css â everything the blog adds on top of a page.
- * Contents: 1 single post media Â· 2 previous/next Â· 3 card grid Â· 4 the card Â·
- * 5 pagination Â· 6 the 404 list.
+ * post.css — everything the blog adds on top of a page.
+ * Contents: 1 single post media · 2 previous/next · 3 card grid · 4 the card ·
+ * 5 pagination · 6 the 404 list · 7 the category row.
  *
  * Loaded by inc/assets.php as "synergi-post", on single posts, archives, the
  * posts page, search results and 404s only, depending on the "synergi-base"
@@ -10,7 +10,7 @@
  *
  * No counterpart in design-source: the approved design covers the homepage and
  * says nothing about the blog. Everything here is built from theme.json tokens,
- * and the shapes follow what the header and footer already established â the
+ * and the shapes follow what the header and footer already established — the
  * card radius, shadow and border are the same ones the design uses elsewhere,
  * rather than a second visual language for the blog.
  */
@@ -378,4 +378,61 @@
 	border-color: var(--syn-navy);
 	background-color: var(--syn-navy);
 	color: var(--syn-white);
+}
+
+/* ==========================================================================
+   7. The category row
+   Markup: parts/post-categories.php, rendered by archive.php above the grid on
+   the posts page and every category archive.
+
+   The same pill the article jump nav uses in parts/article.css, so the two
+   places a reader picks a topic look like one system. If one changes, change
+   both. The current term is marked with aria-current by the template, and that
+   attribute — not a class — is what this styles: the state is in the markup
+   for a screen reader anyway, so a second signal for CSS would be a way for
+   the two to disagree.
+   ========================================================================== */
+
+.syn-post-categories {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--syn-space-1);
+	padding-block: var(--syn-space-5) 0;
+}
+
+.syn-post-categories__link {
+	display: inline-flex;
+	min-block-size: 2.375rem;
+	align-items: center;
+	padding-block: 0.45rem;
+	padding-inline: 0.85rem;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-md);
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	transition:
+		border-color var(--syn-duration-fast),
+		background-color var(--syn-duration-fast),
+		color var(--syn-duration-fast);
+}
+
+.syn-post-categories__link:hover {
+	border-color: var(--syn-cyan);
+	background-color: var(--syn-cyan-soft);
+}
+
+.syn-post-categories__link[aria-current] {
+	border-color: var(--syn-navy);
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-post-categories__link {
+		transition: none;
+	}
 }

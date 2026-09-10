@@ -67,6 +67,15 @@ get_template_part(
 
 <div class="syn-container">
 
+	<?php
+	/*
+	 * Above the grid on every blog view, so a reader who lands on one article's
+	 * category can get back to the whole stream without the browser's back
+	 * button. It renders nothing when there are fewer than two categories.
+	 */
+	get_template_part( 'parts/post-categories' );
+	?>
+
 	<?php if ( have_posts() ) : ?>
 
 		<div class="syn-card-grid">

@@ -1,7 +1,7 @@
 /*
  * article.css — the long-form article structures inside a blog post.
  * Contents: 1 measure · 2 the lede · 3 the jump nav · 4 sections and anchors ·
- * 5 subheads and lead-ins · 6 figures · 7 the Arabic disclosure · 8 reduced motion.
+ * 5 the cards · 6 figures · 7 the Arabic disclosure · 8 reduced motion.
  *
  * Loaded by inc/assets.php as "synergi-article", on single posts only,
  * depending on "synergi-entry". No other view renders this markup.
@@ -150,12 +150,45 @@
    4. Sections and anchors
    ========================================================================== */
 
+/*
+ * A section is a grid, and that is what lets the cards in part 5 sit beside
+ * each other WITHOUT a wrapper element around them. The imported markup has no
+ * wrapper — the classes that used to group the cards were stripped — so the
+ * grid is declared on the section and every child that is not a card is told to
+ * span the full row. Consecutive cards then fill the columns on their own.
+ *
+ * It also fixes the spacing. Grid items do not collapse margins, so the gap
+ * below is the single source of rhythm between blocks, instead of whatever each
+ * element's own margin happened to be — which is why these posts had paragraphs
+ * running together with no air between them.
+ */
 .syn-entry-content section {
+	display: grid;
+	align-items: start;
+	gap: var(--syn-space-3);
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 	margin-block-end: var(--syn-space-5);
 }
 
 .syn-entry-content section:last-child {
 	margin-block-end: 0;
+}
+
+/* Everything spans the row; part 5 opts the cards back out. */
+.syn-entry-content section > * {
+	grid-column: 1 / -1;
+	margin-block: 0;
+}
+
+/* A heading needs more air above it than the gap gives, and none below. */
+.syn-entry-content section > h2,
+.syn-entry-content section > h3 {
+	margin-block-start: var(--syn-space-2);
+}
+
+.syn-entry-content section > h2:first-child,
+.syn-entry-content section > h3:first-child {
+	margin-block-start: 0;
 }
 
 /*
@@ -185,20 +218,65 @@
 }
 
 /* ==========================================================================
-   5. Subheads and lead-ins
+   5. The cards
    Each of these paragraphs opens with a <strong> that names a point and then
-   explains it — they were cards in a grid before the classes were stripped.
-   Every one of the 64 in these posts sits alone on its own source line, so
-   promoting it to a block lead-in is safe and matches what it always meant.
+   explains it. They WERE cards in a grid — the imported design put them in one
+   — until the class attributes were stripped, which is why they arrived as
+   loose bold-led paragraphs. Every one of the 64 in these posts sits alone on
+   its own source line, so this is restoring what they always meant rather than
+   inventing a shape for them.
+
+   The badge numbers those cards carried ("01", "02", …) were left orphaned by
+   the same stripping and ended up mid-sentence, so they were removed from the
+   content. They were decoration, and decoration does not belong in the
+   database (CLAUDE.md §1).
+
+   Deliberately the same object as .syn-card in post.css: the asymmetric
+   corner, the border, the navy headline. If one changes, change both.
    ========================================================================== */
 
-.syn-entry-content section p > strong:first-child {
+.syn-entry-content section > p:has(> strong:first-child) {
+	display: flex;
+	min-inline-size: 0;
+	flex-direction: column;
+	padding: var(--syn-space-3);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	border-start-end-radius: 2.75rem;
+	/* Opts out of the row-spanning rule in part 4, so cards share a row. */
+	grid-column: auto;
+	background-color: var(--syn-white);
+	font-size: var(--syn-step--1);
+	line-height: 1.6;
+}
+
+.syn-entry-content section > p:has(> strong:first-child) > strong:first-child {
 	display: block;
-	margin-block-end: 0.3rem;
+	margin-block-end: 0.4rem;
 	color: var(--syn-navy);
 	font-size: var(--syn-step-0);
 	line-height: 1.35;
 }
+
+/*
+ * A card is prose, not a link target, so it does not lift on hover the way
+ * .syn-card does — nothing in it is clickable and a hover state would promise
+ * an interaction that is not there (CLAUDE.md §9).
+ */
+
+/*
+ * NO BUTTON RULE HERE, deliberately. The closing "Contact Synergi" link wants
+ * to be a button, and there is no way to select it in CSS: :only-child counts
+ * elements and ignores text nodes, so p:has(> a:only-child) matches a citation
+ * sitting inside a sentence just as readily as a paragraph holding nothing but
+ * a link. It was tried on 9 Sep and turned eight inline references — the
+ * WageIndicator and SilkLink citations among them — into navy buttons in the
+ * middle of running prose.
+ *
+ * Selecting it needs something CSS cannot see: whether the paragraph has text
+ * of its own beside the link. Whatever makes that link a button has to come
+ * from the markup, not from a selector guessing at it.
+ */
 
 /* ==========================================================================
    6. Figures
