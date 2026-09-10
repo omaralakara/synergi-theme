@@ -105,9 +105,15 @@ function syn_launch_after_activation( $dry_run = true ) {
 	}
 
 	// --- 3. cache ----------------------------------------------------------
+	// Yoast caches its sitemaps. Dropped here so page-sitemap.xml lists the
+	// new pages — and stops listing the drafted ones — now, not whenever the
+	// cache happens to expire, which is when Search Console reads it.
 	if ( ! $dry_run ) {
+		if ( class_exists( 'WPSEO_Sitemaps_Cache' ) ) {
+			WPSEO_Sitemaps_Cache::clear();
+		}
 		do_action( 'litespeed_purge_all' );
-		$report['cache'] = 'LiteSpeed purged';
+		$report['cache'] = 'Yoast sitemaps and LiteSpeed purged';
 	}
 
 	// --- 4. checks, read-only ----------------------------------------------

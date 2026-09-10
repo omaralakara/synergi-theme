@@ -1,0 +1,69 @@
+# Every redirect origin after the launch import: staging's 61 (read 10 Sep) plus
+# production's own page-not-found. One per line, no slashes. Regenerate from
+# production's wpseo-premium-redirects-base if the table changes before launch.
+#
+# Known before launch: page-not-found -> 404-2 points at a page that is not
+# published on production, so it answers 404 after its 301. Pre-existing; the
+# check will flag it — retarget it or leave it, it is not a launch blocker.
+shared-services-uae-2
+our-services-2
+category/humen-resource
+category/human-resource
+category/synerginews
+nejmeh-club-appoints-synergi-as-official-bpo-and-transformation-partne
+ig
+engagement-team-2
+synergi-executive-podcast
+procurement-services-uae
+procurement-services
+procurement-2
+our-services/procurement-2
+procurement
+our-services/procurement-old
+procurement-old
+reducing-the-hidden-cost-of-workflow-chaos
+our-approach
+our-leadership
+shared-services-uae
+bpo-services-in-saudi-arabia-ksa-riyadh
+synergi-uae-2-2
+our-approach/technology
+our-approach/healthcare
+our-approach/real-estate
+our-approach/financial-services
+our-approach/hospitality
+our-approach/travel-tourism
+our-approach/energy
+our-approach/alternative-investments
+our-services/customer-experience-solutions
+our-ecosystem
+corporate-social-responsibility
+synergi-partners-with-the-international-customer-experience-institute-icxi-2
+privacy-policy-2
+full-episodek6vl3n8qz2kjf9ya7pt4br1mx0wn5ce2sj8hu9og6ry3qv5dp4ts7zc1ab8ll9nf
+careers
+hr-digital-transformation-guide
+procurement-readiness
+contact-details
+contacts
+get-in-touch
+reach-us
+location
+locations
+services
+what-we-do
+our-services/digital-solutions
+our-services/it-support
+our-services/finance-solutions
+our-services/human-capital-solutions
+our-services/public-relations-services
+our-impact
+our-impact/digital-solutions
+our-impact/finance-solutions
+our-impact/tax-and-accounting-solutions
+our-impact/human-capital-solutions
+our-impact/procurement-solutions
+our-impact/public-relations-services
+our-impact/facilities-management
+our-approach/automotive-trading
+page-not-found

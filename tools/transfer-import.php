@@ -748,7 +748,57 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 	}
 
 	/*
-	 * --- 12. the launch assertions -----------------------------------------
+	 * --- 12. retire pages that now redirect --------------------------------
+	 *
+	 * Staging took pages out of circulation and gave each a 301 — on 10 Sep:
+	 * the old front page, /our-leadership/, /our-approach/, three legacy
+	 * landing pages, two lead-magnet pages. Production still publishes them,
+	 * so they would sit in the sitemap while Yoast sends every visitor away: a
+	 * URL that says "index me" and "go elsewhere" at once.
+	 *
+	 * The rule is mechanical so nothing is drafted on judgement: a published
+	 * page or post whose own path is a plain redirect origin in the merged
+	 * table is drafted — never deleted, and never without its 301, which is
+	 * what keeps the URL alive (CLAUDE.md §2.8). Anything this run just wrote,
+	 * the new front and posts pages, and the keep-list are left alone.
+	 */
+	$keep_published = array( 'connect' ); // Decided 10 Sep: a printed QR code points at it.
+	$written        = array_map( 'intval', array_values( $slug_to_id ) );
+
+	foreach ( $by_origin as $origin => $r ) {
+		if ( 'regex' === ( $r['format'] ?? 'plain' ) ) {
+			continue;
+		}
+
+		$path = trim( (string) $origin, '/' );
+		if ( '' === $path || false !== strpos( $path, '?' ) ) {
+			continue;
+		}
+
+		$obj = get_page_by_path( $path, OBJECT, array( 'page', 'post' ) );
+		if ( ! $obj || 'publish' !== $obj->post_status ) {
+			continue;
+		}
+
+		$protected = in_array( $obj->post_name, $keep_published, true )
+			|| in_array( (int) $obj->ID, $written, true )
+			|| (int) $obj->ID === (int) $home
+			|| (int) $obj->ID === (int) $blog;
+
+		if ( $protected ) {
+			$report['retire_skipped'][] = '/' . $path . '/ (id ' . $obj->ID . ')';
+			continue;
+		}
+
+		$report['retired'][] = ( $dry_run ? 'WOULD DRAFT' : 'drafted' ) . ' /' . $path . '/ (id ' . $obj->ID . ') -> 301 /' . ltrim( (string) $r['url'], '/' );
+
+		if ( ! $dry_run ) {
+			wp_update_post( array( 'ID' => (int) $obj->ID, 'post_status' => 'draft' ) );
+		}
+	}
+
+	/*
+	 * --- 13. the launch assertions -----------------------------------------
 	 *
 	 * Things that are individually invisible and collectively fatal: a
 	 * noindexed front page, a site-wide "discourage search engines", a front
