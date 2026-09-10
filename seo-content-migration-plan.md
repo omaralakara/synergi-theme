@@ -1091,3 +1091,130 @@ staging domain into launch is configuration, not content: `wpseo`,
   in this session. Until GA4 and a production-property GSC export exist, there
   is no baseline to prove the migration improved search rather than harmed it —
   which is the standard the business set for this work.
+
+### Addendum — 10 Sep, eighth pass (UAE page photography)
+
+The UAE market page reused old shared stock and AI pictures in every band
+between its hero and its case band — the same four files the Saudi page carried
+before its sixth pass (`Gulf-Markets`, `industry-public-sector`,
+`industry-retail-hospitality-healthcare`, `service-project-management`) — and
+its story pillars had no pictures at all. Ten new photographs replace them and
+one is reused, cut to the Saudi pass's sizes and encoded as WebP.
+
+**The source changed; the licence standard did not.** Unsplash now refuses
+automated search from both the workstation and staging (its JSON search answers
+307 "Authorization required", its search pages 401), Pexels and Pixabay answer
+with a Cloudflare challenge, and Openverse times out. Wikimedia Commons is the
+one open source still reachable, so every pick came from there, filtered to CC0
+or public domain with no attribution requirement — the same "free for commercial
+use, no attribution" bar as the Unsplash License. Several are CC0 re-uploads of
+Unsplash and Pexels photographs. Each attachment records its Commons source page
+and licence in its description. Every candidate was looked at on a contact sheet
+before it was cut, and every final crop again after.
+
+Assigned on `/markets/united-arab-emirates/` (IDs 10798–10807), by field:
+
+- **Story pillars** (1600×1200): colleagues' hands over paper charts beside
+  laptops for "Run, not just advised" (10807); Abu Dhabi towers beyond the
+  Qasr Al Watan fountains for "Abu Dhabi base, every emirate served" (10799); a
+  consultant and a client at a laptop for "One engagement lead" (10803).
+- **Industries** (1600×900): the Abu Dhabi skyline across the water (holdings,
+  10798); the Qasr Al Watan gardens (government, 10800, re-encoded to 298 KB,
+  the densest of the set); a hotel dining room (hospitality, 10801); the Dubai
+  Festival City mall (retail, 10802).
+- **Why Synergi in the UAE** (900×1200): Abu Dhabi towers through palms (10804),
+  the Dubai skyline at blue hour (10805), the Saudi pass's compliance photograph
+  reused (10783, since nothing free and on-topic turned up), and Downtown Dubai at
+  night (10806).
+
+**The Why deck now has four cards.** It had three, so its counter read
+"03 / 03"; the field's own description says four reads best. The fourth card,
+"Scales with the engagement", is assembled only from claims already on this
+page: the three delivery models (services lead), onshore and offshore (lede),
+and starting with one function then adding others (FAQ). Like any new copy it
+needs sign-off from the business.
+
+**Alt text says only what can be verified**, the same rule as the sixth pass.
+Landmarks are named where Commons titles the file by them (Qasr Al Watan, Dubai
+Festival City, the Burj Khalifa); the hotel dining room, the café meeting and
+the charts claim no location. The hero (`abu-dhabi-skyline-night.webp`, 10726)
+and the case band's image were left alone, as with the Saudi page.
+
+Verified on staging with a fresh, uncached request: 200, zero notices, one
+`<h1>`, all eleven files on the page, none of the four old stock files left, and
+the Why deck rendering four cards with a total of 4. The three repeaters'
+previous values are kept as `<key>__backup_20260910` meta on page 10681 —
+named with "backup" so `tools/transfer-export.php`, which skips any key
+containing that word, leaves them on staging.
+
+**Not yet in the launch payload.** The committed `migration/payload.json`
+(9 Sep, 14:10) predates this pass: it references none of IDs 10798–10807 and
+does not contain the fourth card. The transfer must be re-exported on staging
+before the production import, and `inc/media-fields.php` must be committed and
+the theme zip rebuilt, or production launches without either change.
+
+**Also fixed: the Media page's "Follow Synergi" button.** `syn_normalize_field()`
+accepts only text, textarea, repeater, image and link as top-level field types.
+`media_social_link_url` and `media_blog_link_url` were declared `url`, so both
+were dropped at registration and read back empty, and the Instagram band hid its
+button. Both are now `text`, exactly like the homepage's working
+`home_instagram_link_url`. Every other `url` field in the theme is a repeater
+subfield or a record column, and those do accept `url`, so these two were the
+only casualties. Note for anyone deploying: staging runs PHP opcache, and a PHP
+file written through execute-php does not take effect until `opcache_invalidate()`
+is called on it.
+
+### Addendum — 10 Sep, ninth pass (GCC page photography, footer headings, one h2 size)
+
+**`/markets/` (Business Process Outsourcing in the GCC, page 10614)** had no
+page-specific photography: its two story pillars were bare, and its industries
+and Why decks fell through to the homepage's AI images (the section's six
+built-in industry cards, and the `why_cards` record). Eleven photographs were
+sourced the same way as the eighth pass — Wikimedia Commons, CC0 or public
+domain only, each looked at before and after cropping, source and licence in the
+attachment description — as IDs 10808–10818:
+
+- **Story pillars** (1600×1200): the Kuwait City skyline from the seafront for
+  "Multi-entity by default"; a hand ticking a checklist for "Consolidation
+  without disruption" (its copy is about functions moving on a dated plan).
+- **Industries** (1600×900): the Doha skyline at night (holdings); the Qatar
+  National Library (public sector); stock prices on a phone (financial
+  services); desert solar and battery storage from the air (energy); a worker on
+  scaffolding (real estate and construction); a shopper on a mall escalator
+  (retail, hospitality and healthcare).
+- **Why** (900×1200): Muscat, Oman (multiple Gulf markets, and a third Gulf
+  country on the page after Kuwait and Qatar); a planner being filled in
+  (customized strategies); the existing compliance photograph (10783, kept);
+  scaffolding silhouettes in black and white (operations that grow).
+
+Rejected on sight: both "Doha Corniche" results (a fighter jet fills the frame),
+recognisable non-Gulf landmarks (St. Louis, Hong Kong's IFC, Toronto), and every
+public-sector or souq result that turned out to be a visiting US official.
+
+**The words did not change — and that has a cost to know about.** The page had
+no industries or Why rows of its own, so the new rows carry the built-in
+industry text and the `why_cards` record's text **verbatim** (verified on write).
+But they are now copies: an edit to the site-wide Why record at Settings → Site
+records will no longer reach this page. That is the CLAUDE.md §7a drift risk,
+accepted because the page needed its own pictures and the field model has no
+image-only override. Clearing the page's Why rows restores the record.
+
+**Footer headings (every URL).** The four footer column labels were `<h2>` —
+the same four headings, Services / Solutions / Company / Insights, in the
+outline of all 48 URLs. They are now `<p>` labels inside `<nav aria-labelledby>`
+(`parts/footer-links.php`), so screen readers still get four named navigation
+landmarks and each page's heading outline is its own content only. Verified: no
+heading tags left in the footer, four labelled navs, one `<h1>`, zero notices.
+
+**One section-heading size on the Media page.** The podcast-episodes heading was
+`step-2`, visibly smaller than the case-studies, blog and Instagram headings
+(all `step-3`, the theme's h2 size). It is now `step-3` (`episodes.css`); it
+also renders on `/executive-podcast/`. The closing-CTA heading (`4.1rem`,
+larger by design, on every page including the frozen homepage) was not changed
+and is awaiting a decision.
+
+Previous values are in `<key>__backup_20260910` meta on page 10614. As with the
+eighth pass, none of this is in the committed launch payload: re-export the
+transfer, and commit `parts/footer-links.php`, `assets/css/parts/footer.css`,
+`assets/css/sections/episodes.css` and `inc/media-fields.php` before the theme
+zip is rebuilt.
