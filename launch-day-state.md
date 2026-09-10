@@ -115,22 +115,27 @@ stack retired they render their stored text inside the new theme. Measured
 
 ## Site Kit needs reconnecting
 
-Site Kit was connected through Mario's account, with the Google login
-**`mario.jreige@synergi.ae`**; deleting the account removed that login, so its
-wp-admin dashboard is disconnected. **The tags keep serving** — they come from
-Site Kit's saved settings (`GT-TXBFKV55` → `G-EX4ZJYVVPG`), not from the login.
+Site Kit was connected through Mario's account (Google login
+`mario.jreige@synergi.ae`). Nobody has that Google login, and Site Kit was not
+usable from Mario's WordPress account either (confirmed by the launch lead,
+10 Sep), so deleting the account lost nothing. Its wp-admin dashboard is now
+disconnected. **The tags keep serving** from Site Kit's saved settings until it
+is reconnected.
 
-This also names the Google account behind GA property `462310803`, the one
-recorded as unreachable. That access lives in Google, not WordPress. After
-launch:
+The team has its own access to Google Analytics and Search Console. After
+launch, Omar reconnects it — it needs a Google sign-in in a browser:
 
-1. In Google Admin for `synergi.ae`, recover `mario.jreige@synergi.ae`.
-2. Signed in as it, add `omar.alakara@synergibpo.com` as an administrator on
-   GA property `462310803` and on the `https://synergi.ae/` Search Console
-   property.
-3. In wp-admin, Site Kit → reconnect as Omar with his own Google account.
-   Keep the same property: choosing `G-F8BHKGB935` instead would double-count
-   with ASE snippet 8607, which already sends to it.
+1. wp-admin → Site Kit → sign in with Google as Omar. If it asks, reset Site
+   Kit first: its saved owner is the deleted account.
+2. Search Console: `https://synergi.ae/`.
+3. Analytics: the property the team uses, **`G-F8BHKGB935`**.
+4. **Keep one tag.** ASE snippet 8607 already sends to `G-F8BHKGB935`, so
+   untick Site Kit's "place the Analytics code on the site". Tracking then
+   stays exactly as it runs today. (The alternative — let Site Kit place it and
+   switch snippet 8607 off in wp-admin — works too; both on double-counts.)
+
+The old Site Kit tag (`GT-TXBFKV55` → `G-EX4ZJYVVPG`, property `462310803`,
+which nobody can open) stops when the property changes. Nothing is lost by it.
 
 ## Still open
 
