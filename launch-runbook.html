@@ -485,10 +485,10 @@ td.num { font-variant-numeric: tabular-nums; }
 </header>
 
 <dl class="status">
-  <div class="tone-ok"><dt>Done today</dt><dd>2<small>/connect/ noindex &middot; homepage title</small></dd></div>
-  <div class="tone-warn"><dt>Before 15:00</dt><dd>5<small>steps 03&ndash;07</small></dd></div>
+  <div class="tone-ok"><dt>Ready</dt><dd>5 of 7<small>steps before the window</small></dd></div>
+  <div class="tone-warn"><dt>Still yours</dt><dd>2<small>backup &middot; admin email</small></dd></div>
   <div><dt>Objects to move</dt><dd>44<small>25 pages, 12 studies, 7 posts</small></dd></div>
-  <div><dt>Images to preload</dt><dd>59<small>43 already on production</small></dd></div>
+  <div class="tone-ok"><dt>Images</dt><dd>102 / 102<small>already on production</small></dd></div>
 </dl>
 
 <div class="note note--ok">
@@ -539,48 +539,35 @@ td.num { font-variant-numeric: tabular-nums; }
       </li>
 
       <li class="step">
-        <input type="checkbox" class="tick" aria-label="Step 4 done">
+        <input type="checkbox" class="tick" aria-label="Step 4 done" checked>
         <div class="step-body">
-          <h3><span class="n">04</span>Upload the theme &mdash; do not activate <span class="badge badge--warn">needs go</span></h3>
-          <p>Appearance &rarr; Themes &rarr; Add New &rarr; Upload, <code class="inl">synergi-theme.zip</code> (150 files, matches the committed code exactly). Build it only with <code class="inl">powershell tools/build-zip.ps1</code>. Installing is safe; activating is step 13.</p>
+          <h3><span class="n">04</span>Upload the theme &mdash; do not activate <span class="badge badge--ok">done 10 Sep</span></h3>
+          <p>Installed as Synergi 0.3.0, <strong>not active</strong>. The 150 installed files match the zip&rsquo;s fingerprint exactly. Upload it anywhere <em>except</em> <code class="inl">wp-content/upgrade/</code>: the installer empties that folder before it starts, zip included.</p>
         </div>
       </li>
 
       <li class="step">
-        <input type="checkbox" class="tick" aria-label="Step 5 done">
+        <input type="checkbox" class="tick" aria-label="Step 5 done" checked>
         <div class="step-body">
-          <h3><span class="n">05</span>Preload the 59 images <span class="badge badge--warn">needs go</span></h3>
-          <p>Adds files to the media library and nothing else. Doing it now is what keeps the live import inside production&rsquo;s 30-second limit. Needs a payload, so export, load, delete:</p>
-          <span class="code-cap">Novamira execute-php &middot; staging, then production, then staging</span>
-          <div class="code"><pre><span class="c">// 1. staging: paste all of tools/transfer-export.php (it ends in the export call)</span>
-
-<span class="c">// 2. production: paste tools/transfer-import.php, then — repeat until 'remaining' is 0</span>
-<span class="k">return</span> syn_transfer_import_media( <span class="s">'https://staging.synergi.ae/wp-content/uploads/syn-transfer/payload.json'</span> );
-
-<span class="c">// 3. staging: paste only syn_transfer_cleanup() from the export file</span>
-<span class="k">return</span> syn_transfer_cleanup(); <span class="c">// expect still_present =&gt; false</span></pre></div>
-          <p>Already-present files are matched by filename and skipped, so a repeat never duplicates. If reviewers add an image after this, the window&rsquo;s dry run shows it as missing and step 11 tops it up.</p>
+          <h3><span class="n">05</span>Preload the images <span class="badge badge--ok">done 10 Sep</span></h3>
+          <p>All 59 loaded in six batches, none failed; the dry run after it mapped <strong>102 of 102</strong>. Already-present files are matched by filename, so a repeat never duplicates. If reviewers add an image before 15:00, the window&rsquo;s dry run shows it as missing and step 11 tops it up:</p>
+          <div class="code"><pre><span class="k">return</span> syn_transfer_import_media( <span class="s">'https://staging.synergi.ae/wp-content/uploads/syn-transfer/payload.json'</span> ); <span class="c">// until 'remaining' =&gt; 0</span></pre></div>
         </div>
       </li>
 
       <li class="step">
-        <input type="checkbox" class="tick" aria-label="Step 6 done">
+        <input type="checkbox" class="tick" aria-label="Step 6 done" checked>
         <div class="step-body">
-          <h3><span class="n">06</span>Send every email as info@synergibpo.com <span class="badge badge--warn">needs go</span></h3>
-          <p>Production labels its mail <code class="inl">info@synergi.ae</code>, but the Microsoft account behind WP Mail SMTP is already <code class="inl">info@synergibpo.com</code> on both sites &mdash; the same account staging has sent from since 9 Sep. Only the label changes, so delivery does not.</p>
-          <span class="code-cap">Novamira execute-php &middot; production</span>
-          <div class="code"><pre>$s = get_option( <span class="s">'wp_mail_smtp'</span> );
-$s[<span class="s">'mail'</span>][<span class="s">'from_email'</span>] = <span class="s">'info@synergibpo.com'</span>;
-update_option( <span class="s">'wp_mail_smtp'</span>, $s );</pre></div>
-          <p>Then WP Mail SMTP &rarr; Tools &rarr; Email Test, to a mailbox you can open.</p>
+          <h3><span class="n">06</span>Send every email as info@synergibpo.com <span class="badge badge--ok">done 10 Sep</span></h3>
+          <p>Test delivered from <code class="inl">info@synergibpo.com</code>. The Microsoft account behind it was already that address, so delivery did not change. One trap for next time: save the setting in a request that sends no mail &mdash; a send refreshes the Microsoft token and the plugin writes its old in-memory settings back over the change.</p>
         </div>
       </li>
 
       <li class="step">
         <input type="checkbox" class="tick" aria-label="Step 7 done">
         <div class="step-body">
-          <h3><span class="n">07</span>Settle four loose ends <span class="badge badge--warn">decide</span></h3>
-          <p><strong><code class="inl">admin_email</code></strong> is <code class="inl">mario.jreige@synergi.ae</code>, a person&rsquo;s address; change only on a decision. <strong>Old-build plugins</strong> not in the retire list: Slider Revolution, Kirki, Meta Box. <strong><code class="inl">/connect/</code></strong> keeps its four links without Elementor but loses its styling &mdash; rebuild on a template now, or accept for week 1. <strong>Page 9146</strong>, a hidden podcast episode, renders blank without Elementor.</p>
+          <h3><span class="n">07</span>Settle the last loose ends <span class="badge badge--warn">decide</span></h3>
+          <p><strong><code class="inl">admin_email</code></strong> is <code class="inl">mario.jreige@synergi.ae</code>; it goes to the launch lead&rsquo;s address for now, and Omar changes it later &mdash; waiting on the address. <strong><code class="inl">/connect/</code></strong> keeps its four links without Elementor but loses its styling &mdash; rebuild on a template now, or accept for week 1. <strong>Page 9146</strong>, a hidden podcast episode, renders blank without Elementor.</p>
         </div>
       </li>
 
@@ -697,7 +684,7 @@ update_option( <span class="s">'wp_mail_smtp'</span>, $s );</pre></div>
           <span class="code-cap">Novamira execute-php &middot; production &middot; tools&sol;launch-after-activation.php</span>
           <div class="code"><pre><span class="k">return</span> syn_launch_after_activation( <span class="k">true</span> );  <span class="c">// read it</span>
 <span class="k">return</span> syn_launch_after_activation( <span class="k">false</span> ); <span class="c">// then run it</span></pre></div>
-          <p>Deactivates Elementor, Elementor Pro, its Activator, Element Pack Pro, the Elementor telephone field and Synergi Homepage Assets &mdash; <strong>deactivated, never deleted</strong>, listed in <code class="inl">syn_launch_deactivated_plugins</code>. Hides case studies and their service archives from search, as on staging. Purges LiteSpeed. Cloudflare is not in front of synergi.ae, so there is nothing else to purge.</p>
+          <p>Deactivates the Elementor stack &mdash; Elementor, Elementor Pro, its Activator, Element Pack Pro, the Elementor telephone field, Synergi Homepage Assets &mdash; and the old theme&rsquo;s own plugins: Slider Revolution, Kirki, Meta Box and the Google Maps API key. <strong>Deactivated, never deleted</strong>, listed in <code class="inl">syn_launch_deactivated_plugins</code>. Hides case studies and their service archives from search, as on staging. Purges LiteSpeed. Cloudflare is not in front of synergi.ae, so there is nothing else to purge.</p>
         </div>
       </li>
 
