@@ -105,11 +105,37 @@ stack retired they render their stored text inside the new theme. Measured
   Yoast's served option, which would have disabled every redirect on the
   site; fixed in `ac2d861`.
 
+- **Admin email is `omar.alakara@synergibpo.com`** on production and staging
+  (was `mario.jreige@synergi.ae` / `@staging.synergi.ae`).
+- **Mario's account deleted** (user 7, a former employee; decided 10 Sep). All
+  375 items it owned — 6 posts, the executive-podcast page, a draft, 38
+  images, 2 menu items, revisions — now belong to Omar (user 8). The theme
+  shows no bylines, so visitors see no change. Administrators left: `omar`,
+  `Soula` (still on `ahmed.patel@synergi.ae`).
+
+## Site Kit needs reconnecting
+
+Site Kit was connected through Mario's account, with the Google login
+**`mario.jreige@synergi.ae`**; deleting the account removed that login, so its
+wp-admin dashboard is disconnected. **The tags keep serving** — they come from
+Site Kit's saved settings (`GT-TXBFKV55` → `G-EX4ZJYVVPG`), not from the login.
+
+This also names the Google account behind GA property `462310803`, the one
+recorded as unreachable. That access lives in Google, not WordPress. After
+launch:
+
+1. In Google Admin for `synergi.ae`, recover `mario.jreige@synergi.ae`.
+2. Signed in as it, add `omar.alakara@synergibpo.com` as an administrator on
+   GA property `462310803` and on the `https://synergi.ae/` Search Console
+   property.
+3. In wp-admin, Site Kit → reconnect as Omar with his own Google account.
+   Keep the same property: choosing `G-F8BHKGB935` instead would double-count
+   with ASE snippet 8607, which already sends to it.
+
 ## Still open
 
-1. **`admin_email`** is `mario.jreige@synergi.ae`. Decided: replace it with the
-   launch lead's address for now; Omar changes it later. Needs the address.
-2. **`/connect/`** and **page 9146** — see above.
+1. **`/connect/`** and **page 9146** — see above.
+2. **Site Kit** — reconnect, above.
 3. **Backup** — today's (05:55 UTC, 1.25 GB) is on the same server. Being
    downloaded by the launch lead.
 4. **CRM** — flow 1 trigger + field map, flow 2 off, three transients, one real
