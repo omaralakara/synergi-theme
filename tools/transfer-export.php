@@ -8,12 +8,16 @@
  * side then fetches over HTTP. The payload never passes through a chat context.
  *
  * Pair: tools/transfer-import.php runs the other half on production.
- * Read migration-plan.md before changing anything here.
+ * Read launch-day-state.md and migration-plan.md before changing anything here.
  *
- * Verified against staging 9 Sep 2026: 37 posts, 96 attachments, 30 menu items,
- * 5 terms, 9 records, 61 redirects, 162 KB. The only staging.synergi.ae strings
- * left in the payload are the 96 attachment download URLs, which production
- * needs in order to fetch the files, plus the payload's own "source" stamp.
+ * Verified against staging 10 Sep 2026: 44 objects (25 pages, 12 case studies,
+ * 7 posts), 101 attachments, 30 menu items, 5 terms, 9 records, 61 redirects,
+ * 262 KB. The only staging.synergi.ae strings left in the payload are the
+ * attachment download URLs, which production needs in order to fetch the
+ * files, plus the payload's own "source" stamp.
+ *
+ * Schema 3 (10 Sep) adds the posts page, the new theme's logo and form 7560,
+ * and stops a "default" template from counting as a real one.
  *
  * @package SynergiTools
  */
@@ -68,9 +72,26 @@ const SYN_TRANSFER_NEVER_KEYS = array(
  * seven are ranking (bpo-in-syria alone: 610 impressions in three months).
  *
  * These carry their post_content, unlike the template-driven pages, because
- * for a blog post the content IS the page.
+ * for a blog post the content IS the page. Elementor is retired at launch
+ * (launch-day-state.md, 10 Sep), so this content is what renders.
+ *
+ * 7892 is the ICXI announcement: a post on staging, a page on production, the
+ * same URL on both. The importer updates production's page in place and it
+ * stays a page (syn_import_plan_target()).
  */
 const SYN_TRANSFER_REPAIRED_POSTS = array( 10398, 10362, 10124, 9975, 9927, 7892, 8946 );
+
+/**
+ * WPForms forms the new templates embed by ID, carried whole.
+ *
+ * templates/contact.php hard-codes [wpforms id="7560"]. Production has a form
+ * under that ID, but not this one: it has no Phone field, which the CRM flow
+ * maps to Mobile, and it notifies an old temporary hosting address,
+ * info@y0r.256.myftpupload.com. WPForms Lite stores no entries, so that
+ * notification is the only record of an enquiry. Staging's copy is the one
+ * tested end to end on 9 Sep, and it notifies info@synergibpo.com.
+ */
+const SYN_TRANSFER_FORMS = array( 7560 );
 
 /**
  * The content objects to carry, resolved by slug rather than hard-coded ID.
@@ -113,7 +134,8 @@ function syn_transfer_source_ids() {
  * Every attachment ID referenced by the content being carried.
  *
  * Image fields store a bare ID; the repeater groups store IDs inside JSON, so
- * the JSON is decoded and walked. syn_records is walked the same way.
+ * the JSON is decoded and walked. syn_records is walked the same way, and the
+ * header logo is added from the theme mods.
  *
  * @param int[] $post_ids Posts whose meta should be scanned.
  * @return int[] Unique attachment IDs, ascending.
@@ -163,6 +185,14 @@ function syn_transfer_referenced_attachments( array $post_ids ) {
 
 	$collect( get_option( 'syn_records', array() ) );
 
+	// The header logo is a theme mod, not a field. Theme mods are stored per
+	// theme, so the Synergi theme has none on production until the import
+	// writes them, and the logo has to be mapped like any other image.
+	$logo = (int) get_theme_mod( 'custom_logo' );
+	if ( $logo ) {
+		$found[ $logo ] = $logo;
+	}
+
 	ksort( $found );
 
 	return array_values( $found );
@@ -180,20 +210,32 @@ function syn_transfer_export() {
 	$staging = home_url();
 	$ids     = syn_transfer_source_ids();
 
+	$posts_page = (int) get_option( 'page_for_posts' );
+
 	$payload = array(
 		'generated'   => gmdate( 'c' ),
 		'source'      => $staging,
 		'target'      => SYN_TRANSFER_TARGET,
-		'schema'      => 2,
+		'schema'      => 3,
 		'records'     => get_option( 'syn_records', array() ),
 		'redirects'   => get_option( 'wpseo-premium-redirects-base', array() ),
 		'posts'       => array(),
 		'attachments' => array(),
 		'menu'        => array(),
 		'terms'       => array(),
+		// Options, not content: production has no posts page set at all
+		// (page_for_posts = 0, measured 10 Sep), so /blog/ would never list.
+		'reading'     => array(
+			'page_for_posts' => $posts_page ? (string) get_post_field( 'post_name', $posts_page ) : '',
+		),
+		'theme_mods'  => array(
+			'custom_logo' => (int) get_theme_mod( 'custom_logo' ),
+		),
+		'forms'       => array(),
 	);
 
-	$dropped_content    = array();
+	$left_alone         = array();
+	$content_carried    = array();
 	$suppressed_noindex = array();
 
 	// --- content -----------------------------------------------------------
@@ -236,16 +278,24 @@ function syn_transfer_export() {
 			$meta[ $key ] = $value;
 		}
 
-		// A page with a custom template renders from fields, never from
-		// post_content. Carrying its legacy Elementor markup would overwrite
-		// production's live content, which CLAUDE.md §2.9 keeps as the
-		// rollback. null tells the importer to leave production's alone.
-		$content = $post->post_content;
-		if ( '' !== $template && '' !== trim( $content ) ) {
-			$dropped_content[] = $post->post_name . ' (' . $template . ')';
-			$content           = null;
+		// A page with a template of its own renders from fields, never from
+		// post_content. Carrying its legacy markup — or an empty string, which
+		// is what staging holds for most of them — would overwrite production's
+		// copy, which CLAUDE.md §2.9 keeps as the rollback. null tells the
+		// importer to leave production's alone.
+		//
+		// "default" is what WordPress stores when an editor picks "Default
+		// template", so it means no template. Counting it as one is what kept
+		// the seven repaired posts' bodies out of the first 10 Sep payload.
+		$templated = '' !== $template && 'default' !== $template;
+		$content   = $post->post_content;
+
+		if ( $templated || '' === trim( $content ) ) {
+			$left_alone[] = $post->post_name;
+			$content      = null;
 		} else {
-			$content = str_replace( $staging, SYN_TRANSFER_TARGET, $content );
+			$content           = str_replace( $staging, SYN_TRANSFER_TARGET, $content );
+			$content_carried[] = $post->post_name;
 		}
 
 		$terms = array();
@@ -337,6 +387,27 @@ function syn_transfer_export() {
 		}
 	}
 
+	// --- forms -------------------------------------------------------------
+	$form_notifications = array();
+
+	foreach ( SYN_TRANSFER_FORMS as $form_id ) {
+		if ( 'wpforms' !== get_post_type( $form_id ) ) {
+			continue;
+		}
+
+		$form_json = (string) get_post_field( 'post_content', $form_id, 'raw' );
+
+		$payload['forms'][ (string) $form_id ] = array(
+			'title'   => get_the_title( $form_id ),
+			'content' => str_replace( $staging, SYN_TRANSFER_TARGET, $form_json ),
+		);
+
+		$decoded = json_decode( $form_json, true );
+		foreach ( (array) ( $decoded['settings']['notifications'] ?? array() ) as $n ) {
+			$form_notifications[ $form_id ][] = ( $n['email'] ?? '' ) . ' (from ' . ( $n['sender_address'] ?? '' ) . ')';
+		}
+	}
+
 	// --- write -------------------------------------------------------------
 	$up  = wp_upload_dir();
 	$dir = trailingslashit( $up['basedir'] ) . 'syn-transfer';
@@ -375,6 +446,10 @@ function syn_transfer_export() {
 		// protecting anything — check staging rather than assuming.
 		'noindex_suppressed'   => array_values( array_unique( $suppressed_noindex ) ),
 		'repaired_posts'       => count( array_filter( $payload['posts'], static function ( $p ) { return 'post' === $p['type']; } ) ),
+		// Expect exactly the seven repaired posts. Anything else here would
+		// overwrite a production page's body.
+		'content_carried'      => $content_carried,
+		'content_left_alone'   => count( $left_alone ),
 		'posts'                => count( $payload['posts'] ),
 		'attachments'          => count( $payload['attachments'] ),
 		'menu_items'           => count( $payload['menu'] ),
@@ -382,7 +457,9 @@ function syn_transfer_export() {
 		'terms'                => count( $payload['terms'] ),
 		'redirects'            => count( (array) $payload['redirects'] ),
 		'records'              => array_keys( (array) $payload['records'] ),
-		'post_content_dropped' => $dropped_content,
+		'posts_page'           => $payload['reading']['page_for_posts'],
+		'custom_logo'          => $payload['theme_mods']['custom_logo'],
+		'form_notifications'   => $form_notifications,
 		'bytes'                => strlen( $json ),
 		'fetch_url'            => trailingslashit( $up['baseurl'] ) . 'syn-transfer/payload.json',
 	);
@@ -393,7 +470,7 @@ function syn_transfer_export() {
  *
  * The payload has to be publicly fetchable — that is how production gets it —
  * which means that between the export and this call, the entire unlaunched
- * content build is downloadable by anyone who guesses the path: 37 objects of
+ * content build is downloadable by anyone who guesses the path: 44 objects of
  * copy, every Yoast title and description, the 61-rule redirect table, all
  * nine site records and the menu. Verified downloadable anonymously on
  * 10 Sep 2026. Run this the moment the import reports success.

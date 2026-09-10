@@ -2,33 +2,62 @@
 /**
  * Stage 8 content transfer — PRODUCTION side (import).
  *
- * Runs on production through Novamira execute-php. Fetches the payload written
- * by tools/transfer-export.php and applies it. Pass $syn_dry_run = true to get
- * the full report with nothing written — always do that first and read the diff
- * (migration-plan.md runbook, step 4).
+ * Runs on production through Novamira execute-php, in this order:
  *
- * Design rules, each of which exists because of something measured on 9 Sep:
+ *   1. syn_transfer_import( $url, true )   Dry run. Read every line of it.
+ *   2. syn_transfer_import_media( $url )   Repeat until 'remaining' is 0. Adds
+ *                                          images to the media library and
+ *                                          nothing else, so it can run before
+ *                                          the window.
+ *   3. syn_transfer_import( $url, false )  The live run. Refuses to start while
+ *                                          an image is missing or a URL is
+ *                                          contested, so once it starts it only
+ *                                          writes to the database and finishes
+ *                                          well inside production's 30-second
+ *                                          limit.
+ *
+ * Then activate the Synergi theme at once, and run
+ * tools/launch-after-activation.php.
+ *
+ * Design rules, each of which exists because of something measured:
  *
  *  - Content is matched by SLUG, never by ID. 14 of the 37 objects predate the
  *    Stage 0 clone and already exist on production under the same IDs; the rest
  *    are new. Slug is the only key that is correct for both.
+ *  - A post and a top-level page both live at /{slug}/, so the URL decides. A
+ *    payload post whose slug belongs to a production page updates that page,
+ *    and it stays a page; any other clash stops the live run. An update never
+ *    changes an object's type. (10 Sep: the ICXI announcement is a page on
+ *    production and a post on staging, and the first dry run would have
+ *    created a second, empty object at its URL.)
  *  - Attachments are NEVER carried by ID. Staging and production both minted
  *    IDs 10480-10527 for different images after the clone, so reusing an ID
  *    silently shows the wrong picture. Every image is matched by filename or
- *    re-downloaded, and every reference is rewritten through the map.
+ *    downloaded, and every reference is rewritten through the map.
  *  - Meta is written with wp_slash(). update_metadata() unslashes, which eats
  *    the \u escapes inside the repeater JSON — that bug already shipped "u2014"
  *    to eight live pages once.
  *  - Redirects are MERGED, not replaced. Production carries one redirect that
  *    staging does not (page-not-found), and a straight overwrite deletes it.
- *  - page_on_front is set explicitly. It is an option, so it does not travel
- *    with content, and without this the old Elementor homepage stays the front
- *    page after the theme switch.
+ *  - page_on_front and page_for_posts are set explicitly. They are options, so
+ *    they do not travel with content; without them the old Elementor homepage
+ *    stays the front page and /blog/ never lists a post.
+ *  - The new theme's logo and menu location go into its own theme_mods row,
+ *    which nothing reads until the theme is activated.
+ *  - The case-study post type and taxonomy are registered for the length of
+ *    the run. The old theme is still active and the new one is what registers
+ *    them; without this every service term fails with "invalid taxonomy".
  *
  * @package SynergiTools
  */
 
 defined( 'ABSPATH' ) || exit;
+
+/** The payload shape this importer understands. Bumped with the exporter's. */
+const SYN_IMPORT_SCHEMA = 3;
+
+/** The directory name the theme zip installs as, which names its theme_mods row. */
+const SYN_IMPORT_THEME = 'synergi';
 
 /**
  * Walks a value and rewrites every attachment ID through the map.
@@ -98,11 +127,67 @@ function syn_import_find_by_slug( $slug, $type ) {
 }
 
 /**
+ * Finds whatever already answers at /{slug}/ on production.
+ *
+ * Under /%postname%/ a post and a top-level page share that address, and
+ * WordPress's own unique-slug check only compares objects of the same type, so
+ * it will happily create a second one there. This is the check it does not make.
+ *
+ * @param string $slug post_name to look for.
+ * @return int ID of the post or top-level page at /{slug}/, or 0.
+ */
+function syn_import_url_owner( $slug ) {
+	global $wpdb;
+
+	return (int) $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT ID FROM {$wpdb->posts}
+			  WHERE post_name = %s
+			    AND ( post_type = 'post' OR ( post_type = 'page' AND post_parent = 0 ) )
+			    AND post_status IN ( 'publish', 'draft', 'pending', 'private' )
+			  ORDER BY ID ASC LIMIT 1",
+			$slug
+		)
+	);
+}
+
+/**
+ * Decides which production object a payload entry updates, if any.
+ *
+ * @param array $p One payload post entry.
+ * @return array{id:int,conflict:string} id 0 and no conflict means "create".
+ */
+function syn_import_plan_target( array $p ) {
+	$id = syn_import_find_by_slug( $p['slug'], $p['type'] );
+
+	if ( $id || '' !== $p['parent_slug'] || ! in_array( $p['type'], array( 'post', 'page' ), true ) ) {
+		return array( 'id' => $id, 'conflict' => '' );
+	}
+
+	$owner = syn_import_url_owner( $p['slug'] );
+
+	if ( ! $owner ) {
+		return array( 'id' => 0, 'conflict' => '' );
+	}
+
+	// The one clash that is expected: a blog post that production holds as a
+	// page. Same URL, same article, so the page is updated and stays a page.
+	if ( 'post' === $p['type'] && 'page' === get_post_type( $owner ) ) {
+		return array( 'id' => $owner, 'conflict' => '' );
+	}
+
+	return array(
+		'id'       => 0,
+		'conflict' => '/' . $p['slug'] . '/ already belongs to ' . get_post_type( $owner ) . ' ' . $owner,
+	);
+}
+
+/**
  * Finds or creates the production attachment matching a payload entry.
  *
- * Tries filename first — most of the 96 images predate the clone and are
- * already on production under the same filename, so nothing is downloaded.
- * Only genuinely new files are sideloaded from staging.
+ * Tries filename first — most of the images predate the clone and are already
+ * on production under the same filename, so nothing is downloaded. Only
+ * genuinely new files are sideloaded from staging.
  *
  * @param array $att     One payload attachment entry.
  * @param bool  $dry_run When true, resolves but never downloads or writes.
@@ -140,7 +225,9 @@ function syn_import_attachment( array $att, $dry_run ) {
 	require_once ABSPATH . 'wp-admin/includes/media.php';
 	require_once ABSPATH . 'wp-admin/includes/image.php';
 
-	$tmp = download_url( $att['url'], 60 );
+	// 15 s, not 60: production stops each call at 30 s, and one slow file must
+	// not take the whole batch down with it.
+	$tmp = download_url( $att['url'], 15 );
 
 	if ( is_wp_error( $tmp ) ) {
 		return array( 'id' => 0, 'action' => 'DOWNLOAD FAILED: ' . $tmp->get_error_message() );
@@ -154,7 +241,7 @@ function syn_import_attachment( array $att, $dry_run ) {
 	);
 
 	if ( is_wp_error( $new_id ) ) {
-		@unlink( $tmp );
+		wp_delete_file( $tmp );
 		return array( 'id' => 0, 'action' => 'SIDELOAD FAILED: ' . $new_id->get_error_message() );
 	}
 
@@ -166,27 +253,19 @@ function syn_import_attachment( array $att, $dry_run ) {
 }
 
 /**
- * Applies the whole payload.
+ * Fetches and validates the payload.
  *
- * Side effects when $dry_run is false: creates/updates posts and attachments,
- * writes postmeta and terms, replaces the Main Menu, merges the redirect table,
- * writes syn_records, and sets page_on_front.
+ * sslverify stays true. The body of this response is written straight into
+ * production posts, postmeta, the menu and the redirect table, so an
+ * unverified fetch makes anything on the path between the two hosts an author
+ * of the live site. If the certificate genuinely fails, fix the certificate —
+ * do not turn the check off.
  *
- * @param string $payload_url Where to fetch payload.json from.
- * @param bool   $dry_run     True to report without writing.
- * @return array Report.
+ * @param string $payload_url Where payload.json lives.
+ * @return array The decoded payload, or array( 'error' => string ).
  */
-function syn_transfer_import( $payload_url, $dry_run = true ) {
-	$report = array( 'mode' => $dry_run ? 'DRY RUN — nothing written' : 'LIVE' );
-
-	/*
-	 * sslverify stays true. The body of this response is written straight into
-	 * production posts, postmeta, the menu and the redirect table, so an
-	 * unverified fetch makes anything on the path between the two hosts an
-	 * author of the live site. If the certificate genuinely fails, fix the
-	 * certificate — do not turn the check off.
-	 */
-	$res = wp_remote_get( $payload_url, array( 'timeout' => 60, 'sslverify' => true ) );
+function syn_import_fetch_payload( $payload_url ) {
+	$res = wp_remote_get( $payload_url, array( 'timeout' => 20, 'sslverify' => true ) );
 
 	if ( is_wp_error( $res ) ) {
 		return array( 'error' => 'fetch failed: ' . $res->get_error_message() );
@@ -195,16 +274,166 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 	$payload = json_decode( wp_remote_retrieve_body( $res ), true );
 
 	if ( ! is_array( $payload ) || empty( $payload['posts'] ) ) {
-		return array( 'error' => 'payload missing or unreadable' );
+		return array( 'error' => 'payload missing or unreadable (HTTP ' . wp_remote_retrieve_response_code( $res ) . ')' );
 	}
 
-	if ( 2 !== (int) ( $payload['schema'] ?? 0 ) ) {
-		return array( 'error' => 'unexpected schema version ' . ( $payload['schema'] ?? '?' ) );
+	if ( SYN_IMPORT_SCHEMA !== (int) ( $payload['schema'] ?? 0 ) ) {
+		return array( 'error' => 'payload schema ' . ( $payload['schema'] ?? '?' ) . ', importer expects ' . SYN_IMPORT_SCHEMA . ': the export and import scripts are from different commits' );
+	}
+
+	return $payload;
+}
+
+/**
+ * Registers the case-study post type and taxonomy for this request only.
+ *
+ * The import runs while the old theme is still active, and the new theme is
+ * what registers them (inc/case-study-post-type.php). Without this,
+ * wp_insert_term() and wp_set_object_terms() fail with "invalid taxonomy" and
+ * all twelve studies go live with no service line — found in the 10 Sep dry
+ * run. Nothing here persists past the request.
+ *
+ * Rewrite is off on purpose: the theme flushes its own rules on its first load
+ * after activation, and a flush from here would build them without it.
+ *
+ * @return void
+ */
+function syn_import_register_case_study_types() {
+	if ( ! taxonomy_exists( 'syn_case_service' ) ) {
+		register_taxonomy( 'syn_case_service', array( 'syn_case_study' ), array( 'public' => false, 'hierarchical' => true, 'rewrite' => false ) );
+	}
+
+	if ( ! post_type_exists( 'syn_case_study' ) ) {
+		register_post_type( 'syn_case_study', array( 'public' => false, 'rewrite' => false ) );
+	}
+}
+
+/**
+ * Brings every payload image onto production, in time-boxed batches.
+ *
+ * Production stops each Novamira call at 30 seconds (max_execution_time,
+ * measured 10 Sep), and the 10 Sep payload held 59 images production did not
+ * have. Downloading them inside the live import would time it out part-way, so
+ * they are fetched here first, before the window. Adding files to the media
+ * library changes nothing a visitor sees.
+ *
+ * Call repeatedly until 'remaining' is 0. Files already present are matched by
+ * filename and skipped, so a repeat call never duplicates anything.
+ *
+ * Side effects: downloads files and creates attachments.
+ *
+ * @param string $payload_url Where payload.json lives.
+ * @param int    $max_seconds No new download starts after this many seconds.
+ * @return array Report: downloaded, failed, remaining.
+ */
+function syn_transfer_import_media( $payload_url, $max_seconds = 10 ) {
+	$start   = microtime( true );
+	$payload = syn_import_fetch_payload( $payload_url );
+
+	if ( isset( $payload['error'] ) ) {
+		return $payload;
+	}
+
+	$report = array( 'downloaded' => array(), 'failed' => array(), 'remaining' => 0 );
+
+	foreach ( (array) $payload['attachments'] as $att ) {
+		$probe = syn_import_attachment( $att, true );
+
+		if ( 0 !== strpos( $probe['action'], 'WOULD DOWNLOAD' ) ) {
+			continue;
+		}
+
+		if ( microtime( true ) - $start > $max_seconds ) {
+			$report['remaining']++;
+			continue;
+		}
+
+		$result = syn_import_attachment( $att, false );
+
+		if ( 'downloaded' === $result['action'] ) {
+			$report['downloaded'][] = $att['filename'];
+		} else {
+			$report['failed'][ $att['filename'] ] = $result['action'];
+			$report['remaining']++;
+		}
+	}
+
+	$report['seconds'] = round( microtime( true ) - $start, 1 );
+
+	return $report;
+}
+
+/**
+ * Applies the whole payload.
+ *
+ * Side effects when $dry_run is false: creates/updates posts, writes postmeta
+ * and terms, replaces the Main Menu, merges the redirect table, writes
+ * syn_records, replaces the carried forms (keeping a backup of each), writes
+ * the Synergi theme's theme_mods, and sets page_on_front and page_for_posts.
+ * It never downloads: syn_transfer_import_media() does that first.
+ *
+ * @param string $payload_url Where to fetch payload.json from.
+ * @param bool   $dry_run     True to report without writing.
+ * @return array Report.
+ */
+function syn_transfer_import( $payload_url, $dry_run = true ) {
+	$report = array( 'mode' => $dry_run ? 'DRY RUN — nothing written' : 'LIVE' );
+
+	$payload = syn_import_fetch_payload( $payload_url );
+
+	if ( isset( $payload['error'] ) ) {
+		return $payload;
 	}
 
 	$report['generated'] = $payload['generated'];
 
-	// --- 1. taxonomy -------------------------------------------------------
+	syn_import_register_case_study_types();
+
+	// --- 1. plan, read-only ------------------------------------------------
+	// Everything that can stop the run is decided here, before the first
+	// write, so a refusal leaves production exactly as it was.
+	$map     = array();
+	$missing = array();
+
+	foreach ( (array) $payload['attachments'] as $att ) {
+		$result = syn_import_attachment( $att, true );
+		if ( $result['id'] ) {
+			$map[ (int) $att['id'] ] = $result['id'];
+		} else {
+			$missing[] = $result['action'];
+		}
+	}
+
+	$report['attachment_summary'] = array(
+		'in_payload' => count( (array) $payload['attachments'] ),
+		'mapped'     => count( $map ),
+		'missing'    => count( $missing ),
+	);
+
+	if ( $missing ) {
+		$report['attachments_missing'] = $missing;
+	}
+
+	$plan      = array();
+	$conflicts = array();
+
+	foreach ( (array) $payload['posts'] as $i => $p ) {
+		$plan[ $i ] = syn_import_plan_target( $p );
+		if ( '' !== $plan[ $i ]['conflict'] ) {
+			$conflicts[ $p['slug'] ] = $plan[ $i ]['conflict'];
+		}
+	}
+
+	if ( $conflicts ) {
+		$report['CONFLICTS'] = $conflicts;
+	}
+
+	if ( ! $dry_run && ( $missing || $conflicts ) ) {
+		$report['error'] = 'Refused before writing anything: ' . count( $missing ) . ' images missing (run syn_transfer_import_media() until remaining is 0), ' . count( $conflicts ) . ' URL conflicts.';
+		return $report;
+	}
+
+	// --- 2. taxonomy -------------------------------------------------------
 	foreach ( (array) $payload['terms'] as $term ) {
 		if ( term_exists( $term['slug'], 'syn_case_service' ) ) {
 			$report['terms'][ $term['slug'] ] = 'exists';
@@ -212,32 +441,30 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		}
 		$report['terms'][ $term['slug'] ] = $dry_run ? 'WOULD CREATE' : 'created';
 		if ( ! $dry_run ) {
-			wp_insert_term( $term['name'], 'syn_case_service', array( 'slug' => $term['slug'], 'description' => $term['description'] ) );
+			$made = wp_insert_term( $term['name'], 'syn_case_service', array( 'slug' => $term['slug'], 'description' => $term['description'] ) );
+			if ( is_wp_error( $made ) ) {
+				$report['terms'][ $term['slug'] ] = 'FAILED: ' . $made->get_error_message();
+			}
 		}
 	}
 
-	// --- 2. attachments ----------------------------------------------------
-	$map = array();
-	foreach ( (array) $payload['attachments'] as $att ) {
-		$result = syn_import_attachment( $att, $dry_run );
-		if ( $result['id'] ) {
-			$map[ (int) $att['id'] ] = $result['id'];
-		}
-		if ( 0 !== strpos( $result['action'], 'matched' ) ) {
-			$report['attachments'][ $att['filename'] ] = $result['action'];
-		}
+	// Content and forms written below came from staging and were signed off
+	// there. kses would rewrite them on the way in whenever the running user
+	// lacks unfiltered_html; the WordPress importer lifts the filters for the
+	// same reason. Restored by kses_init() straight after.
+	if ( ! $dry_run ) {
+		kses_remove_filters();
 	}
-	$report['attachment_summary'] = array(
-		'in_payload' => count( (array) $payload['attachments'] ),
-		'mapped'     => count( $map ),
-		'remapped'   => count( array_filter( $map, static function ( $v, $k ) { return $v !== $k; }, ARRAY_FILTER_USE_BOTH ) ),
-	);
 
 	// --- 3. posts, pass one: create or update, no parents yet --------------
 	$slug_to_id = array();
 
-	foreach ( (array) $payload['posts'] as $p ) {
-		$existing = syn_import_find_by_slug( $p['slug'], $p['type'] );
+	foreach ( (array) $payload['posts'] as $i => $p ) {
+		if ( '' !== $plan[ $i ]['conflict'] ) {
+			continue;
+		}
+
+		$existing = $plan[ $i ]['id'];
 
 		$data = array(
 			'post_type'    => $p['type'],
@@ -248,15 +475,23 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 			'menu_order'   => (int) $p['menu_order'],
 		);
 
-		// Null content means "template-driven, leave production's alone" — that
-		// is what preserves the Elementor rollback (CLAUDE.md 2.9).
+		// Null content means "leave production's alone" — a templated page, or
+		// one staging holds empty. Only the repaired blog posts carry a body.
 		if ( null !== $p['content'] ) {
-			$data['post_content'] = $p['content'];
+			$data['post_content']        = $p['content'];
+			$report['content_written'][] = $p['slug'];
 		}
 
 		if ( $existing ) {
 			$id = $existing;
-			$report['posts'][ $p['slug'] ] = $dry_run ? 'WOULD UPDATE (id ' . $id . ')' : 'updated';
+
+			// Never change an existing object's type: a page rewritten as a post
+			// leaves the page hierarchy, and every menu item and redirect that
+			// points at it (see syn_import_plan_target()).
+			unset( $data['post_type'] );
+			$kept = get_post_type( $id ) !== $p['type'] ? ', stays a ' . get_post_type( $id ) : '';
+
+			$report['posts'][ $p['slug'] ] = ( $dry_run ? 'WOULD UPDATE' : 'updated' ) . ' (id ' . $id . $kept . ')';
 			if ( ! $dry_run ) {
 				$data['ID'] = $id;
 				wp_update_post( wp_slash( $data ) );
@@ -296,11 +531,36 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		}
 
 		if ( ! empty( $p['terms']['syn_case_service'] ) ) {
-			wp_set_object_terms( $id, $p['terms']['syn_case_service'], 'syn_case_service', false );
+			$set = wp_set_object_terms( $id, $p['terms']['syn_case_service'], 'syn_case_service', false );
+			if ( is_wp_error( $set ) ) {
+				$report['term_failures'][ $p['slug'] ] = $set->get_error_message();
+			}
 		}
 	}
 
-	// --- 4. posts, pass two: parents, now that every slug has an ID --------
+	// --- 4. forms embedded by ID -------------------------------------------
+	foreach ( (array) ( $payload['forms'] ?? array() ) as $form_id => $form ) {
+		$form_id = (int) $form_id;
+
+		if ( 'wpforms' !== get_post_type( $form_id ) ) {
+			$report['forms'][ $form_id ] = 'NOT ON PRODUCTION — the contact page would render no form';
+			continue;
+		}
+
+		$report['forms'][ $form_id ] = $dry_run ? 'WOULD REPLACE' : 'replaced';
+
+		if ( ! $dry_run ) {
+			// Production's own copy is kept for the rollback (launch runbook).
+			update_option( 'syn_wpforms_' . $form_id . '_backup_launch', get_post_field( 'post_content', $form_id, 'raw' ), false );
+			wp_update_post( wp_slash( array( 'ID' => $form_id, 'post_content' => $form['content'] ) ) );
+		}
+	}
+
+	if ( ! $dry_run ) {
+		kses_init();
+	}
+
+	// --- 5. posts, pass two: parents, now that every slug has an ID --------
 	if ( ! $dry_run ) {
 		foreach ( (array) $payload['posts'] as $p ) {
 			if ( '' === $p['parent_slug'] || ! isset( $slug_to_id[ $p['slug'] ] ) ) {
@@ -313,12 +573,12 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		}
 	}
 
-	// --- 5. site records ---------------------------------------------------
+	// --- 6. site records ---------------------------------------------------
 	$report['records'] = $dry_run
 		? 'WOULD WRITE ' . count( (array) $payload['records'] ) . ' records'
 		: ( update_option( 'syn_records', syn_import_remap( $payload['records'], $map ) ) ? 'written' : 'unchanged' );
 
-	// --- 6. redirects, merged ---------------------------------------------
+	// --- 7. redirects, merged ---------------------------------------------
 	$existing_redirects = (array) get_option( 'wpseo-premium-redirects-base', array() );
 	$by_origin          = array();
 
@@ -328,7 +588,7 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		}
 	}
 
-	$added = 0;
+	$added   = 0;
 	$changed = 0;
 	foreach ( (array) $payload['redirects'] as $r ) {
 		if ( ! is_array( $r ) || ! isset( $r['origin'] ) ) {
@@ -356,7 +616,7 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		update_option( 'wpseo-premium-redirects-export-plain', $merged );
 	}
 
-	// --- 7. menu -----------------------------------------------------------
+	// --- 8. menu -----------------------------------------------------------
 	$menu = wp_get_nav_menu_object( 'Main Menu' );
 	$report['menu'] = array( 'items_in_payload' => count( (array) $payload['menu'] ) );
 
@@ -405,11 +665,10 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 			}
 		}
 
-		set_theme_mod( 'nav_menu_locations', array_merge( (array) get_theme_mod( 'nav_menu_locations', array() ), array( 'primary' => $menu->term_id ) ) );
 		$report['menu']['rebuilt'] = count( $old_to_new );
 	}
 
-	// --- 8. front page -----------------------------------------------------
+	// --- 9. front page -----------------------------------------------------
 	// An option, so it never travels with content. Without this the old
 	// Elementor homepage remains the front page after the theme switch.
 	$home = $slug_to_id['homepage-rebuild'] ?? syn_import_find_by_slug( 'homepage-rebuild', 'page' );
@@ -425,29 +684,78 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		$report['front_page']['set'] = true;
 	}
 
+	// --- 10. posts page ----------------------------------------------------
+	// Also an option. Production had none (page_for_posts = 0, 10 Sep), so
+	// without this /blog/ renders as an ordinary page and never lists a post.
+	$blog_slug = (string) ( $payload['reading']['page_for_posts'] ?? '' );
+	$blog      = '' !== $blog_slug ? ( $slug_to_id[ $blog_slug ] ?? syn_import_find_by_slug( $blog_slug, 'page' ) ) : 0;
+
+	$report['posts_page'] = array(
+		'currently' => (int) get_option( 'page_for_posts' ),
+		'should_be' => $blog,
+	);
+
+	if ( ! $dry_run && $blog ) {
+		update_option( 'page_for_posts', $blog );
+		$report['posts_page']['set'] = true;
+	}
+
+	// --- 11. the new theme's own settings ----------------------------------
+	// Theme mods are stored per theme, so the logo and menu location set on
+	// staging's Synergi theme do not exist on production. They are written
+	// straight into its theme_mods row, which nothing reads until activation;
+	// switch_theme() keeps an existing row rather than seeding a new one, so
+	// they survive it. The old theme's own row is left alone for the rollback.
+	$logo_staging = (int) ( $payload['theme_mods']['custom_logo'] ?? 0 );
+	$logo         = $logo_staging && isset( $map[ $logo_staging ] ) ? (int) $map[ $logo_staging ] : 0;
+	$menu_term    = $menu ? (int) $menu->term_id : 0;
+
+	$report['theme_mods'] = array(
+		'row'          => 'theme_mods_' . SYN_IMPORT_THEME,
+		'custom_logo'  => $logo,
+		'primary_menu' => $menu_term,
+	);
+
+	if ( ! $dry_run ) {
+		$mods = get_option( 'theme_mods_' . SYN_IMPORT_THEME );
+		$mods = is_array( $mods ) ? $mods : array();
+
+		if ( $logo ) {
+			$mods['custom_logo'] = $logo;
+		}
+		if ( $menu_term ) {
+			$mods['nav_menu_locations'] = array_merge( (array) ( $mods['nav_menu_locations'] ?? array() ), array( 'primary' => $menu_term ) );
+		}
+
+		update_option( 'theme_mods_' . SYN_IMPORT_THEME, $mods );
+	}
+
 	/*
-	 * --- 9. the launch assertions ------------------------------------------
+	 * --- 12. the launch assertions -----------------------------------------
 	 *
-	 * Three things that are individually invisible and collectively fatal: a
-	 * noindexed front page, a site-wide "discourage search engines", and a
-	 * front page that is not the one this run just built. Every one of them
-	 * fails silently — the site looks perfect and disappears from Google over
-	 * the following fortnight. Asserted here so the import's own output says
-	 * whether the launch is safe, rather than a human remembering to look.
+	 * Things that are individually invisible and collectively fatal: a
+	 * noindexed front page, a site-wide "discourage search engines", a front
+	 * page that is not the one this run just built, and a blog that lists
+	 * nothing. Each fails silently — the site looks fine and quietly loses
+	 * search traffic over the following fortnight. Asserted here so the
+	 * import's own output says whether the launch is safe.
 	 *
 	 * These are READ-ONLY even in a live run. blog_public is a Settings →
 	 * Reading checkbox and belongs to whoever is running the launch, not to a
-	 * content transfer.
+	 * content transfer. In a dry run the first and last read FAIL until the
+	 * live run sets them; that is expected.
 	 */
-	$front = $dry_run ? (int) get_option( 'page_on_front' ) : (int) $home;
+	$front      = $dry_run ? (int) get_option( 'page_on_front' ) : (int) $home;
+	$posts_page = $dry_run ? (int) get_option( 'page_for_posts' ) : (int) $blog;
 
 	$report['ASSERTIONS'] = array(
 		'front_page_is_the_rebuild' => $front && $front === (int) $home ? 'PASS' : 'FAIL',
 		'front_page_noindex'        => '' === (string) get_post_meta( $front, '_yoast_wpseo_meta-robots-noindex', true ) ? 'PASS' : 'FAIL — clear it before announcing launch',
 		'blog_public'               => 1 === (int) get_option( 'blog_public' ) ? 'PASS' : 'FAIL — Settings → Reading → uncheck "Discourage search engines"',
+		'posts_page_is_blog'        => $posts_page && $posts_page === (int) $blog ? 'PASS' : 'FAIL',
 	);
 
-	$report['SAFE_TO_ANNOUNCE'] = ! in_array( 'FAIL', array_map( static function ( $v ) {
+	$report['SAFE_TO_ANNOUNCE'] = empty( $conflicts ) && ! in_array( 'FAIL', array_map( static function ( $v ) {
 		return 0 === strpos( (string) $v, 'FAIL' ) ? 'FAIL' : 'PASS';
 	}, $report['ASSERTIONS'] ), true );
 
