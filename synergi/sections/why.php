@@ -59,7 +59,7 @@ $syn_why = function_exists( 'syn_record' ) ? syn_record( 'why' ) : array();
 
 $syn_eyebrow = $args['eyebrow'] ?? ( isset( $syn_why['eyebrow'] ) && '' !== $syn_why['eyebrow'] ? $syn_why['eyebrow'] : __( 'Why Synergi', 'synergi' ) );
 $syn_title   = $args['title'] ?? ( isset( $syn_why['title'] ) && '' !== $syn_why['title'] ? $syn_why['title'] : __( 'Why Companies Choose Synergi', 'synergi' ) );
-$syn_intro   = $args['intro'] ?? ( isset( $syn_why['intro'] ) && '' !== $syn_why['intro'] ? $syn_why['intro'] : __( 'Synergi is more than just an outsourcing provider; we are a trusted partner across the Gulf. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant.', 'synergi' ) );
+$syn_intro   = $args['intro'] ?? ( isset( $syn_why['intro'] ) && '' !== $syn_why['intro'] ? $syn_why['intro'] : __( 'Synergi is more than just an outsourcing provider; we are a trusted partner to businesses across the region and beyond. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant.', 'synergi' ) );
 
 /*
  * A card needs a heading to be a card. A row holding only a photograph is

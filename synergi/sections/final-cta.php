@@ -50,7 +50,7 @@ $syn_cta_value = static function ( $record, $key, $default ) {
 
 $syn_eyebrow = $args['eyebrow'] ?? $syn_cta_value( $syn_cta, 'eyebrow', __( 'Your next operational move', 'synergi' ) );
 $syn_title   = $args['title'] ?? $syn_cta_value( $syn_cta, 'title', __( 'Make the work behind growth easier to run.', 'synergi' ) );
-$syn_body    = $args['body'] ?? $syn_cta_value( $syn_cta, 'body', __( 'Synergi runs the functions behind your growth — customer support, HR, finance, procurement, project management, marketing, and IT — for companies across the UAE and the wider Gulf, with outsourcing delivery tailored to how you operate.', 'synergi' ) );
+$syn_body    = $args['body'] ?? $syn_cta_value( $syn_cta, 'body', __( 'Synergi runs the functions behind your growth — customer support, HR, finance, procurement, project management, marketing, and IT — for growing companies, with outsourcing delivery tailored to how you operate.', 'synergi' ) );
 
 /*
  * A button is dropped when either half is missing — see the markup below. The

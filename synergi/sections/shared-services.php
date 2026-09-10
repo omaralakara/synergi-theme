@@ -49,10 +49,14 @@ $syn_title   = $args['title'] ?? __( 'Transform Your Business with Shared Servic
  * from home_url() and never hard-codes a domain (CLAUDE.md §12) — the site
  * moves to synergibpo.com later and this must not need editing when it does.
  */
+/*
+ * Reworded 10 Sep at the CEO's request: the homepage should not read as
+ * UAE-only. Country keywords live on the market pages instead.
+ */
 $syn_lead = $args['lead'] ?? sprintf(
-	/* translators: %s: link to the procurement service page, reading "procurement in the UAE". */
-	__( 'Centralize your back-office functions in one shared-services team covering the UAE, Dubai, and the wider GCC. From HR and finance to %s, we help you cut costs, strengthen compliance, and scale faster.', 'synergi' ),
-	'<a href="' . esc_url( home_url( '/our-services/procurement/' ) ) . '">' . esc_html__( 'procurement in the UAE', 'synergi' ) . '</a>'
+	/* translators: %s: link to the procurement service page, reading "procurement". */
+	__( 'Centralize your back-office functions in one shared-services team, wherever your business operates. From HR and finance to %s, we help you cut costs, strengthen compliance, and scale faster.', 'synergi' ),
+	'<a href="' . esc_url( home_url( '/our-services/procurement/' ) ) . '">' . esc_html__( 'procurement', 'synergi' ) . '</a>'
 );
 
 /*
@@ -96,7 +100,7 @@ $syn_markets = $args['markets'] ?? array(
 
 $syn_chips = $args['chips'] ?? array(
 	__( 'Cost Savings', 'synergi' ),
-	__( 'Regional Reach', 'synergi' ),
+	__( 'Multi-Market Reach', 'synergi' ),
 	__( 'Access to Expertise', 'synergi' ),
 	__( 'Scalable Services', 'synergi' ),
 	__( 'Focus on Core Activities', 'synergi' ),
@@ -104,7 +108,7 @@ $syn_chips = $args['chips'] ?? array(
 
 $syn_core = $args['core'] ?? array(
 	'label' => __( 'Shared Services', 'synergi' ),
-	'lines' => array( __( 'One Regional', 'synergi' ), __( 'Framework', 'synergi' ) ),
+	'lines' => array( __( 'One Connected', 'synergi' ), __( 'Framework', 'synergi' ) ),
 );
 
 /*
@@ -184,7 +188,7 @@ foreach ( $syn_nodes as $syn_node ) {
 
 $syn_hub_label = sprintf(
 	/* translators: %s: comma-separated list of service names. */
-	__( 'Shared services hub connecting %s under one regional framework.', 'synergi' ),
+	__( 'Shared services hub connecting %s under one connected framework.', 'synergi' ),
 	implode( ', ', array_filter( $syn_hub_names ) )
 );
 ?>

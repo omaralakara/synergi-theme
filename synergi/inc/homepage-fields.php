@@ -71,7 +71,7 @@ function syn_register_homepage_fields() {
 					'type'        => 'text',
 					'label'       => __( 'Heading — first line', 'synergi' ),
 					'description' => __( 'The words before the highlighted phrase.', 'synergi' ),
-					'default'     => 'BPO Services in UAE & the Gulf to',
+					'default'     => 'BPO & Shared Services to',
 					'max_length'  => 120,
 				),
 				array(
@@ -87,7 +87,7 @@ function syn_register_homepage_fields() {
 					'type'        => 'textarea',
 					'label'       => __( 'Paragraph', 'synergi' ),
 					'description' => __( 'Press Enter to start a new line on screen. On phones the break is ignored and the text wraps naturally.', 'synergi' ),
-					'default'     => "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services across the Gulf.",
+					'default'     => "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services, wherever your business operates.",
 					'rows'        => 3,
 					'max_length'  => 400,
 				),
@@ -213,6 +213,14 @@ function syn_register_homepage_fields() {
 					'max_length' => 140,
 				),
 				array(
+					'key'         => 'home_shared_lead',
+					'type'        => 'textarea',
+					'label'       => __( 'Paragraph', 'synergi' ),
+					'description' => __( 'Leave empty to keep the built-in paragraph, which links to the Procurement page.', 'synergi' ),
+					'rows'        => 3,
+					'max_length'  => 400,
+				),
+				array(
 					'key'         => 'home_shared_cta_label',
 					'type'        => 'text',
 					'label'       => __( 'Button — text', 'synergi' ),
@@ -287,7 +295,7 @@ function syn_register_homepage_fields() {
 					'key'        => 'home_industries_title',
 					'type'       => 'text',
 					'label'      => __( 'Heading', 'synergi' ),
-					'default'    => 'Industries We Serve Across the Gulf',
+					'default'    => 'Industries We Serve',
 					'max_length' => 140,
 				),
 				array(

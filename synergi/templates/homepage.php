@@ -171,6 +171,14 @@ if ( $syn_shared_chips ) {
 	$syn_shared_args['chips'] = $syn_shared_chips;
 }
 
+// Passed only when filled: an empty field must fall through to the section's
+// built-in paragraph, which carries the link to the Procurement page.
+$syn_shared_lead = syn_field( 'home_shared_lead', $syn_home_id );
+
+if ( '' !== trim( $syn_shared_lead ) ) {
+	$syn_shared_args['lead'] = $syn_shared_lead;
+}
+
 // Both halves or neither, so a half-filled pair cannot produce a button with
 // nowhere to go.
 $syn_shared_cta_label = syn_field( 'home_shared_cta_label', $syn_home_id );
