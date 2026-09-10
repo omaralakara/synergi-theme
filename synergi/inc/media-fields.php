@@ -83,7 +83,15 @@ function syn_register_media_fields() {
 				),
 				array(
 					'key'         => 'media_blog_link_url',
-					'type'        => 'url',
+					/*
+					 * "text", not "url": syn_normalize_field() accepts only
+					 * text, textarea, repeater, image and link at the top
+					 * level, so a "url" field here was dropped at registration
+					 * and always read back empty. The homepage's own profile
+					 * address is "text" for the same reason; esc_url() still
+					 * guards it wherever it is printed.
+					 */
+					'type'        => 'text',
 					'label'       => __( 'Articles band — button address', 'synergi' ),
 					'description' => __( 'Leave it empty and the button points at whichever page is set to Posts in Settings → Reading, which is better than typing a path that could go stale.', 'synergi' ),
 					'default'     => '',
@@ -116,7 +124,9 @@ function syn_register_media_fields() {
 				),
 				array(
 					'key'         => 'media_social_link_url',
-					'type'        => 'url',
+					// "text" for the same reason as media_blog_link_url above.
+					// As "url" it was dropped, so the Follow button never showed.
+					'type'        => 'text',
 					'label'       => __( 'Social band — button address', 'synergi' ),
 					'description' => __( 'The profile the button opens.', 'synergi' ),
 					'default'     => 'https://www.instagram.com/synergi.bpo',
