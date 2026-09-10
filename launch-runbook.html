@@ -1,0 +1,909 @@
+<title>Synergi Cutover Runbook</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --navy: #1d4e89;
+  --navy-deep: #0b2341;
+  --ink: #071a31;
+  --cyan: #28abe5;
+  --cyan-soft: #dff4fc;
+
+  --ground: #eef1f5;
+  --surface: #ffffff;
+  --surface-sunk: #e4e9ef;
+  --line: #d2dbe4;
+  --line-soft: #e3e9ef;
+
+  --text: #1b2733;
+  --text-soft: #55636f;
+  --text-faint: #7d8892;
+
+  --accent: #1d4e89;
+  --accent-bright: #1587c4;
+
+  --ok: #2f7d5a;
+  --ok-bg: #e2f2ea;
+  --warn: #8a6410;
+  --warn-bg: #fbf0d4;
+  --stop: #a8342a;
+  --stop-bg: #fbe6e3;
+
+  --code-bg: #0e2136;
+  --code-text: #d6e3ee;
+  --code-dim: #7d99b3;
+  --code-key: #7fd0f2;
+  --code-str: #a9d8a4;
+
+  --focus: #ffd15c;
+
+  --step: clamp(1.6rem, 3.2vw, 2.4rem);
+  --rail: 8.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #071a31;
+    --surface: #0d2540;
+    --surface-sunk: #0a1e35;
+    --line: #1d3a5a;
+    --line-soft: #16304d;
+
+    --text: #dce7f1;
+    --text-soft: #9db2c6;
+    --text-faint: #7189a0;
+
+    --accent: #59b9e8;
+    --accent-bright: #7fcdf3;
+
+    --ok: #7ed3a8;
+    --ok-bg: #0f2f28;
+    --warn: #f0c765;
+    --warn-bg: #322813;
+    --stop: #f08a7c;
+    --stop-bg: #3a1a17;
+
+    --code-bg: #04101f;
+    --code-text: #cfe0ee;
+    --code-dim: #6c869e;
+
+    --cyan-soft: #12354f;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #071a31;
+  --surface: #0d2540;
+  --surface-sunk: #0a1e35;
+  --line: #1d3a5a;
+  --line-soft: #16304d;
+
+  --text: #dce7f1;
+  --text-soft: #9db2c6;
+  --text-faint: #7189a0;
+
+  --accent: #59b9e8;
+  --accent-bright: #7fcdf3;
+
+  --ok: #7ed3a8;
+  --ok-bg: #0f2f28;
+  --warn: #f0c765;
+  --warn-bg: #322813;
+  --stop: #f08a7c;
+  --stop-bg: #3a1a17;
+
+  --code-bg: #04101f;
+  --code-text: #cfe0ee;
+  --code-dim: #6c869e;
+
+  --cyan-soft: #12354f;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font-family: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .lbl, .rail-time, .badge, .btn {
+  font-family: Montserrat, ui-sans-serif, system-ui, sans-serif;
+}
+
+code, pre, .mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+a { color: var(--accent-bright); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.wrap {
+  max-width: 60rem;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+  padding-block-end: 5rem;
+}
+
+/* ---------- masthead ---------- */
+
+.mast {
+  padding-block: clamp(2.2rem, 5vw, 3.4rem) 1.6rem;
+  border-block-end: 2px solid var(--ink);
+}
+:root:not([data-theme="light"]) .mast { border-block-end-color: var(--line); }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .mast { border-block-end-color: var(--ink); }
+}
+:root[data-theme="dark"] .mast { border-block-end-color: var(--line); }
+
+.eyebrow {
+  font-family: Montserrat, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 0.7rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 5.5vw, 3.1rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem;
+  text-wrap: balance;
+}
+
+.standfirst {
+  font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+  color: var(--text-soft);
+  max-width: 40rem;
+  margin: 0;
+}
+
+/* ---------- status strip ---------- */
+
+.status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-block: 2rem;
+}
+
+.status > div {
+  background: var(--surface);
+  padding: 0.9rem 1.1rem;
+}
+
+.status dt {
+  font-family: Montserrat, sans-serif;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 0.3rem;
+}
+
+.status dd {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-family: Montserrat, sans-serif;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.status dd small {
+  display: block;
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--text-soft);
+  letter-spacing: 0;
+  margin-block-start: 0.15rem;
+}
+
+.tone-ok dd { color: var(--ok); }
+.tone-stop dd { color: var(--stop); }
+.tone-warn dd { color: var(--warn); }
+
+/* ---------- callouts ---------- */
+
+.note {
+  border-inline-start: 4px solid var(--accent);
+  padding: 0.9rem 0 0.9rem 1.1rem;
+  margin-block: 1.5rem;
+  font-size: 1rem;
+}
+.note--stop { border-inline-start-color: var(--stop); }
+.note--warn { border-inline-start-color: var(--warn); }
+.note--ok { border-inline-start-color: var(--ok); }
+
+.note p { margin: 0 0 0.55rem; }
+.note p:last-child { margin-block-end: 0; }
+
+.note .lbl {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin-block-end: 0.3rem;
+  color: var(--accent);
+}
+.note--stop .lbl { color: var(--stop); }
+.note--warn .lbl { color: var(--warn); }
+.note--ok .lbl { color: var(--ok); }
+
+/* ---------- phase spine ---------- */
+
+.phase {
+  display: grid;
+  grid-template-columns: var(--rail) 1fr;
+  gap: 0 1.8rem;
+  margin-block-start: 3.2rem;
+  border-block-start: 1px solid var(--line);
+  padding-block-start: 1.6rem;
+}
+
+.rail { position: relative; }
+
+.rail-time {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent);
+  margin: 0;
+}
+
+.rail-note {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+  margin: 0.35rem 0 0;
+  line-height: 1.35;
+}
+
+.phase-head h2 {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin: 0 0 0.4rem;
+  line-height: 1.15;
+}
+
+.phase-head > p {
+  color: var(--text-soft);
+  margin: 0 0 0.4rem;
+  max-width: 38rem;
+}
+
+@media (max-width: 46rem) {
+  .phase { grid-template-columns: 1fr; gap: 0.8rem; }
+  .rail { display: flex; align-items: baseline; gap: 0.7rem; }
+  .rail-time { font-size: 1.2rem; }
+  .rail-note { margin: 0; }
+}
+
+/* ---------- steps ---------- */
+
+ol.steps { list-style: none; margin: 1.4rem 0 0; padding: 0; }
+
+.step {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0 0.9rem;
+  padding: 1.1rem 0 1.15rem;
+  border-block-start: 1px solid var(--line-soft);
+}
+.step:first-child { border-block-start: none; }
+
+.step--critical {
+  border-inline-start: 3px solid var(--stop);
+  padding-inline-start: 0.9rem;
+  margin-inline-start: -1.2rem;
+  background: linear-gradient(90deg, var(--stop-bg), transparent 55%);
+}
+
+.tick {
+  appearance: none;
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  margin: 0.32rem 0 0;
+  border: 2px solid var(--text-faint);
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  flex: none;
+}
+.tick::after {
+  content: "";
+  inline-size: 0.62rem;
+  block-size: 0.34rem;
+  border-inline-start: 2px solid var(--surface);
+  border-block-end: 2px solid var(--surface);
+  transform: rotate(-45deg) translate(1px, -1px);
+  opacity: 0;
+}
+.tick:checked { background: var(--ok); border-color: var(--ok); }
+.tick:checked::after { opacity: 1; }
+
+.step-body > :first-child { margin-block-start: 0; }
+.step-body > :last-child { margin-block-end: 0; }
+
+.step h3 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  margin: 0 0 0.3rem;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+}
+.step h3 .n {
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  margin-inline-end: 0.45rem;
+  font-weight: 700;
+}
+
+.step p { margin: 0 0 0.6rem; color: var(--text-soft); font-size: 0.97rem; }
+.step p strong { color: var(--text); font-weight: 600; }
+.step p:last-child { margin-block-end: 0; }
+
+.step:has(.tick:checked) .step-body { opacity: 0.5; }
+.step:has(.tick:checked) h3 { text-decoration: line-through; text-decoration-color: var(--text-faint); }
+
+.badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  padding: 0.16rem 0.42rem;
+  border-radius: 2px;
+  vertical-align: 0.14em;
+  margin-inline-start: 0.45rem;
+}
+.badge--stop { background: var(--stop-bg); color: var(--stop); }
+.badge--warn { background: var(--warn-bg); color: var(--warn); }
+.badge--ok { background: var(--ok-bg); color: var(--ok); }
+.badge--who { background: var(--surface-sunk); color: var(--text-soft); }
+
+/* ---------- code ---------- */
+
+.code {
+  background: var(--code-bg);
+  color: var(--code-text);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  margin-block: 0.7rem;
+  overflow-x: auto;
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+.code pre { margin: 0; }
+.code .c { color: var(--code-dim); }
+.code .k { color: var(--code-key); }
+.code .s { color: var(--code-str); }
+
+.code-cap {
+  display: block;
+  font-family: Montserrat, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-block: 0.9rem 0.2rem;
+}
+
+code.inl {
+  background: var(--surface-sunk);
+  padding: 0.08em 0.34em;
+  border-radius: 3px;
+  font-size: 0.87em;
+  color: var(--text);
+}
+
+/* ---------- tables ---------- */
+
+.tw { overflow-x: auto; margin-block: 1rem; }
+
+table {
+  border-collapse: collapse;
+  inline-size: 100%;
+  font-size: 0.92rem;
+  min-inline-size: 30rem;
+}
+th, td {
+  text-align: start;
+  padding: 0.5rem 0.9rem 0.5rem 0;
+  border-block-end: 1px solid var(--line-soft);
+  vertical-align: top;
+}
+th {
+  font-family: Montserrat, sans-serif;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-block-end-color: var(--line);
+}
+td.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- closing blocks ---------- */
+
+.slab {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 1.4rem 1.5rem;
+  margin-block: 1.5rem;
+}
+.slab h3 {
+  font-size: 1.05rem;
+  margin: 0 0 0.6rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+.slab ul { margin: 0; padding-inline-start: 1.15rem; }
+.slab li { margin-block-end: 0.4rem; color: var(--text-soft); }
+.slab li:last-child { margin-block-end: 0; }
+.slab li strong { color: var(--text); font-weight: 600; }
+
+.foot {
+  margin-block-start: 3.5rem;
+  padding-block-start: 1.4rem;
+  border-block-start: 1px solid var(--line);
+  font-size: 0.88rem;
+  color: var(--text-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="eyebrow">synergi.ae &middot; Stage 8 &middot; 10 September 2026</p>
+  <h1>Cutover Runbook</h1>
+  <p class="standfirst">Content sign-off closes at 15:00. This is what happens after it, in order, with the reason each step exists and the check that proves it worked.</p>
+</header>
+
+<dl class="status">
+  <div class="tone-ok"><dt>Code blockers</dt><dd>3 of 5<small>cleared and committed today</small></dd></div>
+  <div class="tone-stop"><dt>Still open</dt><dd>1<small>exposed payload on staging</small></dd></div>
+  <div><dt>Objects to move</dt><dd>44<small>25 pages, 12 studies, 7 posts</small></dd></div>
+  <div><dt>Window</dt><dd>~30 min<small>plus 20 min verification</small></dd></div>
+</dl>
+
+<div class="note note--ok">
+  <span class="lbl">Cleared since this morning</span>
+  <p>The transfer scripts no longer carry the staging <code class="inl">noindex</code> to production, they now carry the seven repaired blog posts, they fetch the payload over verified TLS, and the import ends with three pass/fail assertions. The theme work is committed and <code class="inl">synergi-theme.zip</code> is rebuilt from a clean tree. Commits <code class="inl">4b628bd</code>, <code class="inl">6992c15</code>, <code class="inl">7d05a13</code>.</p>
+</div>
+
+<div class="note note--stop">
+  <span class="lbl">The one ordering trap in this whole document</span>
+  <p>The import sets <code class="inl">page_on_front</code>. That happens <strong>while the old theme is still active</strong> — so between the import finishing and the theme switch, the live site serves <code class="inl">/homepage-rebuild/</code> through Theratio and Elementor. It will look wrong to anyone watching.</p>
+  <p>Steps 11 and 12 are therefore <strong>one action</strong>. Have the Appearance &rarr; Themes tab already open on the Synergi theme before you run the import.</p>
+</div>
+
+<!-- ============ PHASE 0 ============ -->
+
+<section class="phase">
+  <div class="rail">
+    <p class="rail-time">Now</p>
+    <p class="rail-note">Runs alongside content sign-off. None of it touches what the reviewers are looking at.</p>
+  </div>
+  <div class="phase-head">
+    <h2>Before the window</h2>
+    <p>Five things, none of which need the content to be final. If step 1 is not decided by 15:00, the launch still goes ahead — see the recommendation.</p>
+
+    <ol class="steps">
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 1 done">
+        <div class="step-body">
+          <h3><span class="n">01</span>&sol;connect&sol; &mdash; published, noindexed <span class="badge badge--ok">decided</span></h3>
+          <p>An event linktree with a printed QR code pointing at it. It <strong>stays published</strong> — a draft would 404 the people holding the code — and gets a Yoast <strong>noindex</strong>, which also drops it from <code class="inl">page-sitemap.xml</code>. A 24-word page has no business in the index anyway.</p>
+          <span class="code-cap">Novamira execute-php &middot; production</span>
+          <div class="code"><pre>$p = get_page_by_path( <span class="s">'connect'</span> );
+update_post_meta( $p-&gt;ID, <span class="s">'_yoast_wpseo_meta-robots-noindex'</span>, <span class="s">'1'</span> );</pre></div>
+          <p>Noindex answers the search question. <strong>Rendering is a separate one:</strong> it keeps working after the switch because Elementor stays active — it renders from <code class="inl">_elementor_data</code> whatever the theme, and <code class="inl">page.php</code> calls <code class="inl">the_content()</code>. <strong>Do not deactivate Elementor until <code class="inl">/connect/</code> is rebuilt</strong> on a template in week 1.</p>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 2 done">
+        <div class="step-body">
+          <h3><span class="n">02</span>Delete the exposed payload on staging <span class="badge badge--stop">blocker</span></h3>
+          <p>Verified anonymously downloadable today: 162&nbsp;KB holding every page&rsquo;s copy, all Yoast metadata, the 61-rule redirect table, nine site records and the menu. It has been public since the 9 Sep dry run.</p>
+          <span class="code-cap">Novamira execute-php &middot; staging</span>
+          <div class="code"><pre><span class="c">// tools/transfer-export.php now ships this.</span>
+<span class="k">return</span> syn_transfer_cleanup();
+<span class="c">// expect: still_present =&gt; false</span></pre></div>
+          <p>It gets regenerated in step 9 and deleted again in step 16. It only exists during the window.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 3 done">
+        <div class="step-body">
+          <h3><span class="n">03</span>Upload the theme &mdash; do not activate</h3>
+          <p>Appearance &rarr; Themes &rarr; Add New &rarr; Upload, using <code class="inl">synergi-theme.zip</code> rebuilt today (477&nbsp;KB, 150 entries, includes <code class="inl">parts/post-categories.php</code>). Installing is safe; activating is step 12.</p>
+          <p>Build it with <code class="inl">powershell tools/build-zip.ps1</code> — Windows&rsquo; own <code class="inl">Compress-Archive</code> writes backslash paths and produces the &ldquo;missing style.css&rdquo; error.</p>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 4 done">
+        <div class="step-body">
+          <h3><span class="n">04</span>Backup production, and prove it restores</h3>
+          <p>Database and <code class="inl">wp-content</code>. An untested backup is not a backup — Stage 0&rsquo;s rule, and it is the only thing standing behind every step below.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 5 done">
+        <div class="step-body">
+          <h3><span class="n">05</span>Confirm WPForms form 7560 exists on production</h3>
+          <p>The contact page carries a hard-coded <code class="inl">[wpforms id="7560"]</code> and the form itself is <strong>not in the payload</strong>. A different ID on production means the new contact page renders nothing.</p>
+          <span class="code-cap">Novamira execute-php &middot; production</span>
+          <div class="code"><pre><span class="k">return</span> [
+  <span class="s">'form'</span> =&gt; get_post( <span class="s">7560</span> ) ? get_post( <span class="s">7560</span> )-&gt;post_title : <span class="s">'MISSING'</span>,
+  <span class="s">'type'</span> =&gt; get_post_type( <span class="s">7560</span> ),
+];</pre></div>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PHASE 1 ============ -->
+
+<section class="phase">
+  <div class="rail">
+    <p class="rail-time">15:00</p>
+    <p class="rail-note">Sign-off closes. Staging is frozen from this moment.</p>
+  </div>
+  <div class="phase-head">
+    <h2>The freeze</h2>
+    <p>Everything after this reads staging as it stands. A change made to staging after the export will not be in the payload, and nobody will notice it is missing.</p>
+
+    <ol class="steps">
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 6 done">
+        <div class="step-body">
+          <h3><span class="n">06</span>Announce the freeze</h3>
+          <p>Tell whoever has been editing that staging is closed. Any correction found after this point is made <strong>on production after launch</strong>, not on staging.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 7 done">
+        <div class="step-body">
+          <h3><span class="n">07</span>Keep the homepage title <span class="badge badge--warn">SEO</span></h3>
+          <p>Production&rsquo;s homepage title is <em>&ldquo;BPO Services in UAE &amp; the Gulf &vert; Synergi Business Solutions&rdquo;</em>. The new one leads with the brand instead. That page carries 66&percnt; of your clicks and ranks <strong>2.56</strong> for &ldquo;bpo services in uae&rdquo;, 4.84 for &ldquo;bpo in uae&rdquo;, 5.92 for &ldquo;bpo companies in uae&rdquo;.</p>
+          <p>Paste the current title into Yoast on <code class="inl">homepage-rebuild</code> before the export. One field. Revisit with data in 30 days.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PHASE 2 ============ -->
+
+<section class="phase">
+  <div class="rail">
+    <p class="rail-time">The window</p>
+    <p class="rail-note">~30 minutes. Steps 11 and 12 run back to back with no pause between them.</p>
+  </div>
+  <div class="phase-head">
+    <h2>The cutover</h2>
+    <p>Order matters in every one of these. Read each report before running the next step — that is the whole reason option C was chosen over a database push.</p>
+
+    <ol class="steps">
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 8 done">
+        <div class="step-body">
+          <h3><span class="n">08</span>Export from staging, and read the gate</h3>
+          <span class="code-cap">Novamira execute-php &middot; staging &middot; tools&sol;transfer-export.php</span>
+          <div class="code"><pre><span class="c">// Paste the whole file. It ends in `return syn_transfer_export();`</span></pre></div>
+          <p>Four values decide whether to continue:</p>
+          <div class="tw"><table>
+            <thead><tr><th>Key</th><th>Must read</th><th>Why</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">ok</td><td class="mono">true</td><td>No staging URLs outside the attachment block</td></tr>
+              <tr><td class="mono">staging_urls_leaked</td><td class="mono num">1</td><td>The payload&rsquo;s own source stamp, and nothing else</td></tr>
+              <tr><td class="mono">noindex_suppressed</td><td class="mono">homepage-rebuild, media</td><td>The two flags refused entry. <strong>Empty means the gate is not protecting anything</strong> — check staging rather than assume</td></tr>
+              <tr><td class="mono">repaired_posts</td><td class="mono num">7</td><td>The blog posts whose production copies are still corrupted</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 9 done">
+        <div class="step-body">
+          <h3><span class="n">09</span>Dry run on production &mdash; and actually read it <span class="badge badge--stop">gate</span></h3>
+          <span class="code-cap">Novamira execute-php &middot; production &middot; tools&sol;transfer-import.php</span>
+          <div class="code"><pre>$url = <span class="s">'https://staging.synergi.ae/wp-content/uploads/syn-transfer/payload.json'</span>;
+<span class="k">return</span> syn_transfer_import( $url, <span class="k">true</span> ); <span class="c">// true = dry run</span></pre></div>
+          <p><strong>The one thing to look for.</strong> The importer resolves by slug with <code class="inl">ORDER BY ID ASC LIMIT 1</code>. Production has held pages at both <code class="inl">/procurement/</code> and <code class="inl">/our-services/procurement/</code> — the same slug at two depths. If both rows still exist it targets the older one, then reparents it, and WordPress renames the loser to <code class="inl">procurement-2</code>.</p>
+          <p>In the <code class="inl">posts</code> block, check every <code class="inl">WOULD UPDATE (id …)</code> resolves to the page you expect. Highest risk: <span class="mono">procurement</span>, <span class="mono">marketing</span>, <span class="mono">human-resources</span>, <span class="mono">accounting</span>, <span class="mono">technology-ai</span>, <span class="mono">shared-services</span>, <span class="mono">markets</span>, <span class="mono">media</span>, <span class="mono">blog</span>.</p>
+          <p>Also note <code class="inl">attachment_summary</code>: a high <code class="inl">WOULD DOWNLOAD</code> count is how long step 11 takes, and therefore how long the site sits mid-cutover.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 10 done">
+        <div class="step-body">
+          <h3><span class="n">10</span>Open the Themes tab</h3>
+          <p>Appearance &rarr; Themes on production, Synergi visible, in a second browser tab. This is what makes 11 and 12 a single motion.</p>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 11 done">
+        <div class="step-body">
+          <h3><span class="n">11</span>Import, live</h3>
+          <div class="code"><pre><span class="k">return</span> syn_transfer_import( $url, <span class="k">false</span> ); <span class="c">// false = write</span></pre></div>
+          <p>Writes posts, meta, terms, attachments, the nine records, the merged redirect table, the rebuilt Main Menu and <code class="inl">page_on_front</code>. Redirects <strong>merge</strong> — production&rsquo;s own <code class="inl">page-not-found</code> rule survives.</p>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 12 done">
+        <div class="step-body">
+          <h3><span class="n">12</span>Activate the theme &mdash; immediately</h3>
+          <p>No pause, no reading the report first. Read it after.</p>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 13 done">
+        <div class="step-body">
+          <h3><span class="n">13</span>Settings &rarr; Reading &rarr; uncheck &ldquo;Discourage search engines&rdquo;</h3>
+          <p>Only if production ever carried it. The import <em>reports</em> <code class="inl">blog_public</code> but deliberately never writes it — a content transfer has no business flipping a site-wide search setting.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 14 done">
+        <div class="step-body">
+          <h3><span class="n">14</span>Purge LiteSpeed <em>and</em> Cloudflare</h3>
+          <p>Both. GA shows <code class="inl">/cdn-cgi/</code> paths, so Cloudflare sits in front of LiteSpeed and the runbook in the migration plan only ever mentioned LiteSpeed. A purged origin behind a warm edge cache looks exactly like a failed launch.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 15 done">
+        <div class="step-body">
+          <h3><span class="n">15</span>Confirm the rewrite flush happened</h3>
+          <p>Automatic: <code class="inl">inc/case-study-post-type.php</code> flushes once when <code class="inl">syn_case_study_rewrite_version</code> is absent, which it is on production. Prove it by loading <code class="inl">/case-studies/service/human-resources/</code>. If it 404s, re-save Settings &rarr; Permalinks.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 16 done">
+        <div class="step-body">
+          <h3><span class="n">16</span>Delete the payload again</h3>
+          <div class="code"><pre><span class="k">return</span> syn_transfer_cleanup(); <span class="c">// on staging</span></pre></div>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PHASE 3 ============ -->
+
+<section class="phase">
+  <div class="rail">
+    <p class="rail-time">Verify</p>
+    <p class="rail-note">20 minutes. Nothing is announced until all of this passes.</p>
+  </div>
+  <div class="phase-head">
+    <h2>Proof, not impression</h2>
+
+    <ol class="steps">
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 17 done">
+        <div class="step-body">
+          <h3><span class="n">17</span>Read the import&rsquo;s three assertions</h3>
+          <div class="code"><pre><span class="s">'ASSERTIONS'</span> =&gt; [
+  <span class="s">'front_page_is_the_rebuild'</span> =&gt; <span class="s">'PASS'</span>,
+  <span class="s">'front_page_noindex'</span>       =&gt; <span class="s">'PASS'</span>,
+  <span class="s">'blog_public'</span>              =&gt; <span class="s">'PASS'</span>,
+],
+<span class="s">'SAFE_TO_ANNOUNCE'</span> =&gt; <span class="k">true</span></pre></div>
+          <p>Each of these fails silently in the wild: the site looks perfect and disappears from Google over the following fortnight. Anything other than <code class="inl">true</code> stops the launch announcement, not the launch.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 18 done">
+        <div class="step-body">
+          <h3><span class="n">18</span>View source on the live homepage and one service page</h3>
+          <p>Grep for <code class="inl">noindex</code>. Expect none. Confirm exactly one <code class="inl">&lt;h1&gt;</code> on each.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 19 done">
+        <div class="step-body">
+          <h3><span class="n">19</span>The golden pages</h3>
+          <p>Every one a 200 in the right design: home &middot; <code class="inl">/our-services/procurement/</code> &middot; <code class="inl">/our-solutions/shared-services/</code> &middot; <code class="inl">/markets/saudi-arabia/</code> &middot; one case study &middot; <code class="inl">/case-studies/service/human-resources/</code> &middot; <code class="inl">/blog/</code> &middot; one blog post &middot; <code class="inl">/contact-us/</code> &middot; <code class="inl">/connect/</code>.</p>
+          <p>On the blog post, check the repaired content: no stray <code class="inl">&lt;br&gt;</code> runs, no visible CSS. On <code class="inl">/contact-us/</code>, check the form actually renders.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 20 done">
+        <div class="step-body">
+          <h3><span class="n">20</span>Watch for Elementor CSS bleed</h3>
+          <p>Elementor stays active (step 1), so check one theme-template page for Elementor&rsquo;s global kit stylesheet leaking in. If the design is affected, deactivate Elementor and accept that <code class="inl">/connect/</code> breaks until it is rebuilt — that is the trade, and it is reversible either way.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 21 done">
+        <div class="step-body">
+          <h3><span class="n">21</span>Replay the redirects</h3>
+          <p>Every historical URL must be a <strong>single hop, 301, to a 200</strong>. Chains are the commonest launch fault. Spot-check the ones with history: <code class="inl">/procurement-services-uae/</code>, <code class="inl">/synergi-uae-2-2/</code>, <code class="inl">/our-leadership/</code>, <code class="inl">/our-approach/</code>, <code class="inl">/shared-services-uae/</code>, <code class="inl">/hr-digital-transformation-guide/</code>, <code class="inl">/careers/</code>.</p>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PHASE 4 ============ -->
+
+<section class="phase">
+  <div class="rail">
+    <p class="rail-time">Then</p>
+    <p class="rail-note">The part that does not travel with the content.</p>
+  </div>
+  <div class="phase-head">
+    <h2>Re-wire the CRM by hand</h2>
+    <p>Bit Integrations stores flows in its own table and the transfer does not touch it. Every fix proven on staging on 9 September has to be repeated here, in this order.</p>
+
+    <ol class="steps">
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 22 done">
+        <div class="step-body">
+          <h3><span class="n">22</span>Repoint the flow onto WPForms</h3>
+          <p>Production&rsquo;s flow still triggers on <code class="inl">elementor_pro/forms/new_record</code>. Back the rows up first, exactly as staging did.</p>
+          <span class="code-cap">Novamira execute-php &middot; production</span>
+          <div class="code"><pre><span class="k">global</span> $wpdb;
+update_option( <span class="s">'syn_btcbi_flow_backup_launch'</span>,
+  $wpdb-&gt;get_results( <span class="s">"SELECT * FROM {$wpdb-&gt;prefix}btcbi_flow"</span>, ARRAY_A ) );
+
+<span class="c">// then: triggered_entity =&gt; 'WPF', triggered_entity_id =&gt; '7560'</span></pre></div>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 23 done">
+        <div class="step-body">
+          <h3><span class="n">23</span>Clear the three transients <span class="badge badge--stop">skip this and it silently never fires</span></h3>
+          <p>This is the fault that cost a day on staging. The plugin caches which trigger types it bothers to load hooks for; editing the table directly does not invalidate it, so it goes on listening only for Elementor. The flow looks perfect in wp-admin and never runs.</p>
+          <div class="code"><pre>delete_transient( <span class="s">'bit_integrations_active_trigger_entities'</span> );
+delete_transient( <span class="s">'bit_integrations_fallback_trigger_entities'</span> );
+delete_transient( <span class="s">'bit_integrations_action_hook_flows'</span> );</pre></div>
+        </div>
+      </li>
+
+      <li class="step">
+        <input type="checkbox" class="tick" aria-label="Step 24 done">
+        <div class="step-body">
+          <h3><span class="n">24</span>Check the notification address</h3>
+          <p>WPForms &rarr; Simple Contact Form &rarr; Notifications. Send To must be a monitored mailbox. <strong>Leave production&rsquo;s WP Mail SMTP <code class="inl">from_email</code> alone</strong> — <code class="inl">info@synergi.ae</code> is a valid send-as alias there, proven by 31 successful sends and 0 failures in 60 days. Only staging had the mismatch.</p>
+        </div>
+      </li>
+
+      <li class="step step--critical">
+        <input type="checkbox" class="tick" aria-label="Step 25 done">
+        <div class="step-body">
+          <h3><span class="n">25</span>Submit one real enquiry, end to end</h3>
+          <p>Not &ldquo;the flow saved&rdquo;. Not &ldquo;the log shows a run&rdquo;. The record must appear in <strong>Bigin &rarr; Contacts &rarr; All Contacts</strong> (not Pipelines, not My Contacts — the owner is Ahmed Patel) and the email must arrive.</p>
+          <p>Use an obviously fake name and an email <strong>not already in Bigin</strong> — the integration only ever calls <code class="inl">insertRecord</code>, so a returning enquirer is rejected as <code class="inl">DUPLICATE_DATA</code> and you would misread that as a failure. Delete the test record afterwards.</p>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+</section>
+
+<!-- ============ AFTER ============ -->
+
+<section class="phase">
+  <div class="rail">
+    <p class="rail-time">Week 1</p>
+    <p class="rail-note">Nothing here blocks the announcement.</p>
+  </div>
+  <div class="phase-head">
+    <h2>After</h2>
+
+    <div class="slab">
+      <h3>In the first week</h3>
+      <ul>
+        <li><strong>Rebuild <code class="inl">/connect/</code></strong> on a small template, then — and only then — deactivate Elementor.</li>
+        <li><strong>Move <code class="inl">connect-page-performance.php</code></strong> out of Novamira&rsquo;s sandbox. It only runs while Novamira is active, and it is on the same page.</li>
+        <li><strong>Resubmit <code class="inl">sitemap_index.xml</code></strong> in Search Console and request indexing on the homepage and the six service pages.</li>
+        <li><strong>Export the 18 URLs</strong> behind &ldquo;Crawled &ndash; not indexed&rdquo; (9) and &ldquo;Discovered &ndash; not indexed&rdquo; (9). The CSV in <code class="inl">datagsc/</code> carries counts only, and these are the clearest quality signal Google gives you.</li>
+        <li><strong>Move Novamira off production.</strong> It exposes 33 REST routes including one that mints a password-free admin login, which routes straight around WPS Hide Login and Wordfence 2FA. Authenticated, not open — but it has been the plan since the build plan was written.</li>
+        <li><strong>Leave Site Kit&rsquo;s snippet on.</strong> It loads <code class="inl">GT-TXBFKV55</code> &rarr; <code class="inl">G-EX4ZJYVVPG</code>, is theme-independent, and carries GA4 straight through the switch untouched. GTM can wait.</li>
+      </ul>
+    </div>
+
+    <div class="slab">
+      <h3>What we are deliberately not doing today</h3>
+      <ul>
+        <li><strong>GTM container.</strong> No container has ever existed and the theme accepts only <code class="inl">GTM-XXXXXXX</code>. Analytics survives launch without it.</li>
+        <li><strong>Form entry storage.</strong> Still a decision, not an accident — the notification email is the record of last resort until it is made.</li>
+        <li><strong>Rewriting titles against query phrasing.</strong> The real prize: you rank position 5&ndash;9 on procurement queries with 300&ndash;1,150 impressions each and take <strong>zero</strong> clicks. That is a snippet problem, and the rebuild does not fix it by itself.</li>
+        <li><strong>Deciding <code class="inl">/our-leadership/</code>.</strong> 19 clicks in three months at position 9.46, redirecting into a weaker page. It is live and publishing people who have left, so it is worth pulling regardless.</li>
+      </ul>
+    </div>
+
+    <div class="slab">
+      <h3>Rollback</h3>
+      <ul>
+        <li>Switch the theme back to <strong>Theratio</strong>. That is why it is still installed and why nothing above deletes anything.</li>
+        <li>Restore <code class="inl">page_on_front</code> to <strong>320</strong> (<code class="inl">/synergi-uae-2-2/</code>), which the import overwrote.</li>
+        <li>Restore the flow table from <code class="inl">syn_btcbi_flow_backup_launch</code> and clear the three transients again.</li>
+        <li>The redirect table merged rather than replaced, so nothing production had was lost.</li>
+        <li><code class="inl">_elementor_data</code>, Elementor and the old theme stay for at least a week (CLAUDE.md &sect;2.9). Do not tidy them away early.</li>
+      </ul>
+    </div>
+
+    <div class="note note--warn">
+      <span class="lbl">What the numbers say about the risk</span>
+      <p>Over the three months to 7 September the site took <strong>314 clicks from 35,645 impressions</strong>, and <strong>79&percnt;</strong> of named-query clicks were people typing &ldquo;synergi&rdquo;. Non-brand search returns 20 clicks from 25,667 impressions — 0.078&percnt;.</p>
+      <p>So there is very little organic traffic to lose, and the entire real risk of this launch sits in one place: the homepage&rsquo;s brand traffic. That is what steps 07, 13 and 17 protect, and it is why they are the ones marked in red.</p>
+    </div>
+
+  </div>
+</section>
+
+<p class="foot">Ticks are stored in this browser only. Evidence behind every claim: <code class="inl">problems-to-solve.md</code>, <code class="inl">seo-action-list.md</code>, <code class="inl">migration-plan.md</code>, and the Search Console exports in <code class="inl">datagsc/</code>.</p>
+
+</div>
+
+<script>
+( function () {
+  var boxes = document.querySelectorAll( '.tick' );
+  var KEY = 'syn-runbook-2026-09-10';
+  var state = {};
+
+  try { state = JSON.parse( localStorage.getItem( KEY ) || '{}' ); } catch ( e ) { state = {}; }
+
+  boxes.forEach( function ( box, i ) {
+    if ( state[ i ] ) { box.checked = true; }
+    box.addEventListener( 'change', function () {
+      state[ i ] = box.checked;
+      try { localStorage.setItem( KEY, JSON.stringify( state ) ); } catch ( e ) {}
+    } );
+  } );
+}() );
+</script>
