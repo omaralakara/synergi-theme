@@ -30,6 +30,12 @@ defined( 'ABSPATH' ) || exit;
  * By Name rather than file path, because an addon's folder is not always its
  * brand (Element Pack Pro lives in bdthemes-element-pack). Instagram Feed is
  * deliberately absent: inc/instagram.php reads the images it caches.
+ *
+ * Two groups, both decided 10 Sep: the Elementor stack, and the old theme's
+ * own dependencies. Theratio needs Kirki and Meta Box while it is active, so
+ * none of these can go before the switch — and the rollback reactivates them
+ * from syn_launch_deactivated_plugins. The new theme links to Google Maps
+ * without an API key (sections/offices.php), so the key plugin goes too.
  */
 const SYN_LAUNCH_RETIRE_PLUGINS = array(
 	'Elementor Pro',
@@ -38,6 +44,10 @@ const SYN_LAUNCH_RETIRE_PLUGINS = array(
 	'Telephone field for Elementor Forms',
 	'Synergi Homepage Assets',
 	'Elementor',
+	'Slider Revolution',
+	'Kirki',
+	'Meta Box',
+	'API KEY for Google Maps',
 );
 
 /**

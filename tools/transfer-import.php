@@ -602,18 +602,35 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		$by_origin[ $r['origin'] ] = $r;
 	}
 
+	/*
+	 * Yoast Premium keeps redirects twice: the list its screen edits
+	 * (-base, one row per redirect), and what its PHP handler actually serves
+	 * from (-export-plain / -export-regex, keyed by origin: origin => url, type).
+	 * Until 10 Sep this wrote the list shape into the served option, which
+	 * leaves every redirect on the site — production's own 18 included —
+	 * silently dead. Rebuilt here in the served shape, checked against
+	 * production's live option. (Staging's own served copy is stale: 35 of
+	 * its 61 rules, so 26 have never been exercised anywhere.)
+	 */
+	$served = array( 'plain' => array(), 'regex' => array() );
+	foreach ( $by_origin as $origin => $r ) {
+		$format                        = 'regex' === ( $r['format'] ?? 'plain' ) ? 'regex' : 'plain';
+		$served[ $format ][ $origin ] = array( 'url' => $r['url'], 'type' => (int) $r['type'] );
+	}
+
 	$report['redirects'] = array(
 		'production_had' => count( $existing_redirects ),
 		'payload_has'    => count( (array) $payload['redirects'] ),
 		'added'          => $added,
 		'retargeted'     => $changed,
 		'total_after'    => count( $by_origin ),
+		'served_after'   => count( $served['plain'] ) + count( $served['regex'] ),
 	);
 
 	if ( ! $dry_run ) {
-		$merged = array_values( $by_origin );
-		update_option( 'wpseo-premium-redirects-base', $merged );
-		update_option( 'wpseo-premium-redirects-export-plain', $merged );
+		update_option( 'wpseo-premium-redirects-base', array_values( $by_origin ) );
+		update_option( 'wpseo-premium-redirects-export-plain', $served['plain'] );
+		update_option( 'wpseo-premium-redirects-export-regex', $served['regex'] );
 	}
 
 	// --- 8. menu -----------------------------------------------------------
