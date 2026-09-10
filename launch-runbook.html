@@ -664,16 +664,18 @@ td.num { font-variant-numeric: tabular-nums; }
         <input type="checkbox" class="tick" aria-label="Step 12 done">
         <div class="step-body">
           <h3><span class="n">12</span>Import, live</h3>
-          <div class="code"><pre><span class="k">return</span> syn_transfer_import( $url, <span class="k">false</span> ); <span class="c">// false = write</span></pre></div>
-          <p>Refuses before writing anything if an image is missing or a URL is contested. Otherwise writes posts, meta, terms, form 7560 (backing production&rsquo;s up), the nine records, the merged redirects, the Main Menu, <code class="inl">page_on_front</code>, <code class="inl">page_for_posts</code> and the new theme&rsquo;s logo and menu location.</p>
+          <div class="code"><pre>$r = syn_transfer_import( $url, <span class="k">false</span> ); <span class="c">// false = write</span>
+<span class="k">if</span> ( <span class="k">empty</span>( $r[<span class="s">'error'</span>] ) ) { switch_theme( <span class="s">'synergi'</span> ); } <span class="c">// step 13, same call</span>
+<span class="k">return</span> $r;</pre></div>
+          <p>Refuses before writing anything if an image is missing or a URL is contested. Otherwise writes posts, meta, terms, form 7560 (backing production&rsquo;s up), the nine records, the merged redirects, the Main Menu, <code class="inl">page_on_front</code>, <code class="inl">page_for_posts</code> and the new theme&rsquo;s logo and menu location &mdash; then <strong>drafts the 8 live pages whose own URL is now a redirect</strong>, as staging did: the old homepage, <code class="inl">/our-leadership/</code>, <code class="inl">/our-approach/</code>, three legacy landing pages and two lead-magnet pages. Drafted, never deleted, and never without the 301.</p>
         </div>
       </li>
 
       <li class="step step--critical">
         <input type="checkbox" class="tick" aria-label="Step 13 done">
         <div class="step-body">
-          <h3><span class="n">13</span>Activate the theme &mdash; immediately</h3>
-          <p>No pause, no reading the report first. Read it after.</p>
+          <h3><span class="n">13</span>Activate the theme &mdash; in the same call</h3>
+          <p>The <code class="inl">switch_theme()</code> line above does it the moment the import succeeds, so the new homepage never shows through the old theme. If the import refused, the theme is not switched.</p>
         </div>
       </li>
 

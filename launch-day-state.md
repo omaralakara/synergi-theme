@@ -76,15 +76,18 @@ stack retired they render their stored text inside the new theme. Measured
 - **Readable, check after launch:** `/terms/`, `/privacy-policy/`, and ten blog
   posts outside the transfer (headings and paragraphs survive; Elementor
   layout, columns and some images do not).
-- **Legacy landing pages:** `/shared-services-uae/`,
-  `/bpo-services-in-saudi-arabia-ksa-riyadh/`, `/procurement-readiness/` —
-  readable, unstyled. Still tied to the open cannibalisation question.
 - **`/connect/`** — its four links survive (LinkedIn, Instagram, site,
   privacy), but it gains a second `<h1>` and loses its styling. **Open:**
   rebuild on a theme template, or accept for week 1.
-- **Page 9146** (a hidden full-episode podcast page) renders **blank**.
-- Redirected at launch, so unaffected: page 320, `/our-leadership/`,
-  `/our-approach/`, `/hr-digital-transformation-guide/`.
+- **Drafted at launch, each behind its 301** (decided 10 Sep, as on staging;
+  importer section 12, dry-run tested): page 320 `/synergi-uae-2-2/`,
+  `/our-leadership/`, `/our-approach/`, `/shared-services-uae/`,
+  `/bpo-services-in-saudi-arabia-ksa-riyadh/`, `/procurement-readiness/`,
+  `/hr-digital-transformation-guide/` and page 9146. The redirect answers
+  before any of them renders, and they leave the sitemap.
+
+The whole go-live, checks included, is scripted in **`GO-LIVE.md`**; the
+outside-in SEO checks are **`tools/launch-verify.sh`**.
 
 ---
 
@@ -139,7 +142,7 @@ which nobody can open) stops when the property changes. Nothing is lost by it.
 
 ## Still open
 
-1. **`/connect/`** and **page 9146** — see above.
+1. **`/connect/`** — see above. (Page 9146 is drafted behind its 301 at launch.)
 2. **Site Kit** — reconnect, above.
 3. **Backup** — today's (05:55 UTC, 1.25 GB) is on the same server. Being
    downloaded by the launch lead.
