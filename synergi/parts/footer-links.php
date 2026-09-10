@@ -42,8 +42,22 @@ foreach ( array( 'heading', 'links' ) as $syn_required ) {
 	}
 }
 ?>
-<div class="syn-footer-column">
-	<h2 class="syn-footer-heading"><?php echo esc_html( $args['heading'] ); ?></h2>
+<?php
+/*
+ * A labelled <nav>, not a heading (10 Sep). The column labels used to be <h2>,
+ * which put the same four headings — Services, Solutions, Company, Insights —
+ * into the outline of every URL on the site, below each page's own content and
+ * identical everywhere. That is boilerplate competing with the page's real
+ * sections for the heading structure search engines read (CLAUDE.md §8).
+ *
+ * The label is still announced: aria-labelledby names each <nav> by its visible
+ * text, so a screen reader lists "Services navigation" and the rest in its
+ * landmarks menu — the job the heading was doing, without the heading.
+ */
+$syn_label_id = wp_unique_id( 'syn-footer-nav-' );
+?>
+<nav class="syn-footer-column" aria-labelledby="<?php echo esc_attr( $syn_label_id ); ?>">
+	<p class="syn-footer-heading" id="<?php echo esc_attr( $syn_label_id ); ?>"><?php echo esc_html( $args['heading'] ); ?></p>
 
 	<ul class="syn-footer-links">
 		<?php foreach ( (array) $args['links'] as $syn_label => $syn_path ) : ?>
@@ -61,4 +75,4 @@ foreach ( array( 'heading', 'links' ) as $syn_required ) {
 			</li>
 		<?php endforeach; ?>
 	</ul>
-</div>
+</nav>

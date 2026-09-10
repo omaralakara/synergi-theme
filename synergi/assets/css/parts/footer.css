@@ -174,7 +174,12 @@
  * No new colour: white is already in the §3 palette, and the family is still
  * inherited Montserrat.
  */
+/*
+ * A <p> since 10 Sep, not an <h2> (see parts/footer-links.php). The top margin
+ * is zeroed because a paragraph can pick one up where a heading here had none.
+ */
 .syn-footer-heading {
+	margin-block-start: 0;
 	margin-block-end: 1.2rem;
 	color: var(--syn-white);
 	font-size: 0.72rem;
