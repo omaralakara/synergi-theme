@@ -88,21 +88,34 @@ stack retired they render their stored text inside the new theme. Measured
 
 ---
 
+## Done before the window (10 Sep, on "go")
+
+- **Theme installed, not active.** Synergi 0.3.0, 150 files; the installed
+  files' fingerprint matches the zip's exactly (`dbcdc157…`, line endings
+  normalised). Theratio is still the active theme.
+- **WP Mail SMTP sends as `info@synergibpo.com`.** Test email delivered with
+  that sender (log row 194). The first attempt was overwritten by the plugin's
+  own in-memory copy when the test mail refreshed the Microsoft token; the
+  setting now lives in the database and survived a send.
+- **Old-build plugins added to the retire list** (decided 10 Sep): Slider
+  Revolution, Kirki, Meta Box, API KEY for Google Maps. They go after the
+  switch, with the Elementor stack.
+- **Redirects:** every staging redirect travels (61, merged with production's
+  own `page-not-found`). The importer was writing them in the wrong shape for
+  Yoast's served option, which would have disabled every redirect on the
+  site; fixed in `ac2d861`.
+
 ## Still open
 
-1. **Upload the theme zip** — do not activate.
-2. **Preload the 59 images** (`syn_transfer_import_media()`), needs a payload.
-3. **WP Mail SMTP sender** → `info@synergibpo.com`, then one test email.
-4. **`admin_email`** is `mario.jreige@synergi.ae` — a person's address. Change
-   only on an explicit decision.
-5. **Old-build plugins** not in the retire list: Slider Revolution, Kirki,
-   Meta Box. Decide.
-6. **`/connect/`** and **page 9146** — see above.
-7. **Backup** — today's (05:55 UTC, 1.25 GB) is on the same server. Download it.
-8. **CRM** — flow 1 trigger + field map, flow 2 off, three transients, one real
+1. **`admin_email`** is `mario.jreige@synergi.ae`. Decided: replace it with the
+   launch lead's address for now; Omar changes it later. Needs the address.
+2. **`/connect/`** and **page 9146** — see above.
+3. **Backup** — today's (05:55 UTC, 1.25 GB) is on the same server. Being
+   downloaded by the launch lead.
+4. **CRM** — flow 1 trigger + field map, flow 2 off, three transients, one real
    enquiry. By hand, after launch.
 
-Every production write above waits for an explicit "go".
+Every production write waits for an explicit "go".
 
 ---
 
