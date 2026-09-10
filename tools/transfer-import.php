@@ -179,7 +179,14 @@ function syn_import_attachment( array $att, $dry_run ) {
 function syn_transfer_import( $payload_url, $dry_run = true ) {
 	$report = array( 'mode' => $dry_run ? 'DRY RUN — nothing written' : 'LIVE' );
 
-	$res = wp_remote_get( $payload_url, array( 'timeout' => 60, 'sslverify' => false ) );
+	/*
+	 * sslverify stays true. The body of this response is written straight into
+	 * production posts, postmeta, the menu and the redirect table, so an
+	 * unverified fetch makes anything on the path between the two hosts an
+	 * author of the live site. If the certificate genuinely fails, fix the
+	 * certificate — do not turn the check off.
+	 */
+	$res = wp_remote_get( $payload_url, array( 'timeout' => 60, 'sslverify' => true ) );
 
 	if ( is_wp_error( $res ) ) {
 		return array( 'error' => 'fetch failed: ' . $res->get_error_message() );
@@ -273,6 +280,19 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		// meta, with every attachment reference rewritten
 		foreach ( (array) $p['meta'] as $key => $value ) {
 			update_post_meta( $id, $key, wp_slash( syn_import_remap( $value, $map ) ) );
+		}
+
+		/*
+		 * Belt as well as braces. The export refuses to put these keys in the
+		 * payload; this deletes any that production is already carrying of its
+		 * own accord — /media/ has held an inherited noindex since 2024, and
+		 * nothing else in this run would clear it.
+		 */
+		foreach ( array( '_yoast_wpseo_meta-robots-noindex', '_yoast_wpseo_meta-robots-nofollow' ) as $never ) {
+			if ( '' !== (string) get_post_meta( $id, $never, true ) ) {
+				delete_post_meta( $id, $never );
+				$report['noindex_cleared'][] = $p['slug'] . ' (' . $never . ')';
+			}
 		}
 
 		if ( ! empty( $p['terms']['syn_case_service'] ) ) {
@@ -404,6 +424,32 @@ function syn_transfer_import( $payload_url, $dry_run = true ) {
 		update_option( 'page_on_front', $home );
 		$report['front_page']['set'] = true;
 	}
+
+	/*
+	 * --- 9. the launch assertions ------------------------------------------
+	 *
+	 * Three things that are individually invisible and collectively fatal: a
+	 * noindexed front page, a site-wide "discourage search engines", and a
+	 * front page that is not the one this run just built. Every one of them
+	 * fails silently — the site looks perfect and disappears from Google over
+	 * the following fortnight. Asserted here so the import's own output says
+	 * whether the launch is safe, rather than a human remembering to look.
+	 *
+	 * These are READ-ONLY even in a live run. blog_public is a Settings →
+	 * Reading checkbox and belongs to whoever is running the launch, not to a
+	 * content transfer.
+	 */
+	$front = $dry_run ? (int) get_option( 'page_on_front' ) : (int) $home;
+
+	$report['ASSERTIONS'] = array(
+		'front_page_is_the_rebuild' => $front && $front === (int) $home ? 'PASS' : 'FAIL',
+		'front_page_noindex'        => '' === (string) get_post_meta( $front, '_yoast_wpseo_meta-robots-noindex', true ) ? 'PASS' : 'FAIL — clear it before announcing launch',
+		'blog_public'               => 1 === (int) get_option( 'blog_public' ) ? 'PASS' : 'FAIL — Settings → Reading → uncheck "Discourage search engines"',
+	);
+
+	$report['SAFE_TO_ANNOUNCE'] = ! in_array( 'FAIL', array_map( static function ( $v ) {
+		return 0 === strpos( (string) $v, 'FAIL' ) ? 'FAIL' : 'PASS';
+	}, $report['ASSERTIONS'] ), true );
 
 	return $report;
 }
