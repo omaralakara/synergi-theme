@@ -69,6 +69,41 @@ Read-only on production. The only write is the staging export in A4.
 | production `page_on_front` | `320` |
 | staging `home_url()` | `https://staging.synergi.ae`, active theme `synergi` |
 
+**A1b. The installed theme is the committed theme.** Somebody may fix the
+theme after it was installed — on 10 Sep at 13:36 an `inc/media-fields.php`
+fix was made locally and put on staging, but not committed and not on
+production. Check both sides; they must match:
+
+```bash
+# local, from the repo root — the first line must print nothing
+git status --short -- synergi/
+cd synergi && lines=$(git ls-files | while IFS= read -r f; do printf '%s:%s\n' "$f" "$(git show "HEAD:synergi/$f" | perl -0777 -pe 's/\r\n/\n/g' | md5sum | cut -d' ' -f1)"; done | LC_ALL=C sort); printf '%s' "$lines" | md5sum; cd ..
+```
+
+```php
+// production, read-only
+$dir = get_theme_root() . '/synergi';
+$lines = array();
+$it = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ) );
+foreach ( $it as $f ) {
+	if ( $f->isFile() ) {
+		$rel     = str_replace( '\\', '/', substr( $f->getPathname(), strlen( $dir ) + 1 ) );
+		$lines[] = $rel . ':' . md5( str_replace( "\r\n", "\n", file_get_contents( $f->getPathname() ) ) );
+	}
+}
+usort( $lines, 'strcmp' );
+return array( 'files' => count( $lines ), 'fingerprint' => md5( implode( "\n", $lines ) ) );
+```
+
+On 10 Sep both read `dbcdc1574b3a09311e0793e4ca56625e` (150 files). If there
+are uncommitted theme edits, or the two differ, **stop and tell the user**: the
+theme changed after it was installed. Updating it means committing the change,
+rebuilding the zip with `powershell tools/build-zip.ps1`, uploading it through a
+Novamira upload link to a one-off folder — **never** `wp-content/upgrade/`, which
+the installer empties first — and reinstalling over the inactive theme with
+`Theme_Upgrader::install( $zip, array( 'overwrite_package' => true ) )`, then
+re-running this check. Only with a "go".
+
 **A2. Production is as we left it** (read-only): `admin_email` is
 `omar.alakara@synergibpo.com`; WP Mail SMTP `from_email` is
 `info@synergibpo.com`; `/connect/` (10406) is `publish` with
