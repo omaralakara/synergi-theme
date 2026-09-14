@@ -229,12 +229,17 @@
 @media (max-width: 47.99rem) {
 
 	.syn-consent {
-		padding: var(--syn-space-4);
+		padding: var(--syn-space-3);
 		border-radius: var(--syn-radius-md);
 	}
 
+	/*
+	 * Tightened again 14 Sep: the gaps between the words and the buttons read
+	 * as empty space on a phone. Title to text is now 0.5rem, and text to
+	 * buttons 1rem (this gap plus the actions row's own 0.5rem lead-in).
+	 */
 	.syn-consent[open] {
-		gap: var(--syn-space-2);
+		gap: var(--syn-space-1);
 	}
 
 	.syn-consent__title {
