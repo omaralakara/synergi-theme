@@ -9,7 +9,7 @@
  * inc/careers-fields.php, inc/records.php, parts/page-header.php, sections/*.php.
  *
  * TWO BANDS, BOTH THIS PAGE'S OWN. sections/perks.php is the reasons to join
- * beside a pair of team photographs; sections/positions.php is the roles.
+ * beside a photograph of the team; sections/positions.php is the roles.
  * The title band is the one every other page uses (CLAUDE.md §4: a template
  * composes sections).
  *
@@ -80,7 +80,6 @@ syn_section(
 		'heading' => syn_field( 'careers_perks_heading', $syn_id ),
 		'intro'   => syn_field( 'careers_perks_intro', $syn_id ),
 		'image'   => syn_field_image_id( 'careers_perks_image', $syn_id ),
-		'image_2' => syn_field_image_id( 'careers_perks_image_2', $syn_id ),
 		'items'   => syn_field_rows( 'careers_perks', $syn_id ),
 	)
 );

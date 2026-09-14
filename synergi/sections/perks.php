@@ -6,14 +6,15 @@
  * assets/css/sections/perks.css. No script: the reveal is base.css's shared
  * IntersectionObserver and the rest is hover state.
  *
- * Copy and a pair of photographs on one side, a grid of reasons on the other.
+ * A deep-navy band: one tall photograph on the start side, and on the end side
+ * the heading over the reasons set as a large numbered list, one hairline
+ * between each.
  *
  * Expected $args:
  *   eyebrow string  Small label above the heading.
  *   heading string  The section's <h2>.
  *   intro   string  Optional. One or two sentences under the heading.
- *   image   int     Optional attachment ID. The larger photograph.
- *   image_2 int     Optional attachment ID. The smaller one, over its corner.
+ *   image   int     Optional attachment ID. The photograph.
  *   items   array[] The reasons, in order, each:
  *                     title       string Required. The reason's <h3>.
  *                     description string One or two sentences.
@@ -24,15 +25,19 @@
  *       'items'   => array( array( 'title' => 'Room to grow', 'description' => '…' ) ),
  *   ) );
  *
- * WHY THIS IS NOT sections/values.php. The values band is the company's
- * principles arranged as a wheel around one picture — a diagram, and one the
- * About page owns. This is a list of concrete reasons with two photographs of
- * the team, and it has to read as an argument rather than an emblem. Same
- * card language, different job (CLAUDE.md §4, one section per design).
+ * A LIST, NOT CARDS (14 Sep). The first cut was a grid of ticked cards beside
+ * two photographs on white, and the business did not like it: it read as a
+ * features panel, the same shape as every SaaS pricing page. The reasons are
+ * now an ordered list with a large numeral each, on the dark surface the
+ * homepage keeps for its statements, so the band reads as a considered
+ * argument in the company's own voice rather than a checklist.
  *
- * The two photographs are decorative next to the reasons — their alt text
- * comes from the attachment as everywhere else (CLAUDE.md §8), and the pair
- * is one figure with no caption because the heading already says what it is.
+ * The numeral is drawn by CSS from the list's own numbering, not written into
+ * the markup: a reason moved in the editor renumbers itself, and a screen
+ * reader is already told this is an ordered list.
+ *
+ * The photograph is decorative next to the reasons — its alt text comes from
+ * the attachment as everywhere else (CLAUDE.md §8).
  *
  * @package Synergi
  */
@@ -43,7 +48,6 @@ $syn_eyebrow = trim( (string) ( $args['eyebrow'] ?? '' ) );
 $syn_heading = trim( (string) ( $args['heading'] ?? '' ) );
 $syn_intro   = trim( (string) ( $args['intro'] ?? '' ) );
 $syn_image   = (int) ( $args['image'] ?? 0 );
-$syn_image_2 = (int) ( $args['image_2'] ?? 0 );
 
 $syn_items = array();
 
@@ -78,85 +82,65 @@ if ( ! $syn_items || '' === $syn_heading ) {
 	return;
 }
 
-// The second photograph only makes sense over the corner of the first. On its
-// own it takes the first's place, so the band never shows a small picture
-// hanging off an empty space.
-if ( ! $syn_image && $syn_image_2 ) {
-	$syn_image   = $syn_image_2;
-	$syn_image_2 = 0;
-}
+/*
+ * Without a photograph the copy takes the whole width rather than leaving an
+ * empty column beside it. Written out in full so both names can be found
+ * verbatim in perks.css (CLAUDE.md §13, the grep rule).
+ */
+$syn_inner_class = $syn_image
+	? 'syn-container syn-perks__inner syn-perks__inner--with-photo'
+	: 'syn-container syn-perks__inner';
 
 $syn_uid = wp_unique_id( 'syn-perks-' );
 ?>
 <section class="syn-perks syn-section" id="why-join" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title">
-	<div class="syn-container syn-perks__inner">
+	<div class="<?php echo esc_attr( $syn_inner_class ); ?>">
 
-		<div class="syn-perks__lead syn-reveal">
-			<?php if ( '' !== $syn_eyebrow ) : ?>
-				<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
-			<?php endif; ?>
+		<?php if ( $syn_image ) : ?>
+			<div class="syn-perks__media syn-reveal">
+				<?php
+				echo wp_get_attachment_image(
+					$syn_image,
+					'large',
+					false,
+					array(
+						'class'    => 'syn-perks__image',
+						'loading'  => 'lazy',
+						'decoding' => 'async',
+						'sizes'    => '(max-width: 61.99rem) 100vw, 30rem',
+					)
+				);
+				?>
+			</div>
+		<?php endif; ?>
 
-			<h2 class="syn-perks__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
+		<div class="syn-perks__copy">
 
-			<?php if ( '' !== $syn_intro ) : ?>
-				<p class="syn-perks__intro"><?php echo esc_html( $syn_intro ); ?></p>
-			<?php endif; ?>
+			<div class="syn-perks__head syn-reveal">
+				<?php if ( '' !== $syn_eyebrow ) : ?>
+					<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
+				<?php endif; ?>
 
-			<?php if ( $syn_image ) : ?>
-				<div class="syn-perks__photos">
-					<div class="syn-perks__photo syn-perks__photo--main">
-						<?php
-						echo wp_get_attachment_image(
-							$syn_image,
-							'large',
-							false,
-							array(
-								'class'    => 'syn-perks__image',
-								'loading'  => 'lazy',
-								'decoding' => 'async',
-								'sizes'    => '(max-width: 61.99rem) 100vw, 34rem',
-							)
-						);
-						?>
-					</div>
+				<h2 class="syn-perks__title" id="<?php echo esc_attr( $syn_uid ); ?>-title"><?php echo esc_html( $syn_heading ); ?></h2>
 
-					<?php if ( $syn_image_2 ) : ?>
-						<div class="syn-perks__photo syn-perks__photo--inset">
-							<?php
-							echo wp_get_attachment_image(
-								$syn_image_2,
-								'medium_large',
-								false,
-								array(
-									'class'    => 'syn-perks__image',
-									'loading'  => 'lazy',
-									'decoding' => 'async',
-									'sizes'    => '(max-width: 61.99rem) 45vw, 16rem',
-								)
-							);
-							?>
-						</div>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
+				<?php if ( '' !== $syn_intro ) : ?>
+					<p class="syn-perks__intro"><?php echo esc_html( $syn_intro ); ?></p>
+				<?php endif; ?>
+			</div>
+
+			<ol class="syn-perks__list syn-reveal">
+				<?php foreach ( $syn_items as $syn_item ) : ?>
+					<li class="syn-perks__item">
+						<h3 class="syn-perks__item-title"><?php echo esc_html( $syn_item['title'] ); ?></h3>
+
+						<?php if ( '' !== $syn_item['description'] ) : ?>
+							<p class="syn-perks__item-text"><?php echo esc_html( $syn_item['description'] ); ?></p>
+						<?php endif; ?>
+					</li>
+				<?php endforeach; ?>
+			</ol>
+
 		</div>
-
-		<ul class="syn-perks__list syn-reveal">
-			<?php foreach ( $syn_items as $syn_item ) : ?>
-				<li class="syn-perks__item">
-					<span class="syn-perks__mark" aria-hidden="true">
-						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-							<path d="M5 12.5l4.5 4.5L19 7.5" />
-						</svg>
-					</span>
-					<h3 class="syn-perks__item-title"><?php echo esc_html( $syn_item['title'] ); ?></h3>
-
-					<?php if ( '' !== $syn_item['description'] ) : ?>
-						<p class="syn-perks__item-text"><?php echo esc_html( $syn_item['description'] ); ?></p>
-					<?php endif; ?>
-				</li>
-			<?php endforeach; ?>
-		</ul>
 
 	</div>
 </section>

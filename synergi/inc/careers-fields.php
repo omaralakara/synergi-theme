@@ -137,7 +137,7 @@ function syn_register_careers_fields() {
 					'type'          => 'image',
 					'label'         => __( 'Hero photograph', 'synergi' ),
 					'description'   => __( 'Fills the band behind the page title. Without one the band stays on the flat navy.', 'synergi' ),
-					'fallback_slug' => 'team-around-table',
+					'fallback_slug' => 'team-presentation-boardroom',
 				),
 				array(
 					'key'         => 'careers_cta',
@@ -154,14 +154,14 @@ function syn_register_careers_fields() {
 	);
 
 	/*
-	 * 2. WHY JOIN — the perks band. Two photographs beside the reasons, so the
+	 * 2. WHY JOIN — the perks band. One photograph beside the reasons, so the
 	 * page shows the team before it lists the vacancies.
 	 */
 	syn_register_field_group(
 		array(
 			'id'          => 'careers_perks',
 			'title'       => __( 'Careers — why join', 'synergi' ),
-			'description' => __( 'The reasons to work here, beside two photographs of the team.', 'synergi' ),
+			'description' => __( 'The reasons to work here, beside a photograph of the team.', 'synergi' ),
 			'templates'   => array( SYN_CAREERS_TEMPLATE ),
 			'fields'      => array(
 				array(
@@ -189,16 +189,9 @@ function syn_register_careers_fields() {
 				array(
 					'key'           => 'careers_perks_image',
 					'type'          => 'image',
-					'label'         => __( 'Main photograph', 'synergi' ),
-					'description'   => __( 'The larger of the two. Landscape works best.', 'synergi' ),
-					'fallback_slug' => 'hero-dubai-team',
-				),
-				array(
-					'key'           => 'careers_perks_image_2',
-					'type'          => 'image',
-					'label'         => __( 'Second photograph', 'synergi' ),
-					'description'   => __( 'Optional. Sits over the corner of the first.', 'synergi' ),
-					'fallback_slug' => 'meeting-notes-daylight',
+					'label'         => __( 'Photograph', 'synergi' ),
+					'description'   => __( 'Shown tall beside the reasons. A picture of people at work reads better than a skyline here.', 'synergi' ),
+					'fallback_slug' => 'open-office-evening',
 				),
 				array(
 					'key'       => 'careers_perks',

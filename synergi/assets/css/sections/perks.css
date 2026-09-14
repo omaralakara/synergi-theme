@@ -1,229 +1,253 @@
 /*
  * perks.css — Careers: why people work here.
- * Contents: 1 shell and the two columns · 2 the lead copy · 3 the photograph
- * pair · 4 the reasons · 5 narrow screens.
+ * Contents: 1 shell · 2 the two columns · 3 the photograph · 4 the head ·
+ * 5 the numbered list · 6 reduced motion · 7 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-perks", only on pages that
  * declare the section. Markup: sections/perks.php. No script.
  *
- * Two columns: the copy and the photographs in a sticky rail on the start side,
- * the reasons stacked on the end side. The rail is sticky so the pictures stay
- * in view while a long list of reasons scrolls past them — with four reasons
- * it never moves, with eight it earns its keep.
+ * A deep-navy band, the surface the homepage keeps for its statements. One
+ * tall photograph on the start side; on the end side the heading, then the
+ * reasons as an ordered list with a large mint numeral each and a hairline
+ * between them. The photograph is sticky so it stays beside the list on a
+ * tall screen while a long list scrolls past.
  *
- * THE INSET PHOTOGRAPH IS A GRID CELL, NOT AN ABSOLUTE BOX. Both pictures sit
- * in one grid and the small one is placed over the big one's end corner by
- * spanning the same tracks, then pulled outward with negative margins. Nothing
- * here needs a physical direction, so the pair mirrors itself for Arabic
+ * Redrawn 14 Sep. The first version was ticked cards on white beside a pair
+ * of photographs, which the business did not like — it read as a features
+ * panel. Nothing of it survives here except the class prefix.
+ *
+ * CONTRAST (CLAUDE.md §9): white on navy-deep is 16:1, mint on navy-deep is
+ * 10:1, and the 74% white mix used for the running text is above 9:1. All
+ * three clear the 4.5:1 floor by a wide margin.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
  * (CLAUDE.md §2.11).
- *
- * No hard-coded design values (CLAUDE.md §2.7). Logical properties only.
  */
 
 /* ==========================================================================
-   1. Shell and the two columns
+   1. Shell
    ========================================================================== */
 
 .syn-perks {
-	background-color: var(--syn-white);
+	overflow: hidden;
+	background-color: var(--syn-navy-deep);
+	color: var(--syn-white);
 }
 
+/*
+ * A soft glow of the brand cyan behind the list, so the band is not a flat
+ * slab. A pseudo-element rather than a background image, so the section's
+ * own background colour stays a single declaration.
+ */
+.syn-perks::before {
+	position: absolute;
+	inset-block-start: -20%;
+	inset-inline-end: -10%;
+	inline-size: 50%;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background-image: radial-gradient(
+		circle,
+		color-mix(in srgb, var(--syn-cyan) 18%, transparent) 0%,
+		transparent 65%
+	);
+	content: "";
+	pointer-events: none;
+}
+
+/* ==========================================================================
+   2. The two columns
+   ========================================================================== */
+
 .syn-perks__inner {
+	position: relative;
 	display: grid;
-	grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--syn-space-6);
 	align-items: start;
 }
 
+.syn-perks__inner--with-photo {
+	grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+/* min-inline-size: 0 lets a long unbroken word shrink the column rather than
+   push the photograph off the grid. */
+.syn-perks__copy {
+	position: relative;
+	min-inline-size: 0;
+}
+
 /* ==========================================================================
-   2. The lead copy
+   3. The photograph
    ========================================================================== */
 
-.syn-perks__lead {
+.syn-perks__media {
 	position: sticky;
 	inset-block-start: calc(var(--syn-header-height) + var(--syn-space-3));
-}
-
-.syn-perks__title {
-	font-size: var(--syn-step-2);
-	line-height: 1.15;
-	letter-spacing: -0.01em;
-	color: var(--syn-navy);
-	text-wrap: balance;
-}
-
-.syn-perks__intro {
-	margin-block: var(--syn-space-2) 0;
-	color: var(--syn-text-soft);
-	font-size: var(--syn-step-0);
-	line-height: 1.7;
-	text-wrap: pretty;
-}
-
-/* ==========================================================================
-   3. The photograph pair
-   Twelve tracks, so the inset can cover exactly the last five of the main
-   picture's width and hang two tracks below its bottom edge.
-   ========================================================================== */
-
-.syn-perks__photos {
-	display: grid;
-	grid-template-columns: repeat(12, minmax(0, 1fr));
-	grid-template-rows: repeat(12, auto);
-	margin-block-start: var(--syn-space-5);
-	/* Room for the inset's overhang, so it never runs into the next band. */
-	padding-block-end: var(--syn-space-4);
-}
-
-.syn-perks__photo {
 	overflow: hidden;
+	border: 1px solid var(--syn-border-dark);
 	border-radius: var(--syn-radius-lg);
-	box-shadow: var(--syn-shadow-card);
-}
-
-.syn-perks__photo--main {
-	grid-column: 1 / 13;
-	grid-row: 1 / 13;
-	/* The rounded corner echoes the offers cards, so the two pages rhyme. */
-	border-start-end-radius: 2.75rem;
-}
-
-.syn-perks__photo--inset {
-	grid-column: 8 / 13;
-	grid-row: 9 / 13;
-	z-index: 1;
-	margin-inline-end: calc(var(--syn-space-3) * -1);
-	margin-block-end: calc(var(--syn-space-4) * -1);
-	border: 4px solid var(--syn-white);
+	/* The one large corner the offers cards and the hero share. */
+	border-end-end-radius: 3.5rem;
 	box-shadow: var(--syn-shadow-soft);
 }
 
 .syn-perks__image {
 	display: block;
 	inline-size: 100%;
-	block-size: 100%;
-	aspect-ratio: 4 / 3;
+	aspect-ratio: 4 / 5;
 	object-fit: cover;
 }
 
-.syn-perks__photo--inset .syn-perks__image {
-	aspect-ratio: 1;
-}
-
 /* ==========================================================================
-   4. The reasons
+   4. The head
    ========================================================================== */
 
-.syn-perks__list {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-	gap: var(--syn-space-3);
-	margin: 0;
-	padding: 0;
-	list-style: none;
+.syn-perks__head {
+	max-inline-size: 36rem;
+	margin-block-end: var(--syn-space-5);
 }
 
-.syn-perks__item {
-	position: relative;
-	padding: var(--syn-space-4);
-	padding-inline-start: calc(var(--syn-space-4) + 2.75rem);
-	border: 1px solid var(--syn-border);
-	border-radius: var(--syn-radius-lg);
-	background-color: var(--syn-paper);
-	transition:
-		transform var(--syn-duration) var(--syn-ease-out),
-		border-color var(--syn-duration-fast) var(--syn-ease-out),
-		box-shadow var(--syn-duration) var(--syn-ease-out),
-		background-color var(--syn-duration-fast) var(--syn-ease-out);
+/* base.css sets the eyebrow navy for light surfaces; on this one it is mint,
+   the same swap the process band makes. */
+.syn-perks .syn-eyebrow {
+	color: var(--syn-mint);
 }
 
-@media (hover: hover) {
-
-	.syn-perks__item:hover {
-		transform: translateY(-3px);
-		border-color: var(--syn-cyan);
-		background-color: var(--syn-white);
-		box-shadow: var(--syn-shadow-card);
-	}
+.syn-perks__title {
+	font-size: var(--syn-step-3);
+	line-height: 1.08;
+	letter-spacing: -0.015em;
+	color: var(--syn-white);
+	text-wrap: balance;
 }
 
-/* The tick, in a disc, in the padding the item reserved for it. */
-.syn-perks__mark {
-	position: absolute;
-	inset-block-start: var(--syn-space-4);
-	inset-inline-start: var(--syn-space-4);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	inline-size: 2rem;
-	block-size: 2rem;
-	border-radius: 50%;
-	background-color: var(--syn-cyan-soft);
-	color: var(--syn-navy);
-}
-
-.syn-perks__mark svg {
-	inline-size: 1rem;
-	block-size: 1rem;
-}
-
-.syn-perks__item-title {
-	margin: 0;
-	margin-block-end: 0.5rem;
-	color: var(--syn-navy);
-	font-size: var(--syn-step-1);
-	line-height: 1.25;
-	text-wrap: pretty;
-}
-
-.syn-perks__item-text {
-	margin: 0;
-	color: var(--syn-text-soft);
+.syn-perks__intro {
+	margin-block: var(--syn-space-3) 0;
+	color: color-mix(in srgb, var(--syn-white) 74%, transparent);
 	font-size: var(--syn-step-0);
 	line-height: 1.7;
 	text-wrap: pretty;
 }
 
 /* ==========================================================================
-   5. Narrow screens
-   One column: the copy, then the photographs, then the reasons — the reading
-   order the markup already has. The rail stops sticking, because there is
-   nothing beside it to stick for.
+   5. The numbered list
+   ========================================================================== */
+
+.syn-perks__list {
+	margin: 0;
+	padding: 0;
+	border-block-start: 1px solid var(--syn-border-dark);
+	counter-reset: syn-perks;
+	list-style: none;
+}
+
+.syn-perks__item {
+	display: grid;
+	grid-template-columns: 4.5rem minmax(0, 1fr);
+	column-gap: var(--syn-space-3);
+	padding-block: var(--syn-space-4);
+	border-block-end: 1px solid var(--syn-border-dark);
+	counter-increment: syn-perks;
+	transition: padding-inline-start var(--syn-duration) var(--syn-ease-out);
+}
+
+/*
+ * The numeral. Decoration on top of an <ol> that already says the same thing
+ * to assistive technology, so it is generated content rather than markup. It
+ * spans both rows of the item so the title and the text share one number.
+ */
+.syn-perks__item::before {
+	grid-row: 1 / 3;
+	color: var(--syn-mint);
+	content: counter( syn-perks, decimal-leading-zero );
+	font-size: var(--syn-step-2);
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1;
+	transition: color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-perks__item:hover {
+		padding-inline-start: var(--syn-space-2);
+	}
+
+	.syn-perks__item:hover::before {
+		color: var(--syn-cyan);
+	}
+}
+
+.syn-perks__item-title {
+	grid-column: 2;
+	margin: 0;
+	color: var(--syn-white);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+	text-wrap: pretty;
+}
+
+.syn-perks__item-text {
+	grid-column: 2;
+	margin-block: 0.6rem 0;
+	color: color-mix(in srgb, var(--syn-white) 74%, transparent);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   6. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-perks__item,
+	.syn-perks__item::before {
+		transition: none;
+	}
+}
+
+/* ==========================================================================
+   7. Narrow screens
+   One column: the photograph, then the head, then the list — the order the
+   markup already has. The photograph stops sticking, because there is nothing
+   beside it to stick for, and takes a landscape crop so it does not fill a
+   whole phone screen on its own.
    ========================================================================== */
 
 @media (max-width: 61.99rem) {
 
-	.syn-perks__inner {
+	.syn-perks__inner--with-photo {
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--syn-space-5);
 	}
 
-	.syn-perks__lead {
+	.syn-perks__media {
 		position: static;
 	}
 
-	.syn-perks__photos {
-		margin-block-start: var(--syn-space-4);
+	.syn-perks__image {
+		aspect-ratio: 16 / 10;
 	}
 }
 
 @media (max-width: 47.99rem) {
 
-	.syn-perks__list {
-		grid-template-columns: minmax(0, 1fr);
-	}
-
 	.syn-perks__item {
-		padding: var(--syn-space-3);
-		padding-inline-start: calc(var(--syn-space-3) + 2.75rem);
+		grid-template-columns: 3rem minmax(0, 1fr);
+		column-gap: var(--syn-space-2);
+		padding-block: var(--syn-space-3);
 	}
 
-	.syn-perks__mark {
-		inset-block-start: var(--syn-space-3);
-		inset-inline-start: var(--syn-space-3);
+	.syn-perks__item::before {
+		font-size: var(--syn-step-1);
 	}
 
-	.syn-perks__photo--inset {
-		margin-inline-end: 0;
+	.syn-perks__title {
+		font-size: var(--syn-step-2);
 	}
 }
