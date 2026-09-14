@@ -250,6 +250,21 @@
 	color: var(--syn-white);
 }
 
+/* "Cookie settings" — a button, because it opens the consent banner rather
+   than going anywhere, dressed to sit in line with the two links beside it. */
+.syn-footer-consent {
+	padding: 0;
+	border: 0;
+	background: none;
+	color: inherit;
+	font-size: inherit;
+	cursor: pointer;
+}
+
+.syn-footer-consent:hover {
+	color: var(--syn-white);
+}
+
 /* ==========================================================================
    6. Narrow screens
    Rebuilt 31 Aug. The footer used to end at one column below 27rem, which put

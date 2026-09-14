@@ -1,0 +1,183 @@
+/*
+ * consent.css — the cookie consent banner.
+ * Contents: 1 banner shell · 2 text · 3 category choices · 4 actions · 5 print.
+ *
+ * Loaded by inc/assets.php as "synergi-consent", on every page, depending on
+ * "synergi-base" for the button styles. Markup: parts/consent.php. Behaviour:
+ * assets/js/parts/consent.js.
+ */
+
+/* ==========================================================================
+   1. Banner shell
+   A card pinned to the bottom start corner rather than a full-width bar, so
+   it covers as little of the page as it can while it waits for an answer.
+   ========================================================================== */
+
+.syn-consent {
+	position: fixed;
+	/*
+	 * Below the header's 100. The narrow-screen navigation panel lives inside
+	 * the header and covers the viewport, and an open menu must not have the
+	 * banner painted over its last links.
+	 */
+	z-index: 90;
+	inset-block-end: var(--syn-space-3);
+	inset-inline-start: var(--syn-space-3);
+	display: grid;
+	inline-size: min(100% - 2 * var(--syn-space-3), 34rem);
+	max-block-size: calc(100% - 2 * var(--syn-space-3));
+	gap: var(--syn-space-3);
+	padding: var(--syn-space-5);
+	overflow-y: auto;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	box-shadow: var(--syn-shadow-soft);
+	color: var(--syn-text);
+	opacity: 0;
+	transform: translateY(1rem);
+	transition:
+		opacity var(--syn-duration) var(--syn-ease-out),
+		transform var(--syn-duration) var(--syn-ease-out);
+}
+
+.syn-consent.syn-is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/*
+ * The hidden attribute loses to any display value set by a class, and three
+ * things in here set one — this block, the fieldset, and .syn-button. These
+ * two rules give hidden its meaning back without !important.
+ */
+.syn-consent[hidden],
+.syn-consent [hidden] {
+	display: none;
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-consent {
+		padding: var(--syn-space-4);
+	}
+}
+
+/* ==========================================================================
+   2. Text
+   ========================================================================== */
+
+.syn-consent__title {
+	color: var(--syn-navy);
+	font-size: var(--syn-step-0);
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.syn-consent__text {
+	font-size: var(--syn-step--1);
+	line-height: 1.55;
+}
+
+.syn-consent__text a {
+	color: var(--syn-navy);
+	font-weight: 700;
+}
+
+/* ==========================================================================
+   3. Category choices
+   ========================================================================== */
+
+.syn-consent__choices {
+	display: grid;
+	gap: var(--syn-space-2);
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.syn-consent__option {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--syn-space-2);
+	padding: var(--syn-space-2) var(--syn-space-3);
+	border-radius: var(--syn-radius-md);
+	background-color: var(--syn-paper);
+	font-size: var(--syn-step--1);
+	line-height: 1.45;
+}
+
+.syn-consent__option input {
+	flex: 0 0 auto;
+	inline-size: 1.15rem;
+	block-size: 1.15rem;
+	margin-block: 0.15rem 0;
+	margin-inline: 0;
+	accent-color: var(--syn-navy);
+}
+
+.syn-consent__option label {
+	display: grid;
+	gap: 0.1rem;
+}
+
+.syn-consent__option strong {
+	color: var(--syn-ink);
+}
+
+/* "Always on" is explanation, not a disabled-looking control. Text soft on
+   paper measures above the 4.5:1 floor. */
+.syn-consent__option span {
+	color: var(--syn-text-soft);
+}
+
+/* ==========================================================================
+   4. Actions
+   ========================================================================== */
+
+.syn-consent__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--syn-space-2);
+}
+
+/* Shorter than the site's default button: this sits over someone's reading. */
+.syn-consent__actions .syn-button {
+	min-block-size: 2.75rem;
+}
+
+.syn-consent__manage {
+	padding: var(--syn-space-1);
+	border: 0;
+	background: none;
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+	cursor: pointer;
+}
+
+.syn-consent__manage:hover {
+	color: var(--syn-ink);
+}
+
+/* Phones: the two decisions share the full width equally. */
+@media (max-width: 30rem) {
+
+	.syn-consent__actions .syn-button {
+		flex: 1 1 8rem;
+	}
+}
+
+/* ==========================================================================
+   5. Print
+   ========================================================================== */
+
+@media print {
+
+	.syn-consent {
+		display: none;
+	}
+}

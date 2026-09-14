@@ -414,3 +414,42 @@ meta, so none of these can be toggled from the database.
 It is an option, and the migration script's carry list is content. Setting it on
 staging does **not** put it on production. Either add it to the carry list — now
 noted in `migration-plan.md` — or set it directly on production at launch.
+
+---
+
+## 7. Cookie consent — the theme owns it (14 Sep)
+
+Every visitor is asked, whatever their country (decided 14 Sep). Built into the
+theme rather than a plugin: `inc/consent.php`, `parts/consent.php`,
+`assets/css/parts/consent.css`, `assets/js/parts/consent.js`, plus a "Cookie
+settings" button in the footer bar.
+
+**How it works.** An inline script at `wp_head` priority 1 sets Google Consent
+Mode v2 to `denied` for analytics and ads, then reads the `syn_consent` cookie
+and promotes a returning visitor's stored choice. It prints ahead of both live
+Google tags (**verified** on production 14 Sep: Site Kit's `GT-TXBFKV55` at
+priority 9, ASE snippet 8607 `G-F8BHKGB935` at priority 10), so neither needs
+editing. It carries `data-no-optimize` because LiteSpeed's JS combine includes
+inline scripts on both sites. This is *advanced* Consent Mode: the tags still
+load, and send cookieless pings until consent is granted.
+
+**What this changes in the numbers.** From the day it reaches production, GA4
+counts only visitors who click Accept (or allow Analytics). The rest arrive as
+modelled data, and only once traffic clears Google's modelling thresholds.
+Expect a visible step down in reported users that day — it is the banner, not a
+traffic drop. Annotate it in both properties.
+
+**Rules.**
+- Site Kit's own Consent Mode setting stays **off**. Turning it on prints a
+  second, EU-only default that contradicts the theme's.
+- A GTM container, when it is built (§2), inherits the same default. Non-Google
+  tags in it should fire on the `syn_consent_update` dataLayer event.
+- The Privacy Policy (page 6791) should name GA4, Google Ads and the
+  `syn_consent` cookie. That is a content task, not theme code.
+
+**Open — the LinkedIn Insight Tag is not covered.** ASE snippet 9378 (partner
+`9021449`) is live on production (**verified** 14 Sep — LiteSpeed combines it
+into its JS bundle, so it does not appear by name in the HTML). LinkedIn does
+not read Google Consent Mode, so it keeps setting cookies after a visitor
+rejects. It must be gated on the Marketing choice, or disabled, before the
+banner reaches production.

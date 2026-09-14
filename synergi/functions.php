@@ -103,3 +103,8 @@ require_once SYN_DIR . 'inc/instagram.php';
 
 require_once SYN_DIR . 'inc/cleanup.php';
 require_once SYN_DIR . 'inc/integrations.php';
+
+// The cookie consent defaults every Google tag reads. A sibling of
+// integrations.php, not part of it: that file loads tags, this one decides
+// what they may store. parts/consent.php calls its two helpers.
+require_once SYN_DIR . 'inc/consent.php';

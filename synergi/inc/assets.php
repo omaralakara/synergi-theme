@@ -77,7 +77,9 @@ add_action( 'wp_enqueue_scripts', 'syn_enqueue_part_assets', 10 );
  */
 function syn_enqueue_part_assets() {
 
-	$parts = array( 'header', 'footer' );
+	// consent is unconditional for the same reason: footer.php prints the
+	// banner on every page, and only its script knows whether to show it.
+	$parts = array( 'header', 'footer', 'consent' );
 
 	// Every view that renders the title band: singular pages and posts, plus
 	// the listing templates, which put the archive title in the same band.
@@ -154,6 +156,24 @@ function syn_enqueue_part_assets() {
 
 		syn_asset_debug_note( 'part css: ' . $part );
 	}
+
+	/*
+	 * The consent banner is the one part with behaviour. No dependency on
+	 * synergi-main: a visitor's privacy choice must not hinge on the navigation
+	 * script loading.
+	 */
+	wp_enqueue_script(
+		'synergi-consent',
+		SYN_URI . 'assets/js/parts/consent.js',
+		array(),
+		syn_asset_version( 'assets/js/parts/consent.js' ),
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
+	);
+
+	syn_asset_debug_note( 'part js: consent' );
 }
 
 add_action( 'wp_enqueue_scripts', 'syn_enqueue_section_assets', 20 );
