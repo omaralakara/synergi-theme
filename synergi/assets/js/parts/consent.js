@@ -1,14 +1,17 @@
 /*
- * consent.js — the cookie consent banner: shows it to a visitor who has not
- * chosen, stores the choice, and tells the Google tags about it.
+ * consent.js — the cookie consent dialog: opens it for a visitor who has not
+ * chosen, stores the choice, tells the Google tags about it, and loads the
+ * LinkedIn Insight Tag only when Marketing is allowed.
  *
  * Loaded by inc/assets.php as the "synergi-consent" handle, deferred, in the
  * footer, with no dependencies. Markup: parts/consent.php and the footer's
  * [data-syn-consent-open] button. Styling: assets/css/parts/consent.css.
  *
- * The Consent Mode default and the returning-visitor update are NOT here: they
- * are printed inline at the top of <head> by inc/consent.php, because this
- * file runs after the tags have already started.
+ * The Google Consent Mode default and the returning-visitor update are NOT
+ * here: they are printed inline at the top of <head> by inc/consent.php,
+ * because this file runs after the Google tags have already started. LinkedIn
+ * is the opposite case — it has no consent mode, so it is not on the page at
+ * all until this file adds it.
  *
  * Rules: vanilla JS only, no jQuery, no libraries, no build step. Debug logging
  * is gated on window.synDebug (CLAUDE.md §13).
@@ -17,36 +20,40 @@
 ( function () {
 	'use strict';
 
-	var banner = document.querySelector( '[data-syn-consent]' );
+	var dialog = document.querySelector( '[data-syn-consent]' );
 
-	if ( ! banner ) {
+	if ( ! dialog ) {
 		return;
 	}
 
-	var cookieName = banner.getAttribute( 'data-syn-consent-cookie' ) || 'syn_consent';
-	var maxAge = parseInt( banner.getAttribute( 'data-syn-consent-max-age' ), 10 ) || 15724800;
-	var choices = banner.querySelector( '[data-syn-consent-choices]' );
-	var manageButton = banner.querySelector( '[data-syn-consent-action="manage"]' );
-	var saveButton = banner.querySelector( '[data-syn-consent-action="save"]' );
+	var cookieName = dialog.getAttribute( 'data-syn-consent-cookie' ) || 'syn_consent';
+	var maxAge = parseInt( dialog.getAttribute( 'data-syn-consent-max-age' ), 10 ) || 15724800;
+	var linkedInPartner = dialog.getAttribute( 'data-syn-linkedin-partner' );
+	var choices = dialog.querySelector( '[data-syn-consent-choices]' );
+	var manageButton = dialog.querySelector( '[data-syn-consent-action="manage"]' );
+	var saveButton = dialog.querySelector( '[data-syn-consent-action="save"]' );
 	var boxes = Array.prototype.slice.call(
-		banner.querySelectorAll( '[data-syn-consent-category]' )
+		dialog.querySelectorAll( '[data-syn-consent-category]' )
 	);
 	var openers = Array.prototype.slice.call(
 		document.querySelectorAll( '[data-syn-consent-open]' )
 	);
 
 	/*
-	 * Each category's cookies, removed when that category is refused. Denying
-	 * consent stops Google setting new ones, but does nothing about the cookies a
-	 * visitor who accepted last month already carries — withdrawing has to be as
-	 * real as giving.
+	 * Each category's first-party cookies, removed when that category is
+	 * refused. Denying consent stops new ones being set, but does nothing about
+	 * the cookies a visitor who accepted last month already carries —
+	 * withdrawing has to be as real as giving. LinkedIn's own cookies live on
+	 * linkedin.com, which no script on this site can reach; its tag not loading
+	 * is what stops them.
 	 */
 	var cookiePrefixes = {
 		analytics: [ '_ga' ],
-		marketing: [ '_gcl' ]
+		marketing: [ '_gcl', 'li_' ]
 	};
 
 	var returnFocusTo = null;
+	var linkedInLoaded = false;
 
 	function log( message ) {
 		if ( window.synDebug ) {
@@ -137,6 +144,49 @@
 		} );
 	}
 
+	/* ------------------------------------------------------------------
+	 * Tags
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * Adds the LinkedIn Insight Tag to the page, once.
+	 *
+	 * LinkedIn's standard snippet, as it ran in ASE snippet 9378, minus its
+	 * <noscript> pixel: a visitor without JavaScript can never consent, so the
+	 * pixel has no lawful case left. Does nothing when no partner ID is
+	 * configured (inc/integrations.php).
+	 *
+	 * A tag already loaded cannot be unloaded. A visitor who withdraws
+	 * Marketing keeps it until the next page, which then never adds it.
+	 *
+	 * @return {void}
+	 */
+	function loadLinkedIn() {
+		if ( ! linkedInPartner || linkedInLoaded ) {
+			return;
+		}
+
+		linkedInLoaded = true;
+
+		window._linkedin_partner_id = linkedInPartner;
+		window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+		window._linkedin_data_partner_ids.push( linkedInPartner );
+
+		if ( ! window.lintrk ) {
+			window.lintrk = function ( a, b ) {
+				window.lintrk.q.push( [ a, b ] );
+			};
+			window.lintrk.q = [];
+		}
+
+		var script = document.createElement( 'script' );
+		script.async = true;
+		script.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+		document.head.appendChild( script );
+
+		log( 'LinkedIn Insight Tag loaded for partner ' + linkedInPartner );
+	}
+
 	/**
 	 * Stores a choice and applies it to the page.
 	 *
@@ -166,6 +216,10 @@
 			syn_consent_marketing: marketing
 		} );
 
+		if ( choice.marketing ) {
+			loadLinkedIn();
+		}
+
 		Object.keys( cookiePrefixes ).forEach( function ( category ) {
 			if ( ! choice[ category ] ) {
 				clearCookies( cookiePrefixes[ category ] );
@@ -176,14 +230,14 @@
 	}
 
 	/* ------------------------------------------------------------------
-	 * Banner
+	 * Dialog
 	 * ------------------------------------------------------------------ */
 
 	/*
 	 * "Manage choices" steps aside once the choices are open: it has done its
-	 * job, and "Save choices" takes its place in the row rather than pushing it
-	 * onto a line of its own. Whoever opens the choices therefore moves focus
-	 * into them, so it is never left on a button that just disappeared.
+	 * job, and "Save choices" takes its place in the row. Whoever opens the
+	 * choices therefore moves focus into them, so it is never left on a button
+	 * that just disappeared.
 	 */
 	function setChoicesOpen( open ) {
 		choices.hidden = ! open;
@@ -204,44 +258,58 @@
 	}
 
 	/**
-	 * Shows the banner.
+	 * Opens the dialog.
 	 *
-	 * On a first visit it appears without taking focus: it is not a modal, and
-	 * pulling a keyboard user away from the page they came to read is worse than
-	 * the banner waiting its turn. Opened from "Cookie settings" it is the thing
-	 * the visitor just asked for, so focus goes straight to the choices.
+	 * On a first visit focus goes to the dialog itself (it carries
+	 * tabindex="-1"), so the question is read before any answer. Opened from
+	 * "Cookie settings" it is the thing the visitor just asked for, so focus
+	 * goes straight to the choices.
 	 *
 	 * @param {?HTMLElement} opener The button that opened it, or null.
 	 * @return {void}
 	 */
-	function show( opener ) {
+	function open( opener ) {
 		returnFocusTo = opener;
-		banner.hidden = false;
 
-		// One frame at the hidden starting position, or the entrance transition
-		// has nothing to transition from.
-		window.requestAnimationFrame( function () {
-			banner.classList.add( 'syn-is-visible' );
-		} );
+		if ( ! dialog.open ) {
+			dialog.showModal();
+		}
+
+		document.documentElement.classList.add( 'syn-consent-open' );
 
 		if ( opener ) {
 			setChoicesOpen( true );
 			boxes[ 0 ].focus();
+		} else {
+			dialog.focus();
 		}
 	}
 
-	function hide() {
-		banner.classList.remove( 'syn-is-visible' );
-		banner.hidden = true;
+	// Every way the dialog closes — a decision, or Escape on a reopened one —
+	// ends here, so the page is always handed back in the same state.
+	dialog.addEventListener( 'close', function () {
+		document.documentElement.classList.remove( 'syn-consent-open' );
 		setChoicesOpen( false );
 
 		if ( returnFocusTo ) {
 			returnFocusTo.focus();
 			returnFocusTo = null;
 		}
-	}
+	} );
 
-	banner.addEventListener( 'click', function ( event ) {
+	/*
+	 * Escape closes the dialog only when a choice already exists — that is,
+	 * when it was reopened from the footer. A first visit has to end in an
+	 * answer. (Browsers may let a second Escape through regardless; the visitor
+	 * is then simply asked again on the next page, with nothing set.)
+	 */
+	dialog.addEventListener( 'cancel', function ( event ) {
+		if ( ! readChoice() ) {
+			event.preventDefault();
+		}
+	} );
+
+	dialog.addEventListener( 'click', function ( event ) {
 		var button = event.target.closest( '[data-syn-consent-action]' );
 
 		if ( ! button ) {
@@ -265,18 +333,7 @@
 		}
 
 		applyChoice( choice );
-		hide();
-	} );
-
-	/*
-	 * Escape closes the banner only when a choice already exists — that is,
-	 * when it was reopened from the footer. A first visit has to end in an
-	 * answer, or the visitor would be asked again on every page.
-	 */
-	banner.addEventListener( 'keydown', function ( event ) {
-		if ( event.key === 'Escape' && readChoice() ) {
-			hide();
-		}
+		dialog.close();
 	} );
 
 	// The footer button is printed hidden, because without this script it
@@ -285,11 +342,15 @@
 		opener.hidden = false;
 
 		opener.addEventListener( 'click', function () {
-			show( opener );
+			open( opener );
 		} );
 	} );
 
-	if ( ! readChoice() ) {
-		show( null );
+	var stored = readChoice();
+
+	if ( ! stored ) {
+		open( null );
+	} else if ( stored.marketing ) {
+		loadLinkedIn();
 	}
 }() );

@@ -9,6 +9,14 @@
  * Stage 1 ships the loader with no container ID configured, so it outputs
  * nothing at all. Stage 8 sets the ID and verifies the tag fires.
  *
+ * One exception to "pixels go into GTM", added 14 Sep: the LinkedIn Insight
+ * Tag. It used to be ASE snippet 9378, which ran for every visitor whatever
+ * they chose in the cookie banner, because LinkedIn ignores Google Consent
+ * Mode. There is no GTM container yet to move it into, so the theme holds the
+ * partner ID here and assets/js/parts/consent.js loads the tag only after a
+ * visitor allows Marketing. When a container is built, the tag moves into it
+ * and syn_linkedin_partner_id() goes.
+ *
  * @package Synergi
  */
 
@@ -32,6 +40,27 @@ function syn_gtm_container_id() {
 	$id = trim( $id );
 
 	return preg_match( '/^GTM-[A-Z0-9]{4,}$/', $id ) ? $id : '';
+}
+
+/**
+ * Returns the configured LinkedIn Insight Tag partner ID, or an empty string.
+ *
+ * Same precedence and the same reasoning as syn_gtm_container_id():
+ *   1. define( 'SYN_LINKEDIN_PARTNER_ID', '1234567' ); in wp-config.php
+ *   2. the "syn_linkedin_partner_id" option
+ * A partner ID is digits only; anything else counts as not configured.
+ *
+ * Read by parts/consent.php, which hands it to the banner script. Nothing is
+ * loaded from here — the tag must wait for the visitor's Marketing consent,
+ * and only the browser knows what they chose (see inc/consent.php on caching).
+ *
+ * @return string Validated partner ID, or '' when none is configured.
+ */
+function syn_linkedin_partner_id() {
+	$id = defined( 'SYN_LINKEDIN_PARTNER_ID' ) ? (string) SYN_LINKEDIN_PARTNER_ID : (string) get_option( 'syn_linkedin_partner_id', '' );
+	$id = trim( $id );
+
+	return preg_match( '/^[0-9]{4,12}$/', $id ) ? $id : '';
 }
 
 add_action( 'wp_footer', 'syn_render_gtm_loader', 20 );

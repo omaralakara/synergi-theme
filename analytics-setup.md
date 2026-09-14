@@ -447,9 +447,30 @@ traffic drop. Annotate it in both properties.
 - The Privacy Policy (page 6791) should name GA4, Google Ads and the
   `syn_consent` cookie. That is a content task, not theme code.
 
-**Open — the LinkedIn Insight Tag is not covered.** ASE snippet 9378 (partner
-`9021449`) is live on production (**verified** 14 Sep — LiteSpeed combines it
-into its JS bundle, so it does not appear by name in the HTML). LinkedIn does
-not read Google Consent Mode, so it keeps setting cookies after a visitor
-rejects. It must be gated on the Marketing choice, or disabled, before the
-banner reaches production.
+**LinkedIn Insight Tag — gated by the theme (decided 14 Sep).** ASE snippet
+9378 (partner `9021449`) is live on production (**verified** 14 Sep — LiteSpeed
+combines it into its JS bundle, so it does not appear by name in the HTML).
+LinkedIn does not read Google Consent Mode, so left there it would keep setting
+cookies after a visitor rejects. The theme now loads it instead, from
+`consent.js`, and only once Marketing is allowed; the partner ID lives in the
+`syn_linkedin_partner_id` option (or `SYN_LINKEDIN_PARTNER_ID`), read by
+`syn_linkedin_partner_id()` in `inc/integrations.php`. No ID, no tag.
+
+**Production cutover — three steps that belong together.** (1) deploy the
+theme; (2) set `syn_linkedin_partner_id` to `9021449`; (3) switch **off** ASE
+snippet 9378 in wp-admin (ASE ignores `post_status` and `_active`, §6b). Step 3
+without step 2 loses LinkedIn for everyone; step 2 without step 3 loads the tag
+twice for accepting visitors and still ungated for the rest. Snippet 8607
+(`G-F8BHKGB935`) stays **on** — Consent Mode already governs it.
+
+**Tested on staging 14 Sep** in headless Chrome, with a real `gtag.js` under a
+dummy measurement ID and LinkedIn requests blocked but recorded: before a choice
+and after Reject, no `_ga` cookie, GA pings carry `gcs=G100` (all denied), zero
+LinkedIn requests; after allowing both, `_ga` is set, pings carry `G111`, and
+LinkedIn loads on that page and the next; after withdrawal the `_ga` cookies are
+deleted and LinkedIn is not requested again. The staging option was removed
+after the test so staging never reports to the live partner account.
+
+**Design.** A centred modal `<dialog>` with plain rectangular buttons (changed
+on request 14 Sep from a corner card with brand buttons). Accept and Reject are
+identical in style. Phones get a compact card with the buttons stacked.
