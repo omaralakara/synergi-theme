@@ -105,10 +105,11 @@ function syn_register_careers_fields() {
 
 	/*
 	 * 1. INTRO. No heading field: the page title is the <h1>, and the SEO
-	 * title is Yoast's. The photograph is a field rather than the Featured
-	 * Image so the fallback slug can name a picture already in the library and
-	 * the band is never flat navy by accident (CLAUDE.md §7b). One button: it
-	 * jumps to the roles, which is the page's only action.
+	 * title is Yoast's. The photograph field has NO fallback picture: the
+	 * business asked for the flat navy band on 14 Sep, so an empty field is
+	 * the intended state rather than an accident, and a picture appears only
+	 * when an editor chooses one. One button: it jumps to the roles, which is
+	 * the page's only action.
 	 */
 	syn_register_field_group(
 		array(
@@ -136,8 +137,7 @@ function syn_register_careers_fields() {
 					'key'           => 'careers_image',
 					'type'          => 'image',
 					'label'         => __( 'Hero photograph', 'synergi' ),
-					'description'   => __( 'Fills the band behind the page title. Without one the band stays on the flat navy.', 'synergi' ),
-					'fallback_slug' => 'team-presentation-boardroom',
+					'description'   => __( 'Optional. Fills the band behind the page title. Without one the band stays on the flat navy, which is how the business wants it (14 Sep).', 'synergi' ),
 				),
 				array(
 					'key'         => 'careers_cta',
