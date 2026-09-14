@@ -17,6 +17,8 @@
  *                           department  string A key from syn_careers_department_choices().
  *                           location    string City and country, or "Remote".
  *                           type        string A key from syn_careers_type_choices().
+ *                           status      string A key from syn_careers_status_choices();
+ *                                              blank reads as "available".
  *                           summary     string One line, shown before the role opens.
  *                           description string The role. Editor HTML, sanitised on
  *                                              save with wp_kses_post() and again here.
@@ -32,10 +34,12 @@
  *
  * EVERY ROLE HAS ITS OWN ADDRESS (14 Sep). There is no page-wide inbox: the
  * business wants a role's applications to land with the person hiring for it,
- * so the email is a column of the row and the Apply button is a mailto: to it
- * with the role in the subject line. A link, when a role has one, wins over
- * the email; a role with neither falls back to Contact Us so the button never
- * points at nothing.
+ * so the email is a column of the row. It is printed as a line — "Mail us at
+ * name@…" — rather than a button (also 14 Sep): the address itself is the
+ * information a candidate wants to see and copy, and a button hides it. The
+ * link is a mailto: with the role in the subject line. A link, when a role has
+ * one, is printed as "Apply at" instead; a role with neither falls back to a
+ * "Get in touch" line to Contact Us so no role is a dead end.
  *
  * Example:
  *   syn_section( 'positions', array( 'items' => syn_field_rows( 'careers_positions_list' ) ) );
@@ -86,6 +90,7 @@ if ( '' === $syn_empty_cta_label ) {
 
 $syn_departments = function_exists( 'syn_careers_department_choices' ) ? syn_careers_department_choices() : array();
 $syn_types       = function_exists( 'syn_careers_type_choices' ) ? syn_careers_type_choices() : array();
+$syn_statuses    = function_exists( 'syn_careers_status_choices' ) ? syn_careers_status_choices() : array();
 
 /*
  * The six accents theme.json defines, by the slug the services record uses.
@@ -124,10 +129,22 @@ foreach ( (array) ( $args['items'] ?? array() ) as $syn_row ) {
 	 */
 	if ( '' !== $syn_role_url ) {
 		$syn_role_apply = $syn_role_url;
+		$syn_role_kind  = 'link';
 	} elseif ( is_email( $syn_role_email ) ) {
 		$syn_role_apply = 'mailto:' . $syn_role_email;
+		$syn_role_kind  = 'mail';
 	} else {
 		$syn_role_apply = $syn_apply_url;
+		$syn_role_kind  = 'contact';
+		$syn_role_email = '';
+	}
+
+	// Blank reads as the first choice, so a row from before the column
+	// existed is tagged "Still available" rather than left untagged.
+	$syn_status = sanitize_key( $syn_row['status'] ?? '' );
+
+	if ( ! isset( $syn_statuses[ $syn_status ] ) ) {
+		$syn_status = 'available';
 	}
 
 	$syn_clean[] = array(
@@ -144,6 +161,10 @@ foreach ( (array) ( $args['items'] ?? array() ) as $syn_row ) {
 		// than printed, so the schema never carries a string Google rejects.
 		'posted'          => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $syn_posted ) ? $syn_posted : '',
 		'apply_url'       => $syn_role_apply,
+		'apply_kind'      => $syn_role_kind,
+		'apply_email'     => $syn_role_email,
+		'status'          => $syn_status,
+		'status_name'     => $syn_statuses[ $syn_status ] ?? __( 'Still available', 'synergi' ),
 	);
 }
 
@@ -206,23 +227,38 @@ $syn_group = $syn_uid . '-group';
 					$syn_accent_attr = '' !== $syn_item['accent'] ? ' data-accent="' . esc_attr( $syn_item['accent'] ) . '"' : '';
 
 					/*
-					 * A mailto: Apply carries the role in the subject line so an
-					 * inbox of applications sorts itself. A role with its own
-					 * address goes there untouched.
+					 * A mailto: carries the role in the subject line so an inbox
+					 * of applications sorts itself. A role with its own link goes
+					 * there untouched.
 					 */
 					$syn_apply_href = $syn_item['apply_url'];
 
-					if ( 0 === strpos( $syn_apply_href, 'mailto:' ) ) {
+					if ( 'mail' === $syn_item['apply_kind'] ) {
 						$syn_apply_href .= '?subject=' . rawurlencode( sprintf(
 							/* translators: %s: the role title. */
 							__( 'Application: %s', 'synergi' ),
 							$syn_item['title']
 						) );
 					}
+
+					/*
+					 * The three tag states are written out as full class names,
+					 * never assembled from the key, so each can be found verbatim
+					 * in positions.css (CLAUDE.md §13, the grep rule).
+					 */
+					if ( 'filled' === $syn_item['status'] ) {
+						$syn_tag_class = 'syn-positions__tag syn-positions__tag--filled';
+					} elseif ( 'closing' === $syn_item['status'] ) {
+						$syn_tag_class = 'syn-positions__tag syn-positions__tag--closing';
+					} else {
+						$syn_tag_class = 'syn-positions__tag';
+					}
 					?>
 					<details class="syn-positions__item" name="<?php echo esc_attr( $syn_group ); ?>"<?php echo $syn_accent_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_attr() only. ?>>
 						<summary class="syn-positions__summary">
 							<span class="syn-positions__summary-copy">
+								<span class="<?php echo esc_attr( $syn_tag_class ); ?>"><?php echo esc_html( $syn_item['status_name'] ); ?></span>
+
 								<h3 class="syn-positions__role"><?php echo esc_html( $syn_item['title'] ); ?></h3>
 
 								<span class="syn-positions__meta">
@@ -278,16 +314,17 @@ $syn_group = $syn_uid . '-group';
 									</p>
 								<?php endif; ?>
 
-								<a class="syn-button syn-button--primary syn-positions__apply" href="<?php echo esc_url( $syn_apply_href ); ?>">
-									<?php
-									printf(
-										/* translators: %s: the role title, read by assistive technology only. */
-										esc_html__( 'Apply %s', 'synergi' ),
-										'<span class="syn-visually-hidden">' . esc_html( $syn_item['title'] ) . '</span>'
-									);
-									?>
-									<span aria-hidden="true">&rarr;</span>
-								</a>
+								<p class="syn-positions__mail">
+									<?php if ( 'mail' === $syn_item['apply_kind'] ) : ?>
+										<?php esc_html_e( 'Mail us at', 'synergi' ); ?>
+										<a class="syn-positions__mail-link" href="<?php echo esc_url( $syn_apply_href ); ?>"><?php echo esc_html( $syn_item['apply_email'] ); ?></a>
+									<?php elseif ( 'link' === $syn_item['apply_kind'] ) : ?>
+										<?php esc_html_e( 'Apply at', 'synergi' ); ?>
+										<a class="syn-positions__mail-link" href="<?php echo esc_url( $syn_apply_href ); ?>"><?php echo esc_html( wp_parse_url( $syn_apply_href, PHP_URL_HOST ) ?: $syn_apply_href ); ?></a>
+									<?php else : ?>
+										<a class="syn-positions__mail-link" href="<?php echo esc_url( $syn_apply_href ); ?>"><?php esc_html_e( 'Get in touch about this role', 'synergi' ); ?></a>
+									<?php endif; ?>
+								</p>
 							</div>
 						</div>
 					</details>

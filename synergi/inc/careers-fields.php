@@ -75,6 +75,23 @@ function syn_careers_department_choices() {
 }
 
 /**
+ * The states a listed position can be in, as select choices.
+ *
+ * The tag on every row (asked for 14 Sep). "available" is the first choice
+ * and what a row with nothing stored is treated as, so a role added before
+ * this column existed reads as open rather than as blank.
+ *
+ * @return array<string,string> key => label.
+ */
+function syn_careers_status_choices() {
+	return array(
+		'available' => __( 'Still available', 'synergi' ),
+		'closing'   => __( 'Closing soon', 'synergi' ),
+		'filled'    => __( 'Filled', 'synergi' ),
+	);
+}
+
+/**
  * The employment types a position can have, as select choices.
  *
  * The keys are schema.org's employmentType values lowercased, so
@@ -105,11 +122,10 @@ function syn_register_careers_fields() {
 
 	/*
 	 * 1. INTRO. No heading field: the page title is the <h1>, and the SEO
-	 * title is Yoast's. The photograph field has NO fallback picture: the
-	 * business asked for the flat navy band on 14 Sep, so an empty field is
-	 * the intended state rather than an accident, and a picture appears only
-	 * when an editor chooses one. One button: it jumps to the roles, which is
-	 * the page's only action.
+	 * title is Yoast's. The photograph is a field rather than the Featured
+	 * Image so the fallback slug can name a picture already in the library and
+	 * the band is never flat navy by accident (CLAUDE.md §7b). One button: it
+	 * jumps to the roles, which is the page's only action.
 	 */
 	syn_register_field_group(
 		array(
@@ -137,7 +153,8 @@ function syn_register_careers_fields() {
 					'key'           => 'careers_image',
 					'type'          => 'image',
 					'label'         => __( 'Hero photograph', 'synergi' ),
-					'description'   => __( 'Optional. Fills the band behind the page title. Without one the band stays on the flat navy, which is how the business wants it (14 Sep).', 'synergi' ),
+					'description'   => __( 'Fills the band behind the page title. Without one the band stays on the flat navy.', 'synergi' ),
+					'fallback_slug' => 'team-presentation-boardroom',
 				),
 				array(
 					'key'         => 'careers_cta',
@@ -313,6 +330,13 @@ function syn_register_careers_fields() {
 							'choices' => syn_careers_type_choices(),
 						),
 						array(
+							'key'         => 'status',
+							'type'        => 'select',
+							'label'       => __( 'Status tag', 'synergi' ),
+							'description' => __( 'The small tag on the role. Remove the row altogether once a role is filled and gone.', 'synergi' ),
+							'choices'     => syn_careers_status_choices(),
+						),
+						array(
 							'key'         => 'summary',
 							'type'        => 'textarea',
 							'label'       => __( 'One-line summary', 'synergi' ),
@@ -331,7 +355,7 @@ function syn_register_careers_fields() {
 							'key'         => 'apply_email',
 							'type'        => 'email',
 							'label'       => __( 'Applications email', 'synergi' ),
-							'description' => __( 'Where the Apply button sends CVs for this role. The role title goes in the subject line. Left blank, the button goes to Contact Us.', 'synergi' ),
+							'description' => __( 'Printed on the role as "Mail us at …", with the role title in the subject line. Left blank, the role points at Contact Us instead.', 'synergi' ),
 							'placeholder' => 'name@synergi.ae',
 						),
 						array(

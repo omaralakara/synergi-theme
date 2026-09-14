@@ -6,7 +6,7 @@
  * assets/css/sections/perks.css. No script: the reveal is base.css's shared
  * IntersectionObserver and the rest is hover state.
  *
- * A deep-navy band: one tall photograph on the start side, and on the end side
+ * A white band: one tall photograph on the start side, and on the end side
  * the heading over the reasons set as a large numbered list, one hairline
  * between each.
  *
@@ -28,9 +28,10 @@
  * A LIST, NOT CARDS (14 Sep). The first cut was a grid of ticked cards beside
  * two photographs on white, and the business did not like it: it read as a
  * features panel, the same shape as every SaaS pricing page. The reasons are
- * now an ordered list with a large numeral each, on the dark surface the
- * homepage keeps for its statements, so the band reads as a considered
- * argument in the company's own voice rather than a checklist.
+ * now an ordered list with a large numeral each, so the band reads as a
+ * considered argument in the company's own voice rather than a checklist.
+ * It sat on deep navy for an afternoon; the business asked for the
+ * background gone, so it is white.
  *
  * The numeral is drawn by CSS from the list's own numbering, not written into
  * the markup: a reason moved in the editor renumbers itself, and a screen

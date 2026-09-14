@@ -1,8 +1,8 @@
 /*
  * positions.css — Careers: the open positions.
- * Contents: 1 shell · 2 head · 3 rows · 4 the summary, its chips and marker ·
- * 5 the opened role · 6 accents · 7 the empty state · 8 reduced motion ·
- * 9 narrow screens.
+ * Contents: 1 shell · 2 head · 3 rows · 4 the summary, its tag, chips and
+ * marker · 5 the opened role and its mail line · 6 accents · 7 the empty
+ * state · 8 reduced motion · 9 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-positions", only on pages that
  * declare the section. Markup: sections/positions.php. There is no
@@ -71,10 +71,12 @@
    3. Rows
    ========================================================================== */
 
+/* space-4, not the FAQ's space-2: each row is a whole role, and the business
+   asked for clear air between them (14 Sep). */
 .syn-positions__list {
 	display: flex;
 	flex-direction: column;
-	gap: var(--syn-space-2);
+	gap: var(--syn-space-4);
 }
 
 .syn-positions__item {
@@ -145,6 +147,48 @@
 	min-inline-size: 0;
 	flex-direction: column;
 	gap: 0.6rem;
+}
+
+/*
+ * The status tag. A dot and two words in small caps, sitting above the role
+ * title. The three states differ only in colour: the success token for open,
+ * the focus token (the theme's one warm colour) for closing soon, and the
+ * soft text colour for filled.
+ */
+.syn-positions__tag {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	align-self: flex-start;
+	color: var(--syn-navy);
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	line-height: 1.2;
+	text-transform: uppercase;
+}
+
+.syn-positions__tag::before {
+	inline-size: 0.55rem;
+	block-size: 0.55rem;
+	border-radius: 50%;
+	background-color: var(--syn-success);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--syn-success) 30%, transparent);
+	content: "";
+}
+
+.syn-positions__tag--closing::before {
+	background-color: var(--syn-focus);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--syn-focus) 30%, transparent);
+}
+
+.syn-positions__tag--filled {
+	color: var(--syn-text-soft);
+}
+
+.syn-positions__tag--filled::before {
+	background-color: var(--syn-text-soft);
+	box-shadow: none;
 }
 
 /* An <h3> inside a summary, so the outline is unbroken — sized here because
@@ -295,6 +339,28 @@
 	font-size: var(--syn-step--1);
 }
 
+/* "Mail us at name@…" — the address is the point, so it is printed in full
+   and set as the emphasised part of the line. */
+.syn-positions__mail {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.5;
+}
+
+.syn-positions__mail-link {
+	color: var(--syn-navy);
+	font-weight: 700;
+	text-decoration: underline;
+	text-decoration-color: var(--syn-cyan);
+	text-underline-offset: 0.2em;
+	overflow-wrap: anywhere;
+}
+
+.syn-positions__mail-link:hover {
+	color: var(--syn-cyan);
+}
+
 /* ==========================================================================
    6. Accents
    The six service gradients, keyed off the same data-accent attribute the
@@ -395,11 +461,7 @@
 
 	.syn-positions__foot {
 		flex-direction: column;
-		align-items: stretch;
-	}
-
-	.syn-positions__apply {
-		inline-size: 100%;
+		align-items: flex-start;
 	}
 
 	.syn-positions__empty {
