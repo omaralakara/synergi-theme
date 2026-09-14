@@ -145,7 +145,9 @@ function syn_register_careers_fields() {
 					'key'        => 'careers_lede',
 					'type'       => 'textarea',
 					'label'      => __( 'Opening sentence', 'synergi' ),
-					'default'    => __( 'Build your career with a regional team that runs HR, technology, marketing, procurement, finance and project delivery for organisations across the Gulf and beyond.', 'synergi' ),
+					// The business's own company description, as it publishes it
+					// with every vacancy (supplied 14 Sep).
+					'default'    => __( 'Synergi BPO is a boutique Business Process Outsourcing provider serving clients across the GCC region and internationally, helping organizations streamline and strengthen their support functions and shared services.', 'synergi' ),
 					'rows'       => 3,
 					'max_length' => 320,
 				),
@@ -199,7 +201,8 @@ function syn_register_careers_fields() {
 					'key'        => 'careers_perks_intro',
 					'type'       => 'textarea',
 					'label'      => __( 'Opening sentence', 'synergi' ),
-					'default'    => __( 'Synergi is a boutique BPO partner, which means small teams, senior clients and work that is visible from day one. Here is what that looks like from the inside.', 'synergi' ),
+					// The About Us page's own opening line.
+					'default'    => __( 'Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven Shared Services as-a-service (SSaaS) provider.', 'synergi' ),
 					'rows'       => 3,
 					'max_length' => 400,
 				),
@@ -219,22 +222,32 @@ function syn_register_careers_fields() {
 					'row_label' => 'title',
 					'min_rows'  => 1,
 					'max_rows'  => 8,
+					/*
+					 * EVERY SENTENCE BELOW IS THE COMPANY'S OWN, taken from copy
+					 * it already publishes: the About Us story paragraphs, the
+					 * homepage's "why companies choose Synergi" cards and the
+					 * About Us values. Nothing here was written for this page.
+					 * A first draft invented benefits ("certifications paid
+					 * for") and the business rejected it on 14 Sep; a careers
+					 * page makes promises to strangers, so it may only repeat
+					 * what the company has actually said.
+					 */
 					'default'   => array(
 						array(
-							'title'       => __( 'Work across six disciplines', 'synergi' ),
-							'description' => __( 'HR, technology and AI, marketing, procurement, accounting and project management sit in one team, so your next role can be a different discipline without a different employer.', 'synergi' ),
+							'title'       => __( 'Home-grown in the GCC', 'synergi' ),
+							'description' => __( 'We are home-grown in the GCC with delivery centres both onshore and offshore.', 'synergi' ),
 						),
 						array(
-							'title'       => __( 'Clients who are the decision-makers', 'synergi' ),
-							'description' => __( 'You work with founders, CFOs and country heads directly. The work you do is seen by the people who asked for it.', 'synergi' ),
+							'title'       => __( 'Experience across multiple markets', 'synergi' ),
+							'description' => __( 'Regional context informs how teams, controls, and delivery models are designed.', 'synergi' ),
 						),
 						array(
-							'title'       => __( 'A regional footprint', 'synergi' ),
-							'description' => __( 'Offices in the UAE, Saudi Arabia, Qatar, Lebanon and Romania, and engagements that move between them.', 'synergi' ),
+							'title'       => __( 'A tech company at its core', 'synergi' ),
+							'description' => __( 'We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale.', 'synergi' ),
 						),
 						array(
-							'title'       => __( 'Room to grow', 'synergi' ),
-							'description' => __( 'Structured onboarding, certifications paid for, and a path from specialist to team lead that people here have actually walked.', 'synergi' ),
+							'title'       => __( 'Expertise', 'synergi' ),
+							'description' => __( 'We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely.', 'synergi' ),
 						),
 					),
 					'subfields' => array(
@@ -288,7 +301,7 @@ function syn_register_careers_fields() {
 					'key'        => 'careers_positions_lede',
 					'type'       => 'textarea',
 					'label'      => __( 'Opening sentence', 'synergi' ),
-					'default'    => __( 'Open a role to read what it involves and who it suits. Every application gets a reply.', 'synergi' ),
+					'default'    => __( 'Open a role to read what it involves and who it suits.', 'synergi' ),
 					'rows'       => 2,
 					'max_length' => 320,
 				),
@@ -377,14 +390,14 @@ function syn_register_careers_fields() {
 					'key'        => 'careers_positions_empty_heading',
 					'type'       => 'text',
 					'label'      => __( 'No openings — heading', 'synergi' ),
-					'default'    => __( 'Nothing open right now, but we are always listening', 'synergi' ),
+					'default'    => __( 'No open roles at the moment', 'synergi' ),
 					'max_length' => 120,
 				),
 				array(
 					'key'        => 'careers_positions_empty_text',
 					'type'       => 'textarea',
 					'label'      => __( 'No openings — text', 'synergi' ),
-					'default'    => __( 'New roles open across the region every quarter. Get in touch and tell us the work you want to do.', 'synergi' ),
+					'default'    => __( 'Get in touch if you would like to be considered for future roles.', 'synergi' ),
 					'rows'       => 3,
 					'max_length' => 320,
 				),
