@@ -10,7 +10,7 @@
 
 /* ==========================================================================
    1. Dialog shell
-   Modal, slightly below centre (14 Sep, on request). The browser puts a
+   Modal, below centre (14 Sep, on request). The browser puts a
    modal dialog in the top layer, above the fixed header, so nothing here
    needs a z-index.
    ========================================================================== */
@@ -31,18 +31,19 @@
 	 * WebKit and Chrome both behaved, so no test here caught it.
 	 *
 	 * With the end inset auto, a fixed box's height can only come from its
-	 * content. Its middle sits at 58% of the screen — "a bit further down"
-	 * than centre, as asked — and translate pulls it up by half its own
-	 * height. The height cap is the matching 84% (58 + 42 = 100), so even the
-	 * tallest state, with the choices open, never runs off either edge; past
-	 * that the body scrolls. translate, not transform, so the entrance
-	 * animation's transform composes with it instead of replacing it.
+	 * content. Its middle sits at 64% of the screen — below centre, as asked
+	 * (58% on 14 Sep, then "a little bit lower") — and translate pulls it up
+	 * by half its own height. The height cap is the matching 72%
+	 * (64 + 72 / 2 = 100), so even the tallest state, with the choices open,
+	 * never runs off the bottom edge; past that the body scrolls. Move the two
+	 * numbers together. translate, not transform, so the entrance animation's
+	 * transform composes with it instead of replacing it.
 	 */
-	inset-block: 58% auto;
+	inset-block: 64% auto;
 	block-size: auto;
 	/* dvh is the visible screen between Safari's bars; % is the fallback. */
-	max-block-size: calc(84% - 2 * var(--syn-space-3));
-	max-block-size: calc(84dvh - 2 * var(--syn-space-3));
+	max-block-size: calc(72% - 2 * var(--syn-space-3));
+	max-block-size: calc(72dvh - 2 * var(--syn-space-3));
 	margin-block: 0;
 	margin-inline: auto;
 	translate: 0 -50%;
