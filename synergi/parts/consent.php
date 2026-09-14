@@ -81,7 +81,7 @@ $syn_linkedin_partner = syn_linkedin_partner_id();
 				<input type="checkbox" id="syn-consent-necessary" checked disabled>
 				<label for="syn-consent-necessary">
 					<strong><?php esc_html_e( 'Necessary', 'synergi' ); ?></strong>
-					<span><?php esc_html_e( 'Keep the website secure and remember this choice. Always on.', 'synergi' ); ?></span>
+					<span><?php esc_html_e( 'Remembers your cookie choice. Always on.', 'synergi' ); ?></span>
 				</label>
 			</div>
 
@@ -89,7 +89,7 @@ $syn_linkedin_partner = syn_linkedin_partner_id();
 				<input type="checkbox" id="syn-consent-analytics" data-syn-consent-category="analytics">
 				<label for="syn-consent-analytics">
 					<strong><?php esc_html_e( 'Analytics', 'synergi' ); ?></strong>
-					<span><?php esc_html_e( 'Google Analytics: which pages are read and how visitors find us.', 'synergi' ); ?></span>
+					<span><?php esc_html_e( 'Helps us see which pages people visit, so we can improve the website.', 'synergi' ); ?></span>
 				</label>
 			</div>
 
@@ -97,7 +97,7 @@ $syn_linkedin_partner = syn_linkedin_partner_id();
 				<input type="checkbox" id="syn-consent-marketing" data-syn-consent-category="marketing">
 				<label for="syn-consent-marketing">
 					<strong><?php esc_html_e( 'Marketing', 'synergi' ); ?></strong>
-					<span><?php esc_html_e( 'Google Ads and LinkedIn: whether our advertising reaches the right people.', 'synergi' ); ?></span>
+					<span><?php esc_html_e( 'Helps us see whether our ads on Google and LinkedIn are working.', 'synergi' ); ?></span>
 				</label>
 			</div>
 		</fieldset>
