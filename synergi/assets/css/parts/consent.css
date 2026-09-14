@@ -1,7 +1,7 @@
 /*
  * consent.css — the cookie consent dialog.
- * Contents: 1 dialog shell · 2 text · 3 category choices · 4 buttons · 5 phones ·
- * 6 print.
+ * Contents: 1 dialog shell · 2 header band · 3 body and text · 4 category
+ * choices · 5 buttons · 6 phones · 7 print.
  *
  * Loaded by inc/assets.php as "synergi-consent", on every page, depending on
  * "synergi-base". Markup: parts/consent.php. Behaviour:
@@ -10,9 +10,9 @@
 
 /* ==========================================================================
    1. Dialog shell
-   Centred and modal (14 Sep, on request). The browser's own <dialog> styles
-   already centre it and put it in the top layer, above the fixed header, so
-   nothing here positions it or needs a z-index.
+   Modal, slightly below centre (14 Sep, on request). The browser puts a
+   modal dialog in the top layer, above the fixed header, so nothing here
+   needs a z-index.
    ========================================================================== */
 
 .syn-consent {
@@ -22,10 +22,33 @@
 	/* The user agent caps a dialog's size with its own margins; these replace
 	   them with the theme's. */
 	max-inline-size: none;
-	max-block-size: calc(100% - 2 * var(--syn-space-3));
-	margin: auto;
-	padding: var(--syn-space-5);
-	overflow-y: auto;
+	/*
+	 * Positioning that cannot stretch. The browser places a modal dialog with
+	 * inset: 0 plus margin: auto, which only works while the engine also sizes
+	 * it to its content. iPhone Safari did not (reported 14 Sep with a
+	 * screenshot: the card ran almost the full screen height, and the spare
+	 * height showed up as gaps between title, text and buttons). Desktop
+	 * WebKit and Chrome both behaved, so no test here caught it.
+	 *
+	 * With the end inset auto, a fixed box's height can only come from its
+	 * content. Its middle sits at 58% of the screen — "a bit further down"
+	 * than centre, as asked — and translate pulls it up by half its own
+	 * height. The height cap is the matching 84% (58 + 42 = 100), so even the
+	 * tallest state, with the choices open, never runs off either edge; past
+	 * that the body scrolls. translate, not transform, so the entrance
+	 * animation's transform composes with it instead of replacing it.
+	 */
+	inset-block: 58% auto;
+	block-size: auto;
+	/* dvh is the visible screen between Safari's bars; % is the fallback. */
+	max-block-size: calc(84% - 2 * var(--syn-space-3));
+	max-block-size: calc(84dvh - 2 * var(--syn-space-3));
+	margin-block: 0;
+	margin-inline: auto;
+	translate: 0 -50%;
+	padding: 0;
+	/* Clips the header band to the rounded corners. The body scrolls, not this. */
+	overflow: hidden;
 	border: 0;
 	border-radius: var(--syn-radius-lg);
 	background-color: var(--syn-white);
@@ -39,8 +62,8 @@
  * visitor with JavaScript off.
  */
 .syn-consent[open] {
-	display: grid;
-	gap: var(--syn-space-3);
+	display: flex;
+	flex-direction: column;
 	animation: syn-consent-in var(--syn-duration) var(--syn-ease-out);
 }
 
@@ -90,14 +113,60 @@
 }
 
 /* ==========================================================================
-   2. Text
+   2. Header band
+   Navy deep with a cyan rule beneath — the site's own footer and scrolled
+   header colour, so the dialog reads as part of Synergi rather than a
+   third-party widget. White on navy deep measures well above 4.5:1.
    ========================================================================== */
 
+.syn-consent__header {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	gap: var(--syn-space-2);
+	padding-block: var(--syn-space-3);
+	padding-inline: var(--syn-space-5);
+	border-block-end: 3px solid var(--syn-cyan);
+	background-color: var(--syn-navy-deep);
+}
+
+.syn-consent__icon {
+	display: grid;
+	flex: 0 0 auto;
+	inline-size: 2.25rem;
+	block-size: 2.25rem;
+	place-items: center;
+	border-radius: 50%;
+	background-color: color-mix(in srgb, var(--syn-white) 12%, transparent);
+	color: var(--syn-mint);
+}
+
+.syn-consent__icon svg {
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+}
+
 .syn-consent__title {
-	color: var(--syn-ink);
-	font-size: var(--syn-step-1);
+	color: var(--syn-white);
+	font-size: var(--syn-step-0);
 	font-weight: 700;
 	line-height: 1.3;
+}
+
+/* ==========================================================================
+   3. Body and text
+   ========================================================================== */
+
+.syn-consent__body {
+	display: grid;
+	/* Rows packed at the top: a grid otherwise shares spare height out
+	   between its rows, which is how gaps appear. */
+	align-content: start;
+	flex: 1 1 auto;
+	gap: var(--syn-space-3);
+	min-block-size: 0;
+	padding: var(--syn-space-5);
+	overflow-y: auto;
 }
 
 .syn-consent__text {
@@ -111,7 +180,7 @@
 }
 
 /* ==========================================================================
-   3. Category choices
+   4. Category choices
    ========================================================================== */
 
 .syn-consent__choices {
@@ -127,8 +196,8 @@
 	align-items: flex-start;
 	gap: var(--syn-space-2);
 	padding: var(--syn-space-2) var(--syn-space-3);
-	border: 1px solid var(--syn-border);
 	border-radius: var(--syn-radius-md);
+	background-color: var(--syn-paper);
 	font-size: var(--syn-step--1);
 	line-height: 1.45;
 }
@@ -151,17 +220,17 @@
 	color: var(--syn-ink);
 }
 
-/* Text soft on white measures above the 4.5:1 floor. */
+/* Text soft on paper measures above the 4.5:1 floor. */
 .syn-consent__option span {
 	color: var(--syn-text-soft);
 }
 
 /* ==========================================================================
-   4. Buttons
+   5. Buttons
    Plain rectangular buttons, not the brand's .syn-button (14 Sep, on request):
-   a consent dialog should read as a standard browser-style question, not as
-   a call to action. Every button shares one row and one width, so no choice
-   looks like the expected one.
+   a consent dialog should read as a standard question, not as a call to
+   action. Every button shares one row and one width, so no choice looks like
+   the expected one.
    ========================================================================== */
 
 .syn-consent__actions {
@@ -214,36 +283,37 @@
 }
 
 /* ==========================================================================
-   5. Phones
-   A compact card (14 Sep, after the desktop proportions were reported as
-   looking terrible on a phone): less padding, a smaller title, tighter rows,
-   and the buttons stacked at full width instead of two side by side with a
-   third hanging below.
+   6. Phones
+   A compact card: less padding, tighter rows, and the buttons stacked at full
+   width instead of two side by side with a third hanging below.
 
    Last in the file on purpose. These rules have the same specificity as the
-   ones they adjust, so they only win by coming after them — placed up in
-   section 1 they lost to section 4, and flex: 1 1 8.5rem, which is a width in
-   a row, became an 8.5rem HEIGHT per button once the row turned into a column.
+   ones they adjust, so they only win by coming after them — placed earlier
+   they lost, and flex: 1 1 8.5rem, which is a width in a row, became an
+   8.5rem HEIGHT per button once the row turned into a column.
    ========================================================================== */
 
 @media (max-width: 47.99rem) {
 
 	.syn-consent {
-		padding: var(--syn-space-3);
 		border-radius: var(--syn-radius-md);
 	}
 
-	/*
-	 * Tightened again 14 Sep: the gaps between the words and the buttons read
-	 * as empty space on a phone. Title to text is now 0.5rem, and text to
-	 * buttons 1rem (this gap plus the actions row's own 0.5rem lead-in).
-	 */
-	.syn-consent[open] {
-		gap: var(--syn-space-1);
+	.syn-consent__header {
+		padding-block: var(--syn-space-2);
+		padding-inline: var(--syn-space-3);
 	}
 
-	.syn-consent__title {
-		font-size: var(--syn-step-0);
+	.syn-consent__icon {
+		inline-size: 2rem;
+		block-size: 2rem;
+	}
+
+	/* Text to buttons stays tight: this 0.5rem plus the actions row's own
+	   0.5rem lead-in. */
+	.syn-consent__body {
+		gap: var(--syn-space-1);
+		padding: var(--syn-space-3);
 	}
 
 	.syn-consent__text {
@@ -267,7 +337,7 @@
 }
 
 /* ==========================================================================
-   6. Print
+   7. Print
    ========================================================================== */
 
 @media print {

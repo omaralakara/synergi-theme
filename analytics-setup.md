@@ -471,6 +471,10 @@ LinkedIn loads on that page and the next; after withdrawal the `_ga` cookies are
 deleted and LinkedIn is not requested again. The staging option was removed
 after the test so staging never reports to the live partner account.
 
-**Design.** A centred modal `<dialog>` with plain rectangular buttons (changed
-on request 14 Sep from a corner card with brand buttons). Accept and Reject are
-identical in style. Phones get a compact card with the buttons stacked.
+**Design.** A modal `<dialog>` just below centre, with a navy header band and
+plain rectangular buttons (changed on request 14 Sep from a corner card with
+brand buttons). Accept and Reject are identical in style. Phones get a compact
+card with the buttons stacked. Positioned with `inset-block: 58% auto` plus
+`translate`, not the browser's `margin: auto` centring: on iPhone Safari that
+let the card stretch to nearly full height, which neither Chrome nor desktop
+WebKit reproduced — test layout changes on a real iPhone.
