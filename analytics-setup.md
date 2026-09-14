@@ -419,6 +419,23 @@ noted in `migration-plan.md` — or set it directly on production at launch.
 
 ## 7. Cookie consent — the theme owns it (14 Sep)
 
+> **LIVE on production since 14 Sep 2026.** Deployed from commit `5d90947`: the
+> nine files were copied server-side from staging's theme folder (same hosting
+> account) after both sides were checksum-verified; `syn_linkedin_partner_id`
+> = `9021449` set; ASE snippet 9378 deactivated in wp-admin (8607 left on);
+> LiteSpeed purged. Verified from outside in real browsers with analytics and
+> LinkedIn requests blocked-but-recorded: no `_ga` and no LinkedIn before a
+> choice or after Reject (`gcs=G100`); both after Accept (`G111`); both gone
+> after withdrawal; iPhone layout correct.
+>
+> **Rollback:** the five edited originals are stored byte-exact (base64) in the
+> production option `syn_consent_rollback_20260914`. Restore them, delete the
+> four new files, delete `syn_linkedin_partner_id`, re-activate ASE 9378, purge.
+> Delete the option after a clean week (≥ 21 Sep).
+>
+> Noticed while there: ASE snippet **10379** (the H3→H1 rewriter, §6b) is
+> still **active** on production. Untouched; needs its own decision.
+
 Every visitor is asked, whatever their country (decided 14 Sep). Built into the
 theme rather than a plugin: `inc/consent.php`, `parts/consent.php`,
 `assets/css/parts/consent.css`, `assets/js/parts/consent.js`, plus a "Cookie
