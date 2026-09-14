@@ -21,6 +21,12 @@
  * the site uses (CLAUDE.md §7a, §13). "Human Resources", "HR" and "Human
  * resources " are three departments to a text box and one to a select.
  *
+ * EACH ROLE CARRIES ITS OWN APPLICATION ADDRESS (14 Sep). There is no general
+ * careers inbox and no page-wide "send your CV" button: the business wants
+ * applications for a role to land with the person hiring for it, so the email
+ * is a column of the repeater and the Apply button writes to it with the role
+ * in the subject line.
+ *
  * @package Synergi
  */
 
@@ -89,9 +95,9 @@ function syn_careers_type_choices() {
 
 add_action( 'syn_register_fields', 'syn_register_careers_fields' );
 /**
- * Registers the six field groups a careers page carries.
+ * Registers the three field groups a careers page carries.
  *
- * Side effects: registers six field groups on templates/careers.php.
+ * Side effects: registers three field groups on templates/careers.php.
  *
  * @return void
  */
@@ -101,7 +107,8 @@ function syn_register_careers_fields() {
 	 * 1. INTRO. No heading field: the page title is the <h1>, and the SEO
 	 * title is Yoast's. The photograph is a field rather than the Featured
 	 * Image so the fallback slug can name a picture already in the library and
-	 * the band is never flat navy by accident (CLAUDE.md §7b).
+	 * the band is never flat navy by accident (CLAUDE.md §7b). One button: it
+	 * jumps to the roles, which is the page's only action.
 	 */
 	syn_register_field_group(
 		array(
@@ -135,21 +142,11 @@ function syn_register_careers_fields() {
 				array(
 					'key'         => 'careers_cta',
 					'type'        => 'link',
-					'label'       => __( 'Main button', 'synergi' ),
+					'label'       => __( 'Button', 'synergi' ),
 					'description' => __( '#positions jumps to the open positions further down this page.', 'synergi' ),
 					'default'     => array(
 						'url'   => '#positions',
 						'label' => __( 'See open positions', 'synergi' ),
-					),
-				),
-				array(
-					'key'         => 'careers_cta_alt',
-					'type'        => 'link',
-					'label'       => __( 'Second button', 'synergi' ),
-					'description' => __( 'Optional. Leave the address empty and it points at the Contact Us page.', 'synergi' ),
-					'default'     => array(
-						'url'   => '',
-						'label' => __( 'Send your CV', 'synergi' ),
 					),
 				),
 			),
@@ -251,48 +248,10 @@ function syn_register_careers_fields() {
 	);
 
 	/*
-	 * 3. THE FIGURES BAND — the homepage's "Synergi in numbers", reused with its
-	 * own words. The figures themselves are the "figures" site record and are
-	 * not repeated here (CLAUDE.md §7a).
-	 */
-	syn_register_field_group(
-		array(
-			'id'          => 'careers_numbers',
-			'title'       => __( 'Careers — the figures band', 'synergi' ),
-			'description' => __( 'The words over the company figures. The figures are the site record at Settings → Site records.', 'synergi' ),
-			'templates'   => array( SYN_CAREERS_TEMPLATE ),
-			'fields'      => array(
-				array(
-					'key'        => 'careers_numbers_eyebrow',
-					'type'       => 'text',
-					'label'      => __( 'Eyebrow', 'synergi' ),
-					'default'    => __( 'The company you would join', 'synergi' ),
-					'max_length' => 40,
-				),
-				array(
-					'key'        => 'careers_numbers_heading',
-					'type'       => 'text',
-					'label'      => __( 'Section heading', 'synergi' ),
-					'default'    => __( 'Synergi in Numbers', 'synergi' ),
-					'max_length' => 90,
-				),
-				array(
-					'key'        => 'careers_numbers_lead',
-					'type'       => 'textarea',
-					'label'      => __( 'Opening sentence', 'synergi' ),
-					'default'    => __( 'A growing regional partner, measured by the outcomes it delivers and the people who deliver them.', 'synergi' ),
-					'rows'       => 2,
-					'max_length' => 240,
-				),
-			),
-		)
-	);
-
-	/*
-	 * 4. THE OPEN POSITIONS. One row per role. The apply address is a group
-	 * field rather than a column, because every role applies to the same inbox
-	 * until one says otherwise — a column would be the same address typed
-	 * twelve times, and then eleven times.
+	 * 3. THE OPEN POSITIONS. One row per role, each with the address its
+	 * applications go to. A row whose address is blank still has an Apply
+	 * button — it goes to Contact Us — so a forgotten field never leaves a
+	 * role with no way in.
 	 */
 	syn_register_field_group(
 		array(
@@ -322,15 +281,6 @@ function syn_register_careers_fields() {
 					'default'    => __( 'Open a role to read what it involves and who it suits. Every application gets a reply.', 'synergi' ),
 					'rows'       => 2,
 					'max_length' => 320,
-				),
-				array(
-					'key'         => 'careers_apply_email',
-					'type'        => 'text',
-					'label'       => __( 'Applications inbox', 'synergi' ),
-					'description' => __( 'Where the Apply button sends people when a role has no address of its own. The role title goes in the subject line.', 'synergi' ),
-					'default'     => '',
-					'placeholder' => 'careers@synergi.ae',
-					'max_length'  => 120,
 				),
 				array(
 					'key'       => 'careers_positions_list',
@@ -385,17 +335,24 @@ function syn_register_careers_fields() {
 							'rows'        => 8,
 						),
 						array(
-							'key'         => 'posted',
-							'type'        => 'date',
-							'label'       => __( 'Posted on', 'synergi' ),
-							'description' => __( 'Optional. Shown on the role, and needed for the listing to appear in Google Jobs.', 'synergi' ),
+							'key'         => 'apply_email',
+							'type'        => 'email',
+							'label'       => __( 'Applications email', 'synergi' ),
+							'description' => __( 'Where the Apply button sends CVs for this role. The role title goes in the subject line. Left blank, the button goes to Contact Us.', 'synergi' ),
+							'placeholder' => 'name@synergi.ae',
 						),
 						array(
 							'key'         => 'apply_url',
 							'type'        => 'url',
-							'label'       => __( 'Apply address', 'synergi' ),
-							'description' => __( 'Optional. A form or a job board page for this role. Empty means the applications inbox above.', 'synergi' ),
+							'label'       => __( 'Apply link instead', 'synergi' ),
+							'description' => __( 'Optional. A form or a job board page for this role. Filled in, it is used instead of the email.', 'synergi' ),
 							'placeholder' => 'https://',
+						),
+						array(
+							'key'         => 'posted',
+							'type'        => 'date',
+							'label'       => __( 'Posted on', 'synergi' ),
+							'description' => __( 'Optional. Shown on the role, and needed for the listing to appear in Google Jobs.', 'synergi' ),
 						),
 					),
 				),
@@ -410,145 +367,19 @@ function syn_register_careers_fields() {
 					'key'        => 'careers_positions_empty_text',
 					'type'       => 'textarea',
 					'label'      => __( 'No openings — text', 'synergi' ),
-					'default'    => __( 'Send us your CV and a line about the work you want to do. New roles open across the region every quarter, and we go back to the people who wrote first.', 'synergi' ),
-					'rows'       => 3,
-					'max_length' => 320,
-				),
-			),
-		)
-	);
-
-	/*
-	 * 5. HOW HIRING WORKS — the service page's process band, reused. Four steps
-	 * by default, because a candidate who knows what happens next applies more
-	 * readily than one who is guessing.
-	 */
-	syn_register_field_group(
-		array(
-			'id'          => 'careers_process',
-			'title'       => __( 'Careers — how hiring works', 'synergi' ),
-			'description' => __( 'The steps a candidate goes through, in order.', 'synergi' ),
-			'templates'   => array( SYN_CAREERS_TEMPLATE ),
-			'fields'      => array(
-				array(
-					'key'        => 'careers_process_eyebrow',
-					'type'       => 'text',
-					'label'      => __( 'Eyebrow', 'synergi' ),
-					'default'    => __( 'How hiring works', 'synergi' ),
-					'max_length' => 40,
-				),
-				array(
-					'key'        => 'careers_process_heading',
-					'type'       => 'text',
-					'label'      => __( 'Section heading', 'synergi' ),
-					'default'    => __( 'From application to first day', 'synergi' ),
-					'max_length' => 90,
-				),
-				array(
-					'key'        => 'careers_process_lede',
-					'type'       => 'textarea',
-					'label'      => __( 'Opening sentence', 'synergi' ),
-					'default'    => __( 'Four steps, usually inside three weeks. You will know where you stand at every one of them.', 'synergi' ),
-					'rows'       => 2,
-					'max_length' => 320,
-				),
-				array(
-					'key'       => 'careers_process_steps',
-					'type'      => 'repeater',
-					'label'     => __( 'Steps', 'synergi' ),
-					'row_noun'  => __( 'Step', 'synergi' ),
-					'button'    => __( 'Add step', 'synergi' ),
-					'row_label' => 'title',
-					'min_rows'  => 1,
-					'max_rows'  => 8,
-					'default'   => array(
-						array(
-							'title'       => __( 'Apply', 'synergi' ),
-							'description' => __( 'Send your CV against a role, or an open application. We acknowledge every one within two working days.', 'synergi' ),
-						),
-						array(
-							'title'       => __( 'A first conversation', 'synergi' ),
-							'description' => __( 'Thirty minutes with the hiring manager about the role, the client work behind it and what you are looking for.', 'synergi' ),
-						),
-						array(
-							'title'       => __( 'A practical exercise', 'synergi' ),
-							'description' => __( 'A short task drawn from real work, discussed together rather than marked. It tells you as much about us as it tells us about you.', 'synergi' ),
-						),
-						array(
-							'title'       => __( 'Offer and onboarding', 'synergi' ),
-							'description' => __( 'A written offer, then a structured first month with a named buddy and a plan for your first client.', 'synergi' ),
-						),
-					),
-					'subfields' => array(
-						array(
-							'key'        => 'title',
-							'type'       => 'text',
-							'label'      => __( 'Step', 'synergi' ),
-							'max_length' => 80,
-						),
-						array(
-							'key'        => 'description',
-							'type'       => 'textarea',
-							'label'      => __( 'What happens', 'synergi' ),
-							'rows'       => 3,
-							'max_length' => 320,
-						),
-					),
-				),
-			),
-		)
-	);
-
-	/*
-	 * 6. THE CLOSING BAND — the shared final call to action, with this page's
-	 * own words. Every other page ends by inviting a client conversation; this
-	 * one ends by inviting a CV.
-	 */
-	syn_register_field_group(
-		array(
-			'id'          => 'careers_closing',
-			'title'       => __( 'Careers — closing band', 'synergi' ),
-			'description' => __( 'The panel at the foot of the page.', 'synergi' ),
-			'templates'   => array( SYN_CAREERS_TEMPLATE ),
-			'fields'      => array(
-				array(
-					'key'        => 'careers_closing_eyebrow',
-					'type'       => 'text',
-					'label'      => __( 'Eyebrow', 'synergi' ),
-					'default'    => __( 'Open application', 'synergi' ),
-					'max_length' => 40,
-				),
-				array(
-					'key'        => 'careers_closing_heading',
-					'type'       => 'text',
-					'label'      => __( 'Heading', 'synergi' ),
-					'default'    => __( 'Do not see your role? Write to us anyway.', 'synergi' ),
-					'max_length' => 120,
-				),
-				array(
-					'key'        => 'careers_closing_body',
-					'type'       => 'textarea',
-					'label'      => __( 'Paragraph', 'synergi' ),
-					'default'    => __( 'Tell us what you do well and where you want to do it. The best people on this team did not arrive through a job advert.', 'synergi' ),
+					'default'    => __( 'New roles open across the region every quarter. Get in touch and tell us the work you want to do.', 'synergi' ),
 					'rows'       => 3,
 					'max_length' => 320,
 				),
 				array(
-					'key'         => 'careers_closing_cta',
+					'key'         => 'careers_positions_empty_cta',
 					'type'        => 'link',
-					'label'       => __( 'Button', 'synergi' ),
-					'description' => __( 'Leave the address empty and the button writes to the applications inbox, or to Contact Us if that is empty too.', 'synergi' ),
+					'label'       => __( 'No openings — button', 'synergi' ),
+					'description' => __( 'Leave the address empty and the button goes to Contact Us.', 'synergi' ),
 					'default'     => array(
 						'url'   => '',
-						'label' => __( 'Send your CV', 'synergi' ),
+						'label' => __( 'Get in touch', 'synergi' ),
 					),
-				),
-				array(
-					'key'        => 'careers_closing_note',
-					'type'       => 'text',
-					'label'      => __( 'Small line under the button', 'synergi' ),
-					'default'    => __( 'We reply to every application.', 'synergi' ),
-					'max_length' => 120,
 				),
 			),
 		)

@@ -21,11 +21,21 @@
  *                           description string The role. Editor HTML, sanitised on
  *                                              save with wp_kses_post() and again here.
  *                           posted      string Optional. YYYY-MM-DD.
- *                           apply_url   string Optional. Overrides apply_url below.
- *   apply_url     string  Where Apply goes when a role has no address of its own.
- *   apply_label   string  Optional. Words on the empty state's button.
+ *                           apply_email string The address this role's CVs go to.
+ *                           apply_url   string Optional. A form or job board page;
+ *                                              used instead of the email when set.
+ *   apply_url     string  Where Apply goes when a role has neither an email nor
+ *                         a link. Defaults to the contact page.
  *   empty_heading string  Shown when there are no roles.
  *   empty_text    string  Shown under it.
+ *   empty_cta     array   url and label for the empty state's button.
+ *
+ * EVERY ROLE HAS ITS OWN ADDRESS (14 Sep). There is no page-wide inbox: the
+ * business wants a role's applications to land with the person hiring for it,
+ * so the email is a column of the row and the Apply button is a mailto: to it
+ * with the role in the subject line. A link, when a role has one, wins over
+ * the email; a role with neither falls back to Contact Us so the button never
+ * points at nothing.
  *
  * Example:
  *   syn_section( 'positions', array( 'items' => syn_field_rows( 'careers_positions_list' ) ) );
@@ -55,16 +65,23 @@ $syn_eyebrow       = trim( (string) ( $args['eyebrow'] ?? '' ) );
 $syn_heading       = trim( (string) ( $args['heading'] ?? __( 'Open positions', 'synergi' ) ) );
 $syn_lede          = trim( (string) ( $args['lede'] ?? '' ) );
 $syn_apply_url     = trim( (string) ( $args['apply_url'] ?? '' ) );
-$syn_apply_label   = trim( (string) ( $args['apply_label'] ?? '' ) );
 $syn_empty_heading = trim( (string) ( $args['empty_heading'] ?? '' ) );
 $syn_empty_text    = trim( (string) ( $args['empty_text'] ?? '' ) );
+$syn_empty_cta     = (array) ( $args['empty_cta'] ?? array() );
 
 if ( '' === $syn_apply_url && function_exists( 'syn_contact_url' ) ) {
 	$syn_apply_url = syn_contact_url();
 }
 
-if ( '' === $syn_apply_label ) {
-	$syn_apply_label = __( 'Send your CV', 'synergi' );
+$syn_empty_cta_url   = trim( (string) ( $syn_empty_cta['url'] ?? '' ) );
+$syn_empty_cta_label = trim( (string) ( $syn_empty_cta['label'] ?? '' ) );
+
+if ( '' === $syn_empty_cta_url ) {
+	$syn_empty_cta_url = $syn_apply_url;
+}
+
+if ( '' === $syn_empty_cta_label ) {
+	$syn_empty_cta_label = __( 'Get in touch', 'synergi' );
 }
 
 $syn_departments = function_exists( 'syn_careers_department_choices' ) ? syn_careers_department_choices() : array();
@@ -98,6 +115,20 @@ foreach ( (array) ( $args['items'] ?? array() ) as $syn_row ) {
 	$syn_type       = sanitize_key( $syn_row['type'] ?? '' );
 	$syn_posted     = trim( (string) ( $syn_row['posted'] ?? '' ) );
 	$syn_role_url   = trim( (string) ( $syn_row['apply_url'] ?? '' ) );
+	$syn_role_email = trim( (string) ( $syn_row['apply_email'] ?? '' ) );
+
+	/*
+	 * Link, then email, then the page's fallback. The email is checked with
+	 * is_email() rather than trusted, so a mistyped address degrades to the
+	 * contact page instead of a mailto: nobody can send (CLAUDE.md §13).
+	 */
+	if ( '' !== $syn_role_url ) {
+		$syn_role_apply = $syn_role_url;
+	} elseif ( is_email( $syn_role_email ) ) {
+		$syn_role_apply = 'mailto:' . $syn_role_email;
+	} else {
+		$syn_role_apply = $syn_apply_url;
+	}
 
 	$syn_clean[] = array(
 		'title'           => $syn_title,
@@ -112,7 +143,7 @@ foreach ( (array) ( $args['items'] ?? array() ) as $syn_row ) {
 		// A date the picker did not produce is not a date. Dropped rather
 		// than printed, so the schema never carries a string Google rejects.
 		'posted'          => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $syn_posted ) ? $syn_posted : '',
-		'apply_url'       => '' !== $syn_role_url ? $syn_role_url : $syn_apply_url,
+		'apply_url'       => $syn_role_apply,
 	);
 }
 
@@ -156,8 +187,8 @@ $syn_group = $syn_uid . '-group';
 					<p class="syn-positions__empty-text"><?php echo esc_html( $syn_empty_text ); ?></p>
 				<?php endif; ?>
 
-				<a class="syn-button syn-button--primary" href="<?php echo esc_url( $syn_apply_url ); ?>">
-					<?php echo esc_html( $syn_apply_label ); ?>
+				<a class="syn-button syn-button--primary" href="<?php echo esc_url( $syn_empty_cta_url ); ?>">
+					<?php echo esc_html( $syn_empty_cta_label ); ?>
 					<span aria-hidden="true">&rarr;</span>
 				</a>
 			</div>
