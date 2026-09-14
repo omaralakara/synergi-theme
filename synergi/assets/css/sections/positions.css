@@ -1,0 +1,408 @@
+/*
+ * positions.css — Careers: the open positions.
+ * Contents: 1 shell · 2 head · 3 rows · 4 the summary, its chips and marker ·
+ * 5 the opened role · 6 accents · 7 the empty state · 8 reduced motion ·
+ * 9 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-positions", only on pages that
+ * declare the section. Markup: sections/positions.php. There is no
+ * positions.js — the rows are native <details>/<summary> and need none.
+ *
+ * A relative of faq.css: the same disclosure rows, the same drawn marker, the
+ * same paper band. What is different is the summary — a role carries a
+ * department, a place and a contract type before its name means anything, so
+ * the summary is a small stack rather than one line — and the stripe on the
+ * row's start edge, which is the department's accent.
+ *
+ * The one thing to know before editing: the disclosure triangle is removed and
+ * replaced by the drawn marker in §4. Removing it without a replacement would
+ * leave no visible affordance at all, which is why the two rules sit together.
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only
+ * (CLAUDE.md §2.11).
+ */
+
+/* ==========================================================================
+   1. Shell
+   ========================================================================== */
+
+.syn-positions {
+	background-color: var(--syn-paper);
+}
+
+/* ==========================================================================
+   2. Head
+   ========================================================================== */
+
+.syn-positions__head {
+	margin-block-end: var(--syn-space-5);
+}
+
+.syn-positions__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy);
+	text-wrap: balance;
+}
+
+.syn-positions__lede {
+	margin-block: var(--syn-space-2) 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+.syn-positions__count {
+	margin-block: var(--syn-space-3) 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.syn-positions__count strong {
+	color: var(--syn-navy);
+}
+
+/* ==========================================================================
+   3. Rows
+   ========================================================================== */
+
+.syn-positions__list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--syn-space-2);
+}
+
+.syn-positions__item {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	transition:
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out);
+}
+
+/*
+ * The department's stripe, on the start edge. A pseudo-element rather than a
+ * border so it can carry a gradient, which a border cannot. The colour is set
+ * per accent in §6; this is only the shape.
+ */
+.syn-positions__item::before {
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	inline-size: 5px;
+	background-image: var(--syn-gradient-brand);
+	content: "";
+}
+
+@media (hover: hover) {
+
+	.syn-positions__item:hover {
+		border-color: var(--syn-cyan);
+		box-shadow: var(--syn-shadow-card);
+	}
+}
+
+.syn-positions__item[open] {
+	border-color: var(--syn-cyan);
+	box-shadow: var(--syn-shadow-card);
+}
+
+/* ==========================================================================
+   4. The summary, its chips and marker
+   ========================================================================== */
+
+/*
+ * The default triangle goes, and the drawn marker below replaces it. These two
+ * rules are a pair — remove one and the row loses its only open/closed
+ * affordance. ::-webkit-details-marker is still needed for older WebKit, which
+ * ignores `display: list-item` on summary.
+ */
+.syn-positions__summary {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--syn-space-4);
+	padding-block: var(--syn-space-4);
+	padding-inline: calc(var(--syn-space-4) + 5px) var(--syn-space-4);
+	cursor: pointer;
+	list-style: none;
+}
+
+.syn-positions__summary::-webkit-details-marker {
+	display: none;
+}
+
+.syn-positions__summary-copy {
+	display: flex;
+	min-inline-size: 0;
+	flex-direction: column;
+	gap: 0.6rem;
+}
+
+/* An <h3> inside a summary, so the outline is unbroken — sized here because
+   base.css gives every h3 a margin the row does not want. */
+.syn-positions__role {
+	margin: 0;
+	font-size: var(--syn-step-1);
+	font-weight: 700;
+	line-height: 1.3;
+	color: var(--syn-navy);
+	text-wrap: pretty;
+}
+
+.syn-positions__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.syn-positions__chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding-block: 0.3rem;
+	padding-inline: 0.7rem;
+	border-radius: var(--syn-radius-xl);
+	background-color: var(--syn-paper-blue);
+	color: var(--syn-navy);
+	font-size: var(--syn-step--1);
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+/* The department reads first, so it is the one chip drawn solid. */
+.syn-positions__chip--department {
+	background-color: var(--syn-navy);
+	color: var(--syn-white);
+}
+
+.syn-positions__chip-icon {
+	inline-size: 0.9rem;
+	block-size: 0.9rem;
+	flex: 0 0 auto;
+}
+
+.syn-positions__teaser {
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.6;
+	text-wrap: pretty;
+}
+
+.syn-positions__marker {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+	justify-content: center;
+	inline-size: 2.125rem;
+	block-size: 2.125rem;
+	border-radius: 50%;
+	background-color: var(--syn-paper-blue);
+	color: var(--syn-navy);
+	transition: background-color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-positions__marker svg {
+	inline-size: 1rem;
+	block-size: 1rem;
+}
+
+/* Plus becomes minus: the vertical bar is the only part that moves. */
+.syn-positions__marker-bar {
+	transition: opacity var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+.syn-positions__item[open] .syn-positions__marker-bar {
+	opacity: 0;
+}
+
+.syn-positions__item[open] .syn-positions__marker {
+	background-color: var(--syn-cyan-soft);
+}
+
+/* ==========================================================================
+   5. The opened role
+   ========================================================================== */
+
+.syn-positions__body {
+	padding-block: var(--syn-space-4) var(--syn-space-4);
+	padding-inline: calc(var(--syn-space-4) + 5px) var(--syn-space-4);
+	border-block-start: 1px solid var(--syn-border);
+}
+
+.syn-positions__description {
+	color: var(--syn-text-soft);
+	line-height: 1.7;
+}
+
+.syn-positions__description > :first-child {
+	margin-block-start: 0;
+}
+
+.syn-positions__description > :last-child {
+	margin-block-end: 0;
+}
+
+/* Editor-authored roles carry lists and the odd link, so both are styled here
+   rather than left to inherit whatever the band happens to set. */
+.syn-positions__description a {
+	color: var(--syn-navy);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.syn-positions__description a:hover {
+	color: var(--syn-cyan);
+}
+
+.syn-positions__description strong {
+	color: var(--syn-navy);
+}
+
+.syn-positions__description ul,
+.syn-positions__description ol {
+	margin-block: var(--syn-space-2);
+	margin-inline-start: var(--syn-space-4);
+	padding-inline-start: 0;
+}
+
+.syn-positions__description li + li {
+	margin-block-start: 0.375rem;
+}
+
+.syn-positions__foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--syn-space-3);
+	margin-block-start: var(--syn-space-4);
+	padding-block-start: var(--syn-space-3);
+	border-block-start: 1px dashed var(--syn-border);
+}
+
+.syn-positions__posted {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step--1);
+}
+
+/* ==========================================================================
+   6. Accents
+   The six service gradients, keyed off the same data-accent attribute the
+   offers and "keep exploring" bands use, so a role under Marketing wears the
+   colour Marketing wears everywhere else. Written out one selector per accent
+   so every selector is findable by searching for it (CLAUDE.md §13). A row
+   with no accent keeps the brand gradient set in §3.
+   ========================================================================== */
+
+.syn-positions__item[data-accent="accounting"]::before {
+	background-image: var(--syn-service-accounting);
+}
+
+.syn-positions__item[data-accent="human-resources"]::before {
+	background-image: var(--syn-service-human-resources);
+}
+
+.syn-positions__item[data-accent="marketing"]::before {
+	background-image: var(--syn-service-marketing);
+}
+
+.syn-positions__item[data-accent="procurement"]::before {
+	background-image: var(--syn-service-procurement);
+}
+
+.syn-positions__item[data-accent="project-management"]::before {
+	background-image: var(--syn-service-project-management);
+}
+
+.syn-positions__item[data-accent="technology-ai"]::before {
+	background-image: var(--syn-service-technology-ai);
+}
+
+/* ==========================================================================
+   7. The empty state
+   A panel rather than a blank, so the page still says what to do when there
+   is nothing to apply for.
+   ========================================================================== */
+
+.syn-positions__empty {
+	padding: var(--syn-space-5);
+	border: 1px dashed var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-white);
+	text-align: center;
+}
+
+.syn-positions__empty-title {
+	margin: 0;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+	text-wrap: balance;
+}
+
+.syn-positions__empty-text {
+	max-inline-size: 36rem;
+	margin-block: var(--syn-space-2) var(--syn-space-4);
+	margin-inline: auto;
+	color: var(--syn-text-soft);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   8. Reduced motion
+   Reduced means no movement, never hidden content (CLAUDE.md §6).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+	.syn-positions__marker-bar,
+	.syn-positions__marker,
+	.syn-positions__item {
+		transition: none;
+	}
+}
+
+/* ==========================================================================
+   9. Narrow screens
+   ========================================================================== */
+
+@media (max-width: 48rem) {
+
+	.syn-positions__summary {
+		align-items: flex-start;
+		gap: var(--syn-space-3);
+		padding-inline: calc(var(--syn-space-3) + 5px) var(--syn-space-3);
+	}
+
+	.syn-positions__role {
+		font-size: var(--syn-step-0);
+	}
+
+	.syn-positions__body {
+		padding-inline: calc(var(--syn-space-3) + 5px) var(--syn-space-3);
+	}
+
+	.syn-positions__foot {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.syn-positions__apply {
+		inline-size: 100%;
+	}
+
+	.syn-positions__empty {
+		padding: var(--syn-space-4);
+	}
+}

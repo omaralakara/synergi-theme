@@ -1,0 +1,229 @@
+/*
+ * perks.css — Careers: why people work here.
+ * Contents: 1 shell and the two columns · 2 the lead copy · 3 the photograph
+ * pair · 4 the reasons · 5 narrow screens.
+ *
+ * Loaded by inc/assets.php as "synergi-section-perks", only on pages that
+ * declare the section. Markup: sections/perks.php. No script.
+ *
+ * Two columns: the copy and the photographs in a sticky rail on the start side,
+ * the reasons stacked on the end side. The rail is sticky so the pictures stay
+ * in view while a long list of reasons scrolls past them — with four reasons
+ * it never moves, with eight it earns its keep.
+ *
+ * THE INSET PHOTOGRAPH IS A GRID CELL, NOT AN ABSOLUTE BOX. Both pictures sit
+ * in one grid and the small one is placed over the big one's end corner by
+ * spanning the same tracks, then pulled outward with negative margins. Nothing
+ * here needs a physical direction, so the pair mirrors itself for Arabic
+ * (CLAUDE.md §2.11).
+ *
+ * No hard-coded design values (CLAUDE.md §2.7). Logical properties only.
+ */
+
+/* ==========================================================================
+   1. Shell and the two columns
+   ========================================================================== */
+
+.syn-perks {
+	background-color: var(--syn-white);
+}
+
+.syn-perks__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+	gap: var(--syn-space-6);
+	align-items: start;
+}
+
+/* ==========================================================================
+   2. The lead copy
+   ========================================================================== */
+
+.syn-perks__lead {
+	position: sticky;
+	inset-block-start: calc(var(--syn-header-height) + var(--syn-space-3));
+}
+
+.syn-perks__title {
+	font-size: var(--syn-step-2);
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: var(--syn-navy);
+	text-wrap: balance;
+}
+
+.syn-perks__intro {
+	margin-block: var(--syn-space-2) 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   3. The photograph pair
+   Twelve tracks, so the inset can cover exactly the last five of the main
+   picture's width and hang two tracks below its bottom edge.
+   ========================================================================== */
+
+.syn-perks__photos {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	grid-template-rows: repeat(12, auto);
+	margin-block-start: var(--syn-space-5);
+	/* Room for the inset's overhang, so it never runs into the next band. */
+	padding-block-end: var(--syn-space-4);
+}
+
+.syn-perks__photo {
+	overflow: hidden;
+	border-radius: var(--syn-radius-lg);
+	box-shadow: var(--syn-shadow-card);
+}
+
+.syn-perks__photo--main {
+	grid-column: 1 / 13;
+	grid-row: 1 / 13;
+	/* The rounded corner echoes the offers cards, so the two pages rhyme. */
+	border-start-end-radius: 2.75rem;
+}
+
+.syn-perks__photo--inset {
+	grid-column: 8 / 13;
+	grid-row: 9 / 13;
+	z-index: 1;
+	margin-inline-end: calc(var(--syn-space-3) * -1);
+	margin-block-end: calc(var(--syn-space-4) * -1);
+	border: 4px solid var(--syn-white);
+	box-shadow: var(--syn-shadow-soft);
+}
+
+.syn-perks__image {
+	display: block;
+	inline-size: 100%;
+	block-size: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+}
+
+.syn-perks__photo--inset .syn-perks__image {
+	aspect-ratio: 1;
+}
+
+/* ==========================================================================
+   4. The reasons
+   ========================================================================== */
+
+.syn-perks__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: var(--syn-space-3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.syn-perks__item {
+	position: relative;
+	padding: var(--syn-space-4);
+	padding-inline-start: calc(var(--syn-space-4) + 2.75rem);
+	border: 1px solid var(--syn-border);
+	border-radius: var(--syn-radius-lg);
+	background-color: var(--syn-paper);
+	transition:
+		transform var(--syn-duration) var(--syn-ease-out),
+		border-color var(--syn-duration-fast) var(--syn-ease-out),
+		box-shadow var(--syn-duration) var(--syn-ease-out),
+		background-color var(--syn-duration-fast) var(--syn-ease-out);
+}
+
+@media (hover: hover) {
+
+	.syn-perks__item:hover {
+		transform: translateY(-3px);
+		border-color: var(--syn-cyan);
+		background-color: var(--syn-white);
+		box-shadow: var(--syn-shadow-card);
+	}
+}
+
+/* The tick, in a disc, in the padding the item reserved for it. */
+.syn-perks__mark {
+	position: absolute;
+	inset-block-start: var(--syn-space-4);
+	inset-inline-start: var(--syn-space-4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	inline-size: 2rem;
+	block-size: 2rem;
+	border-radius: 50%;
+	background-color: var(--syn-cyan-soft);
+	color: var(--syn-navy);
+}
+
+.syn-perks__mark svg {
+	inline-size: 1rem;
+	block-size: 1rem;
+}
+
+.syn-perks__item-title {
+	margin: 0;
+	margin-block-end: 0.5rem;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-1);
+	line-height: 1.25;
+	text-wrap: pretty;
+}
+
+.syn-perks__item-text {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.7;
+	text-wrap: pretty;
+}
+
+/* ==========================================================================
+   5. Narrow screens
+   One column: the copy, then the photographs, then the reasons — the reading
+   order the markup already has. The rail stops sticking, because there is
+   nothing beside it to stick for.
+   ========================================================================== */
+
+@media (max-width: 61.99rem) {
+
+	.syn-perks__inner {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--syn-space-5);
+	}
+
+	.syn-perks__lead {
+		position: static;
+	}
+
+	.syn-perks__photos {
+		margin-block-start: var(--syn-space-4);
+	}
+}
+
+@media (max-width: 47.99rem) {
+
+	.syn-perks__list {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.syn-perks__item {
+		padding: var(--syn-space-3);
+		padding-inline-start: calc(var(--syn-space-3) + 2.75rem);
+	}
+
+	.syn-perks__mark {
+		inset-block-start: var(--syn-space-3);
+		inset-inline-start: var(--syn-space-3);
+	}
+
+	.syn-perks__photo--inset {
+		margin-inline-end: 0;
+	}
+}

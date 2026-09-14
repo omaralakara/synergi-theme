@@ -98,6 +98,12 @@ require_once SYN_DIR . 'inc/blog-fields.php';
 require_once SYN_DIR . 'inc/global-locations-fields.php';
 require_once SYN_DIR . 'inc/media-fields.php';
 
+// The careers page: its own words, its reasons to join and the open positions.
+// Postmeta rather than a record, because a vacancy appears on one page only
+// (CLAUDE.md §7a); its department list is built from the services record, so
+// it loads after records.php like everything else here.
+require_once SYN_DIR . 'inc/careers-fields.php';
+
 // Reads the Instagram plugin's own cache so the band can draw its own cards.
 require_once SYN_DIR . 'inc/instagram.php';
 
