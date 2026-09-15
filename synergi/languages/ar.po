@@ -1,0 +1,2816 @@
+# Synergi theme — Arabic.
+msgid ""
+msgstr ""
+"Project-Id-Version: Synergi\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Domain: synergi\n"
+
+msgid "That page has moved or never existed"
+msgstr "هذه الصفحة انتقلت أو لم تكن موجودة"
+
+msgid "The link may be out of date. Here is the way back."
+msgstr "قد يكون الرابط قديمًا. إليك طريق العودة."
+
+msgid "About Us"
+msgstr "من نحن"
+
+msgid "Our Services"
+msgstr "خدماتنا"
+
+msgid "Our Blog"
+msgstr "مدونتنا"
+
+msgid "Contact Us"
+msgstr "تواصل معنا"
+
+msgid "Blog"
+msgstr "المدونة"
+
+msgid "Previous"
+msgstr "السابق"
+
+msgid "Next"
+msgstr "التالي"
+
+msgid "There are no posts here yet."
+msgstr "لا توجد مقالات هنا بعد."
+
+msgid "Synergi is a boutique BPO partner delivering personalized, high-impact business solutions"
+msgstr "سينرجي شريك تعهيد متخصص يقدّم حلول أعمال مخصصة وعالية الأثر"
+
+msgid "Synergi on %s"
+msgstr "سينرجي على %s"
+
+msgid "Services"
+msgstr "الخدمات"
+
+msgid "Human Resources"
+msgstr "الموارد البشرية"
+
+msgid "Technology & AI"
+msgstr "التقنية والذكاء الاصطناعي"
+
+msgid "Accounting"
+msgstr "المحاسبة"
+
+msgid "Marketing"
+msgstr "التسويق"
+
+msgid "Procurement"
+msgstr "المشتريات"
+
+msgid "Project Management"
+msgstr "إدارة المشاريع"
+
+msgid "Solutions"
+msgstr "الحلول"
+
+msgid "Shared Services"
+msgstr "الخدمات المشتركة"
+
+msgid "Build-Operate-Transfer"
+msgstr "البناء والتشغيل والنقل"
+
+msgid "Systems Implementation"
+msgstr "تنفيذ الأنظمة"
+
+msgid "Carve-Out & Integration"
+msgstr "الفصل والدمج"
+
+msgid "Fractional Leadership"
+msgstr "القيادة الجزئية"
+
+msgid "Company"
+msgstr "الشركة"
+
+msgid "Engagement Team"
+msgstr "فريق العمل"
+
+msgid "Global Locations"
+msgstr "مواقعنا حول العالم"
+
+msgid "Markets"
+msgstr "الأسواق"
+
+msgid "Insights"
+msgstr "رؤى"
+
+msgid "Case Studies"
+msgstr "دراسات الحالة"
+
+msgid "Executive Podcast"
+msgstr "البودكاست التنفيذي"
+
+msgid "Media"
+msgstr "الإعلام"
+
+msgid "Copyright © %1$s %2$s. All Rights Reserved."
+msgstr "حقوق النشر © %1$s %2$s. جميع الحقوق محفوظة."
+
+msgid "Terms & Conditions"
+msgstr "الشروط والأحكام"
+
+msgid "Privacy Policy"
+msgstr "سياسة الخصوصية"
+
+msgid "Cookie settings"
+msgstr "إعدادات ملفات تعريف الارتباط"
+
+msgid "Skip to content"
+msgstr "الانتقال إلى المحتوى"
+
+msgid "Open navigation"
+msgstr "فتح القائمة"
+
+msgid "Close navigation"
+msgstr "إغلاق القائمة"
+
+msgid "About — intro"
+msgstr ""
+
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here, and the photograph is the Featured Image in the sidebar."
+msgstr ""
+
+msgid "Eyebrow"
+msgstr ""
+
+msgid "About Synergi"
+msgstr "عن سينرجي"
+
+msgid "Opening sentence"
+msgstr ""
+
+msgid "One or two sentences. This is the first thing a reader and a search engine see."
+msgstr ""
+
+msgid "We offer end-to-end solutions to enable companies at all stages of maturity to optimize and drive value from their non-core activities."
+msgstr "نقدّم حلولًا متكاملة تمكّن الشركات في جميع مراحل نضجها من تحسين أنشطتها غير الأساسية وتحقيق القيمة منها."
+
+msgid "Main button"
+msgstr ""
+
+msgid "Talk to our team"
+msgstr "تحدّث إلى فريقنا"
+
+msgid "Second button"
+msgstr ""
+
+msgid "About — who we are"
+msgstr ""
+
+msgid "The opening story, then the mission and vision statements."
+msgstr ""
+
+msgid "Section heading"
+msgstr ""
+
+msgid "Welcome to Synergi’s World"
+msgstr "مرحبًا بكم في عالم سينرجي"
+
+msgid "Paragraphs"
+msgstr ""
+
+msgid "Paragraph"
+msgstr ""
+
+msgid "Add paragraph"
+msgstr ""
+
+msgid "Mission and vision"
+msgstr ""
+
+msgid "Statement"
+msgstr ""
+
+msgid "Add statement"
+msgstr ""
+
+msgid "Heading"
+msgstr ""
+
+msgid "Photograph"
+msgstr ""
+
+msgid "Optional. The front of the card, with the heading over it; the statement is on the back. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "About — our approach"
+msgstr ""
+
+msgid "How an engagement runs, as numbered stages. The order here is the order on the page, and the numbers are drawn from it."
+msgstr ""
+
+msgid "From assessment to action"
+msgstr "من التقييم إلى التنفيذ"
+
+msgid "Our proprietary methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution."
+msgstr "تجمع منهجيتنا الخاصة بين التشخيص القائم على البيانات وإدارة المشاريع المنضبطة، لتحويل الرؤى إلى تنفيذ منظّم بمعالم محددة."
+
+msgid "Stages"
+msgstr ""
+
+msgid "Stage"
+msgstr ""
+
+msgid "Add stage"
+msgstr ""
+
+msgid "What happens"
+msgstr ""
+
+msgid "About — our values"
+msgstr ""
+
+msgid "The pillars the company works to. The order here is the order on the page."
+msgstr ""
+
+msgid "Our Values"
+msgstr "قيمنا"
+
+msgid "At Synergi, our ethos is built upon pillars that guide every step we take."
+msgstr "في سينرجي، تقوم روحنا المؤسسية على ركائز توجّه كل خطوة نخطوها."
+
+msgid "Optional. Sits at the centre of the values wheel on a wide screen, and above the values on a narrow one."
+msgstr ""
+
+msgid "Values"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Add value"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "One sentence"
+msgstr ""
+
+msgid "About — our journey"
+msgstr ""
+
+msgid "The company timeline, typed as milestones. The picture below is only used when no milestones are typed, and the whole band is skipped when there is neither."
+msgstr ""
+
+msgid "Our Journey"
+msgstr "رحلتنا"
+
+msgid "Milestones"
+msgstr ""
+
+msgid "Oldest first. A milestone needs a name; the year and the note are optional."
+msgstr ""
+
+msgid "Milestone"
+msgstr ""
+
+msgid "Add milestone"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+msgid "Optional. One short line under the milestone."
+msgstr ""
+
+msgid "The timeline as a picture"
+msgstr ""
+
+msgid "Only used when no milestones are typed above. It carries information rather than decorating, so it needs real alt text on its media library entry."
+msgstr ""
+
+msgid "People — intro"
+msgstr ""
+
+msgid "The band at the top of the page. The page title is the heading."
+msgstr ""
+
+msgid "For a boutique, the people are the product. These are the people you work with."
+msgstr "في شركة متخصصة، الأفراد هم المنتج. هؤلاء هم من ستعملون معهم."
+
+msgid "People — the list"
+msgstr ""
+
+msgid "Everyone on this page, in the order they should appear. Rows sharing a “Group” sit together under one heading, so keep a group’s rows next to each other."
+msgstr ""
+
+msgid "People"
+msgstr ""
+
+msgid "Person"
+msgstr ""
+
+msgid "Add person"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "The heading this person sits under, e.g. Board of Directors. Leave it empty on every row for one ungrouped list."
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Optional. A card without one still renders, with the person’s initials in its place."
+msgstr ""
+
+msgid "LinkedIn"
+msgstr "لينكدإن"
+
+msgid "Optional. The full address, starting with https://."
+msgstr ""
+
+msgid "Biography"
+msgstr ""
+
+msgid "Optional. A few sentences. A card with one is wider than a card without."
+msgstr ""
+
+msgid "Blog — the band at the top"
+msgstr ""
+
+msgid "The hero on the blog listing. The page title is the heading, so it is not repeated here. These fields also cover the category and tag archives, which have no page of their own to be edited on."
+msgstr ""
+
+msgid "The small label above the heading."
+msgstr ""
+
+msgid "One or two sentences under the heading. Leave it empty and the page falls back to this page’s excerpt, which is where the sentence used to come from."
+msgstr ""
+
+msgid "Analysis and practical guidance from the teams who run these functions every day."
+msgstr "تحليلات وإرشادات عملية من الفرق التي تدير هذه الوظائف كل يوم."
+
+msgid "Hero photograph"
+msgstr ""
+
+msgid "Optional. Fills the band behind the heading. Without one the page falls back to this page’s Featured Image, and without that the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "Operations"
+msgstr "العمليات"
+
+msgid "Corporate"
+msgstr "الشركة"
+
+msgid "Still available"
+msgstr "لا يزال متاحًا"
+
+msgid "Closing soon"
+msgstr "يُغلق قريبًا"
+
+msgid "Filled"
+msgstr "شُغلت"
+
+msgid "Full-time"
+msgstr "دوام كامل"
+
+msgid "Part-time"
+msgstr "دوام جزئي"
+
+msgid "Contract"
+msgstr "تعاقد"
+
+msgid "Internship"
+msgstr "تدريب"
+
+msgid "Temporary"
+msgstr "مؤقت"
+
+msgid "Careers — intro"
+msgstr ""
+
+msgid "The band at the top. The page title is the heading."
+msgstr ""
+
+msgid "Careers at Synergi"
+msgstr "الوظائف في سينرجي"
+
+msgid "Synergi BPO is a boutique Business Process Outsourcing provider serving clients across the GCC region and internationally, helping organizations streamline and strengthen their support functions and shared services."
+msgstr "سينرجي مزوّد متخصص لتعهيد عمليات الأعمال يخدم عملاء في أنحاء دول الخليج ودوليًا، ويساعد المؤسسات على تبسيط وظائف الدعم والخدمات المشتركة لديها وتقويتها."
+
+msgid "Fills the band behind the page title. Without one the band stays on the flat navy."
+msgstr ""
+
+msgid "Button"
+msgstr ""
+
+msgid "#positions jumps to the open positions further down this page."
+msgstr ""
+
+msgid "See open positions"
+msgstr "عرض الوظائف الشاغرة"
+
+msgid "Careers — why join"
+msgstr ""
+
+msgid "The reasons to work here, beside a photograph of the team."
+msgstr ""
+
+msgid "Life at Synergi"
+msgstr "الحياة في سينرجي"
+
+msgid "Why people build their careers here"
+msgstr "لماذا يبني الناس مسيرتهم المهنية هنا"
+
+msgid "Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven Shared Services as-a-service (SSaaS) provider."
+msgstr "سينرجي مزوّد خدمات متخصص لتعهيد عمليات الأعمال بطموح جريء: التحوّل إلى مزوّد خدمات مشتركة كخدمة قائم على التقنية."
+
+msgid "Shown tall beside the reasons. A picture of people at work reads better than a skyline here."
+msgstr ""
+
+msgid "Reasons"
+msgstr ""
+
+msgid "Reason"
+msgstr ""
+
+msgid "Add reason"
+msgstr ""
+
+msgid "Home-grown in the GCC"
+msgstr "نشأنا في الخليج"
+
+msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
+msgstr "نشأنا في الخليج ولدينا مراكز تنفيذ داخل المنطقة وخارجها."
+
+msgid "Experience across multiple markets"
+msgstr "خبرة عبر أسواق متعددة"
+
+msgid "Regional context informs how teams, controls, and delivery models are designed."
+msgstr "يوجّه السياق الإقليمي طريقة تصميم الفرق والضوابط ونماذج التنفيذ."
+
+msgid "A tech company at its core"
+msgstr "شركة تقنية في جوهرها"
+
+msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
+msgstr "نتطلع إلى أن نكون أكثر من مزوّد تعهيد؛ شركة تقنية في جوهرها، تجمع الأنظمة والأتمتة والذكاء الاصطناعي والبنية السحابية مع الإبداع البشري والدافع لتحقيق التميز التشغيلي على نطاق واسع."
+
+msgid "Expertise"
+msgstr "الخبرة"
+
+msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
+msgstr "نفخر بمعرفتنا وخبرتنا العميقتين، بما يضمن تنفيذ كل مهمة بدقة."
+
+msgid "Title"
+msgstr ""
+
+msgid "One or two sentences"
+msgstr ""
+
+msgid "Careers — open positions"
+msgstr ""
+
+msgid "One row per role. A row with no title is skipped. Remove a row when the role is filled; with no rows at all the band invites an open application instead."
+msgstr ""
+
+msgid "Open positions"
+msgstr "الوظائف الشاغرة"
+
+msgid "Roles we are hiring for now"
+msgstr "الوظائف التي نوظّف لها الآن"
+
+msgid "Open a role to read what it involves and who it suits."
+msgstr "افتح الوظيفة لتقرأ ما تتضمنه ولمن تناسب."
+
+msgid "Positions"
+msgstr ""
+
+msgid "Position"
+msgstr ""
+
+msgid "Add position"
+msgstr ""
+
+msgid "Role title"
+msgstr ""
+
+msgid "Department"
+msgstr ""
+
+msgid "Location"
+msgstr ""
+
+msgid "City and country, or \"Remote\"."
+msgstr ""
+
+msgid "Employment type"
+msgstr ""
+
+msgid "Status tag"
+msgstr ""
+
+msgid "The small tag on the role. Remove the row altogether once a role is filled and gone."
+msgstr ""
+
+msgid "One-line summary"
+msgstr ""
+
+msgid "Shown before the role is opened."
+msgstr ""
+
+msgid "The role"
+msgstr ""
+
+msgid "What the role involves and who it suits. Paragraphs and lists are fine."
+msgstr ""
+
+msgid "Applications email"
+msgstr ""
+
+msgid "Printed on the role as \"Mail us at …\", with the role title in the subject line. Left blank, the role points at Contact Us instead."
+msgstr ""
+
+msgid "Apply link instead"
+msgstr ""
+
+msgid "Optional. A form or a job board page for this role. Filled in, it is used instead of the email."
+msgstr ""
+
+msgid "Posted on"
+msgstr ""
+
+msgid "Optional. Shown on the role, and needed for the listing to appear in Google Jobs."
+msgstr ""
+
+msgid "No openings — heading"
+msgstr ""
+
+msgid "No open roles at the moment"
+msgstr "لا توجد وظائف شاغرة حاليًا"
+
+msgid "No openings — text"
+msgstr ""
+
+msgid "Get in touch if you would like to be considered for future roles."
+msgstr "تواصل معنا إذا رغبت في أن يُنظر في ترشيحك لوظائف مستقبلية."
+
+msgid "No openings — button"
+msgstr ""
+
+msgid "Leave the address empty and the button goes to Contact Us."
+msgstr ""
+
+msgid "Get in touch"
+msgstr "تواصل معنا"
+
+msgid "Case study — the facts"
+msgstr ""
+
+msgid "The band at the top of the page, and the four things this study shows on the Case studies grid. The page title is the headline, so it is not repeated here."
+msgstr ""
+
+msgid "Case study"
+msgstr "دراسة حالة"
+
+msgid "One or two sentences saying what the engagement was. This is the first thing a reader and a search engine see."
+msgstr ""
+
+msgid "Fills the band behind the headline, and is the picture on the Case studies grid. Without one the band stays on the flat navy and the card shows no picture. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "Service line"
+msgstr ""
+
+msgid "The reference of the service line this study belongs to, exactly as typed at Settings → Site records, e.g. human-resources. It is what shows above the headline on the card, and what lets a service page show only its own studies later."
+msgstr ""
+
+msgid "Kind of client"
+msgstr ""
+
+msgid "A description of the organisation, never its name — e.g. a private equity portfolio company. No client on the company profile has been cleared for the public site."
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Where the work was delivered, e.g. United Arab Emirates."
+msgstr ""
+
+msgid "Country code"
+msgstr ""
+
+msgid "Two letters, e.g. AE, SA, QA. Shown on the card when no flag has been chosen below."
+msgstr ""
+
+msgid "Country flag"
+msgstr ""
+
+msgid "Optional. Shown on the card beside the country name. Without one the card shows the country code instead. Use the same flag images the locations already use."
+msgstr ""
+
+msgid "Case study — the outcome"
+msgstr ""
+
+msgid "The numbers this engagement produced. Leave the list empty and the whole band is skipped."
+msgstr ""
+
+msgid "The outcome"
+msgstr "النتيجة"
+
+msgid "Figures"
+msgstr ""
+
+msgid "Figure"
+msgstr ""
+
+msgid "Add figure"
+msgstr ""
+
+msgid "The number"
+msgstr ""
+
+msgid "Exactly as it should read, including any sign or symbol, e.g. 40% or 4 days."
+msgstr ""
+
+msgid "What it measures"
+msgstr ""
+
+msgid "Case study — more studies"
+msgstr ""
+
+msgid "The band at the foot of the page. It fills itself from the other published case studies, so there is nothing to keep up to date here beyond the wording."
+msgstr ""
+
+msgid "Keep exploring"
+msgstr "تابع الاستكشاف"
+
+msgid "More case studies"
+msgstr "المزيد من دراسات الحالة"
+
+msgid "Case studies — the page"
+msgstr ""
+
+msgid "The top of the page, and the wording over the grid. The grid itself fills from every published case study, so nothing lists them by hand."
+msgstr ""
+
+msgid "Proof"
+msgstr "الدليل"
+
+msgid "One or two sentences under the page title."
+msgstr ""
+
+msgid "Engagements we have run, and what changed as a result."
+msgstr "ارتباطات نفّذناها، وما تغيّر نتيجة لها."
+
+msgid "Optional. Fills the band behind the page title. Without one the band stays on the flat navy."
+msgstr ""
+
+msgid "Heading over the grid"
+msgstr ""
+
+msgid "Our work"
+msgstr "أعمالنا"
+
+msgid "Sentence over the grid"
+msgstr ""
+
+msgid "Optional."
+msgstr ""
+
+msgid "When there are none yet"
+msgstr ""
+
+msgid "Shown in place of the grid before the first case study is published, so the page is never a heading over nothing."
+msgstr ""
+
+msgid "Our first case studies are being written up. In the meantime, our team can talk you through comparable engagements."
+msgstr "دراسات الحالة الأولى لدينا قيد الإعداد. وفي غضون ذلك، يمكن لفريقنا أن يطلعكم على ارتباطات مماثلة."
+
+msgid "Service lines"
+msgstr ""
+
+msgid "Case studies"
+msgstr "دراسات الحالة"
+
+msgid "Add case study"
+msgstr ""
+
+msgid "Edit case study"
+msgstr ""
+
+msgid "New case study"
+msgstr ""
+
+msgid "View case study"
+msgstr ""
+
+msgid "Search case studies"
+msgstr ""
+
+msgid "No case studies yet"
+msgstr ""
+
+msgid "No case studies in the bin"
+msgstr ""
+
+msgid "All case studies"
+msgstr ""
+
+msgid "Social accounts"
+msgstr ""
+
+msgid "The company’s accounts on other platforms. The order here is the order they appear in. Add only accounts that are actually maintained — a dead profile linked from the contact page is worse than no link."
+msgstr ""
+
+msgid "Contact Us, and the footer once it is wired."
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Add account"
+msgstr ""
+
+msgid "Platform"
+msgstr ""
+
+msgid "As people call it, e.g. LinkedIn."
+msgstr ""
+
+msgid "Account name"
+msgstr ""
+
+msgid "Optional, e.g. @synergibpo. Shown under the platform’s name."
+msgstr ""
+
+msgid "Profile address"
+msgstr ""
+
+msgid "The full address, starting with https://."
+msgstr ""
+
+msgid "Contact — intro"
+msgstr ""
+
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here."
+msgstr ""
+
+msgid "Contact"
+msgstr "تواصل"
+
+msgid "For general enquiries, proposals and career conversations. We answer from the office closest to the work."
+msgstr "للاستفسارات العامة والعروض ومحادثات التوظيف. نجيب من المكتب الأقرب إلى العمل."
+
+msgid "Optional. Without one the band stays on the flat navy."
+msgstr ""
+
+msgid "Contact — offices"
+msgstr ""
+
+msgid "The wording around the office cards. The offices, their addresses and emails are edited once at Settings → Site records, because Global Locations shows the same ones. Phone numbers are kept there too but no longer shown on the site."
+msgstr ""
+
+msgid "Where we are"
+msgstr "أين نحن"
+
+msgid "Our offices"
+msgstr "مكاتبنا"
+
+msgid "Delivery runs from centres onshore and offshore. Each office answers for the work closest to it."
+msgstr "يجري التنفيذ من مراكز داخل المنطقة وخارجها. وكل مكتب مسؤول عن العمل الأقرب إليه."
+
+msgid "Contact — enquiry form"
+msgstr ""
+
+msgid "The form band. Paste the form’s shortcode from the forms plugin; leave it empty and the whole band is skipped."
+msgstr ""
+
+msgid "Send us a message"
+msgstr "أرسل لنا رسالة"
+
+msgid "Tell us what you are trying to fix"
+msgstr "أخبرنا بما تحاول إصلاحه"
+
+msgid "A sentence about the problem is more useful to us than a form filled in perfectly. Someone who can answer it will reply."
+msgstr "جملة واحدة عن المشكلة أنفع لنا من نموذج مكتمل بدقة. وسيردّ عليك من يستطيع الإجابة."
+
+msgid "Small print"
+msgstr ""
+
+msgid "Optional. Shown under the opening sentence, e.g. how long a reply takes."
+msgstr ""
+
+msgid "Form shortcode"
+msgstr ""
+
+msgid "From the forms plugin, e.g. [wpforms id=\"7560\"]. The band does not render without it."
+msgstr ""
+
+msgid "Contact — social accounts"
+msgstr ""
+
+msgid "The wording around the account cards. The accounts themselves are edited once at Settings → Site records."
+msgstr ""
+
+msgid "Elsewhere"
+msgstr "في أماكن أخرى"
+
+msgid "Follow Synergi"
+msgstr "تابع سينرجي"
+
+msgid "Service intro"
+msgstr ""
+
+msgid "Our services"
+msgstr "خدماتنا"
+
+msgid "Item"
+msgstr ""
+
+msgid "Add item"
+msgstr ""
+
+msgid "This field group is no longer registered."
+msgstr ""
+
+msgid "Choose image"
+msgstr ""
+
+msgid "Use this image"
+msgstr ""
+
+msgid "%1$s %2$d added."
+msgstr ""
+
+msgid "%1$s %2$d removed."
+msgstr ""
+
+msgid "%1$s moved to position %2$d of %3$d."
+msgstr ""
+
+msgid "This list is limited to %d items."
+msgstr ""
+
+msgid "Move %1$s %2$d up"
+msgstr ""
+
+msgid "Move %1$s %2$d down"
+msgstr ""
+
+msgid "Remove %1$s %2$d"
+msgstr ""
+
+msgid "%1$s %2$d"
+msgstr ""
+
+msgid "(untitled)"
+msgstr ""
+
+msgid "Image selected."
+msgstr ""
+
+msgid "Image removed."
+msgstr ""
+
+msgid "Left empty, the page shows: %s"
+msgstr ""
+
+msgid "Maximum %d characters."
+msgstr ""
+
+msgid "%d built-in item."
+msgid_plural "%d built-in items."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
+msgstr[5] ""
+
+msgid "the built-in photograph."
+msgstr ""
+
+msgid "No image chosen"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "The stored image is missing from the media library. Choose another."
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "Button text"
+msgstr ""
+
+msgid "Empty space"
+msgstr ""
+
+msgid "Move %1$s %2$s up"
+msgstr ""
+
+msgid "Move %1$s %2$s down"
+msgstr ""
+
+msgid "Remove %1$s %2$s"
+msgstr ""
+
+msgid "— Select —"
+msgstr ""
+
+msgid "Basic HTML is allowed here — a link, bold, a list. Anything else is stripped when you save."
+msgstr ""
+
+msgid "“%s” was not saved: the page had been open long enough for its security token to expire. Reload the page and try again."
+msgstr ""
+
+msgid "This page sent %1$d form values against a server limit of %2$d. Long lists can be cut off without warning at that limit — check that the last few items saved, and raise max_input_vars if they did not."
+msgstr ""
+
+msgid "address"
+msgstr ""
+
+msgid "button text"
+msgstr ""
+
+msgid "“%s” was sent in an unexpected shape and was not saved."
+msgstr ""
+
+msgid "The image chosen for “%s” is not in the media library any more, so it was cleared."
+msgstr ""
+
+msgid "“%1$s” was set to something that is not one of the available options, so it was cleared. It read: %2$s"
+msgstr ""
+
+msgid "The date in “%1$s” was not a real date, so it was cleared. Use the date picker, or type it as 2026-08-20. It read: %2$s"
+msgstr ""
+
+msgid "The address in “%1$s” was not a usable email address, so it was cleared. It read: %2$s"
+msgstr ""
+
+msgid "The address in “%1$s” was not a usable web address, so it was cleared. It read: %2$s"
+msgstr ""
+
+msgid "Some markup in “%s” was not allowed and was removed. Links, lists, bold and italics are kept; scripts, styles and inline formatting are not."
+msgstr ""
+
+msgid "“%1$s” was longer than %2$d characters and was shortened to fit."
+msgstr ""
+
+msgid "“%1$s” holds at most %2$d items, so %3$d extra were not saved."
+msgstr ""
+
+msgid "Some of what you entered had to be changed:"
+msgstr ""
+
+msgid "Global Locations — the page"
+msgstr ""
+
+msgid "The words around the two bands. The offices themselves — their addresses, phone numbers, flags and photographs — are at Settings → Site records, because Contact Us and the homepage show the same ones."
+msgstr ""
+
+msgid "Where we work"
+msgstr "أين نعمل"
+
+msgid "A regional footprint with unified leadership and dedicated local teams, delivering consistent support across every market we serve."
+msgstr "حضور إقليمي بقيادة موحدة وفرق محلية مخصصة، يقدّم دعمًا متسقًا في كل سوق نخدمه."
+
+msgid "Photograph band — eyebrow"
+msgstr ""
+
+msgid "Our delivery network"
+msgstr "شبكة التنفيذ لدينا"
+
+msgid "Photograph band — heading"
+msgstr ""
+
+msgid "Our locations"
+msgstr "مواقعنا"
+
+msgid "Photograph band — sentence"
+msgstr ""
+
+msgid "Onshore and offshore delivery centres across the GCC and beyond, coordinated from one leadership team."
+msgstr "مراكز تنفيذ داخل المنطقة وخارجها في أنحاء الخليج وما بعده، بتنسيق من فريق قيادي واحد."
+
+msgid "Where a location card goes"
+msgstr ""
+
+msgid "Leave the address empty and the cards point at the contact page, which is the sensible destination from here. They must not point back at this page."
+msgstr ""
+
+msgid "Address band — eyebrow"
+msgstr ""
+
+msgid "Find us"
+msgstr "اعثر علينا"
+
+msgid "Address band — heading"
+msgstr ""
+
+msgid "Address band — sentence"
+msgstr ""
+
+msgid "Homepage 01 — Hero"
+msgstr ""
+
+msgid "The band at the top. The photograph behind it is this page’s Featured Image, set in the sidebar."
+msgstr ""
+
+msgid "Heading — first line"
+msgstr ""
+
+msgid "The words before the highlighted phrase."
+msgstr ""
+
+msgid "BPO & Shared Services to"
+msgstr ""
+
+msgid "Heading — highlighted phrase"
+msgstr ""
+
+msgid "Rendered in cyan on its own line."
+msgstr ""
+
+msgid "Power Your Business"
+msgstr "لتمكين أعمالكم"
+
+msgid "Press Enter to start a new line on screen. On phones the break is ignored and the text wraps naturally."
+msgstr ""
+
+msgid "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services, wherever your business operates."
+msgstr "تدير سينرجي وتحوّل الوظائف غير الأساسية في الأعمال من خلال التعهيد والاستشارات وتعزيز القوى العاملة والخدمات المشتركة المدعومة بالتقنية، أينما كانت أعمالكم."
+
+msgid "Animated line — fixed half"
+msgstr ""
+
+msgid "The part that does not change, before the cycling word."
+msgstr ""
+
+msgid "Helping your business remove"
+msgstr "نساعد أعمالكم على التخلص من"
+
+msgid "Animated line — cycling words"
+msgstr ""
+
+msgid "Typed out one after another. The first also shows when JavaScript is off, so make it the strongest one."
+msgstr ""
+
+msgid "Word"
+msgstr ""
+
+msgid "Add word"
+msgstr ""
+
+msgid "Word or short phrase"
+msgstr ""
+
+msgid "Buttons"
+msgstr ""
+
+msgid "Add button"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Solid for the main action, outline for the second."
+msgstr ""
+
+msgid "Solid"
+msgstr ""
+
+msgid "Outline"
+msgstr ""
+
+msgid "Homepage 02 — Services"
+msgstr ""
+
+msgid "The heading above the six service cards. The cards themselves are the service lines, edited once at Settings → Site records."
+msgstr ""
+
+msgid "One connected operating model"
+msgstr "نموذج تشغيل واحد مترابط"
+
+msgid "Our Core BPO Services"
+msgstr "خدمات التعهيد الأساسية لدينا"
+
+msgid "Six specialist functions, coordinated around your business."
+msgstr "ست وظائف متخصصة، منسّقة حول أعمالكم."
+
+msgid "Homepage 03 — Shared services"
+msgstr ""
+
+msgid "The wording around the hub diagram. The diagram itself — its bubbles and the numbered steps — is part of the design and is not edited here."
+msgstr ""
+
+msgid "Regional operations"
+msgstr "عمليات إقليمية"
+
+msgid "Transform Your Business with Shared Services"
+msgstr "حوّل أعمالكم بالخدمات المشتركة"
+
+msgid "Leave empty to keep the built-in paragraph, which links to the Procurement page."
+msgstr ""
+
+msgid "Button — text"
+msgstr ""
+
+msgid "Leave both button boxes empty to keep the built-in button."
+msgstr ""
+
+msgid "Button — address"
+msgstr ""
+
+msgid "Shown in one line, separated by dots."
+msgstr ""
+
+msgid "Market"
+msgstr ""
+
+msgid "Add market"
+msgstr ""
+
+msgid "Benefit pills"
+msgstr ""
+
+msgid "The small rounded labels under the paragraph."
+msgstr ""
+
+msgid "Pill"
+msgstr ""
+
+msgid "Add pill"
+msgstr ""
+
+msgid "Benefit"
+msgstr ""
+
+msgid "Homepage 04 — Industries"
+msgstr ""
+
+msgid "The sectors queue. Leave the whole list empty to keep the built-in seven."
+msgstr ""
+
+msgid "Sector expertise"
+msgstr "خبرة قطاعية"
+
+msgid "Industries We Serve"
+msgstr "القطاعات التي نخدمها"
+
+msgid "Industries"
+msgstr ""
+
+msgid "Industry"
+msgstr ""
+
+msgid "Add industry"
+msgstr ""
+
+msgid "Label over the photograph"
+msgstr ""
+
+msgid "Two or three words."
+msgstr ""
+
+msgid "Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "Homepage 04b — Keyword ribbon"
+msgstr ""
+
+msgid "The moving band between Industries and Why Synergi. Leave the list empty to keep the built-in keywords."
+msgstr ""
+
+msgid "Keywords"
+msgstr ""
+
+msgid "Short phrases, shown as one continuous moving line. Search engines are told to read each one once, however often it drifts past."
+msgstr ""
+
+msgid "Keyword"
+msgstr ""
+
+msgid "Add keyword"
+msgstr ""
+
+msgid "Keyword or short phrase"
+msgstr ""
+
+msgid "Homepage 07 — Partners"
+msgstr ""
+
+msgid "The logo strip. Each partner’s name is read from its logo’s alt text in the media library, so a partner is renamed there rather than here."
+msgstr ""
+
+msgid "Partner ecosystem"
+msgstr "منظومة الشركاء"
+
+msgid "Our Partners"
+msgstr "شركاؤنا"
+
+msgid "Leading global platforms and regional specialists, integrated into one delivery model — so the systems behind your operations are always best in class."
+msgstr "منصات عالمية رائدة ومتخصصون إقليميون، مدمجون في نموذج تنفيذ واحد — لتبقى الأنظمة التي تقف خلف عملياتكم الأفضل في فئتها دائمًا."
+
+msgid "Logos"
+msgstr ""
+
+msgid "Logo"
+msgstr ""
+
+msgid "Add logo"
+msgstr ""
+
+msgid "The partner’s name must be in this image’s alt text — that is what the strip reads out."
+msgstr ""
+
+msgid "Homepage 09 — Blog"
+msgstr ""
+
+msgid "The heading above the latest posts. The posts themselves are whatever is newest."
+msgstr ""
+
+msgid "Insights & analysis from our teams"
+msgstr "رؤى وتحليلات من فرقنا"
+
+msgid "Read Our Blog"
+msgstr "اقرأ مدونتنا"
+
+msgid "Link text"
+msgstr ""
+
+msgid "View all articles"
+msgstr "عرض جميع المقالات"
+
+msgid "Link address"
+msgstr ""
+
+msgid "Leave empty to use the Posts page set in Settings → Reading."
+msgstr ""
+
+msgid "Homepage 10 — Instagram"
+msgstr ""
+
+msgid "The heading above the feed. The posts come from the feed plugin."
+msgstr ""
+
+msgid "Recent From Instagram"
+msgstr "أحدث المنشورات من إنستغرام"
+
+msgid "Homepage 11 — Podcast"
+msgstr ""
+
+msgid "The podcast band."
+msgstr ""
+
+msgid "Conversations for people who run businesses"
+msgstr "حوارات لمن يديرون الأعمال"
+
+msgid "The Synergi Executive Podcast"
+msgstr "بودكاست سينرجي التنفيذي"
+
+msgid "Senior leaders unpack the decisions behind stronger operations across MENA."
+msgstr "قادة كبار يشرحون القرارات التي تقف خلف عمليات أقوى في منطقة الشرق الأوسط وشمال أفريقيا."
+
+msgid "Practical perspectives on leadership, shared services, BPO, and operational transformation, grounded in real-world experience."
+msgstr "وجهات نظر عملية حول القيادة والخدمات المشتركة والتعهيد والتحوّل التشغيلي، مستندة إلى خبرة واقعية."
+
+msgid "Chip over the artwork"
+msgstr ""
+
+msgid "Business media · MENA"
+msgstr "إعلام الأعمال · الشرق الأوسط وشمال أفريقيا"
+
+msgid "Cover art"
+msgstr ""
+
+msgid "A post from the Synergi Instagram account"
+msgstr "منشور من حساب سينرجي على إنستغرام"
+
+msgid "The markets that have a page of their own. The order here is the order they appear in. Adding one here puts it in the “other markets” list on every other market page."
+msgstr ""
+
+msgid "each market page and the Markets overview."
+msgstr ""
+
+msgid "As it should read in the menu and on the card, e.g. Saudi Arabia."
+msgstr ""
+
+msgid "Reference"
+msgstr ""
+
+msgid "A short lowercase name, e.g. saudi-arabia. It is what a market page uses to leave itself out of its own “other markets” list. Lowercase letters and dashes only."
+msgstr ""
+
+msgid "One sentence about what Synergi does in this market, as it appears on the card. Write a different one for each — the same sentence with the country swapped is what makes a set of location pages thin."
+msgstr ""
+
+msgid "Page address"
+msgstr ""
+
+msgid "Where the card links to, e.g. /markets/saudi-arabia/."
+msgstr ""
+
+msgid "— choose a service line —"
+msgstr ""
+
+msgid "Market — intro"
+msgstr ""
+
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here. The SEO title, meta description, focus keyword and social image are Yoast’s fields, further down this screen."
+msgstr ""
+
+msgid "The reference of this market, exactly as typed at Settings → Site records, e.g. saudi-arabia. It is what keeps this page out of its own “other markets” list."
+msgstr ""
+
+msgid "The small line above the heading, e.g. Markets or Saudi Arabia."
+msgstr ""
+
+msgid "One or two sentences saying what Synergi does for organizations in this market. This is the first thing a reader and a search engine see, so write it for this market and not for the company in general."
+msgstr ""
+
+msgid "Optional. Fills the band behind the heading. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "Market — introduction"
+msgstr ""
+
+msgid "What organizations in this market actually need, and where Synergi fits. Write about real business needs, not about the country. Leave it empty and the band is skipped."
+msgstr ""
+
+msgid "The first is set larger, as the opening line. One paragraph per row."
+msgstr ""
+
+msgid "Statement cards"
+msgstr ""
+
+msgid "Optional. Up to two, shown as photographic cards that turn over on a desktop to show the words. Use them for something specific about this market — not for the company mission, which is on About Us."
+msgstr ""
+
+msgid "Optional. The front of the card, with the heading over it."
+msgstr ""
+
+msgid "Market — services"
+msgstr ""
+
+msgid "Which service lines this market leads with, in order. Each card links to that service’s own page. Choose none and every service line is shown."
+msgstr ""
+
+msgid "What we run"
+msgstr "ما نديره"
+
+msgid "Services in this market"
+msgstr "الخدمات في هذا السوق"
+
+msgid "One per row, in the order they should appear. The wording on each card is the service line’s own, edited at Settings → Site records."
+msgstr ""
+
+msgid "Add service line"
+msgstr ""
+
+msgid "Market — industries"
+msgstr ""
+
+msgid "The sectors Synergi serves in this market. Leave it empty and the band shows the site-wide list instead."
+msgstr ""
+
+msgid "Sectors we work in here"
+msgstr "القطاعات التي نعمل فيها هنا"
+
+msgid "Short label"
+msgstr ""
+
+msgid "Two or three words, shown over the photograph."
+msgstr ""
+
+msgid "Market — why Synergi here"
+msgstr ""
+
+msgid "Reasons that are true of this market specifically. Leave it all empty and the site-wide “Why Synergi” band renders instead. Do not claim an office, a team or a client in a location unless it is verified."
+msgstr ""
+
+msgid "Shown as a deck of photographic cards. Four reads best."
+msgstr ""
+
+msgid "Short name"
+msgstr ""
+
+msgid "Two or three words, read out to screen readers on the card’s button."
+msgstr ""
+
+msgid "Market — proof"
+msgstr ""
+
+msgid "One piece of verified evidence from this market. Leave the headline empty and the whole band disappears — which is the right thing to do until there is something cleared to show. Never invent a client, a statistic or a result."
+msgstr ""
+
+msgid "Headline"
+msgstr ""
+
+msgid "Client type"
+msgstr ""
+
+msgid "What kind of organisation it was, never its name — e.g. “A Saudi workforce solutions provider”."
+msgstr ""
+
+msgid "The situation"
+msgstr ""
+
+msgid "Optional. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "What was delivered"
+msgstr ""
+
+msgid "Delivered"
+msgstr "ما قُدّم"
+
+msgid "Read more"
+msgstr "اقرأ المزيد"
+
+msgid "Market — questions"
+msgstr ""
+
+msgid "Real questions a buyer in this market asks. Answers accept links and basic formatting. Leave it empty and the band is skipped, along with its structured data."
+msgstr ""
+
+msgid "Questions we are asked"
+msgstr "أسئلة تُطرح علينا"
+
+msgid "Questions"
+msgstr "أسئلة"
+
+msgid "Question"
+msgstr ""
+
+msgid "Add question"
+msgstr ""
+
+msgid "Answer"
+msgstr ""
+
+msgid "Market — related insights"
+msgstr ""
+
+msgid "The latest articles, under a heading of your choosing. Leave the heading empty — as it is by default — and the band does not appear at all. Turn it on once there are articles worth showing to a reader in this market."
+msgstr ""
+
+msgid "Empty means the band is hidden."
+msgstr ""
+
+msgid "Link label"
+msgstr ""
+
+msgid "Optional. Leave empty to use the Posts page set in Settings → Reading."
+msgstr ""
+
+msgid "Media — the page"
+msgstr ""
+
+msgid "The words around the two bands. The articles come from the blog itself and the pictures from the Instagram feed, so neither needs listing here."
+msgstr ""
+
+msgid "What our teams are writing, and what we are up to. The podcast and our case studies sit alongside this in the menu above."
+msgstr "ما تكتبه فرقنا، وما نعمل عليه. البودكاست ودراسات الحالة إلى جانب ذلك في القائمة أعلاه."
+
+msgid "Articles band — eyebrow"
+msgstr ""
+
+msgid "Articles band — heading"
+msgstr ""
+
+msgid "Read our blog"
+msgstr "اقرأ مدونتنا"
+
+msgid "Articles band — button"
+msgstr ""
+
+msgid "Articles band — button address"
+msgstr ""
+
+msgid "Leave it empty and the button points at whichever page is set to Posts in Settings → Reading, which is better than typing a path that could go stale."
+msgstr ""
+
+msgid "Social band — eyebrow"
+msgstr ""
+
+msgid "Social band — heading"
+msgstr ""
+
+msgid "Recent from Instagram"
+msgstr "أحدث المنشورات من إنستغرام"
+
+msgid "Social band — button"
+msgstr ""
+
+msgid "Social band — button address"
+msgstr ""
+
+msgid "The profile the button opens."
+msgstr ""
+
+msgid "Primary"
+msgstr "الرئيسية"
+
+msgid "YouTube address"
+msgstr ""
+
+msgid "Paste the address from YouTube — any form works, including the share link. A row whose address has no video in it is skipped."
+msgstr ""
+
+msgid "One line"
+msgstr ""
+
+msgid "Optional. The guest, the subject, or the date."
+msgstr ""
+
+msgid "Cover picture"
+msgstr ""
+
+msgid "Optional. Shown until somebody presses play. Without one the card uses the brand gradient — YouTube’s own thumbnail is deliberately not fetched, because that would load from YouTube on every visit."
+msgstr ""
+
+msgid "Podcast — intro"
+msgstr ""
+
+msgid "The band at the top. The page title is the heading and the photograph is the Featured Image in the sidebar."
+msgstr ""
+
+msgid "The first BPO-led discussion platform: senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region."
+msgstr "أول منصة حوار يقودها التعهيد: قادة كبار يتحدثون عن كيفية تكامل القيادة والاستراتيجية والعمليات لإحداث أثر في الأعمال عبر منطقة الشرق الأوسط وشمال أفريقيا."
+
+msgid "Podcast — about the series"
+msgstr ""
+
+msgid "What the series is. The first paragraph is set larger, as the opening line."
+msgstr ""
+
+msgid "The series"
+msgstr "السلسلة"
+
+msgid "About the Executive Podcast"
+msgstr "عن البودكاست التنفيذي"
+
+msgid "Podcast — episodes"
+msgstr ""
+
+msgid "One row per episode, newest first. Each becomes a card that plays where it sits; nothing loads from YouTube until somebody presses play."
+msgstr ""
+
+msgid "Listen"
+msgstr "استمع"
+
+msgid "Podcast episodes"
+msgstr "حلقات البودكاست"
+
+msgid "Episodes"
+msgstr ""
+
+msgid "Episode"
+msgstr ""
+
+msgid "Add episode"
+msgstr ""
+
+msgid "Podcast — webinars"
+msgstr ""
+
+msgid "The same, for webinars. Leave it empty and the band does not appear."
+msgstr ""
+
+msgid "Watch"
+msgstr "شاهد"
+
+msgid "Webinars"
+msgstr "الندوات الإلكترونية"
+
+msgid "Webinar"
+msgstr ""
+
+msgid "Add webinar"
+msgstr ""
+
+msgid "Row"
+msgstr ""
+
+msgid "Add row"
+msgstr ""
+
+msgid "Synergi site records"
+msgstr ""
+
+msgid "Site records"
+msgstr ""
+
+msgid "You do not have permission to edit site records."
+msgstr ""
+
+msgid "A record left empty in this language shows the default-language version instead, so nothing goes blank while a translation is pending."
+msgstr ""
+
+msgid "Facts about the business that appear on more than one page. Each one is stored here once and read wherever it is needed, so changing a figure or an office changes it everywhere at the same time. Page-specific wording is not edited here — that lives on the page itself."
+msgstr ""
+
+msgid "Appears on:"
+msgstr ""
+
+msgid "Save site records"
+msgstr ""
+
+msgid "Site records saved."
+msgstr ""
+
+msgid "The service lines Synergi offers. The order here is the order they appear in."
+msgstr ""
+
+msgid "the homepage services band, the Our Services listing, and each service page."
+msgstr ""
+
+msgid "As it should read in the menu and on the card, e.g. Human Resources."
+msgstr ""
+
+msgid "A short lowercase name used to link case studies to this service later, e.g. human-resources. Lowercase letters and dashes only."
+msgstr ""
+
+msgid "Icon"
+msgstr ""
+
+msgid "Chosen from the icons the theme ships. Leave blank for no icon."
+msgstr ""
+
+msgid "Card strapline"
+msgstr ""
+
+msgid "Optional. A few words shown above the name on the homepage card, e.g. Finance operations and reporting."
+msgstr ""
+
+msgid "One sentence, as it appears on the service card."
+msgstr ""
+
+msgid "Where the card links to, e.g. /our-services/human-resources/."
+msgstr ""
+
+msgid "Key figures"
+msgstr ""
+
+msgid "The headline numbers. One set, used everywhere — changing a figure here changes it on every page that shows it."
+msgstr ""
+
+msgid "the homepage figures band and About Us."
+msgstr ""
+
+msgid "Exactly as it should read, including any plus sign or percentage, e.g. 50+ or 10–15%."
+msgstr ""
+
+msgid "What it counts"
+msgstr ""
+
+msgid "e.g. clients we have served."
+msgstr ""
+
+msgid "Correct as at"
+msgstr ""
+
+msgid "The date this figure was last verified. Shown alongside the number so a reader knows how current it is."
+msgstr ""
+
+msgid "Locations"
+msgstr ""
+
+msgid "The delivery locations. The order here is the order they appear in."
+msgstr ""
+
+msgid "the homepage locations band, Contact Us, and Global Locations."
+msgstr ""
+
+msgid "Add location"
+msgstr ""
+
+msgid "City"
+msgstr ""
+
+msgid "Two letters, e.g. AE, SA, QA. Shown in the badge when no flag has been chosen below."
+msgstr ""
+
+msgid "Optional. Shown in the badge beside the country name. Without one the badge shows the country code instead."
+msgstr ""
+
+msgid "Street address"
+msgstr ""
+
+msgid "As it should be read and posted. It is also what the map button searches for, so keep it accurate rather than short."
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Kept on record but NOT shown on the site — the office cards stopped rendering phone numbers on 2 Sep 2026, at the business’s request. International format, e.g. +966 11 279 5100."
+msgstr ""
+
+msgid "Legal entity"
+msgstr ""
+
+msgid "The registered company name operating from this office."
+msgstr ""
+
+msgid "Function delivered"
+msgstr ""
+
+msgid "What this office does, e.g. BPO, or Technology Delivery Centre."
+msgstr ""
+
+msgid "Contact email"
+msgstr ""
+
+msgid "Only publish an address that has been cleared for the public site."
+msgstr ""
+
+msgid "Optional. Used where a location is shown with a picture."
+msgstr ""
+
+msgid "Not open yet — badge text"
+msgstr ""
+
+msgid "Leave empty for an office that is open. Text here, e.g. Coming soon, marks it as not open yet and the card stops being a link."
+msgstr ""
+
+msgid "Why Synergi band — heading"
+msgstr ""
+
+msgid "The wording above the four cards. Leave any box empty to keep the built-in text."
+msgstr ""
+
+msgid "the homepage and all six service pages."
+msgstr ""
+
+msgid "Introduction"
+msgstr ""
+
+msgid "Why Synergi band — the cards"
+msgstr ""
+
+msgid "The reasons in the turning deck, in the order they appear. Leave the whole list empty to keep the four built-in cards."
+msgstr ""
+
+msgid "Card"
+msgstr ""
+
+msgid "Add card"
+msgstr ""
+
+msgid "The sentence on the card, e.g. Experience across multiple Gulf markets."
+msgstr ""
+
+msgid "Two or three words, used on the button that turns the deck to this card."
+msgstr ""
+
+msgid "Choose one with meaningful alt text already set on it in the media library."
+msgstr ""
+
+msgid "Closing call to action"
+msgstr ""
+
+msgid "The band at the foot of the homepage and every service page. Leave any box empty to keep the built-in wording."
+msgstr ""
+
+msgid "Main button — text"
+msgstr ""
+
+msgid "Main button — address"
+msgstr ""
+
+msgid "Second button — text"
+msgstr ""
+
+msgid "Second button — address"
+msgstr ""
+
+msgid "Leave both boxes empty to show only the main button."
+msgstr ""
+
+msgid "Small line under the buttons"
+msgstr ""
+
+msgid "Service — intro"
+msgstr ""
+
+msgid "Which of the six lines this page is: accounting, human-resources, marketing, procurement, project-management or technology-ai. Sets the accent and the related-services list."
+msgstr ""
+
+msgid "End-to-end solutions that align with your organizational goals, improve experience, and keep operations compliant."
+msgstr "حلول متكاملة تتوافق مع أهدافكم المؤسسية، وتحسّن التجربة، وتحافظ على امتثال العمليات."
+
+msgid "Sits beside the heading. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "Service — capabilities"
+msgstr ""
+
+msgid "The list of what this service line covers. The order here is the order on the page."
+msgstr ""
+
+msgid "What this service covers"
+msgstr "ما تغطيه هذه الخدمة"
+
+msgid "Capabilities"
+msgstr "القدرات"
+
+msgid "Capability"
+msgstr ""
+
+msgid "Add capability"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Tags"
+msgstr ""
+
+msgid "Two or three short words, separated by commas. Optional."
+msgstr ""
+
+msgid "Service — how we work"
+msgstr ""
+
+msgid "The delivery method. Leave untouched to show the standard four steps."
+msgstr ""
+
+msgid "Our methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution."
+msgstr "تجمع منهجيتنا بين التشخيص القائم على البيانات وإدارة المشاريع المنضبطة، لتحويل الرؤى إلى تنفيذ منظّم بمعالم محددة."
+
+msgid "Steps"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Add step"
+msgstr ""
+
+msgid "Step name"
+msgstr ""
+
+msgid "Service — case study"
+msgstr ""
+
+msgid "One proof point. Leave the title empty and the whole section is skipped."
+msgstr ""
+
+msgid "What kind of organisation, not which one — e.g. “UAE organisation in early growth · Abu Dhabi”. Never publish a client name without written permission."
+msgstr ""
+
+msgid "Scope of work"
+msgstr "نطاق العمل"
+
+msgid "Add scope item"
+msgstr ""
+
+msgid "Service — frequently asked"
+msgstr ""
+
+msgid "Questions specific to this service. Leave the list empty and the section is skipped."
+msgstr ""
+
+msgid "Frequently asked"
+msgstr "الأسئلة الشائعة"
+
+msgid "A link, bold, or a list is fine here. Anything else is removed when you save."
+msgstr ""
+
+msgid "Our Services — the page"
+msgstr ""
+
+msgid "The top of the page and the wording over the grid. The grid itself is the service lines at Settings → Site records, so adding a line there adds a card here."
+msgstr ""
+
+msgid "One or two sentences under the page title. This is the first thing a reader and a search engine see."
+msgstr ""
+
+msgid "Six service lines, delivered by teams that run them every day."
+msgstr "ست خطوط خدمة تقدّمها فرق تديرها كل يوم."
+
+msgid "Optional. Fills the band behind the page title. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+msgid "Our service lines"
+msgstr "خطوط خدماتنا"
+
+msgid "When the record is empty"
+msgstr ""
+
+msgid "Shown in place of the grid if no service lines have been added at Settings → Site records, so the page is never a heading over nothing."
+msgstr ""
+
+msgid "Our service lines are being updated. Please get in touch and we will point you to the right team."
+msgstr "خطوط خدماتنا قيد التحديث. يرجى التواصل معنا وسنوجهكم إلى الفريق المناسب."
+
+msgid "Primary navigation"
+msgstr "القائمة الرئيسية"
+
+msgid "Footer links"
+msgstr "روابط التذييل"
+
+msgid "The solutions Synergi offers. The order here is the order they appear in. Adding one here puts it on every solution page and on the Our Solutions listing."
+msgstr ""
+
+msgid "each solution page, the Our Solutions listing, and the market pages."
+msgstr ""
+
+msgid "Solution"
+msgstr ""
+
+msgid "Add solution"
+msgstr ""
+
+msgid "As it should read in the menu and on the card, e.g. Shared services design & set-up."
+msgstr ""
+
+msgid "A short lowercase name, e.g. shared-services-design. It is what a solution page uses to leave itself out of its own “other solutions” list. Lowercase letters and dashes only."
+msgstr ""
+
+msgid "One sentence, as it appears on the card."
+msgstr ""
+
+msgid "Where the card links to, e.g. /our-solutions/shared-services-design/."
+msgstr ""
+
+msgid "Solution — intro"
+msgstr ""
+
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here. The SEO title, meta description and social image are Yoast’s fields, further down this screen."
+msgstr ""
+
+msgid "The reference of this solution, exactly as typed at Settings → Site records, e.g. shared-services-design. It is what keeps this page out of its own “other solutions” list."
+msgstr ""
+
+msgid "Our Solutions"
+msgstr "حلولنا"
+
+msgid "A defined engagement, run end to end by a team that has done it before."
+msgstr "ارتباط محدد المعالم، يديره من البداية إلى النهاية فريق قام به من قبل."
+
+msgid "Solution — what it covers"
+msgstr ""
+
+msgid "The parts of the engagement, shown as a list beside a panel. Leave it empty and the band is skipped."
+msgstr ""
+
+msgid "What this solution covers"
+msgstr "ما يغطيه هذا الحل"
+
+msgid "What it covers"
+msgstr "ما يغطيه"
+
+msgid "Area"
+msgstr ""
+
+msgid "Add area"
+msgstr ""
+
+msgid "What it means"
+msgstr ""
+
+msgid "Optional. A few words each, separated by commas."
+msgstr ""
+
+msgid "Solution — how it runs"
+msgstr ""
+
+msgid "The stages of the engagement, in order. The numbers are drawn from that order, so moving a stage renumbers it."
+msgstr ""
+
+msgid "How the engagement runs"
+msgstr "كيف يجري الارتباط"
+
+msgid "Solution — proof"
+msgstr ""
+
+msgid "One piece of evidence. Leave the headline empty and the whole band disappears — which is the right thing to do until there is something verified to show."
+msgstr ""
+
+msgid "Original case study"
+msgstr ""
+
+msgid "The last part of the study’s own address, e.g. hrms-sourcing-implementation-gcc. When set, the photograph and the Read more link come from that study itself, so they can never drift out of step with it. The Photograph and Read more boxes below then act as overrides only."
+msgstr ""
+
+msgid "What kind of organisation it was, never its name — e.g. “A UAE hospitality group”."
+msgstr ""
+
+msgid "Solution — questions"
+msgstr ""
+
+msgid "Real questions a buyer asks about this engagement. Answers accept links and basic formatting. Leave it empty and the band is skipped, along with its structured data."
+msgstr ""
+
+msgid "Our Solutions — the page"
+msgstr ""
+
+msgid "The top of the page and the wording over the grid. The grid itself is the solutions at Settings → Site records, so adding one there adds a card here."
+msgstr ""
+
+msgid "Defined engagements, run end to end by teams that have done them before."
+msgstr "ارتباطات محددة المعالم، تديرها من البداية إلى النهاية فرق قامت بها من قبل."
+
+msgid "Our solutions"
+msgstr "حلولنا"
+
+msgid "Shown in place of the grid if no solutions have been added at Settings → Site records, so the page is never a heading over nothing."
+msgstr ""
+
+msgid "Our solutions are being updated. Please get in touch and we will talk you through the options."
+msgstr "حلولنا قيد التحديث. يرجى التواصل معنا وسنطلعكم على الخيارات."
+
+msgid "Page"
+msgstr "صفحة"
+
+msgid "Your privacy choices"
+msgstr "خياراتك للخصوصية"
+
+msgid "We use cookies to understand how visitors use our website and to measure our advertising. Analytics and marketing cookies are only set if you allow them."
+msgstr "نستخدم ملفات تعريف الارتباط لفهم كيفية استخدام الزوار لموقعنا ولقياس إعلاناتنا. لا تُفعَّل ملفات التحليلات والتسويق إلا إذا سمحت بها."
+
+msgid "Cookie categories"
+msgstr "فئات ملفات تعريف الارتباط"
+
+msgid "Necessary"
+msgstr "ضرورية"
+
+msgid "Remembers your cookie choice. Always on."
+msgstr "تتذكر اختيارك لملفات تعريف الارتباط. مفعّلة دائمًا."
+
+msgid "Analytics"
+msgstr "التحليلات"
+
+msgid "Helps us see which pages people visit, so we can improve the website."
+msgstr "تساعدنا على معرفة الصفحات التي يزورها الناس، لنحسّن الموقع."
+
+msgid "Helps us see whether our ads on Google and LinkedIn are working."
+msgstr "تساعدنا على معرفة ما إذا كانت إعلاناتنا على Google ولينكدإن تؤدي عملها."
+
+msgid "Accept all"
+msgstr "قبول الكل"
+
+msgid "Reject all"
+msgstr "رفض الكل"
+
+msgid "Manage choices"
+msgstr "إدارة الخيارات"
+
+msgid "Save choices"
+msgstr "حفظ الخيارات"
+
+msgid "Language"
+msgstr "اللغة"
+
+msgid "Read the article"
+msgstr "اقرأ المقال"
+
+msgid "Blog categories"
+msgstr "فئات المدونة"
+
+msgid "All posts"
+msgstr "جميع المقالات"
+
+msgid "Results for “%s”"
+msgstr "نتائج البحث عن “%s”"
+
+msgid "Search"
+msgstr "بحث"
+
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] "لا نتائج"
+msgstr[1] "نتيجة واحدة"
+msgstr[2] "نتيجتان"
+msgstr[3] "%d نتائج"
+msgstr[4] "%d نتيجة"
+msgstr[5] "%d نتيجة"
+
+msgid "Nothing matched that search. Try a different wording, or browse the blog."
+msgstr "لم يطابق شيء هذا البحث. جرّب صياغة مختلفة، أو تصفّح المدونة."
+
+msgid "Showing articles starting with %s."
+msgstr "عرض المقالات بدءًا من %s."
+
+msgid "carousel"
+msgstr "عرض دوّار"
+
+msgid "Show previous articles"
+msgstr "عرض المقالات السابقة"
+
+msgid "Show next articles"
+msgstr "عرض المقالات التالية"
+
+msgid "What we do"
+msgstr "ما نقوم به"
+
+msgid "Consulting"
+msgstr "الاستشارات"
+
+msgid "Manpower Augmentation"
+msgstr "تعزيز القوى العاملة"
+
+msgid "BPO"
+msgstr "التعهيد"
+
+msgid "Delivered as"
+msgstr "يُقدَّم كـ"
+
+msgid "Showing case studies starting with %s."
+msgstr "عرض دراسات الحالة بدءًا من %s."
+
+msgid "Show previous case studies"
+msgstr "عرض دراسات الحالة السابقة"
+
+msgid "Read the case study"
+msgstr "اقرأ دراسة الحالة"
+
+msgid "Show more case studies"
+msgstr "عرض المزيد من دراسات الحالة"
+
+msgid "Play %s"
+msgstr "تشغيل %s"
+
+msgid "Watch on YouTube"
+msgstr "شاهد على يوتيوب"
+
+msgid "Your next operational move"
+msgstr "خطوتكم التشغيلية التالية"
+
+msgid "Make the work behind growth easier to run."
+msgstr "اجعل العمل الذي يقف خلف النمو أسهل في الإدارة."
+
+msgid "Synergi runs the functions behind your growth — customer support, HR, finance, procurement, project management, marketing, and IT — for growing companies, with outsourcing delivery tailored to how you operate."
+msgstr "تدير سينرجي الوظائف التي تقف خلف نموكم — دعم العملاء والموارد البشرية والمالية والمشتريات وإدارة المشاريع والتسويق وتقنية المعلومات — للشركات النامية، بتنفيذ تعهيد مصمم على طريقة عملكم."
+
+msgid "Start a Conversation"
+msgstr "ابدأ الحوار"
+
+msgid "No generic package. Start with what your business needs next."
+msgstr "لا باقات جاهزة. ابدأ بما تحتاجه أعمالكم تاليًا."
+
+msgid "BPO Services in UAE & the Gulf to"
+msgstr "خدمات التعهيد في الإمارات والخليج"
+
+msgid "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services across the Gulf."
+msgstr "تدير سينرجي وتحوّل الوظائف غير الأساسية في الأعمال من خلال التعهيد والاستشارات وتعزيز القوى العاملة والخدمات المشتركة المدعومة بالتقنية في أنحاء الخليج."
+
+msgid "manual work"
+msgstr "العمل اليدوي"
+
+msgid "silos"
+msgstr "الجزر المعزولة"
+
+msgid "delays"
+msgstr "التأخير"
+
+msgid "unnecessary overhead"
+msgstr "الأعباء غير الضرورية"
+
+msgid "Explore Our Services"
+msgstr "استكشف خدماتنا"
+
+msgid "%1$s %2$s."
+msgstr "%1$s %2$s."
+
+msgid "Industries We Serve Across the Gulf"
+msgstr "القطاعات التي نخدمها في أنحاء الخليج"
+
+msgid "Showing %s."
+msgstr "عرض %s."
+
+msgid "Private Equity, Family Offices & Holdings"
+msgstr "الملكية الخاصة والمكاتب العائلية والشركات القابضة"
+
+msgid "Private Equity & Holdings"
+msgstr "الملكية الخاصة والقابضة"
+
+msgid "Shared services, portfolio reporting, governance, and specialist operating support for investment firms and diversified holdings."
+msgstr "خدمات مشتركة وتقارير محافظ وحوكمة ودعم تشغيلي متخصص لشركات الاستثمار والمجموعات القابضة المتنوعة."
+
+msgid "Semi-government & Public Sector"
+msgstr "الجهات شبه الحكومية والقطاع العام"
+
+msgid "Public Sector"
+msgstr "القطاع العام"
+
+msgid "Compliant HR, payroll, procurement, technology, and back-office delivery for government-linked and public-sector organizations."
+msgstr "موارد بشرية ورواتب ومشتريات وتقنية وخدمات مساندة ملتزمة بالأنظمة للجهات الحكومية وشبه الحكومية."
+
+msgid "Financial Services"
+msgstr "الخدمات المالية"
+
+msgid "Payroll outsourcing, compliance, secure data handling, finance operations, and reporting for financial services and banking organizations."
+msgstr "تعهيد الرواتب والامتثال والتعامل الآمن مع البيانات وعمليات المالية والتقارير لمؤسسات الخدمات المالية والمصرفية."
+
+msgid "Energy, Agriculture & Manufacturing"
+msgstr "الطاقة والزراعة والتصنيع"
+
+msgid "Energy & Manufacturing"
+msgstr "الطاقة والتصنيع"
+
+msgid "Procurement, inventory, finance, and operational support for energy, agriculture, automotive, and manufacturing businesses."
+msgstr "دعم المشتريات والمخزون والمالية والعمليات لشركات الطاقة والزراعة والسيارات والتصنيع."
+
+msgid "Real Estate & Construction"
+msgstr "العقارات والإنشاءات"
+
+msgid "Lead generation, document processing, project coordination, and back-office support across development and property portfolios."
+msgstr "توليد العملاء المحتملين ومعالجة المستندات وتنسيق المشاريع والدعم المساند عبر محافظ التطوير والعقارات."
+
+msgid "Retail, Hospitality & Healthcare"
+msgstr "التجزئة والضيافة والرعاية الصحية"
+
+msgid "Customer care, order management, returns, patient support, medical record management, and billing for service-led operators."
+msgstr "رعاية العملاء وإدارة الطلبات والمرتجعات ودعم المرضى وإدارة السجلات الطبية والفوترة للمشغّلين القائمين على الخدمة."
+
+msgid "slide"
+msgstr "شريحة"
+
+msgid "Show previous industry"
+msgstr "عرض القطاع السابق"
+
+msgid "Show next industry"
+msgstr "عرض القطاع التالي"
+
+msgid "Show previous posts"
+msgstr "عرض المنشورات السابقة"
+
+msgid "View this post on Instagram"
+msgstr "عرض هذا المنشور على إنستغرام"
+
+msgid "Show more posts"
+msgstr "عرض المزيد من المنشورات"
+
+msgid "Showing posts starting with %s."
+msgstr "عرض المنشورات بدءًا من %s."
+
+msgid "Regional presence"
+msgstr "حضور إقليمي"
+
+msgid "Our Locations"
+msgstr "مواقعنا"
+
+msgid "Delivery hubs across the Gulf and the Levant, run as one connected team — so the work moves with your business rather than around it."
+msgstr "مراكز تنفيذ في أنحاء الخليج وبلاد الشام، تعمل كفريق واحد مترابط — فينتقل العمل مع أعمالكم لا حولها."
+
+msgid "See all our locations"
+msgstr "عرض جميع مواقعنا"
+
+msgid "Explore location"
+msgstr "استكشف الموقع"
+
+msgid "Our next delivery hub"
+msgstr "مركز التنفيذ التالي لدينا"
+
+msgid "Abu Dhabi"
+msgstr "أبوظبي"
+
+msgid "United Arab Emirates"
+msgstr "الإمارات العربية المتحدة"
+
+msgid "Doha"
+msgstr "الدوحة"
+
+msgid "Qatar"
+msgstr "قطر"
+
+msgid "Riyadh"
+msgstr "الرياض"
+
+msgid "Saudi Arabia"
+msgstr "المملكة العربية السعودية"
+
+msgid "Beirut"
+msgstr "بيروت"
+
+msgid "Lebanon"
+msgstr "لبنان"
+
+msgid "Damascus"
+msgstr "دمشق"
+
+msgid "Syria"
+msgstr "سوريا"
+
+msgid "Coming soon"
+msgstr "قريبًا"
+
+msgid "Explore Synergi in %1$s, %2$s"
+msgstr "استكشف سينرجي في %1$s، %2$s"
+
+msgid "Company figures"
+msgstr "أرقام الشركة"
+
+msgid "Synergi in Numbers"
+msgstr "سينرجي بالأرقام"
+
+msgid "One regional partner, measured by the outcomes it delivers for businesses across the Gulf and beyond."
+msgstr "شريك إقليمي واحد، يُقاس بالنتائج التي يحققها للشركات في أنحاء الخليج وخارجه."
+
+msgid "50+"
+msgstr "50+"
+
+msgid "clients we have served"
+msgstr "عميلًا خدمناهم"
+
+msgid "5"
+msgstr ""
+
+msgid "global delivery locations"
+msgstr "مواقع تنفيذ عالمية"
+
+msgid "100+"
+msgstr "100+"
+
+msgid "years of combined experience"
+msgstr "عامًا من الخبرة المجتمعة"
+
+msgid "10–15%"
+msgstr "10–15%"
+
+msgid "direct savings"
+msgstr "وفورات مباشرة"
+
+msgid "Synergi company figures"
+msgstr "أرقام شركة سينرجي"
+
+msgid "What we offer"
+msgstr "ما نقدّمه"
+
+msgid "Explore"
+msgstr "استكشف"
+
+msgid "Map of the Synergi office in %s"
+msgstr "خريطة مكتب سينرجي في %s"
+
+msgid "Hide map"
+msgstr "إخفاء الخريطة"
+
+msgid "Show map of %s"
+msgstr "عرض خريطة %s"
+
+msgid "Open in Google Maps"
+msgstr "فتح في خرائط Google"
+
+msgid "Partner logos. Drag or swipe to browse."
+msgstr "شعارات الشركاء. اسحب للتصفح."
+
+msgid "The team"
+msgstr "الفريق"
+
+msgid "LinkedIn profile — %s"
+msgstr "الملف الشخصي على لينكدإن — %s"
+
+msgid "Executive series"
+msgstr "السلسلة التنفيذية"
+
+msgid "Leadership · Strategy · Operations"
+msgstr "القيادة · الاستراتيجية · العمليات"
+
+msgid "Explore the Podcast"
+msgstr "استكشف البودكاست"
+
+msgid "%s open role"
+msgid_plural "%s open roles"
+msgstr[0] "لا وظائف شاغرة"
+msgstr[1] "وظيفة شاغرة واحدة"
+msgstr[2] "وظيفتان شاغرتان"
+msgstr[3] "%s وظائف شاغرة"
+msgstr[4] "%s وظيفة شاغرة"
+msgstr[5] "%s وظيفة شاغرة"
+
+msgid "No open roles right now"
+msgstr "لا توجد وظائف شاغرة حاليًا"
+
+msgid "Application: %s"
+msgstr "التقديم: %s"
+
+msgid "Posted %s"
+msgstr "نُشرت في %s"
+
+msgid "Mail us at"
+msgstr "راسلنا على"
+
+msgid "Apply at"
+msgstr "قدّم عبر"
+
+msgid "Get in touch about this role"
+msgstr "تواصل معنا بشأن هذه الوظيفة"
+
+msgid "How we work"
+msgstr "كيف نعمل"
+
+msgid "Our other service lines"
+msgstr "خطوط خدماتنا الأخرى"
+
+msgid "Business Process Outsourcing"
+msgstr "تعهيد عمليات الأعمال"
+
+msgid "HR Outsourcing"
+msgstr "تعهيد الموارد البشرية"
+
+msgid "Accounting Services"
+msgstr "الخدمات المحاسبية"
+
+msgid "What Synergi delivers"
+msgstr "ما تقدّمه سينرجي"
+
+msgid "Synergi service keywords, drifting sideways. The movement pauses while this strip has keyboard focus."
+msgstr "كلمات خدمات سينرجي المفتاحية تتحرك جانبيًا. تتوقف الحركة عندما يكون هذا الشريط في بؤرة لوحة المفاتيح."
+
+msgid "Finance operations and reporting"
+msgstr "عمليات المالية والتقارير"
+
+msgid "Support for day-to-day finance processes, transaction cycles, analysis, and reporting."
+msgstr "دعم العمليات المالية اليومية ودورات المعاملات والتحليل والتقارير."
+
+msgid "Bookkeeping, VAT & Tax"
+msgstr "مسك الدفاتر وضريبة القيمة المضافة والضرائب"
+
+msgid "Record to Report"
+msgstr "من التسجيل إلى التقرير"
+
+msgid "Order to Cash"
+msgstr "من الطلب إلى التحصيل"
+
+msgid "Procure to Pay"
+msgstr "من الشراء إلى الدفع"
+
+msgid "Financial Planning & Analysis"
+msgstr "التخطيط والتحليل المالي"
+
+msgid "Analytics and Reporting"
+msgstr "التحليلات والتقارير"
+
+msgid "People operations and development"
+msgstr "عمليات الأفراد وتطويرهم"
+
+msgid "HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity."
+msgstr "تعهيد الموارد البشرية ودعم الرواتب عبر دورة حياة الموظف — الأنظمة والتطوير والقدرات القيادية."
+
+msgid "HR Operations"
+msgstr "عمليات الموارد البشرية"
+
+msgid "Payroll and Pension"
+msgstr "الرواتب والمعاشات"
+
+msgid "Performance Management"
+msgstr "إدارة الأداء"
+
+msgid "Organizational Development"
+msgstr "التطوير المؤسسي"
+
+msgid "Learning & Development"
+msgstr "التعلّم والتطوير"
+
+msgid "HRMS Implementation"
+msgstr "تنفيذ أنظمة إدارة الموارد البشرية"
+
+msgid "CXO as a Service"
+msgstr "المدير التنفيذي كخدمة"
+
+msgid "Sourcing, contracts, and spend visibility"
+msgstr "التوريد والعقود ووضوح الإنفاق"
+
+msgid "Procurement outsourcing from sourcing and governance through administration, negotiation, and spend analysis."
+msgstr "تعهيد المشتريات من التوريد والحوكمة إلى الإدارة والتفاوض وتحليل الإنفاق."
+
+msgid "Procurement Health Check"
+msgstr "فحص صحة المشتريات"
+
+msgid "Procurement Function Build-Up"
+msgstr "بناء وظيفة المشتريات"
+
+msgid "Governance, Compliance and Control"
+msgstr "الحوكمة والامتثال والرقابة"
+
+msgid "Procurement Planning and Inventory Management"
+msgstr "تخطيط المشتريات وإدارة المخزون"
+
+msgid "Strategic Sourcing and Cost Optimization"
+msgstr "التوريد الاستراتيجي وتحسين التكاليف"
+
+msgid "Supplier Lifecycle Management"
+msgstr "إدارة دورة حياة الموردين"
+
+msgid "End-to-End Operational Support (BPO)"
+msgstr "دعم تشغيلي متكامل (تعهيد)"
+
+msgid "Systems, support, and managed services"
+msgstr "الأنظمة والدعم والخدمات المُدارة"
+
+msgid "Technology operations that connect end-user support, infrastructure, compliance, and business systems."
+msgstr "عمليات تقنية تربط دعم المستخدمين والبنية التحتية والامتثال وأنظمة الأعمال."
+
+msgid "ERP Implementation"
+msgstr "تنفيذ أنظمة ERP"
+
+msgid "Custom AI Applications"
+msgstr "تطبيقات ذكاء اصطناعي مخصصة"
+
+msgid "AI-Enabled Business Process Automation"
+msgstr "أتمتة عمليات الأعمال بالذكاء الاصطناعي"
+
+msgid "Service Desk and End-User Support"
+msgstr "مكتب الخدمة ودعم المستخدمين"
+
+msgid "On-Premises and Cloud Managed Services"
+msgstr "خدمات مُدارة محلية وسحابية"
+
+msgid "Regulatory Compliance"
+msgstr "الامتثال التنظيمي"
+
+msgid "Procurement Support"
+msgstr "دعم المشتريات"
+
+msgid "IT Managed Services"
+msgstr "خدمات تقنية المعلومات المُدارة"
+
+msgid "Collaboration Tooling"
+msgstr "أدوات التعاون"
+
+msgid "Brand, communications, and experience"
+msgstr "العلامة والتواصل والتجربة"
+
+msgid "Strategic and operational marketing support across brand, content, events, public relations, and customer experience."
+msgstr "دعم تسويقي استراتيجي وتشغيلي يشمل العلامة والمحتوى والفعاليات والعلاقات العامة وتجربة العملاء."
+
+msgid "Marketing Audit and Strategy Development"
+msgstr "تدقيق التسويق وتطوير الاستراتيجية"
+
+msgid "Social Media Management and Paid Digital Ads"
+msgstr "إدارة وسائل التواصل الاجتماعي والإعلانات الرقمية المدفوعة"
+
+msgid "SEO, GEO and Website Optimization"
+msgstr "تحسين محركات البحث ومحركات الإجابة والمواقع"
+
+msgid "Events Strategy and Management"
+msgstr "استراتيجية الفعاليات وإدارتها"
+
+msgid "Brand Development and Positioning"
+msgstr "تطوير العلامة التجارية وتموضعها"
+
+msgid "PR Representation and Media Relations"
+msgstr "التمثيل الإعلامي والعلاقات العامة"
+
+msgid "Digital Design"
+msgstr "التصميم الرقمي"
+
+msgid "Reporting, Performance Analysis and Data Management"
+msgstr "التقارير وتحليل الأداء وإدارة البيانات"
+
+msgid "Fractional Chief Marketing Officer (CMO)"
+msgstr "مدير تسويق تنفيذي جزئي"
+
+msgid "Governance, delivery, and transformation offices"
+msgstr "الحوكمة والتنفيذ ومكاتب التحوّل"
+
+msgid "Structured project and program delivery with clear governance, resources, controls, and performance reporting."
+msgstr "تنفيذ منظّم للمشاريع والبرامج مع حوكمة واضحة وموارد وضوابط وتقارير أداء."
+
+msgid "PMO Setup and Governance Frameworks"
+msgstr "إنشاء مكاتب إدارة المشاريع وأطر الحوكمة"
+
+msgid "End-to-End Project Planning and Delivery"
+msgstr "تخطيط المشاريع وتنفيذها من البداية إلى النهاية"
+
+msgid "Program and Portfolio Management"
+msgstr "إدارة البرامج والمحافظ"
+
+msgid "Project Resource Planning and Augmentation"
+msgstr "تخطيط موارد المشاريع وتعزيزها"
+
+msgid "Risk, Budget and Schedule Control"
+msgstr "ضبط المخاطر والميزانية والجدول الزمني"
+
+msgid "Vendor and Stakeholder Coordination"
+msgstr "التنسيق مع الموردين وأصحاب المصلحة"
+
+msgid "Project Reporting and Performance Dashboards"
+msgstr "تقارير المشاريع ولوحات الأداء"
+
+msgid "Transformation Office Setup and Management"
+msgstr "إنشاء مكتب التحوّل وإدارته"
+
+msgid "Synergi core BPO services"
+msgstr "خدمات التعهيد الأساسية لدى سينرجي"
+
+msgid "Show previous service"
+msgstr "عرض الخدمة السابقة"
+
+msgid "Show next service"
+msgstr "عرض الخدمة التالية"
+
+msgid "Layered service cards. Use the left and right arrow keys to browse."
+msgstr "بطاقات خدمات متراكبة. استخدم مفتاحي الأسهم لليمين واليسار للتصفح."
+
+msgid "Explore %s"
+msgstr "استكشف %s"
+
+msgid "Centralize your back-office functions in one shared-services team, wherever your business operates. From HR and finance to %s, we help you cut costs, strengthen compliance, and scale faster."
+msgstr "اجمع وظائف المكتب الخلفي في فريق خدمات مشتركة واحد، أينما كانت أعمالكم. من الموارد البشرية والمالية إلى %s، نساعدكم على خفض التكاليف وتعزيز الامتثال والتوسع أسرع."
+
+msgid "procurement"
+msgstr "المشتريات"
+
+msgid "Looking to optimize operations beyond shared services? See how Synergi delivers %s — as consulting, manpower augmentation or full BPO, wherever you operate."
+msgstr "تتطلعون إلى تحسين العمليات بما يتجاوز الخدمات المشتركة؟ اطّلعوا على ما تقدّمه سينرجي %s — كاستشارات أو تعزيز للقوى العاملة أو تعهيد كامل، أينما تعملون."
+
+msgid "across our markets"
+msgstr "في أسواقنا"
+
+msgid "Understand"
+msgstr "الفهم"
+
+msgid "Design"
+msgstr "التصميم"
+
+msgid "Deliver"
+msgstr "التنفيذ"
+
+msgid "Discover Shared Services"
+msgstr "اكتشف الخدمات المشتركة"
+
+msgid "UAE"
+msgstr "الإمارات"
+
+msgid "GCC"
+msgstr "دول الخليج"
+
+msgid "KSA"
+msgstr "السعودية"
+
+msgid "Cost Savings"
+msgstr "توفير التكاليف"
+
+msgid "Multi-Market Reach"
+msgstr "الوصول إلى أسواق متعددة"
+
+msgid "Access to Expertise"
+msgstr "الوصول إلى الخبرات"
+
+msgid "Scalable Services"
+msgstr "خدمات قابلة للتوسع"
+
+msgid "Focus on Core Activities"
+msgstr "التركيز على الأنشطة الأساسية"
+
+msgid "One Connected"
+msgstr "إطار عمل"
+
+msgid "Framework"
+msgstr "واحد مترابط"
+
+msgid "Human"
+msgstr "الموارد"
+
+msgid "Resources"
+msgstr "البشرية"
+
+msgid "Technology"
+msgstr "التقنية"
+
+msgid "& AI"
+msgstr "والذكاء الاصطناعي"
+
+msgid "Project"
+msgstr "إدارة"
+
+msgid "Management"
+msgstr "المشاريع"
+
+msgid "Shared services hub connecting %s under one connected framework."
+msgstr "مركز خدمات مشتركة يربط %s ضمن إطار عمل واحد مترابط."
+
+msgid "Synergi delivery model"
+msgstr "نموذج التنفيذ لدى سينرجي"
+
+msgid "Markets served"
+msgstr "الأسواق المخدومة"
+
+msgid "Benefits of outsourcing with Synergi"
+msgstr "مزايا التعهيد مع سينرجي"
+
+msgid "Hover to read"
+msgstr "مرّر المؤشر للقراءة"
+
+msgid "Why Synergi"
+msgstr "لماذا سينرجي"
+
+msgid "Why Companies Choose Synergi"
+msgstr "لماذا تختار الشركات سينرجي"
+
+msgid "Synergi is more than just an outsourcing provider; we are a trusted partner to businesses across the region and beyond. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant."
+msgstr "سينرجي أكثر من مجرد مزوّد تعهيد؛ نحن شريك موثوق للشركات في المنطقة وخارجها. وبالجمع بين المعايير الدولية والخبرة الإقليمية، نساعد في إبقاء عمليات الأعمال آمنة وفعّالة وملتزمة."
+
+msgid "Experience across multiple Gulf markets"
+msgstr "خبرة عبر أسواق خليجية متعددة"
+
+msgid "Gulf market experience"
+msgstr "خبرة في أسواق الخليج"
+
+msgid "Customized outsourcing strategies"
+msgstr "استراتيجيات تعهيد مخصصة"
+
+msgid "Customized strategies"
+msgstr "استراتيجيات مخصصة"
+
+msgid "Each operating model is shaped around the organization, its maturity, and its priorities."
+msgstr "يُصاغ كل نموذج تشغيل حول المؤسسة ونضجها وأولوياتها."
+
+msgid "Compliance with UAE and Gulf regulations"
+msgstr "الامتثال لأنظمة الإمارات والخليج"
+
+msgid "Regulatory compliance"
+msgstr "الامتثال التنظيمي"
+
+msgid "Governance and local requirements are built into processes and delivery controls."
+msgstr "تُبنى الحوكمة والمتطلبات المحلية في العمليات وضوابط التنفيذ."
+
+msgid "Flexible operations that grow with your business"
+msgstr "عمليات مرنة تنمو مع أعمالكم"
+
+msgid "Scalable operations"
+msgstr "عمليات قابلة للتوسع"
+
+msgid "Consulting, manpower augmentation, and BPO can scale as requirements change."
+msgstr "يمكن للاستشارات وتعزيز القوى العاملة والتعهيد التوسع مع تغيّر المتطلبات."
+
+msgid "Showing reason %1$s: %2$s."
+msgstr "عرض السبب %1$s: %2$s."
+
+msgid "%s reasons to choose Synergi. Use the arrow keys to change the featured card."
+msgstr "%s أسباب لاختيار سينرجي. استخدم مفاتيح الأسهم لتغيير البطاقة المعروضة."
+
+msgid "Show reason %1$s: %2$s"
+msgstr "عرض السبب %1$s: %2$s"
+
+msgid "The result"
+msgstr "النتيجة"
+
+msgid "More posts"
+msgstr "المزيد من المقالات"
+
+msgid "%s case studies"
+msgstr "دراسات حالة في %s"
+
+msgid "What we have delivered in %s"
+msgstr "ما قدّمناه في %s"
+
+msgid "What we have delivered"
+msgstr "ما قدّمناه"
+
+msgid "No case studies are published for this service line yet."
+msgstr "لم تُنشر دراسات حالة لخط الخدمة هذا بعد."
+
+msgid "Who we are"
+msgstr "من نحن"
+
+msgid "Our approach"
+msgstr "نهجنا"
+
+msgid "What we stand for"
+msgstr "ما نؤمن به"
+
+msgid "How we got here"
+msgstr "كيف وصلنا إلى هنا"
+
+msgid "Our other markets"
+msgstr "أسواقنا الأخرى"
+
+msgid "How organizations across the Gulf run their operations with Synergi."
+msgstr "كيف تدير المؤسسات في أنحاء الخليج عملياتها مع سينرجي."
+
+msgid "View all case studies"
+msgstr "عرض جميع دراسات الحالة"
+
+msgid "Latest Podcast Episodes"
+msgstr "أحدث حلقات البودكاست"
+
+msgid "Senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region."
+msgstr "قادة كبار يتحدثون عن كيفية تكامل القيادة والاستراتيجية والعمليات لإحداث أثر في الأعمال عبر منطقة الشرق الأوسط وشمال أفريقيا."
+
+msgid "View all episodes"
+msgstr "عرض جميع الحلقات"
+
+msgid "How it runs"
+msgstr "كيف يجري"
+
+msgid "Read the full case study"
+msgstr "اقرأ دراسة الحالة كاملة"
+
+msgid "Our other solutions"
+msgstr "حلولنا الأخرى"
+
+msgid "How we engage"
+msgstr "كيف نتعامل معكم"
+

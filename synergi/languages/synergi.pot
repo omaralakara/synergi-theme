@@ -1,0 +1,3731 @@
+# Synergi theme.
+msgid ""
+msgstr ""
+"Project-Id-Version: Synergi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: synergi\n"
+
+#: 404.php:24
+msgid "That page has moved or never existed"
+msgstr ""
+
+#: 404.php:25
+msgid "The link may be out of date. Here is the way back."
+msgstr ""
+
+#: 404.php:34 footer.php:147 parts/footer-links.php:19
+msgid "About Us"
+msgstr ""
+
+#: 404.php:35 inc/service-fields.php:66 inc/service-fields.php:482
+msgid "Our Services"
+msgstr ""
+
+#: 404.php:36
+msgid "Our Blog"
+msgstr ""
+
+#: 404.php:37 footer.php:151
+msgid "Contact Us"
+msgstr ""
+
+#: archive.php:43 footer.php:158
+msgid "Blog"
+msgstr ""
+
+#: archive.php:94 search.php:56 single.php:116
+msgid "Previous"
+msgstr ""
+
+#: archive.php:95 search.php:57 single.php:123
+msgid "Next"
+msgstr ""
+
+#: archive.php:103
+msgid "There are no posts here yet."
+msgstr ""
+
+#: footer.php:36
+msgid "Synergi is a boutique BPO partner delivering personalized, high-impact business solutions"
+msgstr ""
+
+#: footer.php:81
+msgid "Synergi on %s"
+msgstr ""
+
+#: footer.php:117
+msgid "Services"
+msgstr ""
+
+#: footer.php:119 sections/services.php:96
+msgid "Human Resources"
+msgstr ""
+
+#: footer.php:120 sections/ribbon.php:52 sections/services.php:129
+msgid "Technology & AI"
+msgstr ""
+
+#: footer.php:121 sections/services.php:81 sections/shared-services.php:125
+msgid "Accounting"
+msgstr ""
+
+#: footer.php:122 parts/consent.php:99 sections/ribbon.php:54 sections/services.php:147 sections/shared-services.php:141
+msgid "Marketing"
+msgstr ""
+
+#: footer.php:123 sections/ribbon.php:53 sections/services.php:113 sections/shared-services.php:133
+msgid "Procurement"
+msgstr ""
+
+#: footer.php:124 sections/ribbon.php:55 sections/services.php:165
+msgid "Project Management"
+msgstr ""
+
+#: footer.php:135 inc/solution-fields.php:51
+msgid "Solutions"
+msgstr ""
+
+#: footer.php:137 sections/ribbon.php:56 sections/shared-services.php:110
+msgid "Shared Services"
+msgstr ""
+
+#: footer.php:138
+msgid "Build-Operate-Transfer"
+msgstr ""
+
+#: footer.php:139
+msgid "Systems Implementation"
+msgstr ""
+
+#: footer.php:140
+msgid "Carve-Out & Integration"
+msgstr ""
+
+#: footer.php:141
+msgid "Fractional Leadership"
+msgstr ""
+
+#: footer.php:145 parts/footer-links.php:18
+msgid "Company"
+msgstr ""
+
+#: footer.php:148
+msgid "Engagement Team"
+msgstr ""
+
+#: footer.php:149
+msgid "Global Locations"
+msgstr ""
+
+#: footer.php:150 inc/homepage-fields.php:240 inc/market-fields.php:56 inc/market-fields.php:212
+msgid "Markets"
+msgstr ""
+
+#: footer.php:155 inc/blog-fields.php:77 inc/market-fields.php:697
+msgid "Insights"
+msgstr ""
+
+#: footer.php:157
+msgid "Case Studies"
+msgstr ""
+
+#: footer.php:159
+msgid "Executive Podcast"
+msgstr ""
+
+#: footer.php:160 inc/media-fields.php:41 inc/podcast-fields.php:117
+msgid "Media"
+msgstr ""
+
+#: footer.php:177
+msgid "Copyright © %1$s %2$s. All Rights Reserved."
+msgstr ""
+
+#: footer.php:185
+msgid "Terms & Conditions"
+msgstr ""
+
+#: footer.php:186 parts/consent.php:74
+msgid "Privacy Policy"
+msgstr ""
+
+#: footer.php:188
+msgid "Cookie settings"
+msgstr ""
+
+#: header.php:30
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:56 header.php:61
+msgid "Open navigation"
+msgstr ""
+
+#: header.php:57
+msgid "Close navigation"
+msgstr ""
+
+#: inc/about-fields.php:63
+msgid "About — intro"
+msgstr ""
+
+#: inc/about-fields.php:64
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here, and the photograph is the Featured Image in the sidebar."
+msgstr ""
+
+#: inc/about-fields.php:70 inc/about-fields.php:494 inc/blog-fields.php:75 inc/careers-fields.php:140 inc/careers-fields.php:189 inc/careers-fields.php:289 inc/case-study-fields.php:282 inc/case-study-fields.php:427 inc/case-study-fields.php:456 inc/contact-fields.php:110 inc/contact-fields.php:147 inc/contact-fields.php:188 inc/contact-fields.php:242 inc/fields.php:96 inc/global-locations-fields.php:42 inc/homepage-fields.php:170 inc/homepage-fields.php:204 inc/homepage-fields.php:290 inc/homepage-fields.php:385 inc/homepage-fields.php:437 inc/homepage-fields.php:478 inc/homepage-fields.php:518 inc/market-fields.php:210 inc/market-fields.php:350 inc/market-fields.php:409 inc/market-fields.php:482 inc/market-fields.php:696 inc/media-fields.php:40 inc/podcast-fields.php:116 inc/podcast-fields.php:155 inc/podcast-fields.php:203 inc/podcast-fields.php:248 inc/records.php:884 inc/records.php:968 inc/service-fields.php:65 inc/service-fields.php:481 inc/solution-fields.php:220 inc/solution-fields.php:532
+msgid "Eyebrow"
+msgstr ""
+
+#: inc/about-fields.php:71 inc/about-fields.php:495
+msgid "About Synergi"
+msgstr ""
+
+#: inc/about-fields.php:77 inc/about-fields.php:237 inc/about-fields.php:305 inc/about-fields.php:392 inc/about-fields.php:501 inc/blog-fields.php:83 inc/careers-fields.php:147 inc/careers-fields.php:203 inc/careers-fields.php:303 inc/case-study-fields.php:289 inc/case-study-fields.php:379 inc/case-study-fields.php:463 inc/contact-fields.php:117 inc/contact-fields.php:161 inc/contact-fields.php:202 inc/contact-fields.php:256 inc/global-locations-fields.php:49 inc/homepage-fields.php:532 inc/market-fields.php:218 inc/market-fields.php:364 inc/market-fields.php:496 inc/media-fields.php:47 inc/podcast-fields.php:123 inc/podcast-fields.php:217 inc/podcast-fields.php:262 inc/service-fields.php:72 inc/service-fields.php:185 inc/service-fields.php:488 inc/solution-fields.php:227 inc/solution-fields.php:336 inc/solution-fields.php:539
+msgid "Opening sentence"
+msgstr ""
+
+#: inc/about-fields.php:78 inc/service-fields.php:73 inc/solution-fields.php:228
+msgid "One or two sentences. This is the first thing a reader and a search engine see."
+msgstr ""
+
+#: inc/about-fields.php:79
+msgid "We offer end-to-end solutions to enable companies at all stages of maturity to optimize and drive value from their non-core activities."
+msgstr ""
+
+#: inc/about-fields.php:86 inc/about-fields.php:509 inc/market-fields.php:233 inc/service-fields.php:88 inc/solution-fields.php:242
+msgid "Main button"
+msgstr ""
+
+#: inc/about-fields.php:89 inc/global-locations-fields.php:101 inc/market-fields.php:236 inc/service-fields.php:91 inc/solution-fields.php:245
+msgid "Talk to our team"
+msgstr ""
+
+#: inc/about-fields.php:95 inc/market-fields.php:242 inc/service-fields.php:97 inc/solution-fields.php:251
+msgid "Second button"
+msgstr ""
+
+#: inc/about-fields.php:120
+msgid "About — who we are"
+msgstr ""
+
+#: inc/about-fields.php:121
+msgid "The opening story, then the mission and vision statements."
+msgstr ""
+
+#: inc/about-fields.php:127 inc/about-fields.php:230 inc/about-fields.php:298 inc/about-fields.php:385 inc/careers-fields.php:196 inc/careers-fields.php:296 inc/case-study-fields.php:372 inc/case-study-fields.php:434 inc/contact-fields.php:154 inc/contact-fields.php:195 inc/contact-fields.php:249 inc/market-fields.php:268 inc/market-fields.php:357 inc/market-fields.php:416 inc/market-fields.php:489 inc/market-fields.php:633 inc/market-fields.php:688 inc/podcast-fields.php:162 inc/podcast-fields.php:210 inc/podcast-fields.php:255 inc/service-fields.php:124 inc/service-fields.php:178 inc/service-fields.php:327 inc/solution-fields.php:275 inc/solution-fields.php:329 inc/solution-fields.php:469
+msgid "Section heading"
+msgstr ""
+
+#: inc/about-fields.php:128
+msgid "Welcome to Synergi’s World"
+msgstr ""
+
+#: inc/about-fields.php:134 inc/market-fields.php:275 inc/podcast-fields.php:169
+msgid "Paragraphs"
+msgstr ""
+
+#: inc/about-fields.php:135 inc/about-fields.php:150 inc/homepage-fields.php:88 inc/homepage-fields.php:184 inc/homepage-fields.php:218 inc/homepage-fields.php:399 inc/homepage-fields.php:540 inc/market-fields.php:277 inc/market-fields.php:287 inc/podcast-fields.php:170 inc/podcast-fields.php:180 inc/records.php:980
+msgid "Paragraph"
+msgstr ""
+
+#: inc/about-fields.php:136 inc/market-fields.php:278 inc/podcast-fields.php:171
+msgid "Add paragraph"
+msgstr ""
+
+#: inc/about-fields.php:158
+msgid "Mission and vision"
+msgstr ""
+
+#: inc/about-fields.php:159 inc/about-fields.php:184 inc/market-fields.php:297 inc/market-fields.php:313
+msgid "Statement"
+msgstr ""
+
+#: inc/about-fields.php:160 inc/market-fields.php:298
+msgid "Add statement"
+msgstr ""
+
+#: inc/about-fields.php:178 inc/homepage-fields.php:177 inc/homepage-fields.php:211 inc/homepage-fields.php:297 inc/homepage-fields.php:392 inc/homepage-fields.php:444 inc/homepage-fields.php:485 inc/homepage-fields.php:525 inc/market-fields.php:307 inc/records.php:891 inc/records.php:920 inc/records.php:974
+msgid "Heading"
+msgstr ""
+
+#: inc/about-fields.php:190 inc/about-fields.php:313 inc/about-fields.php:582 inc/careers-fields.php:212 inc/case-study-fields.php:298 inc/homepage-fields.php:334 inc/market-fields.php:319 inc/market-fields.php:453 inc/market-fields.php:535 inc/market-fields.php:581 inc/records.php:839 inc/records.php:941 inc/service-fields.php:81 inc/service-fields.php:279 inc/solution-fields.php:419
+msgid "Photograph"
+msgstr ""
+
+#: inc/about-fields.php:191
+msgid "Optional. The front of the card, with the heading over it; the statement is on the back. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/about-fields.php:223
+msgid "About — our approach"
+msgstr ""
+
+#: inc/about-fields.php:224
+msgid "How an engagement runs, as numbered stages. The order here is the order on the page, and the numbers are drawn from it."
+msgstr ""
+
+#: inc/about-fields.php:231 inc/service-fields.php:179 sections/process.php:30
+msgid "From assessment to action"
+msgstr ""
+
+#: inc/about-fields.php:238
+msgid "Our proprietary methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution."
+msgstr ""
+
+#: inc/about-fields.php:245 inc/solution-fields.php:344
+msgid "Stages"
+msgstr ""
+
+#: inc/about-fields.php:246 inc/about-fields.php:269 inc/solution-fields.php:345 inc/solution-fields.php:355
+msgid "Stage"
+msgstr ""
+
+#: inc/about-fields.php:247 inc/solution-fields.php:346
+msgid "Add stage"
+msgstr ""
+
+#: inc/about-fields.php:275 inc/service-fields.php:227 inc/solution-fields.php:361
+msgid "What happens"
+msgstr ""
+
+#: inc/about-fields.php:291
+msgid "About — our values"
+msgstr ""
+
+#: inc/about-fields.php:292
+msgid "The pillars the company works to. The order here is the order on the page."
+msgstr ""
+
+#: inc/about-fields.php:299
+msgid "Our Values"
+msgstr ""
+
+#: inc/about-fields.php:306
+msgid "At Synergi, our ethos is built upon pillars that guide every step we take."
+msgstr ""
+
+#: inc/about-fields.php:314
+msgid "Optional. Sits at the centre of the values wheel on a wide screen, and above the values on a narrow one."
+msgstr ""
+
+#: inc/about-fields.php:319
+msgid "Values"
+msgstr ""
+
+#: inc/about-fields.php:320
+msgid "Value"
+msgstr ""
+
+#: inc/about-fields.php:321
+msgid "Add value"
+msgstr ""
+
+#: inc/about-fields.php:355 inc/about-fields.php:570 inc/homepage-fields.php:314 inc/records.php:640 inc/solution-fields.php:63
+msgid "Name"
+msgstr ""
+
+#: inc/about-fields.php:361 inc/homepage-fields.php:327 inc/market-fields.php:447 inc/market-fields.php:529 inc/records.php:934
+msgid "One sentence"
+msgstr ""
+
+#: inc/about-fields.php:378
+msgid "About — our journey"
+msgstr ""
+
+#: inc/about-fields.php:379
+msgid "The company timeline, typed as milestones. The picture below is only used when no milestones are typed, and the whole band is skipped when there is neither."
+msgstr ""
+
+#: inc/about-fields.php:386
+msgid "Our Journey"
+msgstr ""
+
+#: inc/about-fields.php:420
+msgid "Milestones"
+msgstr ""
+
+#: inc/about-fields.php:421
+msgid "Oldest first. A milestone needs a name; the year and the note are optional."
+msgstr ""
+
+#: inc/about-fields.php:422 inc/about-fields.php:447
+msgid "Milestone"
+msgstr ""
+
+#: inc/about-fields.php:423
+msgid "Add milestone"
+msgstr ""
+
+#: inc/about-fields.php:441
+msgid "Year"
+msgstr ""
+
+#: inc/about-fields.php:453
+msgid "Note"
+msgstr ""
+
+#: inc/about-fields.php:454
+msgid "Optional. One short line under the milestone."
+msgstr ""
+
+#: inc/about-fields.php:462
+msgid "The timeline as a picture"
+msgstr ""
+
+#: inc/about-fields.php:463
+msgid "Only used when no milestones are typed above. It carries information rather than decorating, so it needs real alt text on its media library entry."
+msgstr ""
+
+#: inc/about-fields.php:487
+msgid "People — intro"
+msgstr ""
+
+#: inc/about-fields.php:488
+msgid "The band at the top of the page. The page title is the heading."
+msgstr ""
+
+#: inc/about-fields.php:502
+msgid "For a boutique, the people are the product. These are the people you work with."
+msgstr ""
+
+#: inc/about-fields.php:537
+msgid "People — the list"
+msgstr ""
+
+#: inc/about-fields.php:538
+msgid "Everyone on this page, in the order they should appear. Rows sharing a “Group” sit together under one heading, so keep a group’s rows next to each other."
+msgstr ""
+
+#: inc/about-fields.php:544
+msgid "People"
+msgstr ""
+
+#: inc/about-fields.php:545
+msgid "Person"
+msgstr ""
+
+#: inc/about-fields.php:546
+msgid "Add person"
+msgstr ""
+
+#: inc/about-fields.php:563
+msgid "Group"
+msgstr ""
+
+#: inc/about-fields.php:564
+msgid "The heading this person sits under, e.g. Board of Directors. Leave it empty on every row for one ungrouped list."
+msgstr ""
+
+#: inc/about-fields.php:576
+msgid "Role"
+msgstr ""
+
+#: inc/about-fields.php:583
+msgid "Optional. A card without one still renders, with the person’s initials in its place."
+msgstr ""
+
+#: inc/about-fields.php:588 sections/people.php:319
+msgid "LinkedIn"
+msgstr ""
+
+#: inc/about-fields.php:589
+msgid "Optional. The full address, starting with https://."
+msgstr ""
+
+#: inc/about-fields.php:595
+msgid "Biography"
+msgstr ""
+
+#: inc/about-fields.php:596
+msgid "Optional. A few sentences. A card with one is wider than a card without."
+msgstr ""
+
+#: inc/blog-fields.php:68
+msgid "Blog — the band at the top"
+msgstr ""
+
+#: inc/blog-fields.php:69
+msgid "The hero on the blog listing. The page title is the heading, so it is not repeated here. These fields also cover the category and tag archives, which have no page of their own to be edited on."
+msgstr ""
+
+#: inc/blog-fields.php:76 inc/records.php:885
+msgid "The small label above the heading."
+msgstr ""
+
+#: inc/blog-fields.php:84
+msgid "One or two sentences under the heading. Leave it empty and the page falls back to this page’s excerpt, which is where the sentence used to come from."
+msgstr ""
+
+#: inc/blog-fields.php:85
+msgid "Analysis and practical guidance from the teams who run these functions every day."
+msgstr ""
+
+#: inc/blog-fields.php:92 inc/careers-fields.php:157 inc/case-study-fields.php:472 inc/contact-fields.php:125 inc/global-locations-fields.php:58 inc/market-fields.php:227 inc/media-fields.php:56 inc/service-fields.php:497 inc/solution-fields.php:236 inc/solution-fields.php:548
+msgid "Hero photograph"
+msgstr ""
+
+#: inc/blog-fields.php:93
+msgid "Optional. Fills the band behind the heading. Without one the page falls back to this page’s Featured Image, and without that the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/careers-fields.php:71
+msgid "Operations"
+msgstr ""
+
+#: inc/careers-fields.php:72
+msgid "Corporate"
+msgstr ""
+
+#: inc/careers-fields.php:88 sections/positions.php:167
+msgid "Still available"
+msgstr ""
+
+#: inc/careers-fields.php:89
+msgid "Closing soon"
+msgstr ""
+
+#: inc/careers-fields.php:90
+msgid "Filled"
+msgstr ""
+
+#: inc/careers-fields.php:105
+msgid "Full-time"
+msgstr ""
+
+#: inc/careers-fields.php:106
+msgid "Part-time"
+msgstr ""
+
+#: inc/careers-fields.php:107
+msgid "Contract"
+msgstr ""
+
+#: inc/careers-fields.php:108
+msgid "Internship"
+msgstr ""
+
+#: inc/careers-fields.php:109
+msgid "Temporary"
+msgstr ""
+
+#: inc/careers-fields.php:133
+msgid "Careers — intro"
+msgstr ""
+
+#: inc/careers-fields.php:134
+msgid "The band at the top. The page title is the heading."
+msgstr ""
+
+#: inc/careers-fields.php:141
+msgid "Careers at Synergi"
+msgstr ""
+
+#: inc/careers-fields.php:150
+msgid "Synergi BPO is a boutique Business Process Outsourcing provider serving clients across the GCC region and internationally, helping organizations streamline and strengthen their support functions and shared services."
+msgstr ""
+
+#: inc/careers-fields.php:158
+msgid "Fills the band behind the page title. Without one the band stays on the flat navy."
+msgstr ""
+
+#: inc/careers-fields.php:164 inc/homepage-fields.php:125 inc/podcast-fields.php:131 inc/service-fields.php:503 inc/solution-fields.php:554
+msgid "Button"
+msgstr ""
+
+#: inc/careers-fields.php:165
+msgid "#positions jumps to the open positions further down this page."
+msgstr ""
+
+#: inc/careers-fields.php:168
+msgid "See open positions"
+msgstr ""
+
+#: inc/careers-fields.php:182
+msgid "Careers — why join"
+msgstr ""
+
+#: inc/careers-fields.php:183
+msgid "The reasons to work here, beside a photograph of the team."
+msgstr ""
+
+#: inc/careers-fields.php:190 inc/homepage-fields.php:479 inc/media-fields.php:108 sections/instagram.php:39
+msgid "Life at Synergi"
+msgstr ""
+
+#: inc/careers-fields.php:197
+msgid "Why people build their careers here"
+msgstr ""
+
+#: inc/careers-fields.php:205
+msgid "Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven Shared Services as-a-service (SSaaS) provider."
+msgstr ""
+
+#: inc/careers-fields.php:213
+msgid "Shown tall beside the reasons. A picture of people at work reads better than a skyline here."
+msgstr ""
+
+#: inc/careers-fields.php:219 inc/market-fields.php:504
+msgid "Reasons"
+msgstr ""
+
+#: inc/careers-fields.php:220 inc/market-fields.php:506 inc/market-fields.php:516
+msgid "Reason"
+msgstr ""
+
+#: inc/careers-fields.php:221 inc/market-fields.php:507
+msgid "Add reason"
+msgstr ""
+
+#: inc/careers-fields.php:237
+msgid "Home-grown in the GCC"
+msgstr ""
+
+#: inc/careers-fields.php:238
+msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
+msgstr ""
+
+#: inc/careers-fields.php:241
+msgid "Experience across multiple markets"
+msgstr ""
+
+#: inc/careers-fields.php:242 sections/why.php:101
+msgid "Regional context informs how teams, controls, and delivery models are designed."
+msgstr ""
+
+#: inc/careers-fields.php:245
+msgid "A tech company at its core"
+msgstr ""
+
+#: inc/careers-fields.php:246
+msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
+msgstr ""
+
+#: inc/careers-fields.php:249
+msgid "Expertise"
+msgstr ""
+
+#: inc/careers-fields.php:250
+msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
+msgstr ""
+
+#: inc/careers-fields.php:257 inc/podcast-fields.php:65 inc/service-fields.php:141
+msgid "Title"
+msgstr ""
+
+#: inc/careers-fields.php:263
+msgid "One or two sentences"
+msgstr ""
+
+#: inc/careers-fields.php:282
+msgid "Careers — open positions"
+msgstr ""
+
+#: inc/careers-fields.php:283
+msgid "One row per role. A row with no title is skipped. Remove a row when the role is filled; with no rows at all the band invites an open application instead."
+msgstr ""
+
+#: inc/careers-fields.php:290 sections/positions.php:69
+msgid "Open positions"
+msgstr ""
+
+#: inc/careers-fields.php:297
+msgid "Roles we are hiring for now"
+msgstr ""
+
+#: inc/careers-fields.php:304
+msgid "Open a role to read what it involves and who it suits."
+msgstr ""
+
+#: inc/careers-fields.php:311
+msgid "Positions"
+msgstr ""
+
+#: inc/careers-fields.php:312
+msgid "Position"
+msgstr ""
+
+#: inc/careers-fields.php:313
+msgid "Add position"
+msgstr ""
+
+#: inc/careers-fields.php:322
+msgid "Role title"
+msgstr ""
+
+#: inc/careers-fields.php:328
+msgid "Department"
+msgstr ""
+
+#: inc/careers-fields.php:334 inc/records.php:749
+msgid "Location"
+msgstr ""
+
+#: inc/careers-fields.php:335
+msgid "City and country, or \"Remote\"."
+msgstr ""
+
+#: inc/careers-fields.php:342
+msgid "Employment type"
+msgstr ""
+
+#: inc/careers-fields.php:348
+msgid "Status tag"
+msgstr ""
+
+#: inc/careers-fields.php:349
+msgid "The small tag on the role. Remove the row altogether once a role is filled and gone."
+msgstr ""
+
+#: inc/careers-fields.php:355 inc/market-fields.php:82 inc/records.php:674 inc/solution-fields.php:77
+msgid "One-line summary"
+msgstr ""
+
+#: inc/careers-fields.php:356
+msgid "Shown before the role is opened."
+msgstr ""
+
+#: inc/careers-fields.php:363
+msgid "The role"
+msgstr ""
+
+#: inc/careers-fields.php:364
+msgid "What the role involves and who it suits. Paragraphs and lists are fine."
+msgstr ""
+
+#: inc/careers-fields.php:370
+msgid "Applications email"
+msgstr ""
+
+#: inc/careers-fields.php:371
+msgid "Printed on the role as \"Mail us at …\", with the role title in the subject line. Left blank, the role points at Contact Us instead."
+msgstr ""
+
+#: inc/careers-fields.php:377
+msgid "Apply link instead"
+msgstr ""
+
+#: inc/careers-fields.php:378
+msgid "Optional. A form or a job board page for this role. Filled in, it is used instead of the email."
+msgstr ""
+
+#: inc/careers-fields.php:384
+msgid "Posted on"
+msgstr ""
+
+#: inc/careers-fields.php:385
+msgid "Optional. Shown on the role, and needed for the listing to appear in Google Jobs."
+msgstr ""
+
+#: inc/careers-fields.php:392
+msgid "No openings — heading"
+msgstr ""
+
+#: inc/careers-fields.php:393
+msgid "No open roles at the moment"
+msgstr ""
+
+#: inc/careers-fields.php:399
+msgid "No openings — text"
+msgstr ""
+
+#: inc/careers-fields.php:400
+msgid "Get in touch if you would like to be considered for future roles."
+msgstr ""
+
+#: inc/careers-fields.php:407
+msgid "No openings — button"
+msgstr ""
+
+#: inc/careers-fields.php:408
+msgid "Leave the address empty and the button goes to Contact Us."
+msgstr ""
+
+#: inc/careers-fields.php:411 sections/positions.php:88
+msgid "Get in touch"
+msgstr ""
+
+#: inc/case-study-fields.php:275
+msgid "Case study — the facts"
+msgstr ""
+
+#: inc/case-study-fields.php:276
+msgid "The band at the top of the page, and the four things this study shows on the Case studies grid. The page title is the headline, so it is not repeated here."
+msgstr ""
+
+#: inc/case-study-fields.php:283 inc/case-study-post-type.php:122 sections/case-study.php:37
+msgid "Case study"
+msgstr ""
+
+#: inc/case-study-fields.php:290
+msgid "One or two sentences saying what the engagement was. This is the first thing a reader and a search engine see."
+msgstr ""
+
+#: inc/case-study-fields.php:299
+msgid "Fills the band behind the headline, and is the picture on the Case studies grid. Without one the band stays on the flat navy and the card shows no picture. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/case-study-fields.php:304 inc/case-study-post-type.php:95 inc/market-fields.php:374 inc/market-fields.php:384 inc/records.php:631 inc/service-fields.php:57
+msgid "Service line"
+msgstr ""
+
+#: inc/case-study-fields.php:305
+msgid "The reference of the service line this study belongs to, exactly as typed at Settings → Site records, e.g. human-resources. It is what shows above the headline on the card, and what lets a service page show only its own studies later."
+msgstr ""
+
+#: inc/case-study-fields.php:312
+msgid "Kind of client"
+msgstr ""
+
+#: inc/case-study-fields.php:313
+msgid "A description of the organisation, never its name — e.g. a private equity portfolio company. No client on the company profile has been cleared for the public site."
+msgstr ""
+
+#: inc/case-study-fields.php:320 inc/records.php:764
+msgid "Country"
+msgstr ""
+
+#: inc/case-study-fields.php:321
+msgid "Where the work was delivered, e.g. United Arab Emirates."
+msgstr ""
+
+#: inc/case-study-fields.php:328 inc/records.php:782
+msgid "Country code"
+msgstr ""
+
+#: inc/case-study-fields.php:329
+msgid "Two letters, e.g. AE, SA, QA. Shown on the card when no flag has been chosen below."
+msgstr ""
+
+#: inc/case-study-fields.php:345 inc/records.php:798
+msgid "Country flag"
+msgstr ""
+
+#: inc/case-study-fields.php:346
+msgid "Optional. Shown on the card beside the country name. Without one the card shows the country code instead. Use the same flag images the locations already use."
+msgstr ""
+
+#: inc/case-study-fields.php:365
+msgid "Case study — the outcome"
+msgstr ""
+
+#: inc/case-study-fields.php:366
+msgid "The numbers this engagement produced. Leave the list empty and the whole band is skipped."
+msgstr ""
+
+#: inc/case-study-fields.php:373
+msgid "The outcome"
+msgstr ""
+
+#: inc/case-study-fields.php:387
+msgid "Figures"
+msgstr ""
+
+#: inc/case-study-fields.php:388 inc/records.php:702
+msgid "Figure"
+msgstr ""
+
+#: inc/case-study-fields.php:389 inc/records.php:703
+msgid "Add figure"
+msgstr ""
+
+#: inc/case-study-fields.php:398 inc/records.php:711
+msgid "The number"
+msgstr ""
+
+#: inc/case-study-fields.php:399
+msgid "Exactly as it should read, including any sign or symbol, e.g. 40% or 4 days."
+msgstr ""
+
+#: inc/case-study-fields.php:405
+msgid "What it measures"
+msgstr ""
+
+#: inc/case-study-fields.php:420
+msgid "Case study — more studies"
+msgstr ""
+
+#: inc/case-study-fields.php:421
+msgid "The band at the foot of the page. It fills itself from the other published case studies, so there is nothing to keep up to date here beyond the wording."
+msgstr ""
+
+#: inc/case-study-fields.php:428 sections/related-services.php:38 templates/service.php:133 templates/solution.php:203
+msgid "Keep exploring"
+msgstr ""
+
+#: inc/case-study-fields.php:435
+msgid "More case studies"
+msgstr ""
+
+#: inc/case-study-fields.php:449
+msgid "Case studies — the page"
+msgstr ""
+
+#: inc/case-study-fields.php:450
+msgid "The top of the page, and the wording over the grid. The grid itself fills from every published case study, so nothing lists them by hand."
+msgstr ""
+
+#: inc/case-study-fields.php:457 sections/case-studies.php:53
+msgid "Proof"
+msgstr ""
+
+#: inc/case-study-fields.php:464 inc/global-locations-fields.php:50 inc/media-fields.php:48
+msgid "One or two sentences under the page title."
+msgstr ""
+
+#: inc/case-study-fields.php:465
+msgid "Engagements we have run, and what changed as a result."
+msgstr ""
+
+#: inc/case-study-fields.php:473 inc/global-locations-fields.php:59 inc/media-fields.php:57
+msgid "Optional. Fills the band behind the page title. Without one the band stays on the flat navy."
+msgstr ""
+
+#: inc/case-study-fields.php:478 inc/service-fields.php:512 inc/solution-fields.php:563
+msgid "Heading over the grid"
+msgstr ""
+
+#: inc/case-study-fields.php:479 taxonomy-syn_case_service.php:59 taxonomy-syn_case_service.php:71 templates/case-studies-listing.php:60
+msgid "Our work"
+msgstr ""
+
+#: inc/case-study-fields.php:485 inc/service-fields.php:519 inc/solution-fields.php:570
+msgid "Sentence over the grid"
+msgstr ""
+
+#: inc/case-study-fields.php:486 inc/global-locations-fields.php:126 inc/service-fields.php:520 inc/solution-fields.php:571
+msgid "Optional."
+msgstr ""
+
+#: inc/case-study-fields.php:494
+msgid "When there are none yet"
+msgstr ""
+
+#: inc/case-study-fields.php:495
+msgid "Shown in place of the grid before the first case study is published, so the page is never a heading over nothing."
+msgstr ""
+
+#: inc/case-study-fields.php:496
+msgid "Our first case studies are being written up. In the meantime, our team can talk you through comparable engagements."
+msgstr ""
+
+#: inc/case-study-post-type.php:94 inc/case-study-post-type.php:96 inc/market-fields.php:372 inc/records.php:628
+msgid "Service lines"
+msgstr ""
+
+#: inc/case-study-post-type.php:121 inc/case-study-post-type.php:131 sections/case-studies.php:54 taxonomy-syn_case_service.php:63
+msgid "Case studies"
+msgstr ""
+
+#: inc/case-study-post-type.php:123
+msgid "Add case study"
+msgstr ""
+
+#: inc/case-study-post-type.php:124
+msgid "Edit case study"
+msgstr ""
+
+#: inc/case-study-post-type.php:125
+msgid "New case study"
+msgstr ""
+
+#: inc/case-study-post-type.php:126
+msgid "View case study"
+msgstr ""
+
+#: inc/case-study-post-type.php:127
+msgid "Search case studies"
+msgstr ""
+
+#: inc/case-study-post-type.php:128
+msgid "No case studies yet"
+msgstr ""
+
+#: inc/case-study-post-type.php:129
+msgid "No case studies in the bin"
+msgstr ""
+
+#: inc/case-study-post-type.php:130
+msgid "All case studies"
+msgstr ""
+
+#: inc/contact-fields.php:49
+msgid "Social accounts"
+msgstr ""
+
+#: inc/contact-fields.php:50
+msgid "The company’s accounts on other platforms. The order here is the order they appear in. Add only accounts that are actually maintained — a dead profile linked from the contact page is worse than no link."
+msgstr ""
+
+#: inc/contact-fields.php:51
+msgid "Contact Us, and the footer once it is wired."
+msgstr ""
+
+#: inc/contact-fields.php:52
+msgid "Account"
+msgstr ""
+
+#: inc/contact-fields.php:53
+msgid "Add account"
+msgstr ""
+
+#: inc/contact-fields.php:61
+msgid "Platform"
+msgstr ""
+
+#: inc/contact-fields.php:62
+msgid "As people call it, e.g. LinkedIn."
+msgstr ""
+
+#: inc/contact-fields.php:68
+msgid "Account name"
+msgstr ""
+
+#: inc/contact-fields.php:69
+msgid "Optional, e.g. @synergibpo. Shown under the platform’s name."
+msgstr ""
+
+#: inc/contact-fields.php:75 inc/homepage-fields.php:499
+msgid "Profile address"
+msgstr ""
+
+#: inc/contact-fields.php:76
+msgid "The full address, starting with https://."
+msgstr ""
+
+#: inc/contact-fields.php:103
+msgid "Contact — intro"
+msgstr ""
+
+#: inc/contact-fields.php:104 inc/service-fields.php:51
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here."
+msgstr ""
+
+#: inc/contact-fields.php:111
+msgid "Contact"
+msgstr ""
+
+#: inc/contact-fields.php:118
+msgid "For general enquiries, proposals and career conversations. We answer from the office closest to the work."
+msgstr ""
+
+#: inc/contact-fields.php:126
+msgid "Optional. Without one the band stays on the flat navy."
+msgstr ""
+
+#: inc/contact-fields.php:140
+msgid "Contact — offices"
+msgstr ""
+
+#: inc/contact-fields.php:141
+msgid "The wording around the office cards. The offices, their addresses and emails are edited once at Settings → Site records, because Global Locations shows the same ones. Phone numbers are kept there too but no longer shown on the site."
+msgstr ""
+
+#: inc/contact-fields.php:148
+msgid "Where we are"
+msgstr ""
+
+#: inc/contact-fields.php:155 inc/global-locations-fields.php:119
+msgid "Our offices"
+msgstr ""
+
+#: inc/contact-fields.php:162
+msgid "Delivery runs from centres onshore and offshore. Each office answers for the work closest to it."
+msgstr ""
+
+#: inc/contact-fields.php:181
+msgid "Contact — enquiry form"
+msgstr ""
+
+#: inc/contact-fields.php:182
+msgid "The form band. Paste the form’s shortcode from the forms plugin; leave it empty and the whole band is skipped."
+msgstr ""
+
+#: inc/contact-fields.php:189
+msgid "Send us a message"
+msgstr ""
+
+#: inc/contact-fields.php:196
+msgid "Tell us what you are trying to fix"
+msgstr ""
+
+#: inc/contact-fields.php:203
+msgid "A sentence about the problem is more useful to us than a form filled in perfectly. Someone who can answer it will reply."
+msgstr ""
+
+#: inc/contact-fields.php:210
+msgid "Small print"
+msgstr ""
+
+#: inc/contact-fields.php:211
+msgid "Optional. Shown under the opening sentence, e.g. how long a reply takes."
+msgstr ""
+
+#: inc/contact-fields.php:219
+msgid "Form shortcode"
+msgstr ""
+
+#: inc/contact-fields.php:220
+msgid "From the forms plugin, e.g. [wpforms id=\"7560\"]. The band does not render without it."
+msgstr ""
+
+#: inc/contact-fields.php:235
+msgid "Contact — social accounts"
+msgstr ""
+
+#: inc/contact-fields.php:236
+msgid "The wording around the account cards. The accounts themselves are edited once at Settings → Site records."
+msgstr ""
+
+#: inc/contact-fields.php:243
+msgid "Elsewhere"
+msgstr ""
+
+#: inc/contact-fields.php:250 inc/homepage-fields.php:493 inc/media-fields.php:122 sections/instagram.php:42
+msgid "Follow Synergi"
+msgstr ""
+
+#: inc/fields.php:90
+msgid "Service intro"
+msgstr ""
+
+#: inc/fields.php:97
+msgid "Our services"
+msgstr ""
+
+#: inc/fields.php:326 inc/market-fields.php:588 inc/service-fields.php:285 inc/solution-fields.php:426
+msgid "Item"
+msgstr ""
+
+#: inc/fields.php:327 inc/market-fields.php:589 inc/solution-fields.php:427
+msgid "Add item"
+msgstr ""
+
+#: inc/fields.php:610
+msgid "This field group is no longer registered."
+msgstr ""
+
+#: inc/fields.php:735 inc/fields.php:945
+msgid "Choose image"
+msgstr ""
+
+#: inc/fields.php:736
+msgid "Use this image"
+msgstr ""
+
+#: inc/fields.php:738
+msgid "%1$s %2$d added."
+msgstr ""
+
+#: inc/fields.php:740
+msgid "%1$s %2$d removed."
+msgstr ""
+
+#: inc/fields.php:742
+msgid "%1$s moved to position %2$d of %3$d."
+msgstr ""
+
+#: inc/fields.php:744
+msgid "This list is limited to %d items."
+msgstr ""
+
+#: inc/fields.php:746
+msgid "Move %1$s %2$d up"
+msgstr ""
+
+#: inc/fields.php:748
+msgid "Move %1$s %2$d down"
+msgstr ""
+
+#: inc/fields.php:750
+msgid "Remove %1$s %2$d"
+msgstr ""
+
+#: inc/fields.php:752
+msgid "%1$s %2$d"
+msgstr ""
+
+#: inc/fields.php:753
+msgid "(untitled)"
+msgstr ""
+
+#: inc/fields.php:754
+msgid "Image selected."
+msgstr ""
+
+#: inc/fields.php:755
+msgid "Image removed."
+msgstr ""
+
+#: inc/fields.php:854
+msgid "Left empty, the page shows: %s"
+msgstr ""
+
+#: inc/fields.php:859
+msgid "Maximum %d characters."
+msgstr ""
+
+#: inc/fields.php:882
+msgid "%d built-in item."
+msgid_plural "%d built-in items."
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/fields.php:892
+msgid "the built-in photograph."
+msgstr ""
+
+#: inc/fields.php:926
+msgid "No image chosen"
+msgstr ""
+
+#: inc/fields.php:951
+msgid "Remove"
+msgstr ""
+
+#: inc/fields.php:963
+msgid "The stored image is missing from the media library. Choose another."
+msgstr ""
+
+#: inc/fields.php:989 inc/homepage-fields.php:140
+msgid "Address"
+msgstr ""
+
+#: inc/fields.php:997 inc/homepage-fields.php:492
+msgid "Button text"
+msgstr ""
+
+#: inc/fields.php:1133
+msgid "Empty space"
+msgstr ""
+
+#: inc/fields.php:1166
+msgid "Move %1$s %2$s up"
+msgstr ""
+
+#: inc/fields.php:1168
+msgid "Move %1$s %2$s down"
+msgstr ""
+
+#: inc/fields.php:1170
+msgid "Remove %1$s %2$s"
+msgstr ""
+
+#: inc/fields.php:1232
+msgid "— Select —"
+msgstr ""
+
+#: inc/fields.php:1273
+msgid "Basic HTML is allowed here — a link, bold, a list. Anything else is stripped when you save."
+msgstr ""
+
+#: inc/fields.php:1361
+msgid "“%s” was not saved: the page had been open long enough for its security token to expire. Reload the page and try again."
+msgstr ""
+
+#: inc/fields.php:1396
+msgid "This page sent %1$d form values against a server limit of %2$d. Long lists can be cut off without warning at that limit — check that the last few items saved, and raise max_input_vars if they did not."
+msgstr ""
+
+#: inc/fields.php:1433
+msgid "address"
+msgstr ""
+
+#: inc/fields.php:1437
+msgid "button text"
+msgstr ""
+
+#: inc/fields.php:1533
+msgid "“%s” was sent in an unexpected shape and was not saved."
+msgstr ""
+
+#: inc/fields.php:1551
+msgid "The image chosen for “%s” is not in the media library any more, so it was cleared."
+msgstr ""
+
+#: inc/fields.php:1580
+msgid "“%1$s” was set to something that is not one of the available options, so it was cleared. It read: %2$s"
+msgstr ""
+
+#: inc/fields.php:1609
+msgid "The date in “%1$s” was not a real date, so it was cleared. Use the date picker, or type it as 2026-08-20. It read: %2$s"
+msgstr ""
+
+#: inc/fields.php:1631
+msgid "The address in “%1$s” was not a usable email address, so it was cleared. It read: %2$s"
+msgstr ""
+
+#: inc/fields.php:1653
+msgid "The address in “%1$s” was not a usable web address, so it was cleared. It read: %2$s"
+msgstr ""
+
+#: inc/fields.php:1676
+msgid "Some markup in “%s” was not allowed and was removed. Links, lists, bold and italics are kept; scripts, styles and inline formatting are not."
+msgstr ""
+
+#: inc/fields.php:1699
+msgid "“%1$s” was longer than %2$d characters and was shortened to fit."
+msgstr ""
+
+#: inc/fields.php:1781
+msgid "“%1$s” holds at most %2$d items, so %3$d extra were not saved."
+msgstr ""
+
+#: inc/fields.php:1943
+msgid "Some of what you entered had to be changed:"
+msgstr ""
+
+#: inc/global-locations-fields.php:35
+msgid "Global Locations — the page"
+msgstr ""
+
+#: inc/global-locations-fields.php:36
+msgid "The words around the two bands. The offices themselves — their addresses, phone numbers, flags and photographs — are at Settings → Site records, because Contact Us and the homepage show the same ones."
+msgstr ""
+
+#: inc/global-locations-fields.php:43 templates/market.php:383
+msgid "Where we work"
+msgstr ""
+
+#: inc/global-locations-fields.php:51
+msgid "A regional footprint with unified leadership and dedicated local teams, delivering consistent support across every market we serve."
+msgstr ""
+
+#: inc/global-locations-fields.php:68
+msgid "Photograph band — eyebrow"
+msgstr ""
+
+#: inc/global-locations-fields.php:69
+msgid "Our delivery network"
+msgstr ""
+
+#: inc/global-locations-fields.php:75
+msgid "Photograph band — heading"
+msgstr ""
+
+#: inc/global-locations-fields.php:76
+msgid "Our locations"
+msgstr ""
+
+#: inc/global-locations-fields.php:82
+msgid "Photograph band — sentence"
+msgstr ""
+
+#: inc/global-locations-fields.php:83
+msgid "Onshore and offshore delivery centres across the GCC and beyond, coordinated from one leadership team."
+msgstr ""
+
+#: inc/global-locations-fields.php:97
+msgid "Where a location card goes"
+msgstr ""
+
+#: inc/global-locations-fields.php:98
+msgid "Leave the address empty and the cards point at the contact page, which is the sensible destination from here. They must not point back at this page."
+msgstr ""
+
+#: inc/global-locations-fields.php:111
+msgid "Address band — eyebrow"
+msgstr ""
+
+#: inc/global-locations-fields.php:112
+msgid "Find us"
+msgstr ""
+
+#: inc/global-locations-fields.php:118
+msgid "Address band — heading"
+msgstr ""
+
+#: inc/global-locations-fields.php:125
+msgid "Address band — sentence"
+msgstr ""
+
+#: inc/homepage-fields.php:65
+msgid "Homepage 01 — Hero"
+msgstr ""
+
+#: inc/homepage-fields.php:66
+msgid "The band at the top. The photograph behind it is this page’s Featured Image, set in the sidebar."
+msgstr ""
+
+#: inc/homepage-fields.php:72
+msgid "Heading — first line"
+msgstr ""
+
+#: inc/homepage-fields.php:73
+msgid "The words before the highlighted phrase."
+msgstr ""
+
+#: inc/homepage-fields.php:74
+msgid "BPO & Shared Services to"
+msgstr ""
+
+#: inc/homepage-fields.php:80
+msgid "Heading — highlighted phrase"
+msgstr ""
+
+#: inc/homepage-fields.php:81
+msgid "Rendered in cyan on its own line."
+msgstr ""
+
+#: inc/homepage-fields.php:82 sections/hero.php:31
+msgid "Power Your Business"
+msgstr ""
+
+#: inc/homepage-fields.php:89
+msgid "Press Enter to start a new line on screen. On phones the break is ignored and the text wraps naturally."
+msgstr ""
+
+#: inc/homepage-fields.php:90
+msgid "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services, wherever your business operates."
+msgstr ""
+
+#: inc/homepage-fields.php:97
+msgid "Animated line — fixed half"
+msgstr ""
+
+#: inc/homepage-fields.php:98
+msgid "The part that does not change, before the cycling word."
+msgstr ""
+
+#: inc/homepage-fields.php:99 sections/hero.php:33
+msgid "Helping your business remove"
+msgstr ""
+
+#: inc/homepage-fields.php:105
+msgid "Animated line — cycling words"
+msgstr ""
+
+#: inc/homepage-fields.php:106
+msgid "Typed out one after another. The first also shows when JavaScript is off, so make it the strongest one."
+msgstr ""
+
+#: inc/homepage-fields.php:107
+msgid "Word"
+msgstr ""
+
+#: inc/homepage-fields.php:108
+msgid "Add word"
+msgstr ""
+
+#: inc/homepage-fields.php:116
+msgid "Word or short phrase"
+msgstr ""
+
+#: inc/homepage-fields.php:124
+msgid "Buttons"
+msgstr ""
+
+#: inc/homepage-fields.php:126
+msgid "Add button"
+msgstr ""
+
+#: inc/homepage-fields.php:134
+msgid "Text"
+msgstr ""
+
+#: inc/homepage-fields.php:146
+msgid "Appearance"
+msgstr ""
+
+#: inc/homepage-fields.php:147
+msgid "Solid for the main action, outline for the second."
+msgstr ""
+
+#: inc/homepage-fields.php:149
+msgid "Solid"
+msgstr ""
+
+#: inc/homepage-fields.php:150
+msgid "Outline"
+msgstr ""
+
+#: inc/homepage-fields.php:163
+msgid "Homepage 02 — Services"
+msgstr ""
+
+#: inc/homepage-fields.php:164
+msgid "The heading above the six service cards. The cards themselves are the service lines, edited once at Settings → Site records."
+msgstr ""
+
+#: inc/homepage-fields.php:171 sections/services.php:42
+msgid "One connected operating model"
+msgstr ""
+
+#: inc/homepage-fields.php:178 sections/services.php:43
+msgid "Our Core BPO Services"
+msgstr ""
+
+#: inc/homepage-fields.php:185 sections/services.php:44
+msgid "Six specialist functions, coordinated around your business."
+msgstr ""
+
+#: inc/homepage-fields.php:197
+msgid "Homepage 03 — Shared services"
+msgstr ""
+
+#: inc/homepage-fields.php:198
+msgid "The wording around the hub diagram. The diagram itself — its bubbles and the numbered steps — is part of the design and is not edited here."
+msgstr ""
+
+#: inc/homepage-fields.php:205 sections/shared-services.php:44
+msgid "Regional operations"
+msgstr ""
+
+#: inc/homepage-fields.php:212 sections/shared-services.php:45
+msgid "Transform Your Business with Shared Services"
+msgstr ""
+
+#: inc/homepage-fields.php:219
+msgid "Leave empty to keep the built-in paragraph, which links to the Procurement page."
+msgstr ""
+
+#: inc/homepage-fields.php:226
+msgid "Button — text"
+msgstr ""
+
+#: inc/homepage-fields.php:227
+msgid "Leave both button boxes empty to keep the built-in button."
+msgstr ""
+
+#: inc/homepage-fields.php:233
+msgid "Button — address"
+msgstr ""
+
+#: inc/homepage-fields.php:241
+msgid "Shown in one line, separated by dots."
+msgstr ""
+
+#: inc/homepage-fields.php:242 inc/homepage-fields.php:251 inc/market-fields.php:59 inc/market-fields.php:68 inc/market-fields.php:202
+msgid "Market"
+msgstr ""
+
+#: inc/homepage-fields.php:243 inc/market-fields.php:60
+msgid "Add market"
+msgstr ""
+
+#: inc/homepage-fields.php:259
+msgid "Benefit pills"
+msgstr ""
+
+#: inc/homepage-fields.php:260
+msgid "The small rounded labels under the paragraph."
+msgstr ""
+
+#: inc/homepage-fields.php:261
+msgid "Pill"
+msgstr ""
+
+#: inc/homepage-fields.php:262
+msgid "Add pill"
+msgstr ""
+
+#: inc/homepage-fields.php:270
+msgid "Benefit"
+msgstr ""
+
+#: inc/homepage-fields.php:283
+msgid "Homepage 04 — Industries"
+msgstr ""
+
+#: inc/homepage-fields.php:284
+msgid "The sectors queue. Leave the whole list empty to keep the built-in seven."
+msgstr ""
+
+#: inc/homepage-fields.php:291 sections/industries.php:38
+msgid "Sector expertise"
+msgstr ""
+
+#: inc/homepage-fields.php:298
+msgid "Industries We Serve"
+msgstr ""
+
+#: inc/homepage-fields.php:304 inc/market-fields.php:410 inc/market-fields.php:423
+msgid "Industries"
+msgstr ""
+
+#: inc/homepage-fields.php:305 inc/market-fields.php:424 inc/market-fields.php:434
+msgid "Industry"
+msgstr ""
+
+#: inc/homepage-fields.php:306 inc/market-fields.php:425
+msgid "Add industry"
+msgstr ""
+
+#: inc/homepage-fields.php:320
+msgid "Label over the photograph"
+msgstr ""
+
+#: inc/homepage-fields.php:321
+msgid "Two or three words."
+msgstr ""
+
+#: inc/homepage-fields.php:335 inc/market-fields.php:454 inc/market-fields.php:536
+msgid "Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/homepage-fields.php:347
+msgid "Homepage 04b — Keyword ribbon"
+msgstr ""
+
+#: inc/homepage-fields.php:348
+msgid "The moving band between Industries and Why Synergi. Leave the list empty to keep the built-in keywords."
+msgstr ""
+
+#: inc/homepage-fields.php:354
+msgid "Keywords"
+msgstr ""
+
+#: inc/homepage-fields.php:355
+msgid "Short phrases, shown as one continuous moving line. Search engines are told to read each one once, however often it drifts past."
+msgstr ""
+
+#: inc/homepage-fields.php:356
+msgid "Keyword"
+msgstr ""
+
+#: inc/homepage-fields.php:357
+msgid "Add keyword"
+msgstr ""
+
+#: inc/homepage-fields.php:365
+msgid "Keyword or short phrase"
+msgstr ""
+
+#: inc/homepage-fields.php:378
+msgid "Homepage 07 — Partners"
+msgstr ""
+
+#: inc/homepage-fields.php:379
+msgid "The logo strip. Each partner’s name is read from its logo’s alt text in the media library, so a partner is renamed there rather than here."
+msgstr ""
+
+#: inc/homepage-fields.php:386 sections/partners.php:31
+msgid "Partner ecosystem"
+msgstr ""
+
+#: inc/homepage-fields.php:393 sections/partners.php:32
+msgid "Our Partners"
+msgstr ""
+
+#: inc/homepage-fields.php:400 sections/partners.php:33
+msgid "Leading global platforms and regional specialists, integrated into one delivery model — so the systems behind your operations are always best in class."
+msgstr ""
+
+#: inc/homepage-fields.php:407
+msgid "Logos"
+msgstr ""
+
+#: inc/homepage-fields.php:408 inc/homepage-fields.php:417
+msgid "Logo"
+msgstr ""
+
+#: inc/homepage-fields.php:409
+msgid "Add logo"
+msgstr ""
+
+#: inc/homepage-fields.php:418
+msgid "The partner’s name must be in this image’s alt text — that is what the strip reads out."
+msgstr ""
+
+#: inc/homepage-fields.php:430
+msgid "Homepage 09 — Blog"
+msgstr ""
+
+#: inc/homepage-fields.php:431
+msgid "The heading above the latest posts. The posts themselves are whatever is newest."
+msgstr ""
+
+#: inc/homepage-fields.php:438 inc/media-fields.php:67 sections/blog.php:35
+msgid "Insights & analysis from our teams"
+msgstr ""
+
+#: inc/homepage-fields.php:445 sections/blog.php:36
+msgid "Read Our Blog"
+msgstr ""
+
+#: inc/homepage-fields.php:451
+msgid "Link text"
+msgstr ""
+
+#: inc/homepage-fields.php:452 inc/market-fields.php:704 inc/media-fields.php:81 sections/blog.php:39
+msgid "View all articles"
+msgstr ""
+
+#: inc/homepage-fields.php:458 inc/market-fields.php:717
+msgid "Link address"
+msgstr ""
+
+#: inc/homepage-fields.php:459
+msgid "Leave empty to use the Posts page set in Settings → Reading."
+msgstr ""
+
+#: inc/homepage-fields.php:471
+msgid "Homepage 10 — Instagram"
+msgstr ""
+
+#: inc/homepage-fields.php:472
+msgid "The heading above the feed. The posts come from the feed plugin."
+msgstr ""
+
+#: inc/homepage-fields.php:486 sections/instagram.php:40
+msgid "Recent From Instagram"
+msgstr ""
+
+#: inc/homepage-fields.php:511
+msgid "Homepage 11 — Podcast"
+msgstr ""
+
+#: inc/homepage-fields.php:512
+msgid "The podcast band."
+msgstr ""
+
+#: inc/homepage-fields.php:519 sections/podcast.php:33
+msgid "Conversations for people who run businesses"
+msgstr ""
+
+#: inc/homepage-fields.php:526 sections/podcast.php:34
+msgid "The Synergi Executive Podcast"
+msgstr ""
+
+#: inc/homepage-fields.php:533 sections/podcast.php:35
+msgid "Senior leaders unpack the decisions behind stronger operations across MENA."
+msgstr ""
+
+#: inc/homepage-fields.php:541 sections/podcast.php:36
+msgid "Practical perspectives on leadership, shared services, BPO, and operational transformation, grounded in real-world experience."
+msgstr ""
+
+#: inc/homepage-fields.php:548
+msgid "Chip over the artwork"
+msgstr ""
+
+#: inc/homepage-fields.php:549 sections/podcast.php:48
+msgid "Business media · MENA"
+msgstr ""
+
+#: inc/homepage-fields.php:555
+msgid "Cover art"
+msgstr ""
+
+#: inc/instagram.php:198
+msgid "A post from the Synergi Instagram account"
+msgstr ""
+
+#: inc/market-fields.php:57
+msgid "The markets that have a page of their own. The order here is the order they appear in. Adding one here puts it in the “other markets” list on every other market page."
+msgstr ""
+
+#: inc/market-fields.php:58
+msgid "each market page and the Markets overview."
+msgstr ""
+
+#: inc/market-fields.php:69
+msgid "As it should read in the menu and on the card, e.g. Saudi Arabia."
+msgstr ""
+
+#: inc/market-fields.php:75 inc/records.php:647 inc/solution-fields.php:70
+msgid "Reference"
+msgstr ""
+
+#: inc/market-fields.php:76
+msgid "A short lowercase name, e.g. saudi-arabia. It is what a market page uses to leave itself out of its own “other markets” list. Lowercase letters and dashes only."
+msgstr ""
+
+#: inc/market-fields.php:83
+msgid "One sentence about what Synergi does in this market, as it appears on the card. Write a different one for each — the same sentence with the country swapped is what makes a set of location pages thin."
+msgstr ""
+
+#: inc/market-fields.php:90 inc/records.php:682 inc/solution-fields.php:85
+msgid "Page address"
+msgstr ""
+
+#: inc/market-fields.php:91
+msgid "Where the card links to, e.g. /markets/saudi-arabia/."
+msgstr ""
+
+#: inc/market-fields.php:145
+msgid "— choose a service line —"
+msgstr ""
+
+#: inc/market-fields.php:195
+msgid "Market — intro"
+msgstr ""
+
+#: inc/market-fields.php:196
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here. The SEO title, meta description, focus keyword and social image are Yoast’s fields, further down this screen."
+msgstr ""
+
+#: inc/market-fields.php:203
+msgid "The reference of this market, exactly as typed at Settings → Site records, e.g. saudi-arabia. It is what keeps this page out of its own “other markets” list."
+msgstr ""
+
+#: inc/market-fields.php:211
+msgid "The small line above the heading, e.g. Markets or Saudi Arabia."
+msgstr ""
+
+#: inc/market-fields.php:219
+msgid "One or two sentences saying what Synergi does for organizations in this market. This is the first thing a reader and a search engine see, so write it for this market and not for the company in general."
+msgstr ""
+
+#: inc/market-fields.php:228 inc/solution-fields.php:237
+msgid "Optional. Fills the band behind the heading. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/market-fields.php:261
+msgid "Market — introduction"
+msgstr ""
+
+#: inc/market-fields.php:262
+msgid "What organizations in this market actually need, and where Synergi fits. Write about real business needs, not about the country. Leave it empty and the band is skipped."
+msgstr ""
+
+#: inc/market-fields.php:276
+msgid "The first is set larger, as the opening line. One paragraph per row."
+msgstr ""
+
+#: inc/market-fields.php:295
+msgid "Statement cards"
+msgstr ""
+
+#: inc/market-fields.php:296
+msgid "Optional. Up to two, shown as photographic cards that turn over on a desktop to show the words. Use them for something specific about this market — not for the company mission, which is on About Us."
+msgstr ""
+
+#: inc/market-fields.php:320
+msgid "Optional. The front of the card, with the heading over it."
+msgstr ""
+
+#: inc/market-fields.php:343
+msgid "Market — services"
+msgstr ""
+
+#: inc/market-fields.php:344
+msgid "Which service lines this market leads with, in order. Each card links to that service’s own page. Choose none and every service line is shown."
+msgstr ""
+
+#: inc/market-fields.php:351
+msgid "What we run"
+msgstr ""
+
+#: inc/market-fields.php:358
+msgid "Services in this market"
+msgstr ""
+
+#: inc/market-fields.php:373
+msgid "One per row, in the order they should appear. The wording on each card is the service line’s own, edited at Settings → Site records."
+msgstr ""
+
+#: inc/market-fields.php:375 inc/records.php:632
+msgid "Add service line"
+msgstr ""
+
+#: inc/market-fields.php:402
+msgid "Market — industries"
+msgstr ""
+
+#: inc/market-fields.php:403
+msgid "The sectors Synergi serves in this market. Leave it empty and the band shows the site-wide list instead."
+msgstr ""
+
+#: inc/market-fields.php:417
+msgid "Sectors we work in here"
+msgstr ""
+
+#: inc/market-fields.php:440
+msgid "Short label"
+msgstr ""
+
+#: inc/market-fields.php:441
+msgid "Two or three words, shown over the photograph."
+msgstr ""
+
+#: inc/market-fields.php:475
+msgid "Market — why Synergi here"
+msgstr ""
+
+#: inc/market-fields.php:476
+msgid "Reasons that are true of this market specifically. Leave it all empty and the site-wide “Why Synergi” band renders instead. Do not claim an office, a team or a client in a location unless it is verified."
+msgstr ""
+
+#: inc/market-fields.php:505
+msgid "Shown as a deck of photographic cards. Four reads best."
+msgstr ""
+
+#: inc/market-fields.php:522 inc/records.php:927
+msgid "Short name"
+msgstr ""
+
+#: inc/market-fields.php:523
+msgid "Two or three words, read out to screen readers on the card’s button."
+msgstr ""
+
+#: inc/market-fields.php:552
+msgid "Market — proof"
+msgstr ""
+
+#: inc/market-fields.php:553
+msgid "One piece of verified evidence from this market. Leave the headline empty and the whole band disappears — which is the right thing to do until there is something cleared to show. Never invent a client, a statistic or a result."
+msgstr ""
+
+#: inc/market-fields.php:559 inc/service-fields.php:257 inc/solution-fields.php:389
+msgid "Headline"
+msgstr ""
+
+#: inc/market-fields.php:566 inc/service-fields.php:264 inc/solution-fields.php:404
+msgid "Client type"
+msgstr ""
+
+#: inc/market-fields.php:567
+msgid "What kind of organisation it was, never its name — e.g. “A Saudi workforce solutions provider”."
+msgstr ""
+
+#: inc/market-fields.php:574 inc/service-fields.php:272 inc/solution-fields.php:412
+msgid "The situation"
+msgstr ""
+
+#: inc/market-fields.php:582 inc/solution-fields.php:420
+msgid "Optional. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/market-fields.php:587 inc/service-fields.php:294 inc/solution-fields.php:425
+msgid "What was delivered"
+msgstr ""
+
+#: inc/market-fields.php:598 inc/solution-fields.php:436
+msgid "Delivered"
+msgstr ""
+
+#: inc/market-fields.php:606 inc/service-fields.php:301 inc/solution-fields.php:444 sections/blog.php:167
+msgid "Read more"
+msgstr ""
+
+#: inc/market-fields.php:626
+msgid "Market — questions"
+msgstr ""
+
+#: inc/market-fields.php:627
+msgid "Real questions a buyer in this market asks. Answers accept links and basic formatting. Leave it empty and the band is skipped, along with its structured data."
+msgstr ""
+
+#: inc/market-fields.php:634 inc/solution-fields.php:470
+msgid "Questions we are asked"
+msgstr ""
+
+#: inc/market-fields.php:640 inc/service-fields.php:334 inc/solution-fields.php:476 sections/faq.php:36
+msgid "Questions"
+msgstr ""
+
+#: inc/market-fields.php:641 inc/market-fields.php:651 inc/service-fields.php:335 inc/service-fields.php:344 inc/solution-fields.php:477 inc/solution-fields.php:487
+msgid "Question"
+msgstr ""
+
+#: inc/market-fields.php:642 inc/service-fields.php:336 inc/solution-fields.php:478
+msgid "Add question"
+msgstr ""
+
+#: inc/market-fields.php:657 inc/service-fields.php:350 inc/solution-fields.php:493
+msgid "Answer"
+msgstr ""
+
+#: inc/market-fields.php:681
+msgid "Market — related insights"
+msgstr ""
+
+#: inc/market-fields.php:682
+msgid "The latest articles, under a heading of your choosing. Leave the heading empty — as it is by default — and the band does not appear at all. Turn it on once there are articles worth showing to a reader in this market."
+msgstr ""
+
+#: inc/market-fields.php:689
+msgid "Empty means the band is hidden."
+msgstr ""
+
+#: inc/market-fields.php:703
+msgid "Link label"
+msgstr ""
+
+#: inc/market-fields.php:718
+msgid "Optional. Leave empty to use the Posts page set in Settings → Reading."
+msgstr ""
+
+#: inc/media-fields.php:33
+msgid "Media — the page"
+msgstr ""
+
+#: inc/media-fields.php:34
+msgid "The words around the two bands. The articles come from the blog itself and the pictures from the Instagram feed, so neither needs listing here."
+msgstr ""
+
+#: inc/media-fields.php:49
+msgid "What our teams are writing, and what we are up to. The podcast and our case studies sit alongside this in the menu above."
+msgstr ""
+
+#: inc/media-fields.php:66
+msgid "Articles band — eyebrow"
+msgstr ""
+
+#: inc/media-fields.php:73
+msgid "Articles band — heading"
+msgstr ""
+
+#: inc/media-fields.php:74
+msgid "Read our blog"
+msgstr ""
+
+#: inc/media-fields.php:80
+msgid "Articles band — button"
+msgstr ""
+
+#: inc/media-fields.php:95
+msgid "Articles band — button address"
+msgstr ""
+
+#: inc/media-fields.php:96
+msgid "Leave it empty and the button points at whichever page is set to Posts in Settings → Reading, which is better than typing a path that could go stale."
+msgstr ""
+
+#: inc/media-fields.php:107
+msgid "Social band — eyebrow"
+msgstr ""
+
+#: inc/media-fields.php:114
+msgid "Social band — heading"
+msgstr ""
+
+#: inc/media-fields.php:115
+msgid "Recent from Instagram"
+msgstr ""
+
+#: inc/media-fields.php:121
+msgid "Social band — button"
+msgstr ""
+
+#: inc/media-fields.php:130
+msgid "Social band — button address"
+msgstr ""
+
+#: inc/media-fields.php:131
+msgid "The profile the button opens."
+msgstr ""
+
+#: inc/nav.php:68
+msgid "Primary"
+msgstr ""
+
+#: inc/podcast-fields.php:71
+msgid "YouTube address"
+msgstr ""
+
+#: inc/podcast-fields.php:72
+msgid "Paste the address from YouTube — any form works, including the share link. A row whose address has no video in it is skipped."
+msgstr ""
+
+#: inc/podcast-fields.php:78
+msgid "One line"
+msgstr ""
+
+#: inc/podcast-fields.php:79
+msgid "Optional. The guest, the subject, or the date."
+msgstr ""
+
+#: inc/podcast-fields.php:85
+msgid "Cover picture"
+msgstr ""
+
+#: inc/podcast-fields.php:86
+msgid "Optional. Shown until somebody presses play. Without one the card uses the brand gradient — YouTube’s own thumbnail is deliberately not fetched, because that would load from YouTube on every visit."
+msgstr ""
+
+#: inc/podcast-fields.php:109
+msgid "Podcast — intro"
+msgstr ""
+
+#: inc/podcast-fields.php:110
+msgid "The band at the top. The page title is the heading and the photograph is the Featured Image in the sidebar."
+msgstr ""
+
+#: inc/podcast-fields.php:124
+msgid "The first BPO-led discussion platform: senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region."
+msgstr ""
+
+#: inc/podcast-fields.php:148
+msgid "Podcast — about the series"
+msgstr ""
+
+#: inc/podcast-fields.php:149
+msgid "What the series is. The first paragraph is set larger, as the opening line."
+msgstr ""
+
+#: inc/podcast-fields.php:156
+msgid "The series"
+msgstr ""
+
+#: inc/podcast-fields.php:163
+msgid "About the Executive Podcast"
+msgstr ""
+
+#: inc/podcast-fields.php:196
+msgid "Podcast — episodes"
+msgstr ""
+
+#: inc/podcast-fields.php:197
+msgid "One row per episode, newest first. Each becomes a card that plays where it sits; nothing loads from YouTube until somebody presses play."
+msgstr ""
+
+#: inc/podcast-fields.php:204 templates/media.php:136
+msgid "Listen"
+msgstr ""
+
+#: inc/podcast-fields.php:211
+msgid "Podcast episodes"
+msgstr ""
+
+#: inc/podcast-fields.php:225
+msgid "Episodes"
+msgstr ""
+
+#: inc/podcast-fields.php:226
+msgid "Episode"
+msgstr ""
+
+#: inc/podcast-fields.php:227
+msgid "Add episode"
+msgstr ""
+
+#: inc/podcast-fields.php:241
+msgid "Podcast — webinars"
+msgstr ""
+
+#: inc/podcast-fields.php:242
+msgid "The same, for webinars. Leave it empty and the band does not appear."
+msgstr ""
+
+#: inc/podcast-fields.php:249
+msgid "Watch"
+msgstr ""
+
+#: inc/podcast-fields.php:256 inc/podcast-fields.php:270
+msgid "Webinars"
+msgstr ""
+
+#: inc/podcast-fields.php:271
+msgid "Webinar"
+msgstr ""
+
+#: inc/podcast-fields.php:272
+msgid "Add webinar"
+msgstr ""
+
+#: inc/records.php:166
+msgid "Row"
+msgstr ""
+
+#: inc/records.php:167
+msgid "Add row"
+msgstr ""
+
+#: inc/records.php:277 inc/records.php:355
+msgid "Synergi site records"
+msgstr ""
+
+#: inc/records.php:278
+msgid "Site records"
+msgstr ""
+
+#: inc/records.php:346
+msgid "You do not have permission to edit site records."
+msgstr ""
+
+#: inc/records.php:377
+msgid "A record left empty in this language shows the default-language version instead, so nothing goes blank while a translation is pending."
+msgstr ""
+
+#: inc/records.php:384
+msgid "Facts about the business that appear on more than one page. Each one is stored here once and read wherever it is needed, so changing a figure or an office changes it everywhere at the same time. Page-specific wording is not edited here — that lives on the page itself."
+msgstr ""
+
+#: inc/records.php:418
+msgid "Appears on:"
+msgstr ""
+
+#: inc/records.php:430
+msgid "Save site records"
+msgstr ""
+
+#: inc/records.php:477
+msgid "Site records saved."
+msgstr ""
+
+#: inc/records.php:629
+msgid "The service lines Synergi offers. The order here is the order they appear in."
+msgstr ""
+
+#: inc/records.php:630
+msgid "the homepage services band, the Our Services listing, and each service page."
+msgstr ""
+
+#: inc/records.php:641
+msgid "As it should read in the menu and on the card, e.g. Human Resources."
+msgstr ""
+
+#: inc/records.php:648
+msgid "A short lowercase name used to link case studies to this service later, e.g. human-resources. Lowercase letters and dashes only."
+msgstr ""
+
+#: inc/records.php:654
+msgid "Icon"
+msgstr ""
+
+#: inc/records.php:655
+msgid "Chosen from the icons the theme ships. Leave blank for no icon."
+msgstr ""
+
+#: inc/records.php:667
+msgid "Card strapline"
+msgstr ""
+
+#: inc/records.php:668
+msgid "Optional. A few words shown above the name on the homepage card, e.g. Finance operations and reporting."
+msgstr ""
+
+#: inc/records.php:675
+msgid "One sentence, as it appears on the service card."
+msgstr ""
+
+#: inc/records.php:683
+msgid "Where the card links to, e.g. /our-services/human-resources/."
+msgstr ""
+
+#: inc/records.php:699
+msgid "Key figures"
+msgstr ""
+
+#: inc/records.php:700
+msgid "The headline numbers. One set, used everywhere — changing a figure here changes it on every page that shows it."
+msgstr ""
+
+#: inc/records.php:701
+msgid "the homepage figures band and About Us."
+msgstr ""
+
+#: inc/records.php:712
+msgid "Exactly as it should read, including any plus sign or percentage, e.g. 50+ or 10–15%."
+msgstr ""
+
+#: inc/records.php:719
+msgid "What it counts"
+msgstr ""
+
+#: inc/records.php:720
+msgid "e.g. clients we have served."
+msgstr ""
+
+#: inc/records.php:726
+msgid "Correct as at"
+msgstr ""
+
+#: inc/records.php:727
+msgid "The date this figure was last verified. Shown alongside the number so a reader knows how current it is."
+msgstr ""
+
+#: inc/records.php:746
+msgid "Locations"
+msgstr ""
+
+#: inc/records.php:747
+msgid "The delivery locations. The order here is the order they appear in."
+msgstr ""
+
+#: inc/records.php:748
+msgid "the homepage locations band, Contact Us, and Global Locations."
+msgstr ""
+
+#: inc/records.php:750
+msgid "Add location"
+msgstr ""
+
+#: inc/records.php:758
+msgid "City"
+msgstr ""
+
+#: inc/records.php:783
+msgid "Two letters, e.g. AE, SA, QA. Shown in the badge when no flag has been chosen below."
+msgstr ""
+
+#: inc/records.php:799
+msgid "Optional. Shown in the badge beside the country name. Without one the badge shows the country code instead."
+msgstr ""
+
+#: inc/records.php:804
+msgid "Street address"
+msgstr ""
+
+#: inc/records.php:805
+msgid "As it should be read and posted. It is also what the map button searches for, so keep it accurate rather than short."
+msgstr ""
+
+#: inc/records.php:812
+msgid "Phone"
+msgstr ""
+
+#: inc/records.php:813
+msgid "Kept on record but NOT shown on the site — the office cards stopped rendering phone numbers on 2 Sep 2026, at the business’s request. International format, e.g. +966 11 279 5100."
+msgstr ""
+
+#: inc/records.php:819
+msgid "Legal entity"
+msgstr ""
+
+#: inc/records.php:820
+msgid "The registered company name operating from this office."
+msgstr ""
+
+#: inc/records.php:826
+msgid "Function delivered"
+msgstr ""
+
+#: inc/records.php:827
+msgid "What this office does, e.g. BPO, or Technology Delivery Centre."
+msgstr ""
+
+#: inc/records.php:833
+msgid "Contact email"
+msgstr ""
+
+#: inc/records.php:834
+msgid "Only publish an address that has been cleared for the public site."
+msgstr ""
+
+#: inc/records.php:840
+msgid "Optional. Used where a location is shown with a picture."
+msgstr ""
+
+#: inc/records.php:854
+msgid "Not open yet — badge text"
+msgstr ""
+
+#: inc/records.php:855
+msgid "Leave empty for an office that is open. Text here, e.g. Coming soon, marks it as not open yet and the card stops being a link."
+msgstr ""
+
+#: inc/records.php:876
+msgid "Why Synergi band — heading"
+msgstr ""
+
+#: inc/records.php:877
+msgid "The wording above the four cards. Leave any box empty to keep the built-in text."
+msgstr ""
+
+#: inc/records.php:878 inc/records.php:910 inc/records.php:962
+msgid "the homepage and all six service pages."
+msgstr ""
+
+#: inc/records.php:897
+msgid "Introduction"
+msgstr ""
+
+#: inc/records.php:908
+msgid "Why Synergi band — the cards"
+msgstr ""
+
+#: inc/records.php:909
+msgid "The reasons in the turning deck, in the order they appear. Leave the whole list empty to keep the four built-in cards."
+msgstr ""
+
+#: inc/records.php:911
+msgid "Card"
+msgstr ""
+
+#: inc/records.php:912
+msgid "Add card"
+msgstr ""
+
+#: inc/records.php:921
+msgid "The sentence on the card, e.g. Experience across multiple Gulf markets."
+msgstr ""
+
+#: inc/records.php:928
+msgid "Two or three words, used on the button that turns the deck to this card."
+msgstr ""
+
+#: inc/records.php:942
+msgid "Choose one with meaningful alt text already set on it in the media library."
+msgstr ""
+
+#: inc/records.php:960
+msgid "Closing call to action"
+msgstr ""
+
+#: inc/records.php:961
+msgid "The band at the foot of the homepage and every service page. Leave any box empty to keep the built-in wording."
+msgstr ""
+
+#: inc/records.php:987
+msgid "Main button — text"
+msgstr ""
+
+#: inc/records.php:993
+msgid "Main button — address"
+msgstr ""
+
+#: inc/records.php:999
+msgid "Second button — text"
+msgstr ""
+
+#: inc/records.php:1005
+msgid "Second button — address"
+msgstr ""
+
+#: inc/records.php:1006
+msgid "Leave both boxes empty to show only the main button."
+msgstr ""
+
+#: inc/records.php:1012
+msgid "Small line under the buttons"
+msgstr ""
+
+#: inc/service-fields.php:50
+msgid "Service — intro"
+msgstr ""
+
+#: inc/service-fields.php:58
+msgid "Which of the six lines this page is: accounting, human-resources, marketing, procurement, project-management or technology-ai. Sets the accent and the related-services list."
+msgstr ""
+
+#: inc/service-fields.php:74
+msgid "End-to-end solutions that align with your organizational goals, improve experience, and keep operations compliant."
+msgstr ""
+
+#: inc/service-fields.php:82
+msgid "Sits beside the heading. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/service-fields.php:117
+msgid "Service — capabilities"
+msgstr ""
+
+#: inc/service-fields.php:118
+msgid "The list of what this service line covers. The order here is the order on the page."
+msgstr ""
+
+#: inc/service-fields.php:125 sections/capabilities.php:39
+msgid "What this service covers"
+msgstr ""
+
+#: inc/service-fields.php:131 sections/capabilities.php:111 sections/services.php:325
+msgid "Capabilities"
+msgstr ""
+
+#: inc/service-fields.php:132
+msgid "Capability"
+msgstr ""
+
+#: inc/service-fields.php:133
+msgid "Add capability"
+msgstr ""
+
+#: inc/service-fields.php:147
+msgid "Description"
+msgstr ""
+
+#: inc/service-fields.php:153 inc/solution-fields.php:305
+msgid "Tags"
+msgstr ""
+
+#: inc/service-fields.php:154
+msgid "Two or three short words, separated by commas. Optional."
+msgstr ""
+
+#: inc/service-fields.php:171
+msgid "Service — how we work"
+msgstr ""
+
+#: inc/service-fields.php:172
+msgid "The delivery method. Leave untouched to show the standard four steps."
+msgstr ""
+
+#: inc/service-fields.php:186
+msgid "Our methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution."
+msgstr ""
+
+#: inc/service-fields.php:193
+msgid "Steps"
+msgstr ""
+
+#: inc/service-fields.php:194
+msgid "Step"
+msgstr ""
+
+#: inc/service-fields.php:195
+msgid "Add step"
+msgstr ""
+
+#: inc/service-fields.php:221
+msgid "Step name"
+msgstr ""
+
+#: inc/service-fields.php:250
+msgid "Service — case study"
+msgstr ""
+
+#: inc/service-fields.php:251
+msgid "One proof point. Leave the title empty and the whole section is skipped."
+msgstr ""
+
+#: inc/service-fields.php:265
+msgid "What kind of organisation, not which one — e.g. “UAE organisation in early growth · Abu Dhabi”. Never publish a client name without written permission."
+msgstr ""
+
+#: inc/service-fields.php:284 sections/case-study.php:104
+msgid "Scope of work"
+msgstr ""
+
+#: inc/service-fields.php:286
+msgid "Add scope item"
+msgstr ""
+
+#: inc/service-fields.php:320
+msgid "Service — frequently asked"
+msgstr ""
+
+#: inc/service-fields.php:321
+msgid "Questions specific to this service. Leave the list empty and the section is skipped."
+msgstr ""
+
+#: inc/service-fields.php:328 sections/faq.php:37
+msgid "Frequently asked"
+msgstr ""
+
+#: inc/service-fields.php:351
+msgid "A link, bold, or a list is fine here. Anything else is removed when you save."
+msgstr ""
+
+#: inc/service-fields.php:474
+msgid "Our Services — the page"
+msgstr ""
+
+#: inc/service-fields.php:475
+msgid "The top of the page and the wording over the grid. The grid itself is the service lines at Settings → Site records, so adding a line there adds a card here."
+msgstr ""
+
+#: inc/service-fields.php:489 inc/solution-fields.php:540
+msgid "One or two sentences under the page title. This is the first thing a reader and a search engine see."
+msgstr ""
+
+#: inc/service-fields.php:490
+msgid "Six service lines, delivered by teams that run them every day."
+msgstr ""
+
+#: inc/service-fields.php:498 inc/solution-fields.php:549
+msgid "Optional. Fills the band behind the page title. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/service-fields.php:513
+msgid "Our service lines"
+msgstr ""
+
+#: inc/service-fields.php:528 inc/solution-fields.php:579
+msgid "When the record is empty"
+msgstr ""
+
+#: inc/service-fields.php:529
+msgid "Shown in place of the grid if no service lines have been added at Settings → Site records, so the page is never a heading over nothing."
+msgstr ""
+
+#: inc/service-fields.php:530
+msgid "Our service lines are being updated. Please get in touch and we will point you to the right team."
+msgstr ""
+
+#: inc/setup.php:87
+msgid "Primary navigation"
+msgstr ""
+
+#: inc/setup.php:88
+msgid "Footer links"
+msgstr ""
+
+#: inc/solution-fields.php:52
+msgid "The solutions Synergi offers. The order here is the order they appear in. Adding one here puts it on every solution page and on the Our Solutions listing."
+msgstr ""
+
+#: inc/solution-fields.php:53
+msgid "each solution page, the Our Solutions listing, and the market pages."
+msgstr ""
+
+#: inc/solution-fields.php:54 inc/solution-fields.php:212
+msgid "Solution"
+msgstr ""
+
+#: inc/solution-fields.php:55
+msgid "Add solution"
+msgstr ""
+
+#: inc/solution-fields.php:64
+msgid "As it should read in the menu and on the card, e.g. Shared services design & set-up."
+msgstr ""
+
+#: inc/solution-fields.php:71
+msgid "A short lowercase name, e.g. shared-services-design. It is what a solution page uses to leave itself out of its own “other solutions” list. Lowercase letters and dashes only."
+msgstr ""
+
+#: inc/solution-fields.php:78
+msgid "One sentence, as it appears on the card."
+msgstr ""
+
+#: inc/solution-fields.php:86
+msgid "Where the card links to, e.g. /our-solutions/shared-services-design/."
+msgstr ""
+
+#: inc/solution-fields.php:205
+msgid "Solution — intro"
+msgstr ""
+
+#: inc/solution-fields.php:206
+msgid "The band at the top of the page. The page title is the heading, so it is not repeated here. The SEO title, meta description and social image are Yoast’s fields, further down this screen."
+msgstr ""
+
+#: inc/solution-fields.php:213
+msgid "The reference of this solution, exactly as typed at Settings → Site records, e.g. shared-services-design. It is what keeps this page out of its own “other solutions” list."
+msgstr ""
+
+#: inc/solution-fields.php:221 inc/solution-fields.php:533
+msgid "Our Solutions"
+msgstr ""
+
+#: inc/solution-fields.php:229
+msgid "A defined engagement, run end to end by a team that has done it before."
+msgstr ""
+
+#: inc/solution-fields.php:268
+msgid "Solution — what it covers"
+msgstr ""
+
+#: inc/solution-fields.php:269
+msgid "The parts of the engagement, shown as a list beside a panel. Leave it empty and the band is skipped."
+msgstr ""
+
+#: inc/solution-fields.php:276
+msgid "What this solution covers"
+msgstr ""
+
+#: inc/solution-fields.php:282 templates/solution.php:105
+msgid "What it covers"
+msgstr ""
+
+#: inc/solution-fields.php:283 inc/solution-fields.php:293
+msgid "Area"
+msgstr ""
+
+#: inc/solution-fields.php:284
+msgid "Add area"
+msgstr ""
+
+#: inc/solution-fields.php:299
+msgid "What it means"
+msgstr ""
+
+#: inc/solution-fields.php:306
+msgid "Optional. A few words each, separated by commas."
+msgstr ""
+
+#: inc/solution-fields.php:322
+msgid "Solution — how it runs"
+msgstr ""
+
+#: inc/solution-fields.php:323
+msgid "The stages of the engagement, in order. The numbers are drawn from that order, so moving a stage renumbers it."
+msgstr ""
+
+#: inc/solution-fields.php:330
+msgid "How the engagement runs"
+msgstr ""
+
+#: inc/solution-fields.php:382
+msgid "Solution — proof"
+msgstr ""
+
+#: inc/solution-fields.php:383
+msgid "One piece of evidence. Leave the headline empty and the whole band disappears — which is the right thing to do until there is something verified to show."
+msgstr ""
+
+#: inc/solution-fields.php:396
+msgid "Original case study"
+msgstr ""
+
+#: inc/solution-fields.php:397
+msgid "The last part of the study’s own address, e.g. hrms-sourcing-implementation-gcc. When set, the photograph and the Read more link come from that study itself, so they can never drift out of step with it. The Photograph and Read more boxes below then act as overrides only."
+msgstr ""
+
+#: inc/solution-fields.php:405
+msgid "What kind of organisation it was, never its name — e.g. “A UAE hospitality group”."
+msgstr ""
+
+#: inc/solution-fields.php:462
+msgid "Solution — questions"
+msgstr ""
+
+#: inc/solution-fields.php:463
+msgid "Real questions a buyer asks about this engagement. Answers accept links and basic formatting. Leave it empty and the band is skipped, along with its structured data."
+msgstr ""
+
+#: inc/solution-fields.php:525
+msgid "Our Solutions — the page"
+msgstr ""
+
+#: inc/solution-fields.php:526
+msgid "The top of the page and the wording over the grid. The grid itself is the solutions at Settings → Site records, so adding one there adds a card here."
+msgstr ""
+
+#: inc/solution-fields.php:541
+msgid "Defined engagements, run end to end by teams that have done them before."
+msgstr ""
+
+#: inc/solution-fields.php:564
+msgid "Our solutions"
+msgstr ""
+
+#: inc/solution-fields.php:580
+msgid "Shown in place of the grid if no solutions have been added at Settings → Site records, so the page is never a heading over nothing."
+msgstr ""
+
+#: inc/solution-fields.php:581
+msgid "Our solutions are being updated. Please get in touch and we will talk you through the options."
+msgstr ""
+
+#: page.php:57 single-syn_case_study.php:148 single.php:95
+msgid "Page"
+msgstr ""
+
+#: parts/consent.php:68
+msgid "Your privacy choices"
+msgstr ""
+
+#: parts/consent.php:73
+msgid "We use cookies to understand how visitors use our website and to measure our advertising. Analytics and marketing cookies are only set if you allow them."
+msgstr ""
+
+#: parts/consent.php:78
+msgid "Cookie categories"
+msgstr ""
+
+#: parts/consent.php:83
+msgid "Necessary"
+msgstr ""
+
+#: parts/consent.php:84
+msgid "Remembers your cookie choice. Always on."
+msgstr ""
+
+#: parts/consent.php:91
+msgid "Analytics"
+msgstr ""
+
+#: parts/consent.php:92
+msgid "Helps us see which pages people visit, so we can improve the website."
+msgstr ""
+
+#: parts/consent.php:100
+msgid "Helps us see whether our ads on Google and LinkedIn are working."
+msgstr ""
+
+#: parts/consent.php:106
+msgid "Accept all"
+msgstr ""
+
+#: parts/consent.php:107
+msgid "Reject all"
+msgstr ""
+
+#: parts/consent.php:108
+msgid "Manage choices"
+msgstr ""
+
+#: parts/consent.php:109
+msgid "Save choices"
+msgstr ""
+
+#: parts/lang-switch.php:33
+msgid "Language"
+msgstr ""
+
+#: parts/post-card.php:87
+msgid "Read the article"
+msgstr ""
+
+#: parts/post-categories.php:45
+msgid "Blog categories"
+msgstr ""
+
+#: parts/post-categories.php:51
+msgid "All posts"
+msgstr ""
+
+#: search.php:29
+msgid "Results for “%s”"
+msgstr ""
+
+#: search.php:30
+msgid "Search"
+msgstr ""
+
+#: search.php:33
+msgid "%d result"
+msgid_plural "%d results"
+msgstr[0] ""
+msgstr[1] ""
+
+#: search.php:65
+msgid "Nothing matched that search. Try a different wording, or browse the blog."
+msgstr ""
+
+#: sections/blog.php:77
+msgid "Showing articles starting with %s."
+msgstr ""
+
+#: sections/blog.php:100 sections/case-studies.php:151 sections/industries.php:118 sections/instagram.php:105
+msgid "carousel"
+msgstr ""
+
+#: sections/blog.php:103
+msgid "Show previous articles"
+msgstr ""
+
+#: sections/blog.php:174
+msgid "Show next articles"
+msgstr ""
+
+#: sections/capabilities.php:38 sections/offers.php:57 templates/services-listing.php:74
+msgid "What we do"
+msgstr ""
+
+#: sections/capabilities.php:42
+msgid "Consulting"
+msgstr ""
+
+#: sections/capabilities.php:43 sections/services.php:107
+msgid "Manpower Augmentation"
+msgstr ""
+
+#: sections/capabilities.php:44
+msgid "BPO"
+msgstr ""
+
+#: sections/capabilities.php:92
+msgid "Delivered as"
+msgstr ""
+
+#: sections/case-studies.php:77
+msgid "Showing case studies starting with %s."
+msgstr ""
+
+#: sections/case-studies.php:154
+msgid "Show previous case studies"
+msgstr ""
+
+#: sections/case-studies.php:291
+msgid "Read the case study"
+msgstr ""
+
+#: sections/case-studies.php:308
+msgid "Show more case studies"
+msgstr ""
+
+#: sections/episodes.php:191
+msgid "Play %s"
+msgstr ""
+
+#: sections/episodes.php:207
+msgid "Watch on YouTube"
+msgstr ""
+
+#: sections/final-cta.php:51
+msgid "Your next operational move"
+msgstr ""
+
+#: sections/final-cta.php:52
+msgid "Make the work behind growth easier to run."
+msgstr ""
+
+#: sections/final-cta.php:53
+msgid "Synergi runs the functions behind your growth — customer support, HR, finance, procurement, project management, marketing, and IT — for growing companies, with outsourcing delivery tailored to how you operate."
+msgstr ""
+
+#: sections/final-cta.php:61 sections/hero.php:48
+msgid "Start a Conversation"
+msgstr ""
+
+#: sections/final-cta.php:88
+msgid "No generic package. Start with what your business needs next."
+msgstr ""
+
+#: sections/hero.php:30
+msgid "BPO Services in UAE & the Gulf to"
+msgstr ""
+
+#: sections/hero.php:32
+msgid "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services across the Gulf."
+msgstr ""
+
+#: sections/hero.php:35
+msgid "manual work"
+msgstr ""
+
+#: sections/hero.php:36
+msgid "silos"
+msgstr ""
+
+#: sections/hero.php:37
+msgid "delays"
+msgstr ""
+
+#: sections/hero.php:38
+msgid "unnecessary overhead"
+msgstr ""
+
+#: sections/hero.php:43
+msgid "Explore Our Services"
+msgstr ""
+
+#: sections/hero.php:114
+msgid "%1$s %2$s."
+msgstr ""
+
+#: sections/industries.php:39
+msgid "Industries We Serve Across the Gulf"
+msgstr ""
+
+#: sections/industries.php:47 sections/services.php:52
+msgid "Showing %s."
+msgstr ""
+
+#: sections/industries.php:52
+msgid "Private Equity, Family Offices & Holdings"
+msgstr ""
+
+#: sections/industries.php:53
+msgid "Private Equity & Holdings"
+msgstr ""
+
+#: sections/industries.php:54
+msgid "Shared services, portfolio reporting, governance, and specialist operating support for investment firms and diversified holdings."
+msgstr ""
+
+#: sections/industries.php:58
+msgid "Semi-government & Public Sector"
+msgstr ""
+
+#: sections/industries.php:59
+msgid "Public Sector"
+msgstr ""
+
+#: sections/industries.php:60
+msgid "Compliant HR, payroll, procurement, technology, and back-office delivery for government-linked and public-sector organizations."
+msgstr ""
+
+#: sections/industries.php:64 sections/industries.php:65
+msgid "Financial Services"
+msgstr ""
+
+#: sections/industries.php:66
+msgid "Payroll outsourcing, compliance, secure data handling, finance operations, and reporting for financial services and banking organizations."
+msgstr ""
+
+#: sections/industries.php:70
+msgid "Energy, Agriculture & Manufacturing"
+msgstr ""
+
+#: sections/industries.php:71
+msgid "Energy & Manufacturing"
+msgstr ""
+
+#: sections/industries.php:72
+msgid "Procurement, inventory, finance, and operational support for energy, agriculture, automotive, and manufacturing businesses."
+msgstr ""
+
+#: sections/industries.php:76 sections/industries.php:77
+msgid "Real Estate & Construction"
+msgstr ""
+
+#: sections/industries.php:78
+msgid "Lead generation, document processing, project coordination, and back-office support across development and property portfolios."
+msgstr ""
+
+#: sections/industries.php:82 sections/industries.php:83
+msgid "Retail, Hospitality & Healthcare"
+msgstr ""
+
+#: sections/industries.php:84
+msgid "Customer care, order management, returns, patient support, medical record management, and billing for service-led operators."
+msgstr ""
+
+#: sections/industries.php:157 sections/services.php:289
+msgid "slide"
+msgstr ""
+
+#: sections/industries.php:212
+msgid "Show previous industry"
+msgstr ""
+
+#: sections/industries.php:215
+msgid "Show next industry"
+msgstr ""
+
+#: sections/instagram.php:108
+msgid "Show previous posts"
+msgstr ""
+
+#: sections/instagram.php:152
+msgid "View this post on Instagram"
+msgstr ""
+
+#: sections/instagram.php:159
+msgid "Show more posts"
+msgstr ""
+
+#: sections/instagram.php:172
+msgid "Showing posts starting with %s."
+msgstr ""
+
+#: sections/locations.php:41
+msgid "Regional presence"
+msgstr ""
+
+#: sections/locations.php:42
+msgid "Our Locations"
+msgstr ""
+
+#: sections/locations.php:43
+msgid "Delivery hubs across the Gulf and the Levant, run as one connected team — so the work moves with your business rather than around it."
+msgstr ""
+
+#: sections/locations.php:45
+msgid "See all our locations"
+msgstr ""
+
+#: sections/locations.php:47
+msgid "Explore location"
+msgstr ""
+
+#: sections/locations.php:82 sections/locations.php:125
+msgid "Our next delivery hub"
+msgstr ""
+
+#: sections/locations.php:93
+msgid "Abu Dhabi"
+msgstr ""
+
+#: sections/locations.php:94
+msgid "United Arab Emirates"
+msgstr ""
+
+#: sections/locations.php:100
+msgid "Doha"
+msgstr ""
+
+#: sections/locations.php:101
+msgid "Qatar"
+msgstr ""
+
+#: sections/locations.php:107
+msgid "Riyadh"
+msgstr ""
+
+#: sections/locations.php:108
+msgid "Saudi Arabia"
+msgstr ""
+
+#: sections/locations.php:114
+msgid "Beirut"
+msgstr ""
+
+#: sections/locations.php:115
+msgid "Lebanon"
+msgstr ""
+
+#: sections/locations.php:121
+msgid "Damascus"
+msgstr ""
+
+#: sections/locations.php:122
+msgid "Syria"
+msgstr ""
+
+#: sections/locations.php:124
+msgid "Coming soon"
+msgstr ""
+
+#: sections/locations.php:204
+msgid "Explore Synergi in %1$s, %2$s"
+msgstr ""
+
+#: sections/numbers.php:39
+msgid "Company figures"
+msgstr ""
+
+#: sections/numbers.php:40
+msgid "Synergi in Numbers"
+msgstr ""
+
+#: sections/numbers.php:41
+msgid "One regional partner, measured by the outcomes it delivers for businesses across the Gulf and beyond."
+msgstr ""
+
+#: sections/numbers.php:90
+msgid "50+"
+msgstr ""
+
+#: sections/numbers.php:91
+msgid "clients we have served"
+msgstr ""
+
+#: sections/numbers.php:94
+msgid "5"
+msgstr ""
+
+#: sections/numbers.php:95
+msgid "global delivery locations"
+msgstr ""
+
+#: sections/numbers.php:98
+msgid "100+"
+msgstr ""
+
+#: sections/numbers.php:99
+msgid "years of combined experience"
+msgstr ""
+
+#: sections/numbers.php:102
+msgid "10–15%"
+msgstr ""
+
+#: sections/numbers.php:103
+msgid "direct savings"
+msgstr ""
+
+#: sections/numbers.php:140
+msgid "Synergi company figures"
+msgstr ""
+
+#: sections/offers.php:58
+msgid "What we offer"
+msgstr ""
+
+#: sections/offers.php:155 sections/related-services.php:112
+msgid "Explore"
+msgstr ""
+
+#: sections/offices.php:210
+msgid "Map of the Synergi office in %s"
+msgstr ""
+
+#: sections/offices.php:210
+msgid "Hide map"
+msgstr ""
+
+#: sections/offices.php:226
+msgid "Show map of %s"
+msgstr ""
+
+#: sections/offices.php:233
+msgid "Open in Google Maps"
+msgstr ""
+
+#: sections/partners.php:110
+msgid "Partner logos. Drag or swipe to browse."
+msgstr ""
+
+#: sections/people.php:50
+msgid "The team"
+msgstr ""
+
+#: sections/people.php:314
+msgid "LinkedIn profile — %s"
+msgstr ""
+
+#: sections/podcast.php:39
+msgid "Executive series"
+msgstr ""
+
+#: sections/podcast.php:40
+msgid "Leadership · Strategy · Operations"
+msgstr ""
+
+#: sections/podcast.php:44
+msgid "Explore the Podcast"
+msgstr ""
+
+#: sections/positions.php:194
+msgid "%s open role"
+msgid_plural "%s open roles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: sections/positions.php:205
+msgid "No open roles right now"
+msgstr ""
+
+#: sections/positions.php:239
+msgid "Application: %s"
+msgstr ""
+
+#: sections/positions.php:310
+msgid "Posted %s"
+msgstr ""
+
+#: sections/positions.php:319
+msgid "Mail us at"
+msgstr ""
+
+#: sections/positions.php:322
+msgid "Apply at"
+msgstr ""
+
+#: sections/positions.php:325
+msgid "Get in touch about this role"
+msgstr ""
+
+#: sections/process.php:29
+msgid "How we work"
+msgstr ""
+
+#: sections/related-services.php:39 templates/service.php:134
+msgid "Our other service lines"
+msgstr ""
+
+#: sections/ribbon.php:49
+msgid "Business Process Outsourcing"
+msgstr ""
+
+#: sections/ribbon.php:50
+msgid "HR Outsourcing"
+msgstr ""
+
+#: sections/ribbon.php:51
+msgid "Accounting Services"
+msgstr ""
+
+#: sections/ribbon.php:96
+msgid "What Synergi delivers"
+msgstr ""
+
+#: sections/ribbon.php:110
+msgid "Synergi service keywords, drifting sideways. The movement pauses while this strip has keyboard focus."
+msgstr ""
+
+#: sections/services.php:82
+msgid "Finance operations and reporting"
+msgstr ""
+
+#: sections/services.php:83
+msgid "Support for day-to-day finance processes, transaction cycles, analysis, and reporting."
+msgstr ""
+
+#: sections/services.php:86
+msgid "Bookkeeping, VAT & Tax"
+msgstr ""
+
+#: sections/services.php:87
+msgid "Record to Report"
+msgstr ""
+
+#: sections/services.php:88
+msgid "Order to Cash"
+msgstr ""
+
+#: sections/services.php:89
+msgid "Procure to Pay"
+msgstr ""
+
+#: sections/services.php:90
+msgid "Financial Planning & Analysis"
+msgstr ""
+
+#: sections/services.php:91
+msgid "Analytics and Reporting"
+msgstr ""
+
+#: sections/services.php:97
+msgid "People operations and development"
+msgstr ""
+
+#: sections/services.php:98
+msgid "HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity."
+msgstr ""
+
+#: sections/services.php:101
+msgid "HR Operations"
+msgstr ""
+
+#: sections/services.php:102
+msgid "Payroll and Pension"
+msgstr ""
+
+#: sections/services.php:103
+msgid "Performance Management"
+msgstr ""
+
+#: sections/services.php:104
+msgid "Organizational Development"
+msgstr ""
+
+#: sections/services.php:105
+msgid "Learning & Development"
+msgstr ""
+
+#: sections/services.php:106
+msgid "HRMS Implementation"
+msgstr ""
+
+#: sections/services.php:108
+msgid "CXO as a Service"
+msgstr ""
+
+#: sections/services.php:114
+msgid "Sourcing, contracts, and spend visibility"
+msgstr ""
+
+#: sections/services.php:115
+msgid "Procurement outsourcing from sourcing and governance through administration, negotiation, and spend analysis."
+msgstr ""
+
+#: sections/services.php:118
+msgid "Procurement Health Check"
+msgstr ""
+
+#: sections/services.php:119
+msgid "Procurement Function Build-Up"
+msgstr ""
+
+#: sections/services.php:120
+msgid "Governance, Compliance and Control"
+msgstr ""
+
+#: sections/services.php:121
+msgid "Procurement Planning and Inventory Management"
+msgstr ""
+
+#: sections/services.php:122
+msgid "Strategic Sourcing and Cost Optimization"
+msgstr ""
+
+#: sections/services.php:123
+msgid "Supplier Lifecycle Management"
+msgstr ""
+
+#: sections/services.php:124
+msgid "End-to-End Operational Support (BPO)"
+msgstr ""
+
+#: sections/services.php:130
+msgid "Systems, support, and managed services"
+msgstr ""
+
+#: sections/services.php:131
+msgid "Technology operations that connect end-user support, infrastructure, compliance, and business systems."
+msgstr ""
+
+#: sections/services.php:134
+msgid "ERP Implementation"
+msgstr ""
+
+#: sections/services.php:135
+msgid "Custom AI Applications"
+msgstr ""
+
+#: sections/services.php:136
+msgid "AI-Enabled Business Process Automation"
+msgstr ""
+
+#: sections/services.php:137
+msgid "Service Desk and End-User Support"
+msgstr ""
+
+#: sections/services.php:138
+msgid "On-Premises and Cloud Managed Services"
+msgstr ""
+
+#: sections/services.php:139
+msgid "Regulatory Compliance"
+msgstr ""
+
+#: sections/services.php:140
+msgid "Procurement Support"
+msgstr ""
+
+#: sections/services.php:141
+msgid "IT Managed Services"
+msgstr ""
+
+#: sections/services.php:142
+msgid "Collaboration Tooling"
+msgstr ""
+
+#: sections/services.php:148
+msgid "Brand, communications, and experience"
+msgstr ""
+
+#: sections/services.php:149
+msgid "Strategic and operational marketing support across brand, content, events, public relations, and customer experience."
+msgstr ""
+
+#: sections/services.php:152
+msgid "Marketing Audit and Strategy Development"
+msgstr ""
+
+#: sections/services.php:153
+msgid "Social Media Management and Paid Digital Ads"
+msgstr ""
+
+#: sections/services.php:154
+msgid "SEO, GEO and Website Optimization"
+msgstr ""
+
+#: sections/services.php:155
+msgid "Events Strategy and Management"
+msgstr ""
+
+#: sections/services.php:156
+msgid "Brand Development and Positioning"
+msgstr ""
+
+#: sections/services.php:157
+msgid "PR Representation and Media Relations"
+msgstr ""
+
+#: sections/services.php:158
+msgid "Digital Design"
+msgstr ""
+
+#: sections/services.php:159
+msgid "Reporting, Performance Analysis and Data Management"
+msgstr ""
+
+#: sections/services.php:160
+msgid "Fractional Chief Marketing Officer (CMO)"
+msgstr ""
+
+#: sections/services.php:166
+msgid "Governance, delivery, and transformation offices"
+msgstr ""
+
+#: sections/services.php:167
+msgid "Structured project and program delivery with clear governance, resources, controls, and performance reporting."
+msgstr ""
+
+#: sections/services.php:170
+msgid "PMO Setup and Governance Frameworks"
+msgstr ""
+
+#: sections/services.php:171
+msgid "End-to-End Project Planning and Delivery"
+msgstr ""
+
+#: sections/services.php:172
+msgid "Program and Portfolio Management"
+msgstr ""
+
+#: sections/services.php:173
+msgid "Project Resource Planning and Augmentation"
+msgstr ""
+
+#: sections/services.php:174
+msgid "Risk, Budget and Schedule Control"
+msgstr ""
+
+#: sections/services.php:175
+msgid "Vendor and Stakeholder Coordination"
+msgstr ""
+
+#: sections/services.php:176
+msgid "Project Reporting and Performance Dashboards"
+msgstr ""
+
+#: sections/services.php:177
+msgid "Transformation Office Setup and Management"
+msgstr ""
+
+#: sections/services.php:203
+msgid "Synergi core BPO services"
+msgstr ""
+
+#: sections/services.php:227
+msgid "Show previous service"
+msgstr ""
+
+#: sections/services.php:230
+msgid "Show next service"
+msgstr ""
+
+#: sections/services.php:237
+msgid "Layered service cards. Use the left and right arrow keys to browse."
+msgstr ""
+
+#: sections/services.php:313
+msgid "Explore %s"
+msgstr ""
+
+#: sections/shared-services.php:58
+msgid "Centralize your back-office functions in one shared-services team, wherever your business operates. From HR and finance to %s, we help you cut costs, strengthen compliance, and scale faster."
+msgstr ""
+
+#: sections/shared-services.php:59
+msgid "procurement"
+msgstr ""
+
+#: sections/shared-services.php:71
+msgid "Looking to optimize operations beyond shared services? See how Synergi delivers %s — as consulting, manpower augmentation or full BPO, wherever you operate."
+msgstr ""
+
+#: sections/shared-services.php:72
+msgid "across our markets"
+msgstr ""
+
+#: sections/shared-services.php:78
+msgid "Understand"
+msgstr ""
+
+#: sections/shared-services.php:82
+msgid "Design"
+msgstr ""
+
+#: sections/shared-services.php:86
+msgid "Deliver"
+msgstr ""
+
+#: sections/shared-services.php:91
+msgid "Discover Shared Services"
+msgstr ""
+
+#: sections/shared-services.php:96
+msgid "UAE"
+msgstr ""
+
+#: sections/shared-services.php:97
+msgid "GCC"
+msgstr ""
+
+#: sections/shared-services.php:98
+msgid "KSA"
+msgstr ""
+
+#: sections/shared-services.php:102
+msgid "Cost Savings"
+msgstr ""
+
+#: sections/shared-services.php:103
+msgid "Multi-Market Reach"
+msgstr ""
+
+#: sections/shared-services.php:104
+msgid "Access to Expertise"
+msgstr ""
+
+#: sections/shared-services.php:105
+msgid "Scalable Services"
+msgstr ""
+
+#: sections/shared-services.php:106
+msgid "Focus on Core Activities"
+msgstr ""
+
+#: sections/shared-services.php:111
+msgid "One Connected"
+msgstr ""
+
+#: sections/shared-services.php:111
+msgid "Framework"
+msgstr ""
+
+#: sections/shared-services.php:129
+msgid "Human"
+msgstr ""
+
+#: sections/shared-services.php:129
+msgid "Resources"
+msgstr ""
+
+#: sections/shared-services.php:137
+msgid "Technology"
+msgstr ""
+
+#: sections/shared-services.php:137
+msgid "& AI"
+msgstr ""
+
+#: sections/shared-services.php:145
+msgid "Project"
+msgstr ""
+
+#: sections/shared-services.php:145
+msgid "Management"
+msgstr ""
+
+#: sections/shared-services.php:191
+msgid "Shared services hub connecting %s under one connected framework."
+msgstr ""
+
+#: sections/shared-services.php:206
+msgid "Synergi delivery model"
+msgstr ""
+
+#: sections/shared-services.php:242
+msgid "Markets served"
+msgstr ""
+
+#: sections/shared-services.php:258
+msgid "Benefits of outsourcing with Synergi"
+msgstr ""
+
+#: sections/story.php:195
+msgid "Hover to read"
+msgstr ""
+
+#: sections/why.php:60
+msgid "Why Synergi"
+msgstr ""
+
+#: sections/why.php:61
+msgid "Why Companies Choose Synergi"
+msgstr ""
+
+#: sections/why.php:62
+msgid "Synergi is more than just an outsourcing provider; we are a trusted partner to businesses across the region and beyond. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant."
+msgstr ""
+
+#: sections/why.php:99
+msgid "Experience across multiple Gulf markets"
+msgstr ""
+
+#: sections/why.php:100
+msgid "Gulf market experience"
+msgstr ""
+
+#: sections/why.php:105
+msgid "Customized outsourcing strategies"
+msgstr ""
+
+#: sections/why.php:106
+msgid "Customized strategies"
+msgstr ""
+
+#: sections/why.php:107
+msgid "Each operating model is shaped around the organization, its maturity, and its priorities."
+msgstr ""
+
+#: sections/why.php:111
+msgid "Compliance with UAE and Gulf regulations"
+msgstr ""
+
+#: sections/why.php:112
+msgid "Regulatory compliance"
+msgstr ""
+
+#: sections/why.php:113
+msgid "Governance and local requirements are built into processes and delivery controls."
+msgstr ""
+
+#: sections/why.php:117
+msgid "Flexible operations that grow with your business"
+msgstr ""
+
+#: sections/why.php:118
+msgid "Scalable operations"
+msgstr ""
+
+#: sections/why.php:119
+msgid "Consulting, manpower augmentation, and BPO can scale as requirements change."
+msgstr ""
+
+#: sections/why.php:143
+msgid "Showing reason %1$s: %2$s."
+msgstr ""
+
+#: sections/why.php:182
+msgid "%s reasons to choose Synergi. Use the arrow keys to change the featured card."
+msgstr ""
+
+#: sections/why.php:253
+msgid "Show reason %1$s: %2$s"
+msgstr ""
+
+#: single-syn_case_study.php:172
+msgid "The result"
+msgstr ""
+
+#: single.php:113
+msgid "More posts"
+msgstr ""
+
+#: taxonomy-syn_case_service.php:62
+msgid "%s case studies"
+msgstr ""
+
+#: taxonomy-syn_case_service.php:74
+msgid "What we have delivered in %s"
+msgstr ""
+
+#: taxonomy-syn_case_service.php:75
+msgid "What we have delivered"
+msgstr ""
+
+#: taxonomy-syn_case_service.php:84
+msgid "No case studies are published for this service line yet."
+msgstr ""
+
+#: templates/about.php:94
+msgid "Who we are"
+msgstr ""
+
+#: templates/about.php:116
+msgid "Our approach"
+msgstr ""
+
+#: templates/about.php:126
+msgid "What we stand for"
+msgstr ""
+
+#: templates/about.php:141
+msgid "How we got here"
+msgstr ""
+
+#: templates/market.php:384
+msgid "Our other markets"
+msgstr ""
+
+#: templates/media.php:117
+msgid "How organizations across the Gulf run their operations with Synergi."
+msgstr ""
+
+#: templates/media.php:119
+msgid "View all case studies"
+msgstr ""
+
+#: templates/media.php:137
+msgid "Latest Podcast Episodes"
+msgstr ""
+
+#: templates/media.php:138
+msgid "Senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region."
+msgstr ""
+
+#: templates/media.php:142
+msgid "View all episodes"
+msgstr ""
+
+#: templates/solution.php:114
+msgid "How it runs"
+msgstr ""
+
+#: templates/solution.php:158
+msgid "Read the full case study"
+msgstr ""
+
+#: templates/solution.php:204
+msgid "Our other solutions"
+msgstr ""
+
+#: templates/solutions-listing.php:67
+msgid "How we engage"
+msgstr ""
+
