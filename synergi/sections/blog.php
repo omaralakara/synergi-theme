@@ -51,17 +51,69 @@ $syn_link_url   = $args['link_url'] ?? ( $syn_posts_page ? get_permalink( $syn_p
  * no_found_rows skips the SQL_CALC_FOUND_ROWS count, which this section has no
  * use for — there is no pagination, only the newest few.
  */
-$syn_query = new WP_Query(
-	array(
-		'post_type'           => 'post',
-		'post_status'         => 'publish',
-		'posts_per_page'      => max( 1, $syn_count ),
-		'ignore_sticky_posts' => true,
-		'no_found_rows'       => true,
-	)
+$syn_query_args = array(
+	'post_type'           => 'post',
+	'post_status'         => 'publish',
+	'posts_per_page'      => max( 1, $syn_count ),
+	'ignore_sticky_posts' => true,
+	'no_found_rows'       => true,
 );
 
-if ( ! $syn_query->have_posts() ) {
+$syn_query = new WP_Query( $syn_query_args );
+$syn_posts = $syn_query->posts;
+
+/*
+ * Polylang limits that query to the page's language. The blog is not being
+ * translated yet (decided 15 Sep 2026), so an Arabic page found one article
+ * and showed a band with two empty slots beside it — reported the same day.
+ *
+ * The band is topped up from the default language instead: articles in the
+ * page's language first, then the newest English ones, skipping any whose
+ * translation is already in the list. Each borrowed card carries its own
+ * language and direction on the words that are actually English (the heading
+ * and the excerpt), so the browser sets them left-to-right in the Latin face
+ * while the card's chrome — the date, "Read more" — stays in the page's
+ * language. The moment enough articles are translated the top-up stops by
+ * itself, because the first query fills the band on its own.
+ */
+$syn_filled_ids = array();
+$syn_fill_lang  = array();
+
+if ( count( $syn_posts ) < max( 1, $syn_count ) && function_exists( 'syn_language_is_default' ) && ! syn_language_is_default() && function_exists( 'pll_get_post' ) ) {
+	$syn_default = syn_language_default();
+	$syn_twins   = array();
+
+	foreach ( $syn_posts as $syn_found ) {
+		$syn_twin = (int) pll_get_post( $syn_found->ID, $syn_default );
+
+		if ( $syn_twin ) {
+			$syn_twins[] = $syn_twin;
+		}
+	}
+
+	$syn_fill = new WP_Query(
+		array_merge(
+			$syn_query_args,
+			array(
+				'lang'           => $syn_default,
+				'posts_per_page' => max( 1, $syn_count ) - count( $syn_posts ),
+				'post__not_in'   => $syn_twins,
+			)
+		)
+	);
+
+	$syn_filled_ids = wp_list_pluck( $syn_fill->posts, 'ID' );
+	$syn_posts      = array_merge( $syn_posts, $syn_fill->posts );
+
+	$syn_languages = syn_languages();
+	$syn_fill_lang = isset( $syn_languages[ $syn_default ] ) ? $syn_languages[ $syn_default ] : array();
+
+	if ( SYN_DEBUG && $syn_filled_ids ) {
+		echo "\n<!-- syn-section blog: " . count( $syn_filled_ids ) . ' article(s) borrowed from the default language, none translated yet -->' . "\n";
+	}
+}
+
+if ( ! $syn_posts ) {
 	if ( SYN_DEBUG ) {
 		echo "\n<!-- syn-section blog: no published posts, section omitted -->\n";
 	}
@@ -69,6 +121,21 @@ if ( ! $syn_query->have_posts() ) {
 	wp_reset_postdata();
 
 	return;
+}
+
+/*
+ * The attributes a borrowed card's English words carry: lang, and dir in
+ * case the default language is ever the right-to-left one. Built once,
+ * escaped once, and echoed as-is below.
+ */
+$syn_fill_attr = '';
+
+if ( $syn_fill_lang ) {
+	$syn_fill_attr = sprintf(
+		' lang="%s" dir="%s"',
+		esc_attr( $syn_fill_lang['slug'] ),
+		! empty( $syn_fill_lang['rtl'] ) ? 'rtl' : 'ltr'
+	);
 }
 
 $syn_uid = wp_unique_id( 'syn-blog-' );
@@ -107,9 +174,14 @@ $syn_status_template = __( 'Showing articles starting with %s.', 'synergi' );
 			<div class="syn-blog__viewport" data-syn-blog-viewport>
 				<ul class="syn-blog__track" data-syn-blog-track>
 					<?php
-					while ( $syn_query->have_posts() ) :
-						$syn_query->the_post();
+					// The loop runs over the merged list rather than the query, so the
+					// borrowed articles render exactly like the page's own.
+					global $post;
+
+					foreach ( $syn_posts as $post ) :
+						setup_postdata( $post );
 						$syn_thumb_id = get_post_thumbnail_id();
+						$syn_card_attr = in_array( (int) $post->ID, $syn_filled_ids, true ) ? $syn_fill_attr : '';
 						?>
 						<li class="syn-blog__card">
 							<div class="syn-blog__media">
@@ -153,7 +225,7 @@ $syn_status_template = __( 'Showing articles starting with %s.', 'synergi' );
 								 */
 								?>
 								<h3 class="syn-blog__card-title">
-									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+									<a href="<?php the_permalink(); ?>"<?php echo $syn_card_attr; // Escaped where it is built, above. ?>><?php the_title(); ?></a>
 								</h3>
 
 								<?php
@@ -161,13 +233,13 @@ $syn_status_template = __( 'Showing articles starting with %s.', 'synergi' );
 
 								if ( $syn_excerpt ) :
 									?>
-									<p class="syn-blog__excerpt"><?php echo esc_html( $syn_excerpt ); ?></p>
+									<p class="syn-blog__excerpt"<?php echo $syn_card_attr; // Escaped where it is built, above. ?>><?php echo esc_html( $syn_excerpt ); ?></p>
 								<?php endif; ?>
 
 								<span class="syn-blog__more" aria-hidden="true"><?php esc_html_e( 'Read more', 'synergi' ); ?> <?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 							</div>
 						</li>
-					<?php endwhile; ?>
+					<?php endforeach; ?>
 				</ul>
 			</div>
 
