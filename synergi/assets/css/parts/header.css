@@ -602,3 +602,46 @@
 		gap: 1.5rem;
 	}
 }
+
+/* ==========================================================================
+   9. Language switch
+   parts/lang-switch.php: one link per other language, between the navigation
+   and the menu toggle. Drawn like a quiet outline pill so it reads as a control
+   rather than a menu item, and never hidden on narrow screens — it is the one
+   thing in the header that must stay reachable while the nav panel is closed.
+   ========================================================================== */
+
+.syn-lang {
+	display: flex;
+	flex: 0 0 auto;
+	align-items: center;
+}
+
+.syn-lang__link {
+	display: inline-flex;
+	min-block-size: 2.25rem;
+	align-items: center;
+	padding-block: 0.2rem;
+	padding-inline: 0.85rem;
+	border: 1px solid var(--syn-on-dark-outline);
+	border-radius: var(--syn-radius-xl);
+	color: var(--syn-white);
+	font-size: 0.82rem;
+	font-weight: 600;
+	line-height: 1;
+	text-decoration: none;
+	transition: background-color var(--syn-duration-fast), border-color var(--syn-duration-fast);
+}
+
+.syn-lang__link:hover,
+.syn-lang__link:focus-visible {
+	border-color: var(--syn-white);
+	background-color: var(--syn-on-dark-divider);
+}
+
+@media (max-width: 74rem) {
+
+	.syn-lang {
+		margin-inline-start: auto;
+	}
+}

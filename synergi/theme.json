@@ -52,7 +52,7 @@
 				{
 					"slug": "brand",
 					"name": "Montserrat",
-					"fontFamily": "\"Montserrat\", \"Avenir Next\", \"Segoe UI\", Arial, sans-serif",
+					"fontFamily": "\"Montserrat\", \"Cairo\", \"Avenir Next\", \"Segoe UI\", Arial, sans-serif",
 					"fontFace": [
 						{
 							"fontFamily": "Montserrat",
@@ -60,6 +60,14 @@
 							"fontWeight": "100 900",
 							"fontDisplay": "swap",
 							"src": [ "file:./assets/fonts/montserrat-latin.woff2" ]
+						},
+						{
+							"fontFamily": "Cairo",
+							"fontStyle": "normal",
+							"fontWeight": "200 1000",
+							"fontDisplay": "swap",
+							"unicodeRange": "U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC",
+							"src": [ "file:./assets/fonts/cairo-arabic.woff2" ]
 						}
 					]
 				}

@@ -327,5 +327,20 @@ function syn_preload_brand_font( $resources ) {
 		'crossorigin' => 'anonymous',
 	);
 
+	/*
+	 * The Arabic face too, on Arabic pages only. theme.json restricts it to the
+	 * Arabic unicode range, so an English page never downloads it (bar the one
+	 * word in the language switch, which is not on the LCP path) and an Arabic
+	 * page needs it for every line — the same round-trip argument as above.
+	 */
+	if ( 0 === strpos( get_locale(), 'ar' ) ) {
+		$resources[] = array(
+			'href'        => SYN_URI . 'assets/fonts/cairo-arabic.woff2',
+			'as'          => 'font',
+			'type'        => 'font/woff2',
+			'crossorigin' => 'anonymous',
+		);
+	}
+
 	return $resources;
 }

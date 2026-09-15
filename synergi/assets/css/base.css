@@ -649,3 +649,31 @@ textarea {
 	 */
 	scroll-margin-block-start: var(--syn-header-height);
 }
+
+/* ==========================================================================
+   11. Arabic
+   The Arabic site is the same stylesheet read right-to-left: every rule in the
+   theme uses logical properties (CLAUDE.md §2.11), so direction costs nothing.
+   Two things are script-specific rather than direction-specific and are
+   corrected here, keyed on the document language Polylang sets, not on dir.
+   ========================================================================== */
+
+/*
+ * !important is required here: Arabic is a connected script, and tracking
+ * pulls its letters apart. Thirty-odd section rules set letter-spacing on
+ * eyebrows, labels and buttons for Montserrat's benefit, and this one rule has
+ * to beat every one of them, including ones written later, without each file
+ * carrying its own :lang(ar) exception. Same reasoning as the reduced-motion
+ * block in §7, which is the only other !important in this file.
+ */
+html[lang^="ar"] * {
+	letter-spacing: 0 !important;
+}
+
+/*
+ * Cairo's ascenders and diacritics sit taller than Montserrat's, so the tight
+ * display line-heights the design uses for Latin headings clip Arabic ones.
+ */
+html[lang^="ar"] :is(h1, h2, h3, h4) {
+	line-height: 1.4;
+}

@@ -37,6 +37,8 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php get_template_part( 'parts/nav' ); ?>
 
+		<?php get_template_part( 'parts/lang-switch' ); ?>
+
 		<?php
 		/*
 		 * The toggle sits after the navigation in the source so that Tab reaches
