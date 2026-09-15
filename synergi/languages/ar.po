@@ -10,10 +10,10 @@ msgstr ""
 "X-Domain: synergi\n"
 
 msgid "That page has moved or never existed"
-msgstr "هذه الصفحة انتقلت أو لم تكن موجودة"
+msgstr "هذه الصفحة غير موجودة أو تم نقلها"
 
 msgid "The link may be out of date. Here is the way back."
-msgstr "قد يكون الرابط قديمًا. إليك طريق العودة."
+msgstr "قد يكون الرابط قديمًا. يمكنكم العودة من هنا."
 
 msgid "About Us"
 msgstr "من نحن"
@@ -40,7 +40,7 @@ msgid "There are no posts here yet."
 msgstr "لا توجد مقالات هنا بعد."
 
 msgid "Synergi is a boutique BPO partner delivering personalized, high-impact business solutions"
-msgstr "سينرجي شريك تعهيد متخصص يقدّم حلول أعمال مخصصة وعالية الأثر"
+msgstr "سينرجي شريك متخصص في التعهيد يقدّم حلول أعمال مخصصة وعالية الأثر"
 
 msgid "Synergi on %s"
 msgstr "سينرجي على %s"
@@ -82,7 +82,7 @@ msgid "Carve-Out & Integration"
 msgstr "الفصل والدمج"
 
 msgid "Fractional Leadership"
-msgstr "القيادة الجزئية"
+msgstr "القيادة التنفيذية بدوام جزئي"
 
 msgid "Company"
 msgstr "الشركة"
@@ -148,13 +148,13 @@ msgid "One or two sentences. This is the first thing a reader and a search engin
 msgstr ""
 
 msgid "We offer end-to-end solutions to enable companies at all stages of maturity to optimize and drive value from their non-core activities."
-msgstr "نقدّم حلولًا متكاملة تمكّن الشركات في جميع مراحل نضجها من تحسين أنشطتها غير الأساسية وتحقيق القيمة منها."
+msgstr "نقدّم حلولًا متكاملة تمكّن الشركات، في مختلف مراحل نضجها، من تحسين أنشطتها المساندة وتحقيق أقصى قيمة منها."
 
 msgid "Main button"
 msgstr ""
 
 msgid "Talk to our team"
-msgstr "تحدّث إلى فريقنا"
+msgstr "تواصل مع فريقنا"
 
 msgid "Second button"
 msgstr ""
@@ -208,7 +208,7 @@ msgid "From assessment to action"
 msgstr "من التقييم إلى التنفيذ"
 
 msgid "Our proprietary methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution."
-msgstr "تجمع منهجيتنا الخاصة بين التشخيص القائم على البيانات وإدارة المشاريع المنضبطة، لتحويل الرؤى إلى تنفيذ منظّم بمعالم محددة."
+msgstr "تجمع منهجيتنا الخاصة بين التشخيص القائم على البيانات والإدارة المنضبطة للمشاريع، لتحويل الرؤى إلى تنفيذ منظّم وفق معالم محددة."
 
 msgid "Stages"
 msgstr ""
@@ -232,7 +232,7 @@ msgid "Our Values"
 msgstr "قيمنا"
 
 msgid "At Synergi, our ethos is built upon pillars that guide every step we take."
-msgstr "في سينرجي، تقوم روحنا المؤسسية على ركائز توجّه كل خطوة نخطوها."
+msgstr "تقوم ثقافتنا المؤسسية في سينرجي على ركائز ثابتة توجّه كل خطوة نخطوها."
 
 msgid "Optional. Sits at the centre of the values wheel on a wide screen, and above the values on a narrow one."
 msgstr ""
@@ -295,7 +295,7 @@ msgid "The band at the top of the page. The page title is the heading."
 msgstr ""
 
 msgid "For a boutique, the people are the product. These are the people you work with."
-msgstr "في شركة متخصصة، الأفراد هم المنتج. هؤلاء هم من ستعملون معهم."
+msgstr "في شركة متخصصة مثل سينرجي، فريقنا هو جوهر ما نقدّمه. هؤلاء هم من ستعملون معهم."
 
 msgid "People — the list"
 msgstr ""
@@ -397,7 +397,7 @@ msgid "Careers at Synergi"
 msgstr "الوظائف في سينرجي"
 
 msgid "Synergi BPO is a boutique Business Process Outsourcing provider serving clients across the GCC region and internationally, helping organizations streamline and strengthen their support functions and shared services."
-msgstr "سينرجي مزوّد متخصص لتعهيد عمليات الأعمال يخدم عملاء في أنحاء دول الخليج ودوليًا، ويساعد المؤسسات على تبسيط وظائف الدعم والخدمات المشتركة لديها وتقويتها."
+msgstr "سينرجي شركة متخصصة في تعهيد عمليات الأعمال تخدم عملاء في دول الخليج وخارجها، وتساعد المؤسسات على تبسيط وظائف الدعم والخدمات المشتركة لديها وتعزيزها."
 
 msgid "Fills the band behind the page title. Without one the band stays on the flat navy."
 msgstr ""
@@ -421,10 +421,10 @@ msgid "Life at Synergi"
 msgstr "الحياة في سينرجي"
 
 msgid "Why people build their careers here"
-msgstr "لماذا يبني الناس مسيرتهم المهنية هنا"
+msgstr "لماذا يختار المتخصصون بناء مسيرتهم المهنية معنا"
 
 msgid "Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven Shared Services as-a-service (SSaaS) provider."
-msgstr "سينرجي مزوّد خدمات متخصص لتعهيد عمليات الأعمال بطموح جريء: التحوّل إلى مزوّد خدمات مشتركة كخدمة قائم على التقنية."
+msgstr "سينرجي شركة متخصصة في تعهيد عمليات الأعمال، تحمل طموحًا واضحًا: التحوّل إلى مزوّد للخدمات المشتركة كخدمة (SSaaS) قائم على التقنية."
 
 msgid "Shown tall beside the reasons. A picture of people at work reads better than a skyline here."
 msgstr ""
@@ -454,13 +454,13 @@ msgid "A tech company at its core"
 msgstr "شركة تقنية في جوهرها"
 
 msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
-msgstr "نتطلع إلى أن نكون أكثر من مزوّد تعهيد؛ شركة تقنية في جوهرها، تجمع الأنظمة والأتمتة والذكاء الاصطناعي والبنية السحابية مع الإبداع البشري والدافع لتحقيق التميز التشغيلي على نطاق واسع."
+msgstr "نتطلع إلى أن نكون أكثر من مزوّد لخدمات التعهيد: شركة تقنية في جوهرها، تجمع بين الأنظمة والأتمتة والذكاء الاصطناعي والبنية السحابية وبين الإبداع البشري، لتحقيق التميز التشغيلي على نطاق واسع."
 
 msgid "Expertise"
 msgstr "الخبرة"
 
 msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
-msgstr "نفخر بمعرفتنا وخبرتنا العميقتين، بما يضمن تنفيذ كل مهمة بدقة."
+msgstr "نعتز بعمق معرفتنا وخبرتنا، بما يضمن تنفيذ كل مهمة بدقة واحترافية."
 
 msgid "Title"
 msgstr ""
@@ -481,7 +481,7 @@ msgid "Roles we are hiring for now"
 msgstr "الوظائف التي نوظّف لها الآن"
 
 msgid "Open a role to read what it involves and who it suits."
-msgstr "افتح الوظيفة لتقرأ ما تتضمنه ولمن تناسب."
+msgstr "اطّلع على تفاصيل كل وظيفة ومتطلباتها."
 
 msgid "Positions"
 msgstr ""
@@ -643,7 +643,7 @@ msgid "The band at the foot of the page. It fills itself from the other publishe
 msgstr ""
 
 msgid "Keep exploring"
-msgstr "تابع الاستكشاف"
+msgstr "اكتشف المزيد"
 
 msgid "More case studies"
 msgstr "المزيد من دراسات الحالة"
@@ -655,13 +655,13 @@ msgid "The top of the page, and the wording over the grid. The grid itself fills
 msgstr ""
 
 msgid "Proof"
-msgstr "الدليل"
+msgstr "نتائج ملموسة"
 
 msgid "One or two sentences under the page title."
 msgstr ""
 
 msgid "Engagements we have run, and what changed as a result."
-msgstr "ارتباطات نفّذناها، وما تغيّر نتيجة لها."
+msgstr "مشاريع نفّذناها، والأثر الذي أحدثته."
 
 msgid "Optional. Fills the band behind the page title. Without one the band stays on the flat navy."
 msgstr ""
@@ -685,7 +685,7 @@ msgid "Shown in place of the grid before the first case study is published, so t
 msgstr ""
 
 msgid "Our first case studies are being written up. In the meantime, our team can talk you through comparable engagements."
-msgstr "دراسات الحالة الأولى لدينا قيد الإعداد. وفي غضون ذلك، يمكن لفريقنا أن يطلعكم على ارتباطات مماثلة."
+msgstr "دراسات الحالة الأولى لدينا قيد الإعداد. وفي غضون ذلك، يسعد فريقنا بإطلاعكم على مشاريع مماثلة."
 
 msgid "Service lines"
 msgstr ""
@@ -760,7 +760,7 @@ msgid "Contact"
 msgstr "تواصل"
 
 msgid "For general enquiries, proposals and career conversations. We answer from the office closest to the work."
-msgstr "للاستفسارات العامة والعروض ومحادثات التوظيف. نجيب من المكتب الأقرب إلى العمل."
+msgstr "للاستفسارات العامة وطلبات العروض وفرص العمل. يتولى الرد المكتب الأقرب إلى موقع العمل."
 
 msgid "Optional. Without one the band stays on the flat navy."
 msgstr ""
@@ -790,10 +790,10 @@ msgid "Send us a message"
 msgstr "أرسل لنا رسالة"
 
 msgid "Tell us what you are trying to fix"
-msgstr "أخبرنا بما تحاول إصلاحه"
+msgstr "أخبرونا بالتحدي الذي تواجهونه"
 
 msgid "A sentence about the problem is more useful to us than a form filled in perfectly. Someone who can answer it will reply."
-msgstr "جملة واحدة عن المشكلة أنفع لنا من نموذج مكتمل بدقة. وسيردّ عليك من يستطيع الإجابة."
+msgstr "يكفينا وصف موجز للتحدي، وسيتواصل معكم الشخص المختص للرد عليه."
 
 msgid "Small print"
 msgstr ""
@@ -814,7 +814,7 @@ msgid "The wording around the account cards. The accounts themselves are edited 
 msgstr ""
 
 msgid "Elsewhere"
-msgstr "في أماكن أخرى"
+msgstr "تابعونا"
 
 msgid "Follow Synergi"
 msgstr "تابع سينرجي"
@@ -1042,7 +1042,7 @@ msgid "Press Enter to start a new line on screen. On phones the break is ignored
 msgstr ""
 
 msgid "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services, wherever your business operates."
-msgstr "تدير سينرجي وتحوّل الوظائف غير الأساسية في الأعمال من خلال التعهيد والاستشارات وتعزيز القوى العاملة والخدمات المشتركة المدعومة بالتقنية، أينما كانت أعمالكم."
+msgstr "تتولى سينرجي إدارة الوظائف المساندة في أعمالكم وتطويرها، من خلال تعهيد العمليات والاستشارات وتوفير الكوادر والخدمات المشتركة المدعومة بالتقنية، أينما كانت أعمالكم."
 
 msgid "Animated line — fixed half"
 msgstr ""
@@ -1102,7 +1102,7 @@ msgid "Our Core BPO Services"
 msgstr "خدمات التعهيد الأساسية لدينا"
 
 msgid "Six specialist functions, coordinated around your business."
-msgstr "ست وظائف متخصصة، منسّقة حول أعمالكم."
+msgstr "ست وظائف متخصصة تعمل بتناغم حول أعمالكم."
 
 msgid "Homepage 03 — Shared services"
 msgstr ""
@@ -1216,7 +1216,7 @@ msgid "Our Partners"
 msgstr "شركاؤنا"
 
 msgid "Leading global platforms and regional specialists, integrated into one delivery model — so the systems behind your operations are always best in class."
-msgstr "منصات عالمية رائدة ومتخصصون إقليميون، مدمجون في نموذج تنفيذ واحد — لتبقى الأنظمة التي تقف خلف عملياتكم الأفضل في فئتها دائمًا."
+msgstr "منصات عالمية رائدة وشركاء إقليميون متخصصون ضمن نموذج تنفيذ واحد متكامل، لتبقى الأنظمة التي تدعم عملياتكم في مقدمة فئتها دائمًا."
 
 msgid "Logos"
 msgstr ""
@@ -1270,13 +1270,13 @@ msgid "The podcast band."
 msgstr ""
 
 msgid "Conversations for people who run businesses"
-msgstr "حوارات لمن يديرون الأعمال"
+msgstr "حوارات مع من يقودون الأعمال"
 
 msgid "The Synergi Executive Podcast"
 msgstr "بودكاست سينرجي التنفيذي"
 
 msgid "Senior leaders unpack the decisions behind stronger operations across MENA."
-msgstr "قادة كبار يشرحون القرارات التي تقف خلف عمليات أقوى في منطقة الشرق الأوسط وشمال أفريقيا."
+msgstr "قادة تنفيذيون يشرحون القرارات التي تصنع عمليات أقوى في منطقة الشرق الأوسط وشمال أفريقيا."
 
 msgid "Practical perspectives on leadership, shared services, BPO, and operational transformation, grounded in real-world experience."
 msgstr "وجهات نظر عملية حول القيادة والخدمات المشتركة والتعهيد والتحوّل التشغيلي، مستندة إلى خبرة واقعية."
@@ -1429,7 +1429,7 @@ msgid "What was delivered"
 msgstr ""
 
 msgid "Delivered"
-msgstr "ما قُدّم"
+msgstr "ما تم تقديمه"
 
 msgid "Read more"
 msgstr "اقرأ المزيد"
@@ -1441,10 +1441,10 @@ msgid "Real questions a buyer in this market asks. Answers accept links and basi
 msgstr ""
 
 msgid "Questions we are asked"
-msgstr "أسئلة تُطرح علينا"
+msgstr "الأسئلة الشائعة"
 
 msgid "Questions"
-msgstr "أسئلة"
+msgstr "الأسئلة الشائعة"
 
 msgid "Question"
 msgstr ""
@@ -1477,7 +1477,7 @@ msgid "The words around the two bands. The articles come from the blog itself an
 msgstr ""
 
 msgid "What our teams are writing, and what we are up to. The podcast and our case studies sit alongside this in the menu above."
-msgstr "ما تكتبه فرقنا، وما نعمل عليه. البودكاست ودراسات الحالة إلى جانب ذلك في القائمة أعلاه."
+msgstr "ما تكتبه فرقنا وما نعمل عليه. وتجدون البودكاست ودراسات الحالة في القائمة أعلاه."
 
 msgid "Articles band — eyebrow"
 msgstr ""
@@ -1543,7 +1543,7 @@ msgid "The band at the top. The page title is the heading and the photograph is 
 msgstr ""
 
 msgid "The first BPO-led discussion platform: senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region."
-msgstr "أول منصة حوار يقودها التعهيد: قادة كبار يتحدثون عن كيفية تكامل القيادة والاستراتيجية والعمليات لإحداث أثر في الأعمال عبر منطقة الشرق الأوسط وشمال أفريقيا."
+msgstr "أول منصة حوارية من قطاع التعهيد: قادة تنفيذيون يتحدثون عن تكامل القيادة والاستراتيجية والعمليات لإحداث أثر حقيقي في الأعمال عبر منطقة الشرق الأوسط وشمال أفريقيا."
 
 msgid "Podcast — about the series"
 msgstr ""
@@ -1804,7 +1804,7 @@ msgid "Which of the six lines this page is: accounting, human-resources, marketi
 msgstr ""
 
 msgid "End-to-end solutions that align with your organizational goals, improve experience, and keep operations compliant."
-msgstr "حلول متكاملة تتوافق مع أهدافكم المؤسسية، وتحسّن التجربة، وتحافظ على امتثال العمليات."
+msgstr "حلول متكاملة تتوافق مع أهدافكم المؤسسية، وترتقي بالتجربة، وتحافظ على امتثال العمليات للأنظمة."
 
 msgid "Sits beside the heading. Choose one with meaningful alt text already set on it."
 msgstr ""
@@ -1843,7 +1843,7 @@ msgid "The delivery method. Leave untouched to show the standard four steps."
 msgstr ""
 
 msgid "Our methodology pairs data-driven diagnostics with disciplined project management, turning insights into structured, milestone-led execution."
-msgstr "تجمع منهجيتنا بين التشخيص القائم على البيانات وإدارة المشاريع المنضبطة، لتحويل الرؤى إلى تنفيذ منظّم بمعالم محددة."
+msgstr "تجمع منهجيتنا بين التشخيص القائم على البيانات والإدارة المنضبطة للمشاريع، لتحويل الرؤى إلى تنفيذ منظّم وفق معالم محددة."
 
 msgid "Steps"
 msgstr ""
@@ -1894,13 +1894,13 @@ msgid "One or two sentences under the page title. This is the first thing a read
 msgstr ""
 
 msgid "Six service lines, delivered by teams that run them every day."
-msgstr "ست خطوط خدمة تقدّمها فرق تديرها كل يوم."
+msgstr "ستة مجالات خدمة تقدّمها فرق تمارسها كل يوم."
 
 msgid "Optional. Fills the band behind the page title. Without one the band stays on the flat navy. Choose one with meaningful alt text already set on it."
 msgstr ""
 
 msgid "Our service lines"
-msgstr "خطوط خدماتنا"
+msgstr "مجالات خدماتنا"
 
 msgid "When the record is empty"
 msgstr ""
@@ -1909,7 +1909,7 @@ msgid "Shown in place of the grid if no service lines have been added at Setting
 msgstr ""
 
 msgid "Our service lines are being updated. Please get in touch and we will point you to the right team."
-msgstr "خطوط خدماتنا قيد التحديث. يرجى التواصل معنا وسنوجهكم إلى الفريق المناسب."
+msgstr "مجالات خدماتنا قيد التحديث. يرجى التواصل معنا وسنوجهكم إلى الفريق المناسب."
 
 msgid "Primary navigation"
 msgstr "القائمة الرئيسية"
@@ -1954,7 +1954,7 @@ msgid "Our Solutions"
 msgstr "حلولنا"
 
 msgid "A defined engagement, run end to end by a team that has done it before."
-msgstr "ارتباط محدد المعالم، يديره من البداية إلى النهاية فريق قام به من قبل."
+msgstr "حل محدد المعالم، ينفّذه من البداية إلى النهاية فريق سبق له تنفيذه."
 
 msgid "Solution — what it covers"
 msgstr ""
@@ -1987,7 +1987,7 @@ msgid "The stages of the engagement, in order. The numbers are drawn from that o
 msgstr ""
 
 msgid "How the engagement runs"
-msgstr "كيف يجري الارتباط"
+msgstr "كيف يسير التعاقد"
 
 msgid "Solution — proof"
 msgstr ""
@@ -2017,7 +2017,7 @@ msgid "The top of the page and the wording over the grid. The grid itself is the
 msgstr ""
 
 msgid "Defined engagements, run end to end by teams that have done them before."
-msgstr "ارتباطات محددة المعالم، تديرها من البداية إلى النهاية فرق قامت بها من قبل."
+msgstr "حلول محددة المعالم، تنفّذها من البداية إلى النهاية فرق سبق لها تنفيذها."
 
 msgid "Our solutions"
 msgstr "حلولنا"
@@ -2095,7 +2095,7 @@ msgstr[4] "%d نتيجة"
 msgstr[5] "%d نتيجة"
 
 msgid "Nothing matched that search. Try a different wording, or browse the blog."
-msgstr "لم يطابق شيء هذا البحث. جرّب صياغة مختلفة، أو تصفّح المدونة."
+msgstr "لم نعثر على نتائج مطابقة. جرّب صياغة مختلفة، أو تصفّح المدونة."
 
 msgid "Showing articles starting with %s."
 msgstr "عرض المقالات بدءًا من %s."
@@ -2116,7 +2116,7 @@ msgid "Consulting"
 msgstr "الاستشارات"
 
 msgid "Manpower Augmentation"
-msgstr "تعزيز القوى العاملة"
+msgstr "توفير الكوادر"
 
 msgid "BPO"
 msgstr "التعهيد"
@@ -2146,34 +2146,34 @@ msgid "Your next operational move"
 msgstr "خطوتكم التشغيلية التالية"
 
 msgid "Make the work behind growth easier to run."
-msgstr "اجعل العمل الذي يقف خلف النمو أسهل في الإدارة."
+msgstr "اجعلوا الوظائف التي تدعم نموكم أسهل إدارةً."
 
 msgid "Synergi runs the functions behind your growth — customer support, HR, finance, procurement, project management, marketing, and IT — for growing companies, with outsourcing delivery tailored to how you operate."
-msgstr "تدير سينرجي الوظائف التي تقف خلف نموكم — دعم العملاء والموارد البشرية والمالية والمشتريات وإدارة المشاريع والتسويق وتقنية المعلومات — للشركات النامية، بتنفيذ تعهيد مصمم على طريقة عملكم."
+msgstr "تتولى سينرجي إدارة الوظائف التي تدعم نموكم، من خدمة العملاء والموارد البشرية والمالية والمشتريات إلى إدارة المشاريع والتسويق وتقنية المعلومات، بنموذج تعهيد يُصمَّم وفق طريقة عملكم."
 
 msgid "Start a Conversation"
-msgstr "ابدأ الحوار"
+msgstr "ابدأ الحوار معنا"
 
 msgid "No generic package. Start with what your business needs next."
-msgstr "لا باقات جاهزة. ابدأ بما تحتاجه أعمالكم تاليًا."
+msgstr "لا باقات جاهزة؛ نبدأ معكم مما تحتاجه أعمالكم في مرحلتها التالية."
 
 msgid "BPO Services in UAE & the Gulf to"
 msgstr "خدمات التعهيد في الإمارات والخليج"
 
 msgid "Synergi runs and transforms non-core business functions through BPO, consulting,\nmanpower augmentation, and technology-enabled shared services across the Gulf."
-msgstr "تدير سينرجي وتحوّل الوظائف غير الأساسية في الأعمال من خلال التعهيد والاستشارات وتعزيز القوى العاملة والخدمات المشتركة المدعومة بالتقنية في أنحاء الخليج."
+msgstr "تتولى سينرجي إدارة الوظائف المساندة في أعمالكم وتطويرها، من خلال تعهيد العمليات والاستشارات وتوفير الكوادر والخدمات المشتركة المدعومة بالتقنية، في مختلف أنحاء الخليج."
 
 msgid "manual work"
 msgstr "العمل اليدوي"
 
 msgid "silos"
-msgstr "الجزر المعزولة"
+msgstr "انعزال الإدارات"
 
 msgid "delays"
 msgstr "التأخير"
 
 msgid "unnecessary overhead"
-msgstr "الأعباء غير الضرورية"
+msgstr "الأعباء الزائدة"
 
 msgid "Explore Our Services"
 msgstr "استكشف خدماتنا"
@@ -2203,7 +2203,7 @@ msgid "Public Sector"
 msgstr "القطاع العام"
 
 msgid "Compliant HR, payroll, procurement, technology, and back-office delivery for government-linked and public-sector organizations."
-msgstr "موارد بشرية ورواتب ومشتريات وتقنية وخدمات مساندة ملتزمة بالأنظمة للجهات الحكومية وشبه الحكومية."
+msgstr "خدمات موارد بشرية ورواتب ومشتريات وتقنية وإسناد إداري متوافقة مع الأنظمة للجهات الحكومية وشبه الحكومية."
 
 msgid "Financial Services"
 msgstr "الخدمات المالية"
@@ -2224,13 +2224,13 @@ msgid "Real Estate & Construction"
 msgstr "العقارات والإنشاءات"
 
 msgid "Lead generation, document processing, project coordination, and back-office support across development and property portfolios."
-msgstr "توليد العملاء المحتملين ومعالجة المستندات وتنسيق المشاريع والدعم المساند عبر محافظ التطوير والعقارات."
+msgstr "استقطاب العملاء المحتملين ومعالجة المستندات وتنسيق المشاريع والإسناد الإداري لمحافظ التطوير العقاري."
 
 msgid "Retail, Hospitality & Healthcare"
 msgstr "التجزئة والضيافة والرعاية الصحية"
 
 msgid "Customer care, order management, returns, patient support, medical record management, and billing for service-led operators."
-msgstr "رعاية العملاء وإدارة الطلبات والمرتجعات ودعم المرضى وإدارة السجلات الطبية والفوترة للمشغّلين القائمين على الخدمة."
+msgstr "خدمة العملاء وإدارة الطلبات والمرتجعات ودعم المرضى وإدارة السجلات الطبية والفوترة لشركات القطاعات الخدمية."
 
 msgid "slide"
 msgstr "شريحة"
@@ -2260,7 +2260,7 @@ msgid "Our Locations"
 msgstr "مواقعنا"
 
 msgid "Delivery hubs across the Gulf and the Levant, run as one connected team — so the work moves with your business rather than around it."
-msgstr "مراكز تنفيذ في أنحاء الخليج وبلاد الشام، تعمل كفريق واحد مترابط — فينتقل العمل مع أعمالكم لا حولها."
+msgstr "مراكز تنفيذ في الخليج وبلاد الشام تعمل كفريق واحد متكامل، ليواكب العمل أعمالكم أينما توسعت."
 
 msgid "See all our locations"
 msgstr "عرض جميع مواقعنا"
@@ -2314,13 +2314,13 @@ msgid "Synergi in Numbers"
 msgstr "سينرجي بالأرقام"
 
 msgid "One regional partner, measured by the outcomes it delivers for businesses across the Gulf and beyond."
-msgstr "شريك إقليمي واحد، يُقاس بالنتائج التي يحققها للشركات في أنحاء الخليج وخارجه."
+msgstr "شريك إقليمي واحد، تُقاس قيمته بالنتائج التي يحققها لعملائه في الخليج وخارجه."
 
 msgid "50+"
 msgstr "50+"
 
 msgid "clients we have served"
-msgstr "عميلًا خدمناهم"
+msgstr "عميلًا نفخر بخدمتهم"
 
 msgid "5"
 msgstr ""
@@ -2410,7 +2410,7 @@ msgid "How we work"
 msgstr "كيف نعمل"
 
 msgid "Our other service lines"
-msgstr "خطوط خدماتنا الأخرى"
+msgstr "مجالات خدماتنا الأخرى"
 
 msgid "Business Process Outsourcing"
 msgstr "تعهيد عمليات الأعمال"
@@ -2452,7 +2452,7 @@ msgid "Analytics and Reporting"
 msgstr "التحليلات والتقارير"
 
 msgid "People operations and development"
-msgstr "عمليات الأفراد وتطويرهم"
+msgstr "عمليات شؤون الموظفين وتطويرهم"
 
 msgid "HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity."
 msgstr "تعهيد الموارد البشرية ودعم الرواتب عبر دورة حياة الموظف — الأنظمة والتطوير والقدرات القيادية."
@@ -2569,13 +2569,13 @@ msgid "Reporting, Performance Analysis and Data Management"
 msgstr "التقارير وتحليل الأداء وإدارة البيانات"
 
 msgid "Fractional Chief Marketing Officer (CMO)"
-msgstr "مدير تسويق تنفيذي جزئي"
+msgstr "مدير تسويق تنفيذي بدوام جزئي"
 
 msgid "Governance, delivery, and transformation offices"
 msgstr "الحوكمة والتنفيذ ومكاتب التحوّل"
 
 msgid "Structured project and program delivery with clear governance, resources, controls, and performance reporting."
-msgstr "تنفيذ منظّم للمشاريع والبرامج مع حوكمة واضحة وموارد وضوابط وتقارير أداء."
+msgstr "تنفيذ منظّم للمشاريع والبرامج بحوكمة واضحة وموارد وضوابط وتقارير أداء."
 
 msgid "PMO Setup and Governance Frameworks"
 msgstr "إنشاء مكاتب إدارة المشاريع وأطر الحوكمة"
@@ -2587,7 +2587,7 @@ msgid "Program and Portfolio Management"
 msgstr "إدارة البرامج والمحافظ"
 
 msgid "Project Resource Planning and Augmentation"
-msgstr "تخطيط موارد المشاريع وتعزيزها"
+msgstr "تخطيط موارد المشاريع ورفدها بالكوادر"
 
 msgid "Risk, Budget and Schedule Control"
 msgstr "ضبط المخاطر والميزانية والجدول الزمني"
@@ -2617,13 +2617,13 @@ msgid "Explore %s"
 msgstr "استكشف %s"
 
 msgid "Centralize your back-office functions in one shared-services team, wherever your business operates. From HR and finance to %s, we help you cut costs, strengthen compliance, and scale faster."
-msgstr "اجمع وظائف المكتب الخلفي في فريق خدمات مشتركة واحد، أينما كانت أعمالكم. من الموارد البشرية والمالية إلى %s، نساعدكم على خفض التكاليف وتعزيز الامتثال والتوسع أسرع."
+msgstr "اجمعوا وظائف الإسناد لديكم في فريق خدمات مشتركة واحد، أينما كانت أعمالكم. من الموارد البشرية والمالية إلى %s، نساعدكم على خفض التكاليف وتعزيز الامتثال والتوسع بوتيرة أسرع."
 
 msgid "procurement"
 msgstr "المشتريات"
 
 msgid "Looking to optimize operations beyond shared services? See how Synergi delivers %s — as consulting, manpower augmentation or full BPO, wherever you operate."
-msgstr "تتطلعون إلى تحسين العمليات بما يتجاوز الخدمات المشتركة؟ اطّلعوا على ما تقدّمه سينرجي %s — كاستشارات أو تعزيز للقوى العاملة أو تعهيد كامل، أينما تعملون."
+msgstr "تتطلعون إلى تحسين العمليات بما يتجاوز الخدمات المشتركة؟ اطّلعوا على ما تقدّمه سينرجي %s — كاستشارات أو توفير للكوادر أو تعهيد كامل، أينما تعملون."
 
 msgid "across our markets"
 msgstr "في أسواقنا"
@@ -2710,7 +2710,7 @@ msgid "Why Companies Choose Synergi"
 msgstr "لماذا تختار الشركات سينرجي"
 
 msgid "Synergi is more than just an outsourcing provider; we are a trusted partner to businesses across the region and beyond. By combining international standards with regional expertise, we help keep business processes secure, efficient, and compliant."
-msgstr "سينرجي أكثر من مجرد مزوّد تعهيد؛ نحن شريك موثوق للشركات في المنطقة وخارجها. وبالجمع بين المعايير الدولية والخبرة الإقليمية، نساعد في إبقاء عمليات الأعمال آمنة وفعّالة وملتزمة."
+msgstr "سينرجي ليست مجرد مزوّد لخدمات التعهيد، بل شريك موثوق للشركات في المنطقة وخارجها. نجمع بين المعايير الدولية والخبرة الإقليمية لنضمن أن تبقى عملياتكم آمنة وفعّالة ومتوافقة مع الأنظمة."
 
 msgid "Experience across multiple Gulf markets"
 msgstr "خبرة عبر أسواق خليجية متعددة"
@@ -2743,7 +2743,7 @@ msgid "Scalable operations"
 msgstr "عمليات قابلة للتوسع"
 
 msgid "Consulting, manpower augmentation, and BPO can scale as requirements change."
-msgstr "يمكن للاستشارات وتعزيز القوى العاملة والتعهيد التوسع مع تغيّر المتطلبات."
+msgstr "يمكن للاستشارات وتوفير الكوادر والتعهيد التوسع مع تغيّر المتطلبات."
 
 msgid "Showing reason %1$s: %2$s."
 msgstr "عرض السبب %1$s: %2$s."
@@ -2770,7 +2770,7 @@ msgid "What we have delivered"
 msgstr "ما قدّمناه"
 
 msgid "No case studies are published for this service line yet."
-msgstr "لم تُنشر دراسات حالة لخط الخدمة هذا بعد."
+msgstr "لم تُنشر دراسات حالة لمجال الخدمة هذا بعد."
 
 msgid "Who we are"
 msgstr "من نحن"
@@ -2797,7 +2797,7 @@ msgid "Latest Podcast Episodes"
 msgstr "أحدث حلقات البودكاست"
 
 msgid "Senior leaders on how leadership, strategy and operations align to drive business impact across the MENA region."
-msgstr "قادة كبار يتحدثون عن كيفية تكامل القيادة والاستراتيجية والعمليات لإحداث أثر في الأعمال عبر منطقة الشرق الأوسط وشمال أفريقيا."
+msgstr "قادة تنفيذيون يتحدثون عن تكامل القيادة والاستراتيجية والعمليات لإحداث أثر حقيقي في الأعمال عبر منطقة الشرق الأوسط وشمال أفريقيا."
 
 msgid "View all episodes"
 msgstr "عرض جميع الحلقات"
