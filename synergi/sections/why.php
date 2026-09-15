@@ -142,7 +142,14 @@ $syn_uid = wp_unique_id( 'syn-why-' );
 /* translators: 1: position in the deck, e.g. 2. 2: the reason's heading. */
 $syn_status_template = __( 'Showing reason %1$s: %2$s.', 'synergi' );
 ?>
-<section class="syn-why syn-section" id="why" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title" data-syn-why>
+<?php
+/*
+ * data-syn-digits hands why.js the language's ten numerals, so the counter it
+ * rewrites on every turn of the deck stays in the same script as the numbers
+ * printed here (٠١٢٣٤٥٦٧٨٩ on an Arabic page — syn_digits()).
+ */
+?>
+<section class="syn-why syn-section" id="why" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title" data-syn-why data-syn-digits="<?php echo esc_attr( syn_digits() ); ?>">
 	<div class="syn-container">
 		<div class="syn-why__layout">
 
@@ -160,8 +167,8 @@ $syn_status_template = __( 'Showing reason %1$s: %2$s.', 'synergi' );
 				?>
 				<div class="syn-why__controls">
 					<p class="syn-why__counter" aria-hidden="true">
-						<span class="syn-why__counter-current" data-syn-why-current><?php echo esc_html( sprintf( '%02d', 1 ) ); ?></span>
-						<span><?php echo esc_html( sprintf( '/ %02d', $syn_total ) ); ?></span>
+						<span class="syn-why__counter-current" data-syn-why-current><?php echo esc_html( syn_localize_digits( sprintf( '%02d', 1 ) ) ); ?></span>
+						<span><?php echo esc_html( syn_localize_digits( sprintf( '/ %02d', $syn_total ) ) ); ?></span>
 					</p>
 				</div>
 			</div>
@@ -234,7 +241,7 @@ $syn_status_template = __( 'Showing reason %1$s: %2$s.', 'synergi' );
 								?>
 
 								<div class="syn-why__card-copy">
-									<span class="syn-why__card-number" aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $syn_index + 1 ) ); ?></span>
+									<span class="syn-why__card-number" aria-hidden="true"><?php echo esc_html( syn_localize_digits( sprintf( '%02d', $syn_index + 1 ) ) ); ?></span>
 									<h3 class="syn-why__card-title"><?php echo esc_html( $syn_card_title ); ?></h3>
 									<p class="syn-why__card-text"><?php echo esc_html( $syn_card['description'] ?? '' ); ?></p>
 								</div>
@@ -252,7 +259,7 @@ $syn_status_template = __( 'Showing reason %1$s: %2$s.', 'synergi' );
 							aria-pressed="<?php echo 0 === $syn_index ? 'true' : 'false'; ?>"
 							aria-label="<?php printf( /* translators: 1: position in the deck, e.g. 2. 2: short name for the reason, e.g. Regulatory compliance. */ esc_attr__( 'Show reason %1$s: %2$s', 'synergi' ), esc_attr( number_format_i18n( $syn_index + 1 ) ), esc_attr( $syn_card['short'] ?? $syn_card['title'] ?? '' ) ); ?>"
 						>
-							<span aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $syn_index + 1 ) ); ?></span>
+							<span aria-hidden="true"><?php echo esc_html( syn_localize_digits( sprintf( '%02d', $syn_index + 1 ) ) ); ?></span>
 						</button>
 					<?php endforeach; ?>
 				</div>

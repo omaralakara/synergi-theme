@@ -292,7 +292,7 @@ if ( ! $syn_cards ) {
 								<div class="syn-services__intro">
 
 									<div class="syn-services__kicker">
-										<span class="syn-services__index"><?php echo esc_html( sprintf( '%02d', $syn_index + 1 ) ); ?></span>
+										<span class="syn-services__index"><?php echo esc_html( syn_localize_digits( sprintf( '%02d', $syn_index + 1 ) ) ); ?></span>
 										<?php if ( ! empty( $syn_card['label'] ) ) : ?>
 											<p class="syn-services__label"><?php echo esc_html( $syn_card['label'] ); ?></p>
 										<?php endif; ?>

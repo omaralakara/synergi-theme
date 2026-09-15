@@ -118,7 +118,14 @@ if ( ! $syn_stats ) {
 
 $syn_uid = wp_unique_id( 'syn-numbers-' );
 ?>
-<section class="syn-numbers syn-section" id="numbers" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title" data-syn-numbers>
+<?php
+/*
+ * data-syn-digits hands numbers.js the language's ten numerals, so the count-up
+ * it animates is written in the same script as the figure it finishes on
+ * (٠١٢٣٤٥٦٧٨٩ on an Arabic page — syn_digits()).
+ */
+?>
+<section class="syn-numbers syn-section" id="numbers" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title" data-syn-numbers data-syn-digits="<?php echo esc_attr( syn_digits() ); ?>">
 
 	<?php
 	/*
@@ -152,7 +159,14 @@ $syn_uid = wp_unique_id( 'syn-numbers-' );
 				}
 				?>
 				<li class="syn-numbers__stat">
-					<strong class="syn-numbers__figure" data-syn-numbers-count><?php echo esc_html( $syn_value ); ?></strong>
+					<?php
+					/*
+					 * The record keeps ASCII digits so one figure serves every
+					 * language; the page's own numerals are applied here, at
+					 * output (syn_localize_digits()).
+					 */
+					?>
+					<strong class="syn-numbers__figure" data-syn-numbers-count><?php echo esc_html( syn_localize_digits( $syn_value ) ); ?></strong>
 					<span class="syn-numbers__label"><?php echo esc_html( $syn_label ); ?></span>
 				</li>
 			<?php endforeach; ?>

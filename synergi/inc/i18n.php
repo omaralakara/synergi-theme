@@ -300,6 +300,59 @@ function syn_language_switch_targets() {
 }
 
 /**
+ * The ten digits the current language writes numbers with, 0 to 9 in order.
+ *
+ * Arabic pages set figures in Eastern Arabic numerals (٠١٢٣٤٥٦٧٨٩), the form
+ * used across the Gulf — requested for the Arabic homepage, 15 Sep 2026. Every
+ * other language keeps the ASCII digits. Keyed by language slug so a third
+ * language with its own numerals is one row here and no change anywhere else.
+ *
+ * @return string Ten characters, index = digit value.
+ */
+function syn_digits() {
+	$sets = array(
+		'ar' => '٠١٢٣٤٥٦٧٨٩',
+	);
+
+	$language = syn_language_current();
+
+	return isset( $sets[ $language ] ) ? $sets[ $language ] : '0123456789';
+}
+
+/**
+ * Rewrites the ASCII digits (and the percent sign) in a string for the
+ * current language.
+ *
+ * Applied at output, never on save: the records and fields keep ASCII digits
+ * so one figure can be typed once and read in every language (CLAUDE.md §7a).
+ * The percent sign travels with the digits because Arabic sets ٪ (U+066A)
+ * beside Eastern Arabic numerals; "١٠–١٥%" would be a mixed script. Nothing
+ * else is touched, so a value like "24/7" or "ISO 9001" keeps its shape.
+ *
+ * @param string $text Text that may contain digits.
+ * @return string The same text, digits swapped when the language has its own.
+ */
+function syn_localize_digits( $text ) {
+	$digits = syn_digits();
+
+	if ( '0123456789' === $digits ) {
+		return (string) $text;
+	}
+
+	$map = array();
+
+	foreach ( preg_split( '//u', $digits, -1, PREG_SPLIT_NO_EMPTY ) as $value => $glyph ) {
+		$map[ (string) $value ] = $glyph;
+	}
+
+	if ( 'ar' === syn_language_current() ) {
+		$map['%'] = '٪';
+	}
+
+	return strtr( (string) $text, $map );
+}
+
+/**
  * The "onward" arrow for the current writing direction: → for LTR, ← for RTL.
  *
  * A link's arrow points the way the eye travels. Under RTL that is leftward,

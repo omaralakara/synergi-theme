@@ -140,7 +140,7 @@ $syn_status_template = __( 'Showing articles starting with %s.', 'synergi' );
 
 							<div class="syn-blog__body">
 								<p class="syn-blog__meta">
-									<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j M Y' ) ); ?></time>
+									<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( syn_localize_digits( get_the_date( 'j M Y' ) ) ); ?></time>
 								</p>
 
 								<?php

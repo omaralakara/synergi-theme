@@ -62,9 +62,33 @@
 	 * @param {HTMLElement} element The figure. Its textContent is the target.
 	 * @return {void}
 	 */
+	/*
+	 * The figures arrive written in the page's own numerals — ٠١٢٣٤٥٦٧٨٩ on an
+	 * Arabic page, put there by sections/numbers.php, which also hands the ten
+	 * digits over on the section. The count runs on ASCII and every frame is
+	 * written back in the page's digits, so a figure counts up in the same
+	 * script it finishes in.
+	 */
+	var digits = root.getAttribute( 'data-syn-digits' ) || '0123456789';
+
+	function toAscii( text ) {
+		return text.replace( /./g, function ( character ) {
+			var value = digits.indexOf( character );
+
+			return value > -1 && value < 10 ? String( value ) : character;
+		} );
+	}
+
+	function fromAscii( text ) {
+		return text.replace( /[0-9]/g, function ( digit ) {
+			return digits.charAt( Number( digit ) );
+		} );
+	}
+
 	function countUp( element ) {
 		var finalText = element.textContent;
-		var matches = finalText.match( /\d+/g );
+		var asciiText = toAscii( finalText );
+		var matches = asciiText.match( /\d+/g );
 
 		if ( ! matches ) {
 			return;
@@ -79,7 +103,7 @@
 		 * wrong number. Digits either side of an en dash or a slash ("10–15%",
 		 * "24/7") are a genuine pair and still count.
 		 */
-		if ( /[0-9][ ,.'][0-9]/.test( finalText ) ) {
+		if ( /[0-9][ ,.'][0-9]/.test( asciiText ) ) {
 			log( 'not counting "' + finalText + '": grouped digits' );
 
 			return;
@@ -105,13 +129,13 @@
 			var eased = 1 - Math.pow( 1 - progress, 3 );
 			var index = 0;
 
-			element.textContent = finalText.replace( /\d+/g, function () {
+			element.textContent = fromAscii( asciiText.replace( /\d+/g, function () {
 				var value = Math.round( targets[ index ] * eased );
 
 				index += 1;
 
 				return String( value );
-			} );
+			} ) );
 
 			window.requestAnimationFrame( frame );
 		}

@@ -68,8 +68,19 @@
 		return ( index + cards.length ) % cards.length;
 	}
 
+	/*
+	 * The counter is written in the page's own numerals. sections/why.php puts
+	 * the language's ten digits on the section (٠١٢٣٤٥٦٧٨٩ on an Arabic page);
+	 * with nothing there the ASCII digits stand.
+	 */
+	var digits = root.getAttribute( 'data-syn-digits' ) || '0123456789';
+
 	function pad( number ) {
-		return number < 10 ? '0' + number : String( number );
+		var text = number < 10 ? '0' + number : String( number );
+
+		return text.replace( /[0-9]/g, function ( digit ) {
+			return digits.charAt( Number( digit ) );
+		} );
 	}
 
 	/*
