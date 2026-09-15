@@ -181,7 +181,7 @@ How the theme stays inside them:
 
 The test is one question: **if this changes, how many pages should change with it?** More than one means it is a site record, and putting it in postmeta is a bug.
 
-Site records live in the Options API under a single `syn_records` option, edited on one Settings screen, with the same JSON-array-plus-repeater shape as the postmeta groups below. Options, not a custom post type, because these records need no URL, no template and no SEO of their own — a CPT would create URLs nobody asked for, and §2.8 is about not inventing URLs carelessly. Content that genuinely *needs* its own URL (case studies, podcast episodes, events) is a different question, decided in `archive/stage-6-scope.md`, not here.
+Site records live in the Options API under a single `syn_records` option (one per language since the Arabic phase: `syn_records` for the default language, `syn_records_ar` for Arabic, resolved by `syn_records_option_name()`; an untranslated record falls back to the default language at read time), edited on one Settings screen with a tab per language, with the same JSON-array-plus-repeater shape as the postmeta groups below. Options, not a custom post type, because these records need no URL, no template and no SEO of their own — a CPT would create URLs nobody asked for, and §2.8 is about not inventing URLs carelessly. Content that genuinely *needs* its own URL (case studies, podcast episodes, events) is a different question, decided in `archive/stage-6-scope.md`, not here.
 
 ### 7b. Field types
 
@@ -242,7 +242,7 @@ The theme must never block the business tools. This is plain WordPress, so all o
 - WP-CLI is not available on this host (`proc_open`/`exec` disabled). Anything scripted against the site goes through Novamira's execute-php on staging, or through wp-admin.
 - Two security items are handled outside this build (nulled "Elementor Pro Activator", Novamira on production) — the theme work never depends on them, but never weaken them either (e.g. never re-enable the file editor).
 - The domain move to synergibpo.com is a separate, later event. Nothing in the theme may assume a domain — all URLs relative or via `home_url()`.
-- Arabic is a future phase. The theme prepares for it structurally (logical properties, no baked-in directionality, translatable strings via `__()`/`esc_html__()` with text domain `synergi`) but ships English-only.
+- Arabic: built on staging 15 Sep 2026 with Polylang (free), not yet on production. `inc/i18n.php` owns every language question (current language, page addresses in the current language via `syn_local_url()`, the language switch, the shared-slug resolver on the `request` filter — free Polylang cannot resolve the same slug in two languages). Translations ship in `languages/ar.mo`, compiled with `tools/po2mo.php` from `tools/ar-map.json`. Two Polylang settings are load-bearing: `redirect_lang` on (or `/ar/` redirects to the page slug) and `hide_default` on (English URLs unchanged). Every user-visible string, field defaults included, goes through `__()`/`esc_html__()` with text domain `synergi` — a plain-string default is a bug.
 - The WTC Saudi site is the in-house precedent for this architecture (custom PHP theme + fields + Polylang). Useful as a pattern reference; do not copy its code or its habit of keeping field definitions only in the database.
 
 ## 12a. The design source — where the homepage comes from
