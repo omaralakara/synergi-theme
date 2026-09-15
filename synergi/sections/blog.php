@@ -67,14 +67,17 @@ $syn_posts = $syn_query->posts;
  * translated yet (decided 15 Sep 2026), so an Arabic page found one article
  * and showed a band with two empty slots beside it — reported the same day.
  *
- * The band is topped up from the default language instead: articles in the
- * page's language first, then the newest English ones, skipping any whose
- * translation is already in the list. Each borrowed card carries its own
- * language and direction on the words that are actually English (the heading
- * and the excerpt), so the browser sets them left-to-right in the Latin face
- * while the card's chrome — the date, "Read more" — stays in the page's
- * language. The moment enough articles are translated the top-up stops by
- * itself, because the first query fills the band on its own.
+ * The band is topped up from the default language instead: the newest
+ * articles across both languages, by date, with the page's own language
+ * winning whenever an article exists in both. Not "Arabic first, then
+ * English": that put a two-year-old announcement at the head of the band
+ * simply because it was the one translated article (reported 15 Sep, the same
+ * afternoon). Each borrowed card carries its own language and direction on
+ * the words that are actually English (the heading and the excerpt), so the
+ * browser sets them left-to-right in the Latin face while the card's chrome —
+ * the date, "Read more" — stays in the page's language. The moment enough
+ * articles are translated the top-up stops by itself, because the first query
+ * fills the band on its own.
  */
 $syn_filled_ids = array();
 $syn_fill_lang  = array();
@@ -96,7 +99,9 @@ if ( count( $syn_posts ) < max( 1, $syn_count ) && function_exists( 'syn_languag
 			$syn_query_args,
 			array(
 				'lang'           => $syn_default,
-				'posts_per_page' => max( 1, $syn_count ) - count( $syn_posts ),
+				// A full band's worth, not just the shortfall: an old translated
+				// article must be able to fall off the end behind newer English ones.
+				'posts_per_page' => max( 1, $syn_count ),
 				'post__not_in'   => $syn_twins,
 			)
 		)
@@ -104,6 +109,17 @@ if ( count( $syn_posts ) < max( 1, $syn_count ) && function_exists( 'syn_languag
 
 	$syn_filled_ids = wp_list_pluck( $syn_fill->posts, 'ID' );
 	$syn_posts      = array_merge( $syn_posts, $syn_fill->posts );
+
+	usort(
+		$syn_posts,
+		static function ( $a, $b ) {
+			// post_date, not post_date_gmt: a translated copy made later can carry
+			// the original's local date with its own creation time in GMT.
+			return strcmp( $b->post_date, $a->post_date );
+		}
+	);
+
+	$syn_posts = array_slice( $syn_posts, 0, max( 1, $syn_count ) );
 
 	$syn_languages = syn_languages();
 	$syn_fill_lang = isset( $syn_languages[ $syn_default ] ) ? $syn_languages[ $syn_default ] : array();
