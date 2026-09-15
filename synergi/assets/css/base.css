@@ -632,6 +632,11 @@ textarea {
 	transform: translateX(0.25rem);
 }
 
+/* The arrow (syn_arrow() draws ← under RTL) slides the way it points. */
+html[dir="rtl"] .syn-text-link:hover span {
+	transform: translateX(-0.25rem);
+}
+
 /*
  * Section rhythm. The design applies this to every section except the hero,
  * which sets its own full-viewport height — expressed here as an opt-out class

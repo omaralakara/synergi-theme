@@ -210,7 +210,7 @@ $syn_group = $syn_uid . '-group';
 
 				<a class="syn-button syn-button--primary" href="<?php echo esc_url( syn_local_url( $syn_empty_cta_url ) ); ?>">
 					<?php echo esc_html( $syn_empty_cta_label ); ?>
-					<span aria-hidden="true">&rarr;</span>
+					<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 				</a>
 			</div>
 

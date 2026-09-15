@@ -152,7 +152,7 @@ $syn_uid = wp_unique_id( 'syn-locations-' );
 				<?php if ( $syn_link_url && $syn_link_text ) : ?>
 					<a class="syn-text-link" href="<?php echo esc_url( syn_local_url( $syn_link_url ) ); ?>">
 						<?php echo esc_html( $syn_link_text ); ?>
-						<span aria-hidden="true">&rarr;</span>
+						<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 					</a>
 				<?php endif; ?>
 			</div>

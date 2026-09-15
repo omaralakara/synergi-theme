@@ -224,7 +224,7 @@ $syn_hub_label = sprintf(
 							 */
 							if ( $syn_index < $syn_last_step ) :
 								?>
-								<li class="syn-shared-services__step-arrow" aria-hidden="true">&#8594;</li>
+								<li class="syn-shared-services__step-arrow" aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></li>
 							<?php endif; ?>
 						<?php endforeach; ?>
 					</ol>
@@ -234,7 +234,7 @@ $syn_hub_label = sprintf(
 					<?php if ( ! empty( $syn_cta['label'] ) && ! empty( $syn_cta['url'] ) ) : ?>
 						<a class="syn-button syn-button--primary" href="<?php echo esc_url( syn_local_url( $syn_cta['url'] ) ); ?>">
 							<?php echo esc_html( $syn_cta['label'] ); ?>
-							<span aria-hidden="true">&#8594;</span>
+							<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 						</a>
 					<?php endif; ?>
 

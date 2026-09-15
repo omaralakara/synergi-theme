@@ -403,11 +403,18 @@
 	 * keys work from wherever focus already is inside it.
 	 * ------------------------------------------------------------------ */
 
+	/*
+	 * Under RTL the rail runs from the right, so "forward" is leftward. The
+	 * arrow keys and the swipe below are read through this; industries.css
+	 * turns the chevrons round to match.
+	 */
+	var flip = 'rtl' === document.documentElement.dir ? -1 : 1;
+
 	rail.addEventListener( 'keydown', function ( event ) {
 		if ( 'ArrowLeft' === event.key ) {
-			moveTo( order[ order.length - 1 ], true );
+			moveTo( 1 === flip ? order[ order.length - 1 ] : order[ 1 ], true );
 		} else if ( 'ArrowRight' === event.key ) {
-			moveTo( order[ 1 ], true );
+			moveTo( 1 === flip ? order[ 1 ] : order[ order.length - 1 ], true );
 		} else if ( 'Home' === event.key ) {
 			moveTo( cards[ 0 ], true );
 		} else if ( 'End' === event.key ) {
@@ -482,7 +489,7 @@
 			suppressClick = false;
 		}, 0 );
 
-		moveTo( travelled < 0 ? order[ 1 ] : order[ order.length - 1 ], false );
+		moveTo( travelled * flip < 0 ? order[ 1 ] : order[ order.length - 1 ], false );
 	} );
 
 	rail.addEventListener( 'pointercancel', function () {

@@ -85,7 +85,7 @@ $syn_terms   = get_the_category();
 		<p class="syn-card__action">
 			<span class="syn-card__button" aria-hidden="true">
 				<?php esc_html_e( 'Read the article', 'synergi' ); ?>
-				<span class="syn-card__arrow">&rarr;</span>
+				<span class="syn-card__arrow"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 			</span>
 		</p>
 

@@ -85,17 +85,27 @@
 	 *
 	 * @return {void}
 	 */
+	/*
+	 * Under RTL the track runs from the right, so the second card is to the
+	 * LEFT of the first and paging forward means sliding right. The offset
+	 * maths keeps working in reading order (0 is the start, more negative is
+	 * further along); the five places that touch the screen — the measured
+	 * step, the transform, the transform read back, the drag and the throw —
+	 * are told which side is which through this one value.
+	 */
+	var flip = 'rtl' === document.documentElement.dir ? -1 : 1;
+
 	function measure() {
 		var first = track.children[ 0 ].getBoundingClientRect();
 		var second = track.children[ 1 ] ? track.children[ 1 ].getBoundingClientRect() : null;
 
 		// Card-to-card distance, which includes the gap; not the card's width.
-		step = second ? second.left - first.left : first.width;
+		step = second ? ( second.left - first.left ) * flip : first.width;
 		perView = step > 0 ? Math.max( 1, Math.round( viewport.getBoundingClientRect().width / step ) ) : 1;
 	}
 
 	function render() {
-		track.style.transform = 'translateX(' + offset + 'px)';
+		track.style.transform = 'translateX(' + ( offset * flip ) + 'px)';
 	}
 
 	/**
@@ -204,7 +214,7 @@
 		var parts = numbers[ 1 ].split( ',' ).map( Number );
 
 		// matrix3d puts translateX at 13th; matrix at 5th.
-		return parts.length > 6 ? parts[ 12 ] : parts[ 4 ];
+		return ( parts.length > 6 ? parts[ 12 ] : parts[ 4 ] ) * flip;
 	}
 
 	// Freezes the track where the eye last saw it, so grabbing mid-glide picks
@@ -363,7 +373,7 @@
 			return;
 		}
 
-		var travelled = event.clientX - dragStartX;
+		var travelled = ( event.clientX - dragStartX ) * flip;
 
 		if ( ! dragging ) {
 			if ( Math.abs( travelled ) <= TAP_SLOP_PX ) {
@@ -430,7 +440,7 @@
 			var elapsed = last.t - first.t;
 
 			if ( elapsed > 0 ) {
-				velocity = ( last.x - first.x ) / elapsed;
+				velocity = ( ( last.x - first.x ) * flip ) / elapsed;
 			}
 		}
 

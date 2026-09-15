@@ -123,10 +123,21 @@
 	 * @param {number} next Offset in pixels.
 	 * @return {void}
 	 */
+	/*
+	 * Under RTL the strip is laid out from the right edge and overflows to the
+	 * left, so the LTR transform — pull the strip leftward by one loop to show
+	 * the middle copy — pulled the only visible copy clean out of the window
+	 * and the band stood empty (reported 15 Sep). The offset maths keeps
+	 * working in reading order (0 is the start, more negative is further
+	 * along); only the two places that touch the screen, the transform here
+	 * and the pointer below, are told which side is which.
+	 */
+	var flip = 'rtl' === document.documentElement.dir ? -1 : 1;
+
 	function setOffset( next ) {
 		offset = next;
 		normalize();
-		strip.style.transform = 'translate3d(' + offset + 'px, 0, 0)';
+		strip.style.transform = 'translate3d(' + ( offset * flip ) + 'px, 0, 0)';
 	}
 
 	/* ------------------------------------------------------------------
@@ -247,7 +258,7 @@
 				return;
 			}
 
-			var distance = event.clientX - pointerStartX;
+			var distance = ( event.clientX - pointerStartX ) * flip;
 
 			if ( Math.abs( distance ) <= DRAG_SLOP_PX ) {
 				return;

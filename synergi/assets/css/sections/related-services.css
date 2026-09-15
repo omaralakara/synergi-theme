@@ -107,6 +107,11 @@ a.syn-related__card:hover .syn-related__arrow {
 	transform: translateX(0.25rem);
 }
 
+/* The arrow (syn_arrow() draws ← under RTL) slides the way it points. */
+html[dir="rtl"] a.syn-related__card:hover .syn-related__arrow {
+	transform: translateX(-0.25rem);
+}
+
 /* ==========================================================================
    5. Accents
    Written out one selector per accent rather than assembled from the name, so

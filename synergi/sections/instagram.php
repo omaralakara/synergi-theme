@@ -92,7 +92,7 @@ $syn_uid = wp_unique_id( 'syn-instagram-' );
 					rel="noopener"
 				>
 					<?php echo esc_html( $syn_link_text ); ?>
-					<span aria-hidden="true">&rarr;</span>
+					<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 				</a>
 			<?php endif; ?>
 		</div>

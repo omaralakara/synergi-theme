@@ -82,6 +82,11 @@
 	/* How far the copy drops open under the active card. */
 	--syn-industries-copy: 6rem;
 
+	/* 1 in LTR, -1 in RTL: the one physical transform in this file (the
+	   oversized photograph centred in its strip, section 8) is multiplied by
+	   it, so the picture is centred whichever edge the strip grows from. */
+	--syn-industries-flip: 1;
+
 	/* The bed behind a photograph that has not loaded, and behind a ghost. */
 	--syn-industries-bed: color-mix(in srgb, var(--syn-navy) 30%, var(--syn-ink));
 
@@ -298,6 +303,23 @@
 	outline-offset: 3px;
 }
 
+/*
+ * RTL. The photograph is placed at inset-inline-start: 50% — the RIGHT edge
+ * under RTL — and then pulled back by half its own width. Pulled leftward, as
+ * the LTR value did, a picture 2.3 times the strip's width left the strip
+ * entirely, and every card showed the navy bed with nothing on it (reported
+ * 15 Sep). The flip pulls it rightward instead. The exiting card's clip moves
+ * to its other side for the same reason, and the chevrons point the way the
+ * rail actually moves; industries.js flips the keys and swipes to match.
+ */
+html[dir="rtl"] .syn-industries {
+	--syn-industries-flip: -1;
+}
+
+html[dir="rtl"] .syn-industries__control svg {
+	transform: scaleX(-1);
+}
+
 .syn-industries__control svg {
 	inline-size: 1.35rem;
 	block-size: 1.35rem;
@@ -397,6 +419,11 @@
 		margin-inline-end: calc(-1 * var(--syn-industries-gap));
 		clip-path: inset(0 var(--syn-industries-gap) 0 0);
 		pointer-events: none;
+	}
+
+	/* clip-path takes physical sides; the gap is on the inline-end side. */
+	html[dir="rtl"] .syn-industries__card.syn-is-exiting {
+		clip-path: inset(0 0 0 var(--syn-industries-gap));
 	}
 
 	/*
@@ -517,7 +544,7 @@
 		inline-size: calc(var(--syn-industries-photo) * 2.3);
 		min-inline-size: 100%;
 		max-inline-size: none;
-		transform: translateX(-50%) translateZ(0);
+		transform: translateX(calc(-50% * var(--syn-industries-flip))) translateZ(0);
 		backface-visibility: hidden;
 	}
 }

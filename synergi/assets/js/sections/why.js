@@ -72,6 +72,12 @@
 		return number < 10 ? '0' + number : String( number );
 	}
 
+	/*
+	 * Under RTL "forward" is leftward. The arrow keys and the swipe below are
+	 * read through this; why.css mirrors the 3D fan to match.
+	 */
+	var flip = 'rtl' === document.documentElement.dir ? -1 : 1;
+
 	/**
 	 * Turns the deck so that one card faces the reader.
 	 *
@@ -187,9 +193,9 @@
 	if ( stage ) {
 		stage.addEventListener( 'keydown', function ( event ) {
 			if ( 'ArrowLeft' === event.key ) {
-				select( activeIndex - 1 );
+				select( activeIndex - flip );
 			} else if ( 'ArrowRight' === event.key ) {
-				select( activeIndex + 1 );
+				select( activeIndex + flip );
 			} else if ( 'Home' === event.key ) {
 				select( 0 );
 			} else if ( 'End' === event.key ) {
@@ -308,7 +314,7 @@
 				suppressClick = false;
 			}, 0 );
 
-			select( activeIndex + ( travelled < 0 ? 1 : -1 ) );
+			select( activeIndex + ( travelled * flip < 0 ? 1 : -1 ) );
 		} );
 
 		stage.addEventListener( 'pointercancel', function () {

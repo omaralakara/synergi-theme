@@ -325,6 +325,13 @@
 		grid-area: next;
 	}
 
+	/* Under RTL the track pages the other way, so the chevrons turn round —
+	   the grid areas above already put "previous" on the right. blog.js
+	   mirrors the drag to match. */
+	html[dir="rtl"] .syn-blog__control svg {
+		transform: scaleX(-1);
+	}
+
 	.syn-blog__control svg {
 		inline-size: 1.35rem;
 		block-size: 1.35rem;

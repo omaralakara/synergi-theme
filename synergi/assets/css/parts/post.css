@@ -276,6 +276,12 @@
 	transform: translateX(0.25rem);
 }
 
+/* The arrow (syn_arrow() draws ← under RTL) slides the way it points. */
+html[dir="rtl"] .syn-card:hover .syn-card__arrow,
+html[dir="rtl"] .syn-card:focus-within .syn-card__arrow {
+	transform: translateX(-0.25rem);
+}
+
 /* ==========================================================================
    4d. Reduced motion
    Reduced means no movement, never hidden content (CLAUDE.md §6).

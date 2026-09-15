@@ -169,6 +169,11 @@ a.syn-offers__card:hover .syn-offers__arrow {
 	transform: translateX(0.25rem);
 }
 
+/* The arrow (syn_arrow() draws ← under RTL) slides the way it points. */
+html[dir="rtl"] a.syn-offers__card:hover .syn-offers__arrow {
+	transform: translateX(-0.25rem);
+}
+
 /* ==========================================================================
    5. Accents
    The same six gradients the "keep exploring" band uses, keyed off the same

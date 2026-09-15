@@ -314,7 +314,7 @@ if ( ! $syn_cards ) {
 												esc_html( $syn_name )
 											);
 											?>
-											<span aria-hidden="true">&#8594;</span>
+											<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 										</a>
 									<?php endif; ?>
 

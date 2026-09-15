@@ -297,6 +297,12 @@
 	transform: translateX(0.25rem);
 }
 
+/* The arrow (syn_arrow() draws ← under RTL) slides the way it points. */
+html[dir="rtl"] .syn-case-studies__card:hover .syn-case-studies__arrow,
+html[dir="rtl"] .syn-case-studies__card:focus-within .syn-case-studies__arrow {
+	transform: translateX(-0.25rem);
+}
+
 /* ==========================================================================
    8. Reduced motion
    Reduced means no movement, never hidden content (CLAUDE.md §6).

@@ -102,6 +102,27 @@
 	   token because nothing else in the theme uses them. */
 	--syn-services-card-radius: 1.6rem;
 	--syn-services-panel-radius: 1.15rem;
+
+	/* Which way the fan spreads: 1 to the right, -1 to the left. Every deck
+	   transform in section 10 is multiplied by it, so the geometry is written
+	   once and the mirror costs one value. */
+	--syn-services-flip: 1;
+}
+
+/*
+ * Under RTL the copy column sits on the right and the stage's spare room is
+ * on the left, but the fan kept spreading rightward — straight into the
+ * heading, with the front card jammed against the copy (reported 15 Sep).
+ * Mirrored, it spreads into the room reserved for it, the chevrons on the
+ * controls point the way the deck will actually move, and the arrow keys
+ * and swipes are flipped to match in services.js.
+ */
+html[dir="rtl"] .syn-services {
+	--syn-services-flip: -1;
+}
+
+html[dir="rtl"] .syn-services__control svg {
+	transform: scaleX(-1);
 }
 
 /* ==========================================================================
@@ -599,7 +620,8 @@
 		pointer-events: none;
 		cursor: grab;
 		user-select: none;
-		transform-origin: 45% 94%;
+		/* 45% from the left in LTR, 45% from the right in RTL. */
+		transform-origin: calc(50% - (5% * var(--syn-services-flip))) 94%;
 		transition:
 			transform 680ms var(--syn-ease-out),
 			filter 680ms var(--syn-ease-out),
@@ -626,31 +648,31 @@
 	.syn-services__card[data-syn-deck-position="1"] {
 		z-index: 4;
 		filter: brightness(0.92) saturate(0.9);
-		transform: translate3d(1.55rem, 0.5rem, 0) rotate(1deg);
+		transform: translate3d(calc(1.55rem * var(--syn-services-flip)), 0.5rem, 0) rotate(calc(1deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="2"] {
 		z-index: 3;
 		filter: brightness(0.84) saturate(0.86);
-		transform: translate3d(3rem, 1rem, 0) rotate(2deg);
+		transform: translate3d(calc(3rem * var(--syn-services-flip)), 1rem, 0) rotate(calc(2deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="3"] {
 		z-index: 2;
 		filter: brightness(0.77) saturate(0.82);
-		transform: translate3d(4.4rem, 1.55rem, 0) rotate(3deg);
+		transform: translate3d(calc(4.4rem * var(--syn-services-flip)), 1.55rem, 0) rotate(calc(3deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="4"] {
 		z-index: 1;
 		filter: brightness(0.7) saturate(0.78);
-		transform: translate3d(5.65rem, 2.05rem, 0) rotate(4deg);
+		transform: translate3d(calc(5.65rem * var(--syn-services-flip)), 2.05rem, 0) rotate(calc(4deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="5"] {
 		z-index: 0;
 		filter: brightness(0.64) saturate(0.74);
-		transform: translate3d(6.75rem, 2.55rem, 0) rotate(5deg);
+		transform: translate3d(calc(6.75rem * var(--syn-services-flip)), 2.55rem, 0) rotate(calc(5deg * var(--syn-services-flip)));
 	}
 }
 
@@ -813,23 +835,23 @@
 
 	/* The fan closes up: there is no room for a 7rem spread on a phone. */
 	.syn-services__card[data-syn-deck-position="1"] {
-		transform: translate3d(0.3rem, 0.35rem, 0) rotate(0.5deg);
+		transform: translate3d(calc(0.3rem * var(--syn-services-flip)), 0.35rem, 0) rotate(calc(0.5deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="2"] {
-		transform: translate3d(0.55rem, 0.7rem, 0) rotate(1deg);
+		transform: translate3d(calc(0.55rem * var(--syn-services-flip)), 0.7rem, 0) rotate(calc(1deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="3"] {
-		transform: translate3d(0.8rem, 1.05rem, 0) rotate(1.5deg);
+		transform: translate3d(calc(0.8rem * var(--syn-services-flip)), 1.05rem, 0) rotate(calc(1.5deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="4"] {
-		transform: translate3d(1.05rem, 1.4rem, 0) rotate(2deg);
+		transform: translate3d(calc(1.05rem * var(--syn-services-flip)), 1.4rem, 0) rotate(calc(2deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__card[data-syn-deck-position="5"] {
-		transform: translate3d(1.3rem, 1.75rem, 0) rotate(2.5deg);
+		transform: translate3d(calc(1.3rem * var(--syn-services-flip)), 1.75rem, 0) rotate(calc(2.5deg * var(--syn-services-flip)));
 	}
 
 	.syn-services__controls {

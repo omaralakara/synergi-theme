@@ -117,7 +117,7 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 			<?php if ( '' !== $syn_link_url && '' !== $syn_link_text ) : ?>
 				<a class="syn-button syn-button--outline syn-case-studies__all" href="<?php echo esc_url( syn_local_url( $syn_link_url ) ); ?>">
 					<?php echo esc_html( $syn_link_text ); ?>
-					<span aria-hidden="true">&rarr;</span>
+					<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 				</a>
 			<?php endif; ?>
 		</div>
@@ -289,7 +289,7 @@ $syn_uid = wp_unique_id( 'syn-case-studies-' );
 								<p class="syn-case-studies__action">
 									<span class="syn-case-studies__button" aria-hidden="true">
 										<?php esc_html_e( 'Read the case study', 'synergi' ); ?>
-										<span class="syn-case-studies__arrow">&rarr;</span>
+										<span class="syn-case-studies__arrow"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 									</span>
 								</p>
 

@@ -103,6 +103,13 @@
 		} );
 	}
 
+	/*
+	 * Under RTL "forward" is leftward. The arrow keys and the swipe below are
+	 * read through this, so the deck moves the way the reader expects;
+	 * services.css mirrors the fan and the chevrons to match.
+	 */
+	var flip = 'rtl' === document.documentElement.dir ? -1 : 1;
+
 	/* ------------------------------------------------------------------
 	 * Keyboard. The viewport carries tabindex="0" and an aria-label saying
 	 * the arrow keys work, so they have to.
@@ -110,9 +117,9 @@
 
 	viewport.addEventListener( 'keydown', function ( event ) {
 		if ( 'ArrowLeft' === event.key ) {
-			showCard( activeIndex - 1, true );
+			showCard( activeIndex - flip, true );
 		} else if ( 'ArrowRight' === event.key ) {
-			showCard( activeIndex + 1, true );
+			showCard( activeIndex + flip, true );
 		} else if ( 'Home' === event.key ) {
 			showCard( 0, true );
 		} else if ( 'End' === event.key ) {
@@ -203,7 +210,7 @@
 		suppressClick = 'pointerup' === event.type && Math.abs( travelled ) >= TAP_SLOP_PX;
 
 		if ( advance ) {
-			showCard( activeIndex + ( travelled < 0 ? 1 : -1 ), true );
+			showCard( activeIndex + ( travelled * flip < 0 ? 1 : -1 ), true );
 			log( 'swiped to card ' + activeIndex );
 		}
 	}

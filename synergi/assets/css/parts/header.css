@@ -178,19 +178,26 @@
  *
  * Opacity rather than display, so it can fade rather than snap, and so the
  * geometry is declared once.
+ *
+ * Centred with auto margins between the item's two inline edges, not with
+ * inset-inline-start: 50% and translateX(-50%). That pair centres only in
+ * LTR: under RTL the start edge is the right one, so the shape's right edge
+ * sat at the middle and the translate then pushed it a further half-width
+ * left — a whole width off centre on every Arabic page (reported 15 Sep).
+ * Auto margins have no direction to get wrong.
  */
 .syn-nav-list__link::before,
 .syn-submenu-toggle::before {
 	position: absolute;
 	inset-block-end: -1.15rem;
-	inset-inline-start: 50%;
+	inset-inline: 0;
 	inline-size: 0;
 	block-size: 0;
+	margin-inline: auto;
 	border-inline: 0.45rem solid transparent;
 	border-block-end: 0.42rem solid var(--syn-white);
 	content: "";
 	opacity: 0;
-	transform: translateX(-50%);
 	transition: opacity var(--syn-duration-fast);
 }
 

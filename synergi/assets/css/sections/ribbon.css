@@ -35,6 +35,19 @@
 
 	/* The front band's lean; the back band leans 1.2deg further the other way. */
 	--syn-ribbon-tilt: 2.4deg;
+	/* Which way the row drifts: 1 slides it leftward, -1 rightward. */
+	--syn-ribbon-flip: 1;
+}
+
+/*
+ * Under RTL the row is laid out from the right edge and overflows to the
+ * left, so sliding it leftward — the only direction the keyframes knew —
+ * emptied the band within seconds and it stayed empty until the loop reset
+ * (reported 15 Sep). The row now drifts the way the script reads: phrases
+ * enter from the left and leave on the right, the mirror of the Latin band.
+ */
+html[dir="rtl"] .syn-ribbon {
+	--syn-ribbon-flip: -1;
 }
 
 /* ==========================================================================
@@ -133,7 +146,7 @@
 	}
 
 	to {
-		transform: translateX(-50%);
+		transform: translateX(calc(-50% * var(--syn-ribbon-flip)));
 	}
 }
 

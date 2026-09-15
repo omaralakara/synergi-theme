@@ -62,6 +62,11 @@
 	--syn-why-number-rim: color-mix(in srgb, var(--syn-white) 48%, transparent);
 	--syn-why-number-bed: color-mix(in srgb, var(--syn-ink) 35%, transparent);
 
+	/* Which way the deck fans: 1 as drawn, -1 mirrored. Every horizontal
+	   translate and every rotateY in section 10 is multiplied by it, so the
+	   3D geometry is written once and RTL costs one value. */
+	--syn-why-flip: 1;
+
 	/*
 	 * The scrim down each photograph. Almost nothing at the top, most of the way
 	 * to solid at the bottom, so the white copy sitting on it clears 4.5:1
@@ -73,6 +78,18 @@
 		color-mix(in srgb, var(--syn-ink) 28%, transparent) 53%,
 		color-mix(in srgb, var(--syn-ink) 96%, transparent) 100%
 	);
+}
+
+/*
+ * Under RTL each card is placed at inset-inline-start: 50% — its RIGHT edge on
+ * the stage's centre line — and the LTR translate then dragged it a further
+ * half-width LEFT, so the whole deck hung off the left edge of the page with
+ * the front card cut in two (reported 15 Sep). Mirrored, the deck fans away
+ * from the copy column exactly as it does in English; why.js flips the arrow
+ * keys and swipes to match.
+ */
+html[dir="rtl"] .syn-why {
+	--syn-why-flip: -1;
 }
 
 /* ==========================================================================
@@ -177,7 +194,7 @@
 	/* One vanishing point for all four cards, so the deck reads as a single
 	   object turning rather than four separately tilted ones. */
 	perspective: 850px;
-	perspective-origin: 52% 46%;
+	perspective-origin: calc(50% + (2% * var(--syn-why-flip))) 46%;
 	/* Vertical scrolling stays with the page; horizontal is the deck's. */
 	touch-action: pan-y;
 }
@@ -403,21 +420,21 @@
 		opacity: 1;
 		filter: saturate(1) contrast(1);
 		box-shadow: 0 2.2rem 5rem color-mix(in srgb, var(--syn-ink) 25%, transparent);
-		transform: translate3d(-50%, -50%, 7rem) rotateY(0deg) scale(1);
+		transform: translate3d(calc(-50% * var(--syn-why-flip)), -50%, 7rem) rotateY(0deg) scale(1);
 	}
 
 	.syn-why__card[data-syn-why-position="1"] {
 		z-index: 3;
 		opacity: 0.86;
 		filter: saturate(0.78) brightness(1.04);
-		transform: translate3d(-5%, -50%, -3rem) rotateY(-32deg) scale(0.9);
+		transform: translate3d(calc(-5% * var(--syn-why-flip)), -50%, -3rem) rotateY(calc(-32deg * var(--syn-why-flip))) scale(0.9);
 	}
 
 	.syn-why__card[data-syn-why-position="2"] {
 		z-index: 1;
 		opacity: 0;
 		filter: saturate(0.58) brightness(1.08);
-		transform: translate3d(-50%, -50%, -14rem) rotateY(-82deg) scale(0.8);
+		transform: translate3d(calc(-50% * var(--syn-why-flip)), -50%, -14rem) rotateY(calc(-82deg * var(--syn-why-flip))) scale(0.8);
 		pointer-events: none;
 	}
 
@@ -425,7 +442,7 @@
 		z-index: 2;
 		opacity: 0.78;
 		filter: saturate(0.74) brightness(1.05);
-		transform: translate3d(-95%, -50%, -4rem) rotateY(30deg) scale(0.9);
+		transform: translate3d(calc(-95% * var(--syn-why-flip)), -50%, -4rem) rotateY(calc(30deg * var(--syn-why-flip))) scale(0.9);
 	}
 }
 
@@ -557,20 +574,20 @@
 	/* The fan closes up and the flanking cards dim further, since they now sit
 	   much closer to the one in front. */
 	.syn-why__card[data-syn-why-position="0"] {
-		transform: translate3d(-50%, -50%, 4rem) rotateY(0deg) scale(1);
+		transform: translate3d(calc(-50% * var(--syn-why-flip)), -50%, 4rem) rotateY(0deg) scale(1);
 	}
 
 	.syn-why__card[data-syn-why-position="1"] {
 		opacity: 0.66;
-		transform: translate3d(-18%, -50%, -3rem) rotateY(-24deg) scale(0.89);
+		transform: translate3d(calc(-18% * var(--syn-why-flip)), -50%, -3rem) rotateY(calc(-24deg * var(--syn-why-flip))) scale(0.89);
 	}
 
 	.syn-why__card[data-syn-why-position="2"] {
-		transform: translate3d(-50%, -50%, -10rem) rotateY(-78deg) scale(0.8);
+		transform: translate3d(calc(-50% * var(--syn-why-flip)), -50%, -10rem) rotateY(calc(-78deg * var(--syn-why-flip))) scale(0.8);
 	}
 
 	.syn-why__card[data-syn-why-position="3"] {
 		opacity: 0.66;
-		transform: translate3d(-82%, -50%, -4rem) rotateY(24deg) scale(0.89);
+		transform: translate3d(calc(-82% * var(--syn-why-flip)), -50%, -4rem) rotateY(calc(24deg * var(--syn-why-flip))) scale(0.89);
 	}
 }

@@ -298,3 +298,17 @@ function syn_language_switch_targets() {
 
 	return $targets;
 }
+
+/**
+ * The "onward" arrow for the current writing direction: → for LTR, ← for RTL.
+ *
+ * A link's arrow points the way the eye travels. Under RTL that is leftward,
+ * and a → beside Arabic text points back at the words it follows. Returned as
+ * an HTML entity, so it is echoed raw inside markup the theme wrote itself —
+ * never concatenated with anything from the database.
+ *
+ * @return string "&rarr;" or "&larr;".
+ */
+function syn_arrow() {
+	return is_rtl() ? '&larr;' : '&rarr;';
+}

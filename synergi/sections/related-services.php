@@ -110,7 +110,7 @@ $syn_uid = wp_unique_id( 'syn-related-' );
 						<?php if ( '' !== $syn_item['url'] ) : ?>
 							<span class="syn-related__more">
 								<?php esc_html_e( 'Explore', 'synergi' ); ?>
-								<span class="syn-related__arrow" aria-hidden="true">&rarr;</span>
+								<span class="syn-related__arrow" aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
 							</span>
 						<?php endif; ?>
 					</<?php echo esc_html( $syn_tag ); ?>>
