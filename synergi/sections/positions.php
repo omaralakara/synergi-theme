@@ -208,7 +208,7 @@ $syn_group = $syn_uid . '-group';
 					<p class="syn-positions__empty-text"><?php echo esc_html( $syn_empty_text ); ?></p>
 				<?php endif; ?>
 
-				<a class="syn-button syn-button--primary" href="<?php echo esc_url( $syn_empty_cta_url ); ?>">
+				<a class="syn-button syn-button--primary" href="<?php echo esc_url( syn_local_url( $syn_empty_cta_url ) ); ?>">
 					<?php echo esc_html( $syn_empty_cta_label ); ?>
 					<span aria-hidden="true">&rarr;</span>
 				</a>

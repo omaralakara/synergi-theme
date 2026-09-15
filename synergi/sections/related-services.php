@@ -103,7 +103,7 @@ $syn_uid = wp_unique_id( 'syn-related-' );
 					<<?php echo esc_html( $syn_tag ); ?>
 						class="syn-related__card"
 						data-accent="<?php echo esc_attr( $syn_item['accent'] ); ?>"
-						<?php echo '' !== $syn_item['url'] ? 'href="' . esc_url( $syn_item['url'] ) . '"' : ''; ?>
+						<?php echo '' !== $syn_item['url'] ? 'href="' . esc_url( syn_local_url( $syn_item['url'] ) ) . '"' : ''; ?>
 					>
 						<span class="syn-related__name"><?php echo esc_html( $syn_item['name'] ); ?></span>
 

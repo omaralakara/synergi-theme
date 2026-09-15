@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
 $syn_eyebrow   = $args['eyebrow'] ?? __( 'Regional presence', 'synergi' );
 $syn_title     = $args['title'] ?? __( 'Our Locations', 'synergi' );
 $syn_lead      = $args['lead'] ?? __( 'Delivery hubs across the Gulf and the Levant, run as one connected team — so the work moves with your business rather than around it.', 'synergi' );
-$syn_link_url  = $args['link_url'] ?? home_url( '/global-locations/' );
+$syn_link_url  = $args['link_url'] ?? syn_page_url( 'global-locations' );
 $syn_link_text = $args['link_text'] ?? __( 'See all our locations', 'synergi' );
 
 $syn_action = __( 'Explore location', 'synergi' );
@@ -150,7 +150,7 @@ $syn_uid = wp_unique_id( 'syn-locations-' );
 			<div class="syn-locations__heading-aside">
 				<p class="syn-locations__lead"><?php echo esc_html( $syn_lead ); ?></p>
 				<?php if ( $syn_link_url && $syn_link_text ) : ?>
-					<a class="syn-text-link" href="<?php echo esc_url( $syn_link_url ); ?>">
+					<a class="syn-text-link" href="<?php echo esc_url( syn_local_url( $syn_link_url ) ); ?>">
 						<?php echo esc_html( $syn_link_text ); ?>
 						<span aria-hidden="true">&rarr;</span>
 					</a>

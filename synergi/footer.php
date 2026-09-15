@@ -182,8 +182,8 @@ defined( 'ABSPATH' ) || exit;
 			</p>
 
 			<div>
-				<a href="<?php echo esc_url( home_url( '/terms/' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'synergi' ); ?></a>
-				<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'synergi' ); ?></a>
+				<a href="<?php echo esc_url( syn_page_url( 'terms' ) ); ?>"><?php esc_html_e( 'Terms & Conditions', 'synergi' ); ?></a>
+				<a href="<?php echo esc_url( syn_page_url( 'privacy-policy' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'synergi' ); ?></a>
 				<?php // Reopens the consent banner. Printed hidden; assets/js/parts/consent.js reveals it. ?>
 				<button class="syn-footer-consent" type="button" data-syn-consent-open hidden><?php esc_html_e( 'Cookie settings', 'synergi' ); ?></button>
 			</div>

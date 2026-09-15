@@ -42,7 +42,7 @@ $syn_note = $args['note'] ?? array(
 
 $syn_cta = $args['cta'] ?? array(
 	'label' => __( 'Explore the Podcast', 'synergi' ),
-	'url'   => home_url( '/executive-podcast/' ),
+	'url'   => syn_page_url( 'executive-podcast' ),
 );
 
 $syn_badge = $args['badge'] ?? __( 'Business media · MENA', 'synergi' );
@@ -78,7 +78,7 @@ $syn_uid = wp_unique_id( 'syn-podcast-' );
 			<?php endif; ?>
 
 			<?php if ( ! empty( $syn_cta['url'] ) && ! empty( $syn_cta['label'] ) ) : ?>
-				<a class="syn-button syn-button--primary" href="<?php echo esc_url( $syn_cta['url'] ); ?>">
+				<a class="syn-button syn-button--primary" href="<?php echo esc_url( syn_local_url( $syn_cta['url'] ) ); ?>">
 					<?php echo esc_html( $syn_cta['label'] ); ?>
 					<span aria-hidden="true">&rarr;</span>
 				</a>

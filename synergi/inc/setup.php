@@ -20,9 +20,8 @@ add_action( 'after_setup_theme', 'syn_setup' );
  * adds one extra image size, and registers assets/css/base.css as the editor
  * stylesheet.
  *
- * No text domain is loaded here: WordPress loads translations for the "synergi"
- * domain just-in-time from wp-content/languages/themes/, and the theme ships no
- * languages/ directory of its own until the Arabic phase (CLAUDE.md §12).
+ * The text domain is loaded by inc/i18n.php, which owns everything the theme
+ * knows about languages (the Arabic phase, CLAUDE.md §12).
  *
  * @return void
  */

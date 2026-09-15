@@ -128,7 +128,7 @@ $syn_class = 'paper' === $syn_tone
 			</div>
 
 			<?php if ( '' !== $syn_link_url && '' !== $syn_link_text ) : ?>
-				<a class="syn-button syn-button--outline syn-episodes__all" href="<?php echo esc_url( $syn_link_url ); ?>">
+				<a class="syn-button syn-button--outline syn-episodes__all" href="<?php echo esc_url( syn_local_url( $syn_link_url ) ); ?>">
 					<?php echo esc_html( $syn_link_text ); ?>
 					<span aria-hidden="true">&rarr;</span>
 				</a>

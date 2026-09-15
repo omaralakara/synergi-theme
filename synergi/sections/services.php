@@ -81,7 +81,7 @@ if ( ! $syn_cards ) {
 			'name'         => __( 'Accounting', 'synergi' ),
 			'label'        => __( 'Finance operations and reporting', 'synergi' ),
 			'summary'      => __( 'Support for day-to-day finance processes, transaction cycles, analysis, and reporting.', 'synergi' ),
-			'url'          => home_url( '/our-services/accounting/' ),
+			'url'          => syn_page_url( 'our-services/accounting' ),
 			'capabilities' => array(
 				__( 'Bookkeeping, VAT & Tax', 'synergi' ),
 				__( 'Record to Report', 'synergi' ),
@@ -96,7 +96,7 @@ if ( ! $syn_cards ) {
 			'name'         => __( 'Human Resources', 'synergi' ),
 			'label'        => __( 'People operations and development', 'synergi' ),
 			'summary'      => __( 'HR outsourcing and payroll support across the employee lifecycle — systems, development, and leadership capacity.', 'synergi' ),
-			'url'          => home_url( '/our-services/human-resources/' ),
+			'url'          => syn_page_url( 'our-services/human-resources' ),
 			'capabilities' => array(
 				__( 'HR Operations', 'synergi' ),
 				__( 'Payroll and Pension', 'synergi' ),
@@ -113,7 +113,7 @@ if ( ! $syn_cards ) {
 			'name'         => __( 'Procurement', 'synergi' ),
 			'label'        => __( 'Sourcing, contracts, and spend visibility', 'synergi' ),
 			'summary'      => __( 'Procurement outsourcing from sourcing and governance through administration, negotiation, and spend analysis.', 'synergi' ),
-			'url'          => home_url( '/our-services/procurement/' ),
+			'url'          => syn_page_url( 'our-services/procurement' ),
 			'capabilities' => array(
 				__( 'Procurement Health Check', 'synergi' ),
 				__( 'Procurement Function Build-Up', 'synergi' ),
@@ -129,7 +129,7 @@ if ( ! $syn_cards ) {
 			'name'         => __( 'Technology & AI', 'synergi' ),
 			'label'        => __( 'Systems, support, and managed services', 'synergi' ),
 			'summary'      => __( 'Technology operations that connect end-user support, infrastructure, compliance, and business systems.', 'synergi' ),
-			'url'          => home_url( '/our-services/technology-ai/' ),
+			'url'          => syn_page_url( 'our-services/technology-ai' ),
 			'capabilities' => array(
 				__( 'ERP Implementation', 'synergi' ),
 				__( 'Custom AI Applications', 'synergi' ),
@@ -147,7 +147,7 @@ if ( ! $syn_cards ) {
 			'name'         => __( 'Marketing', 'synergi' ),
 			'label'        => __( 'Brand, communications, and experience', 'synergi' ),
 			'summary'      => __( 'Strategic and operational marketing support across brand, content, events, public relations, and customer experience.', 'synergi' ),
-			'url'          => home_url( '/our-services/marketing/' ),
+			'url'          => syn_page_url( 'our-services/marketing' ),
 			'capabilities' => array(
 				__( 'Marketing Audit and Strategy Development', 'synergi' ),
 				__( 'Social Media Management and Paid Digital Ads', 'synergi' ),
@@ -165,7 +165,7 @@ if ( ! $syn_cards ) {
 			'name'         => __( 'Project Management', 'synergi' ),
 			'label'        => __( 'Governance, delivery, and transformation offices', 'synergi' ),
 			'summary'      => __( 'Structured project and program delivery with clear governance, resources, controls, and performance reporting.', 'synergi' ),
-			'url'          => home_url( '/our-services/' ),
+			'url'          => syn_page_url( 'our-services/project-management' ),
 			'capabilities' => array(
 				__( 'PMO Setup and Governance Frameworks', 'synergi' ),
 				__( 'End-to-End Project Planning and Delivery', 'synergi' ),
@@ -306,7 +306,7 @@ if ( ! $syn_cards ) {
 									<?php endif; ?>
 
 									<?php if ( ! empty( $syn_card['url'] ) ) : ?>
-										<a class="syn-text-link syn-services__link" href="<?php echo esc_url( $syn_card['url'] ); ?>">
+										<a class="syn-text-link syn-services__link" href="<?php echo esc_url( syn_local_url( $syn_card['url'] ) ); ?>">
 											<?php
 											printf(
 												/* translators: %s: service name, e.g. Accounting. */

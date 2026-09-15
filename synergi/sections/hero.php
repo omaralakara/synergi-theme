@@ -154,7 +154,7 @@ $syn_motion_words = array_values( array_filter( array_map( 'trim', (array) $syn_
 							? 'syn-button syn-button--light'
 							: 'syn-button syn-button--primary';
 						?>
-						<a class="<?php echo esc_attr( $syn_button_class ); ?>" href="<?php echo esc_url( $syn_button['url'] ); ?>"><?php echo esc_html( $syn_button['label'] ); ?></a>
+						<a class="<?php echo esc_attr( $syn_button_class ); ?>" href="<?php echo esc_url( syn_local_url( $syn_button['url'] ) ); ?>"><?php echo esc_html( $syn_button['label'] ); ?></a>
 					<?php endforeach; ?>
 				</div>
 			<?php endif; ?>

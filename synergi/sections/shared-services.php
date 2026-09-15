@@ -56,7 +56,7 @@ $syn_title   = $args['title'] ?? __( 'Transform Your Business with Shared Servic
 $syn_lead = $args['lead'] ?? sprintf(
 	/* translators: %s: link to the procurement service page, reading "procurement". */
 	__( 'Centralize your back-office functions in one shared-services team, wherever your business operates. From HR and finance to %s, we help you cut costs, strengthen compliance, and scale faster.', 'synergi' ),
-	'<a href="' . esc_url( home_url( '/our-services/procurement/' ) ) . '">' . esc_html__( 'procurement', 'synergi' ) . '</a>'
+	'<a href="' . esc_url( syn_page_url( 'our-services/procurement' ) ) . '">' . esc_html__( 'procurement', 'synergi' ) . '</a>'
 );
 
 /*
@@ -69,7 +69,7 @@ $syn_lead = $args['lead'] ?? sprintf(
 $syn_note = $args['note'] ?? sprintf(
 	/* translators: %s: link to the markets hub, reading "across our markets". */
 	__( 'Looking to optimize operations beyond shared services? See how Synergi delivers %s — as consulting, manpower augmentation or full BPO, wherever you operate.', 'synergi' ),
-	'<a href="' . esc_url( home_url( '/markets/' ) ) . '">' . esc_html__( 'across our markets', 'synergi' ) . '</a>'
+	'<a href="' . esc_url( syn_page_url( 'markets' ) ) . '">' . esc_html__( 'across our markets', 'synergi' ) . '</a>'
 );
 
 $syn_steps = $args['steps'] ?? array(
@@ -89,7 +89,7 @@ $syn_steps = $args['steps'] ?? array(
 
 $syn_cta = $args['cta'] ?? array(
 	'label' => __( 'Discover Shared Services', 'synergi' ),
-	'url'   => home_url( '/our-solutions/shared-services/' ),
+	'url'   => syn_page_url( 'our-solutions/shared-services' ),
 );
 
 $syn_markets = $args['markets'] ?? array(
@@ -232,7 +232,7 @@ $syn_hub_label = sprintf(
 
 				<div class="syn-shared-services__cta-row">
 					<?php if ( ! empty( $syn_cta['label'] ) && ! empty( $syn_cta['url'] ) ) : ?>
-						<a class="syn-button syn-button--primary" href="<?php echo esc_url( $syn_cta['url'] ); ?>">
+						<a class="syn-button syn-button--primary" href="<?php echo esc_url( syn_local_url( $syn_cta['url'] ) ); ?>">
 							<?php echo esc_html( $syn_cta['label'] ); ?>
 							<span aria-hidden="true">&#8594;</span>
 						</a>

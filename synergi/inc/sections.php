@@ -117,8 +117,10 @@ function syn_contact_url() {
 		return $url;
 	}
 
+	// Resolved through inc/i18n.php so an Arabic page links to the Arabic
+	// contact page; a missing page falls back to home there as it did here.
 	$page = get_page_by_path( 'contact-us' );
-	$url  = $page && 'publish' === $page->post_status ? get_permalink( $page ) : home_url( '/' );
+	$url  = $page && 'publish' === $page->post_status ? syn_page_url( 'contact-us' ) : home_url( '/' );
 
 	return $url;
 }

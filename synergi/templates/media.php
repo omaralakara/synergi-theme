@@ -115,7 +115,7 @@ syn_section(
 		// twelve are HR, and without this the hub reads as an HR-only company.
 		'spread'    => true,
 		'lede'      => __( 'How organizations across the Gulf run their operations with Synergi.', 'synergi' ),
-		'link_url'  => home_url( '/case-studies/' ),
+		'link_url'  => syn_page_url( 'case-studies' ),
 		'link_text' => __( 'View all case studies', 'synergi' ),
 	)
 );

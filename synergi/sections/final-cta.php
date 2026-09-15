@@ -59,7 +59,7 @@ $syn_body    = $args['body'] ?? $syn_cta_value( $syn_cta, 'body', __( 'Synergi r
  */
 $syn_primary = $args['primary'] ?? array(
 	'label' => $syn_cta_value( $syn_cta, 'primary_label', __( 'Start a Conversation', 'synergi' ) ),
-	'url'   => $syn_cta_value( $syn_cta, 'primary_url', home_url( '/contact-us/' ) ),
+	'url'   => $syn_cta_value( $syn_cta, 'primary_url', syn_page_url( 'contact-us' ) ),
 );
 
 /*
@@ -100,7 +100,7 @@ $syn_uid = wp_unique_id( 'syn-final-cta-' );
 
 		<div class="syn-final-cta__actions syn-reveal">
 			<?php if ( ! empty( $syn_primary['url'] ) && ! empty( $syn_primary['label'] ) ) : ?>
-				<a class="syn-button syn-button--primary" href="<?php echo esc_url( $syn_primary['url'] ); ?>">
+				<a class="syn-button syn-button--primary" href="<?php echo esc_url( syn_local_url( $syn_primary['url'] ) ); ?>">
 					<?php echo esc_html( $syn_primary['label'] ); ?>
 					<span aria-hidden="true">&rarr;</span>
 				</a>
@@ -114,7 +114,7 @@ $syn_uid = wp_unique_id( 'syn-final-cta-' );
 				 * variant and its white text would be invisible here.
 				 */
 				?>
-				<a class="syn-button syn-button--outline" href="<?php echo esc_url( $syn_secondary['url'] ); ?>">
+				<a class="syn-button syn-button--outline" href="<?php echo esc_url( syn_local_url( $syn_secondary['url'] ) ); ?>">
 					<?php echo esc_html( $syn_secondary['label'] ); ?>
 					<span aria-hidden="true">&searr;</span>
 				</a>

@@ -37,6 +37,10 @@ define( 'SYN_URI', trailingslashit( get_template_directory_uri() ) );
 defined( 'SYN_DEBUG' ) || define( 'SYN_DEBUG', defined( 'WP_DEBUG' ) && WP_DEBUG );
 
 require_once SYN_DIR . 'inc/setup.php';
+// Straight after setup: what the theme knows about Polylang. Every later file
+// that resolves a page address or reads a site record asks this one which
+// language the request is in (CLAUDE.md §12, the Arabic phase).
+require_once SYN_DIR . 'inc/i18n.php';
 require_once SYN_DIR . 'inc/assets.php';
 require_once SYN_DIR . 'inc/nav.php';
 require_once SYN_DIR . 'inc/sections.php';

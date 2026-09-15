@@ -71,7 +71,7 @@ $syn_linkedin_partner = syn_linkedin_partner_id();
 	<div class="syn-consent__body">
 		<p class="syn-consent__text" id="syn-consent-text">
 			<?php esc_html_e( 'We use cookies to understand how visitors use our website and to measure our advertising. Analytics and marketing cookies are only set if you allow them.', 'synergi' ); ?>
-			<a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'synergi' ); ?></a>
+			<a href="<?php echo esc_url( syn_page_url( 'privacy-policy' ) ); ?>"><?php esc_html_e( 'Privacy Policy', 'synergi' ); ?></a>
 		</p>
 
 		<fieldset class="syn-consent__choices" id="syn-consent-choices" data-syn-consent-choices hidden>

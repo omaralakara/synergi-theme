@@ -7,7 +7,9 @@
  *
  * Expected $args:
  *   heading string               Required. Column heading, already translated.
- *   links   array<string,?string> Required. Link text => path relative to home,
+ *   links   array<string,?string> Required. Link text => path relative to home
+ *                                 (resolved into the current language by
+ *                                 syn_local_url(), so one path serves both sites),
  *                                 or null for an entry whose page does not
  *                                 exist yet (see below).
  *
@@ -63,7 +65,7 @@ $syn_label_id = wp_unique_id( 'syn-footer-nav-' );
 		<?php foreach ( (array) $args['links'] as $syn_label => $syn_path ) : ?>
 			<li>
 				<?php if ( $syn_path ) : ?>
-					<a href="<?php echo esc_url( home_url( $syn_path ) ); ?>"><?php echo esc_html( $syn_label ); ?></a>
+					<a href="<?php echo esc_url( syn_local_url( $syn_path ) ); ?>"><?php echo esc_html( $syn_label ); ?></a>
 				<?php else : ?>
 					<span class="syn-footer-links__pending"><?php echo esc_html( $syn_label ); ?></span>
 					<?php

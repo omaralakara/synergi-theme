@@ -138,7 +138,7 @@ $syn_uid = wp_unique_id( 'syn-offers-' );
 						<<?php echo esc_html( $syn_tag ); ?>
 							class="syn-offers__card"
 							data-accent="<?php echo esc_attr( $syn_card['accent'] ); ?>"
-							<?php echo '' !== $syn_card['url'] ? 'href="' . esc_url( $syn_card['url'] ) . '"' : ''; ?>
+							<?php echo '' !== $syn_card['url'] ? 'href="' . esc_url( syn_local_url( $syn_card['url'] ) ) . '"' : ''; ?>
 						>
 							<?php if ( '' !== $syn_card['icon'] ) : ?>
 								<?php syn_inline_icon( $syn_card['icon'], 'syn-offers__icon' ); ?>

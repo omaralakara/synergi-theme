@@ -128,7 +128,7 @@ $syn_uid = wp_unique_id( 'syn-case-' );
 			if ( '' !== $syn_link_url && '' !== $syn_link_label ) :
 				?>
 				<p class="syn-case__action">
-					<a class="syn-button syn-button--outline" href="<?php echo esc_url( $syn_link_url ); ?>"><?php echo esc_html( $syn_link_label ); ?></a>
+					<a class="syn-button syn-button--outline" href="<?php echo esc_url( syn_local_url( $syn_link_url ) ); ?>"><?php echo esc_html( $syn_link_label ); ?></a>
 				</p>
 			<?php endif; ?>
 		</div>
