@@ -40,7 +40,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** The single option every site record lives in. */
+/**
+ * The option every site record lives in — for the default language.
+ *
+ * Since the Arabic phase there is one store per language: this name for the
+ * default language, and this name with "_{slug}" appended for each other
+ * ("syn_records_ar"). Always resolve the name through
+ * syn_records_option_name() rather than using the constant directly.
+ */
 define( 'SYN_RECORDS_OPTION', 'syn_records' );
 
 /** The Settings API group the option is registered against. */
@@ -217,16 +224,40 @@ function syn_normalize_record( $record ) {
 }
 
 /**
+ * The option name holding one language's records.
+ *
+ * WHY A STORE PER LANGUAGE AND NOT A LANGUAGE COLUMN PER ROW. A record is read
+ * as a whole — the six service lines, the four figures — and a page in one
+ * language wants all of it in that language. Keeping each language's set as
+ * its own option means the read API, the sanitiser and the settings screen
+ * all stay exactly as they were, and a language is one more option, not a
+ * schema change. The default language keeps the original name, so a site
+ * without Polylang never notices any of this.
+ *
+ * @param string|null $language Language slug. Defaults to the current request's.
+ * @return string Option name.
+ */
+function syn_records_option_name( $language = null ) {
+	$language = null === $language ? syn_language_current() : sanitize_key( $language );
+
+	if ( $language === syn_language_default() ) {
+		return SYN_RECORDS_OPTION;
+	}
+
+	return SYN_RECORDS_OPTION . '_' . $language;
+}
+
+/**
  * The input name one record's rows post under.
  *
  * Everything posts inside one option key, so the Settings API hands the whole
  * set to one sanitise callback and a partial save is impossible.
  *
  * @param string $id Record id.
- * @return string e.g. "syn_records[figures]".
+ * @return string e.g. "syn_records[figures]", or "syn_records_ar[figures]".
  */
 function syn_record_input_name( $id ) {
-	return SYN_RECORDS_OPTION . '[' . $id . ']';
+	return syn_records_option_name() . '[' . $id . ']';
 }
 
 /* ==========================================================================
@@ -266,19 +297,24 @@ add_action( 'admin_init', 'syn_register_records_setting' );
  * @return void
  */
 function syn_register_records_setting() {
-	register_setting(
-		SYN_RECORDS_GROUP,
-		SYN_RECORDS_OPTION,
-		array(
-			'type'              => 'array',
-			'sanitize_callback' => 'syn_sanitize_records',
-			'default'           => array(),
+	// One option per language, all in one group: the screen shows one language
+	// at a time and posts only that language's option, so saving Arabic can
+	// never touch English.
+	foreach ( array_keys( syn_languages() ) as $language ) {
+		register_setting(
+			SYN_RECORDS_GROUP,
+			syn_records_option_name( $language ),
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => 'syn_sanitize_records',
+				'default'           => array(),
 
-			// These are business facts an editor curates, not an API surface.
-			// Nothing outside wp-admin has any business writing them.
-			'show_in_rest'      => false,
-		)
-	);
+				// These are business facts an editor curates, not an API surface.
+				// Nothing outside wp-admin has any business writing them.
+				'show_in_rest'      => false,
+			)
+		);
+	}
 }
 
 add_action( 'admin_enqueue_scripts', 'syn_enqueue_records_assets' );
@@ -310,11 +346,38 @@ function syn_render_records_page() {
 		wp_die( esc_html__( 'You do not have permission to edit site records.', 'synergi' ) );
 	}
 
-	$stored = syn_records_stored();
+	$stored    = syn_records_stored();
+	$languages = syn_languages();
+	$current   = syn_language_current();
 
 	echo '<div class="wrap syn-records">';
 
 	printf( '<h1>%s</h1>', esc_html__( 'Synergi site records', 'synergi' ) );
+
+	/*
+	 * One tab per language once there is more than one. The tab is a plain
+	 * link carrying ?lang=, which is what syn_language_current() reads in
+	 * wp-admin and what options.php sends the editor back to after a save.
+	 */
+	if ( count( $languages ) > 1 ) {
+		echo '<nav class="nav-tab-wrapper syn-records__languages">';
+		foreach ( $languages as $language ) {
+			printf(
+				'<a class="nav-tab%1$s" href="%2$s">%3$s</a>',
+				$language['slug'] === $current ? ' nav-tab-active' : '',
+				esc_url( add_query_arg( 'lang', $language['slug'], syn_records_admin_url() ) ),
+				esc_html( $language['name'] )
+			);
+		}
+		echo '</nav>';
+
+		if ( $current !== syn_language_default() ) {
+			printf(
+				'<p class="description">%s</p>',
+				esc_html__( 'A record left empty in this language shows the default-language version instead, so nothing goes blank while a translation is pending.', 'synergi' )
+			);
+		}
+	}
 
 	printf(
 		'<p class="syn-records__intro">%s</p>',
@@ -326,7 +389,7 @@ function syn_render_records_page() {
 	 * contains no settings_errors() call, so a page added under Settings prints
 	 * nothing on its own and the rejection messages would silently never appear.
 	 */
-	settings_errors( SYN_RECORDS_OPTION );
+	settings_errors();
 
 	echo '<form method="post" action="options.php">';
 
@@ -434,8 +497,8 @@ function syn_sanitize_records( $input ) {
  *
  * @return array Raw option value, or an empty array.
  */
-function syn_records_stored() {
-	$stored = get_option( SYN_RECORDS_OPTION, array() );
+function syn_records_stored( $language = null ) {
+	$stored = get_option( syn_records_option_name( $language ), array() );
 
 	return is_array( $stored ) ? $stored : array();
 }
@@ -473,6 +536,18 @@ function syn_record( $id ) {
 
 	$stored = syn_records_stored();
 	$rows   = isset( $stored[ $id ] ) ? $stored[ $id ] : array();
+
+	/*
+	 * A record nobody has translated yet reads from the default language, so an
+	 * Arabic page shows the English figures rather than an empty band. A record
+	 * that HAS been translated is read whole: rows are not merged across
+	 * languages, because a half-English list is worse than either.
+	 */
+	if ( ! $rows && ! syn_language_is_default() ) {
+		$fallback = syn_records_stored( syn_language_default() );
+		$rows     = isset( $fallback[ $id ] ) ? $fallback[ $id ] : array();
+	}
+
 	$shaped = syn_shape_rows( $rows, $records[ $id ]['field'] );
 
 	/*
