@@ -676,6 +676,20 @@ html[lang^="ar"] * {
 }
 
 /*
+ * Words need more room than letters do. Arabic joins its letters along a
+ * shared baseline, so a word is one dense stroke and the space between two of
+ * them has to be visibly wider than a Latin word space or "في دول" reads as
+ * one word (seen on the market hero, 15 Sep). The gap the browser draws is
+ * Montserrat's space glyph — it sits first in the stack and has one, so Cairo
+ * is never asked — and it is sized for Montserrat's open Latin letterforms.
+ * Adding to it in em keeps the ratio the same from a lede to a display
+ * heading. The letter-spacing reset above is the same rule in reverse.
+ */
+html[lang^="ar"] {
+	word-spacing: 0.15em;
+}
+
+/*
  * Cairo's ascenders and diacritics sit taller than Montserrat's, so the tight
  * display line-heights the design uses for Latin headings clip Arabic ones.
  */
