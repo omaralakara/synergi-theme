@@ -148,6 +148,7 @@ defined( 'ABSPATH' ) || exit;
 						__( 'Engagement Team', 'synergi' )  => '/engagement-team/',
 						__( 'Global Locations', 'synergi' ) => '/global-locations/',
 						__( 'Markets', 'synergi' )          => '/markets/',
+						__( 'Careers', 'synergi' )          => '/careers/',
 						__( 'Contact Us', 'synergi' )       => '/contact-us/',
 					),
 				),
