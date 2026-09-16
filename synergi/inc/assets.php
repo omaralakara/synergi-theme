@@ -335,7 +335,7 @@ function syn_preload_brand_font( $resources ) {
 	 */
 	if ( 0 === strpos( get_locale(), 'ar' ) ) {
 		$resources[] = array(
-			'href'        => SYN_URI . 'assets/fonts/cairo-arabic.woff2',
+			'href'        => SYN_URI . 'assets/fonts/ge-dinar-two-arabic.woff2',
 			'as'          => 'font',
 			'type'        => 'font/woff2',
 			'crossorigin' => 'anonymous',

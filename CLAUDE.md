@@ -39,7 +39,15 @@ A **hybrid WordPress theme** called `synergi` for synergi.ae. PHP templates in G
 
 These are verified from the approved design's `main.min.css` and the Elementor global kit. Do not "improve" them. Do not reintroduce values from older specs (Josefin Sans, Inter, IBM Plex Mono, cyan `#32aae1`, bronze `#a66b37` are all WRONG and must not appear).
 
-**Font:** Montserrat only. Variable weight, self-hosted `montserrat-latin.woff2`, latin subset, `font-display: swap`. One family, one file, one pipeline.
+**Font:** Montserrat for Latin. Variable weight, self-hosted `montserrat-latin.woff2`, latin subset, `font-display: swap`.
+
+> **Arabic face changed 16 Sep.** The Arabic phase added a second face on 15 Sep, and it was Cairo; the brand font is **GE Dinar Two Medium** (Boutros International), so `ge-dinar-two-arabic.woff2` replaced `cairo-arabic.woff2`. Source OTF kept at `reference/GEDinarTwo-Medium.otf`; converted with `wawoff2` as a one-off — no build step ships with the theme (§2.3).
+>
+> Both faces are declared in `theme.json` under the one `brand` family, each `unicodeRange`-scoped, so a page downloads only the script it renders. The Arabic range is the three Arabic blocks and nothing else: `U+0600-06FF, U+FB50-FDFF, U+FE70-FEFF`. **Do not widen it.** Cairo's range also claimed `U+2010-2011`, which meant a true hyphen in *English* copy was drawn by the Arabic face.
+>
+> **Expect the emitted CSS to name both faces `Montserrat`.** Core writes the *family's* name into every `@font-face` it generates and ignores the per-face `fontFamily`, so view-source shows a rule reading `font-family: Montserrat` whose `src` is `ge-dinar-two-arabic.woff2`. That is not a bug and the routing still works — `unicode-range` picks the face, not the name. The `"GE Dinar Two"` entry in the stack is therefore inert, kept only so the declaration reads truthfully. Giving Arabic its own `fontFamilies` entry would fix the name at the cost of a second font in the editor's picker, which §3's lockdown does not want.
+>
+> **GE Dinar Two Medium is a single weight (500) and the theme asks for eight** (66 rules at 700, plus 600/650/750/800/850/900). It is declared at its real `500`, so browsers synthesise the heavier ones and the design's hierarchy survives. Synthetic bold thickens a connected script badly — if a real Bold cut is obtained, add it as a second face rather than relaxing this.
 
 **Editor palette** (exposed to editors in `theme.json`):
 

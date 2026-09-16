@@ -680,8 +680,9 @@ html[lang^="ar"] * {
  * shared baseline, so a word is one dense stroke and the space between two of
  * them has to be visibly wider than a Latin word space or "في دول" reads as
  * one word (seen on the market hero, 15 Sep). The gap the browser draws is
- * Montserrat's space glyph — it sits first in the stack and has one, so Cairo
- * is never asked — and it is sized for Montserrat's open Latin letterforms.
+ * Montserrat's space glyph — it sits first in the stack and has one, so the
+ * Arabic face is never asked — and it is sized for Montserrat's open Latin
+ * letterforms.
  * Adding to it in em keeps the ratio the same from a lede to a display
  * heading. The letter-spacing reset above is the same rule in reverse.
  */
@@ -690,9 +691,13 @@ html[lang^="ar"] {
 }
 
 /*
- * Cairo's ascenders and diacritics sit taller than Montserrat's, so the tight
- * display line-heights the design uses for Latin headings clip Arabic ones.
+ * A cushion over the 1.15 the design gives display headings, so stacked
+ * harakat never touch the line above. It used to be 1.4, because Cairo — the
+ * face this replaced on 16 Sep — draws a 1.87em content box against
+ * Montserrat's 1.22em and clipped at anything tighter. GE Dinar Two's is
+ * 1.245em (ink 0.825 up, 0.24 down, per its hhea table), so it needs no
+ * compensation at all; 1.25 is for the diacritics alone.
  */
 html[lang^="ar"] :is(h1, h2, h3, h4) {
-	line-height: 1.4;
+	line-height: 1.25;
 }
