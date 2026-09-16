@@ -43,6 +43,12 @@ require_once SYN_DIR . 'inc/setup.php';
 require_once SYN_DIR . 'inc/i18n.php';
 require_once SYN_DIR . 'inc/assets.php';
 require_once SYN_DIR . 'inc/nav.php';
+
+// The footer's half of the same job. A sibling of nav.php rather than part of
+// it: the header menu is a filter stack over wp_nav_menu(), the footer is a
+// flat two-level walk, and they share no code (CLAUDE.md §4).
+require_once SYN_DIR . 'inc/footer-menu.php';
+
 require_once SYN_DIR . 'inc/sections.php';
 
 // After sections.php, because an image field falls back to that file's

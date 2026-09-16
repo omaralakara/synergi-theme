@@ -8,14 +8,12 @@
  *
  * Styled by assets/css/parts/footer.css. Needs no JavaScript.
  *
- * The link columns are written out here rather than read from the "footer" menu
- * location, which is registered but has never had a menu assigned to it. They
- * start from the Elementor footer template (#9031) this replaces, read on
- * 25 Aug 2026, and then reorganise it: the old footer carried no link to any
- * of the five service pages, so Services now leads the grid.
- *
- * Stage 7 decides the site's menus. If it builds a footer menu, these arrays
- * are what it replaces — that is a deliberate handover, not a leftover.
+ * The link columns come from inc/footer-menu.php, which reads the "footer" menu
+ * location and falls back to a written-out copy of today's footer when no menu
+ * is assigned. That handover was promised in this docblock from 25 Aug and made
+ * on 16 Sep; see docs/footer-menu.md for the menu an admin builds to reproduce
+ * it. Everything else on this page — the brand blurb, the address, the four
+ * social links and the bottom bar — stays here, because none of it is a menu.
  *
  * @package Synergi
  */
@@ -91,79 +89,12 @@ defined( 'ABSPATH' ) || exit;
 
 			<?php
 			/*
-			 * Four link columns. Each is rendered by the same helper, so a
-			 * column is a heading plus a list and nothing else — see
-			 * parts/footer-links.php for the $args it takes.
-			 *
-			 * Rebuilt 31 Aug, when the footer had drifted from the site. It was
-			 * three columns, one of which ("Explore") was a grab-bag that
-			 * repeated Our Services from the column beside it; it linked Project
-			 * Management to the services hub because that page did not exist
-			 * yet; it linked Our Approach, which is now a draft and would have
-			 * 404ed; and it did not mention the five solutions or the case
-			 * studies at all, because neither existed when it was written.
-			 *
-			 * The rule applied: a footer link earns its place by being somewhere
-			 * a visitor would actually want to go. Every entry below is a
-			 * published page on a theme template.
+			 * The four link columns. Each is a heading plus a list and nothing
+			 * else — see parts/footer-links.php for the $args it takes, and
+			 * inc/footer-menu.php for where the columns come from and why a
+			 * column heading is never a link.
 			 */
-			$syn_columns = array(
-				/*
-				 * Services lead, because they are what the site sells. All six
-				 * now have their own page — Project Management included, which
-				 * is why it no longer points at the hub.
-				 */
-				array(
-					'heading' => __( 'Services', 'synergi' ),
-					'links'   => array(
-						__( 'Human Resources', 'synergi' )    => '/our-services/human-resources/',
-						__( 'Technology & AI', 'synergi' )    => '/our-services/technology-ai/',
-						__( 'Accounting', 'synergi' )         => '/our-services/accounting/',
-						__( 'Marketing', 'synergi' )          => '/our-services/marketing/',
-						__( 'Procurement', 'synergi' )        => '/our-services/procurement/',
-						__( 'Project Management', 'synergi' ) => '/our-services/project-management/',
-					),
-				),
-				/*
-				 * Shared Services moved to /our-solutions/shared-services/ on
-				 * 2 Sep (decision recorded in seo-content-migration-plan.md):
-				 * the geographic URL /shared-services-uae/ now 301s to the UAE
-				 * market page, and the solution sits with its siblings. This
-				 * supersedes sitemap-and-navigation.md §4.
-				 */
-				array(
-					'heading' => __( 'Solutions', 'synergi' ),
-					'links'   => array(
-						__( 'Shared Services', 'synergi' )        => '/our-solutions/shared-services/',
-						__( 'Build-Operate-Transfer', 'synergi' ) => '/our-solutions/build-operate-transfer/',
-						__( 'Systems Implementation', 'synergi' ) => '/our-solutions/systems-implementation/',
-						__( 'Carve-Out & Integration', 'synergi' ) => '/our-solutions/carve-out-integration/',
-						__( 'Fractional Leadership', 'synergi' )  => '/our-solutions/fractional-leadership/',
-					),
-				),
-				array(
-					'heading' => __( 'Company', 'synergi' ),
-					'links'   => array(
-						__( 'About Us', 'synergi' )         => '/about-us/',
-						__( 'Engagement Team', 'synergi' )  => '/engagement-team/',
-						__( 'Global Locations', 'synergi' ) => '/global-locations/',
-						__( 'Markets', 'synergi' )          => '/markets/',
-						__( 'Careers', 'synergi' )          => '/careers/',
-						__( 'Contact Us', 'synergi' )       => '/contact-us/',
-					),
-				),
-				array(
-					'heading' => __( 'Insights', 'synergi' ),
-					'links'   => array(
-						__( 'Case Studies', 'synergi' )      => '/case-studies/',
-						__( 'Blog', 'synergi' )              => '/blog/',
-						__( 'Executive Podcast', 'synergi' ) => '/executive-podcast/',
-						__( 'Media', 'synergi' )             => '/media/',
-					),
-				),
-			);
-
-			foreach ( $syn_columns as $syn_column ) {
+			foreach ( syn_footer_columns() as $syn_column ) {
 				get_template_part( 'parts/footer-links', null, $syn_column );
 			}
 			?>

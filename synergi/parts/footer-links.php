@@ -6,24 +6,37 @@
  * Styled by assets/css/parts/footer.css.
  *
  * Expected $args:
- *   heading string               Required. Column heading, already translated.
- *   links   array<string,?string> Required. Link text => path relative to home
- *                                 (resolved into the current language by
- *                                 syn_local_url(), so one path serves both sites),
- *                                 or null for an entry whose page does not
- *                                 exist yet (see below).
+ *   heading string  Required. Column heading, plain text.
+ *   links   array[] Required. One row per entry, in order, each:
+ *                     label string  Required. The words. A row without one is skipped.
+ *                     url   ?string The address, ALREADY RESOLVED — see below.
+ *                                   Null renders the label as plain text.
  *
  * Example:
  *   get_template_part( 'parts/footer-links', null, array(
  *       'heading' => __( 'Company', 'synergi' ),
- *       'links'   => array( __( 'About Us', 'synergi' ) => '/about-us/' ),
+ *       'links'   => array(
+ *           array( 'label' => __( 'About Us', 'synergi' ), 'url' => home_url( '/about-us/' ) ),
+ *       ),
  *   ) );
  *
- * A null path renders the label as plain text rather than a link. That exists
- * for Project Management, which is listed in the footer on request but has no
- * page behind it yet: linking it would put a 404 in the footer of all 48 URLs,
- * which CLAUDE.md §8 does not allow. Give it a path the day the page exists and
- * it becomes an ordinary link with no other change.
+ * ADDRESSES ARRIVE FINISHED. This part does not call syn_local_url(): its two
+ * callers resolve differently and only they can know which is right. The
+ * hardcoded fallback holds language-neutral paths and resolves them into the
+ * language being viewed; a menu item needs no resolution at all, because
+ * Polylang serves a per-language menu whose items already point at the right
+ * pages. Resolving here would have run the second one through the first one's
+ * lookup. inc/footer-menu.php decides; this file prints.
+ *
+ * A null url renders the label as plain text rather than a link. It started as
+ * the treatment for a page that did not exist yet, and now also catches a menu
+ * item whose page has gone back to draft — either way the words stay in the
+ * footer and nothing 404s across all 48 URLs, which CLAUDE.md §8 does not
+ * allow. The link returns by itself when the page does.
+ *
+ * A list of rows rather than a label => url map, since 16 Sep: an editor can
+ * put the same label under two headings, and a map would have dropped the
+ * second one with no error anywhere.
  *
  * Renders nothing when a required key is missing, and says which one in an HTML
  * comment while SYN_DEBUG is on (CLAUDE.md §13: fail loudly in development,
@@ -62,15 +75,24 @@ $syn_label_id = wp_unique_id( 'syn-footer-nav-' );
 	<p class="syn-footer-heading" id="<?php echo esc_attr( $syn_label_id ); ?>"><?php echo esc_html( $args['heading'] ); ?></p>
 
 	<ul class="syn-footer-links">
-		<?php foreach ( (array) $args['links'] as $syn_label => $syn_path ) : ?>
+		<?php
+		foreach ( (array) $args['links'] as $syn_row ) :
+			$syn_label = trim( (string) ( $syn_row['label'] ?? '' ) );
+
+			if ( '' === $syn_label ) {
+				continue;
+			}
+
+			$syn_url = trim( (string) ( $syn_row['url'] ?? '' ) );
+			?>
 			<li>
-				<?php if ( $syn_path ) : ?>
-					<a href="<?php echo esc_url( syn_local_url( $syn_path ) ); ?>"><?php echo esc_html( $syn_label ); ?></a>
+				<?php if ( '' !== $syn_url ) : ?>
+					<a href="<?php echo esc_url( $syn_url ); ?>"><?php echo esc_html( $syn_label ); ?></a>
 				<?php else : ?>
 					<span class="syn-footer-links__pending"><?php echo esc_html( $syn_label ); ?></span>
 					<?php
 					if ( SYN_DEBUG ) {
-						echo '<!-- syn-part: footer-links "' . esc_html( $syn_label ) . '" has no page yet, rendered unlinked -->';
+						echo '<!-- syn-part: footer-links "' . esc_html( $syn_label ) . '" has no published page, rendered unlinked -->';
 					}
 					?>
 				<?php endif; ?>
