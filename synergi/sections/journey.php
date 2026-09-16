@@ -135,7 +135,7 @@ $syn_uid = wp_unique_id( 'syn-journey-' );
 							?>
 							<span class="syn-journey__marker">
 								<?php if ( '' !== $syn_stop['year'] ) : ?>
-									<span class="syn-journey__year"><?php echo esc_html( $syn_stop['year'] ); ?></span>
+									<span class="syn-journey__year"><?php echo esc_html( syn_localize_digits( $syn_stop['year'] ) ); ?></span>
 								<?php endif; ?>
 							</span>
 

@@ -138,10 +138,10 @@ function syn_register_about_fields() {
 					'min_rows'  => 1,
 					'max_rows'  => 10,
 					'default'   => array(
-						array( 'text' => 'Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven “Shared Services as-a-service (SSaaS)” provider.' ),
-						array( 'text' => 'Incepted in the GCC, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries.' ),
-						array( 'text' => 'We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale.' ),
-						array( 'text' => 'We are home-grown in the GCC with delivery centres both onshore and offshore.' ),
+						array( 'text' => __( 'Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven “Shared Services as-a-service (SSaaS)” provider.', 'synergi' ) ),
+						array( 'text' => __( 'Incepted in the GCC, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries.', 'synergi' ) ),
+						array( 'text' => __( 'We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale.', 'synergi' ) ),
+						array( 'text' => __( 'We are home-grown in the GCC with delivery centres both onshore and offshore.', 'synergi' ) ),
 					),
 					'subfields' => array(
 						array(
@@ -163,12 +163,12 @@ function syn_register_about_fields() {
 					'max_rows'  => 4,
 					'default'   => array(
 						array(
-							'title' => 'Our Mission',
-							'body'  => 'At Synergi, our mission is to empower our clients to concentrate on their core activities, ensuring they realize cost savings, benefit from enhanced operational efficiency, and witness a marked improvement in their overall business performance. With us, you are not just thriving; you’re leading.',
+							'title' => __( 'Our Mission', 'synergi' ),
+							'body'  => __( 'At Synergi, our mission is to empower our clients to concentrate on their core activities, ensuring they realize cost savings, benefit from enhanced operational efficiency, and witness a marked improvement in their overall business performance. With us, you are not just thriving; you’re leading.', 'synergi' ),
 						),
 						array(
-							'title' => 'Our Vision',
-							'body'  => 'At Synergi, we’re dedicated to aiding our clients in their journey of growth and profitability. By aligning our expertise with their ambitions, we strive to make every partnership a success story. Your growth and profit are the benchmarks of our own success.',
+							'title' => __( 'Our Vision', 'synergi' ),
+							'body'  => __( 'At Synergi, we’re dedicated to aiding our clients in their journey of growth and profitability. By aligning our expertise with their ambitions, we strive to make every partnership a success story. Your growth and profit are the benchmarks of our own success.', 'synergi' ),
 						),
 					),
 					'subfields' => array(
@@ -250,16 +250,16 @@ function syn_register_about_fields() {
 					'max_rows'  => 8,
 					'default'   => array(
 						array(
-							'title'       => 'An AI-driven assessment',
-							'description' => 'Our AI-driven support services assessment reads a function against its own data rather than against opinion. It returns a business case and financial model, a location and operating model, a process evaluation with recommendations, and a technology enablement roadmap.',
+							'title'       => __( 'An AI-driven assessment', 'synergi' ),
+							'description' => __( 'Our AI-driven support services assessment reads a function against its own data rather than against opinion. It returns a business case and financial model, a location and operating model, a process evaluation with recommendations, and a technology enablement roadmap.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Milestone-led project management',
-							'description' => 'From global SAP implementations to running a transformation office, we lead execution end to end — so a recommendation becomes a dated plan with an owner, rather than a report on a shelf.',
+							'title'       => __( 'Milestone-led project management', 'synergi' ),
+							'description' => __( 'From global SAP implementations to running a transformation office, we lead execution end to end — so a recommendation becomes a dated plan with an owner, rather than a report on a shelf.', 'synergi' ),
 						),
 						array(
-							'title'       => 'The combined expertise of the team',
-							'description' => 'The work is then run by partners across HR, accounting, procurement, marketing, technology and project management — delivered as consulting, manpower augmentation or full BPO, with one accountable lead across all of them.',
+							'title'       => __( 'The combined expertise of the team', 'synergi' ),
+							'description' => __( 'The work is then run by partners across HR, accounting, procurement, marketing, technology and project management — delivered as consulting, manpower augmentation or full BPO, with one accountable lead across all of them.', 'synergi' ),
 						),
 					),
 					'subfields' => array(
@@ -324,28 +324,28 @@ function syn_register_about_fields() {
 					'max_rows'  => 12,
 					'default'   => array(
 						array(
-							'title'       => 'Agility',
-							'description' => 'In an ever-changing world, our adaptability ensures we stay ahead, making swift decisions to benefit our clients.',
+							'title'       => __( 'Agility', 'synergi' ),
+							'description' => __( 'In an ever-changing world, our adaptability ensures we stay ahead, making swift decisions to benefit our clients.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Expertise',
-							'description' => 'We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely.',
+							'title'       => __( 'Expertise', 'synergi' ),
+							'description' => __( 'We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Customer Service',
-							'description' => 'We put our clients at the heart of all we do, ensuring their satisfaction is our primary measure of success.',
+							'title'       => __( 'Customer Service', 'synergi' ),
+							'description' => __( 'We put our clients at the heart of all we do, ensuring their satisfaction is our primary measure of success.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Efficiency',
-							'description' => 'Our processes are streamlined, ensuring that every effort is maximized for the best possible outcomes.',
+							'title'       => __( 'Efficiency', 'synergi' ),
+							'description' => __( 'Our processes are streamlined, ensuring that every effort is maximized for the best possible outcomes.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Cost-effectiveness',
-							'description' => 'We value every bit of your money and work diligently to ensure the best returns on your investment through our services.',
+							'title'       => __( 'Cost-effectiveness', 'synergi' ),
+							'description' => __( 'We value every bit of your money and work diligently to ensure the best returns on your investment through our services.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Quality',
-							'description' => 'Excellence isn’t just an aim; it’s a standard. We ensure every service provided is top-notch, meeting and exceeding expectations.',
+							'title'       => __( 'Quality', 'synergi' ),
+							'description' => __( 'Excellence isn’t just an aim; it’s a standard. We ensure every service provided is top-notch, meeting and exceeding expectations.', 'synergi' ),
 						),
 					),
 					'subfields' => array(
@@ -425,14 +425,14 @@ function syn_register_about_fields() {
 					'min_rows'    => 1,
 					'max_rows'    => 20,
 					'default'     => array(
-						array( 'year' => '2022', 'title' => 'Ideation', 'note' => '' ),
-						array( 'year' => '2023', 'title' => 'UAE', 'note' => '' ),
-						array( 'year' => '2023', 'title' => 'Romania', 'note' => '' ),
-						array( 'year' => '2024', 'title' => 'Lebanon', 'note' => '' ),
-						array( 'year' => '2024', 'title' => 'New structure', 'note' => '' ),
-						array( 'year' => '2025', 'title' => 'Qatar', 'note' => '' ),
-						array( 'year' => '2025', 'title' => 'KSA', 'note' => '' ),
-						array( 'year' => '2026', 'title' => 'Scaling', 'note' => '' ),
+						array( 'year' => '2022', 'title' => __( 'Ideation', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2023', 'title' => __( 'UAE', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2023', 'title' => __( 'Romania', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2024', 'title' => __( 'Lebanon', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2024', 'title' => __( 'New structure', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2025', 'title' => __( 'Qatar', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2025', 'title' => __( 'KSA', 'synergi' ), 'note' => '' ),
+						array( 'year' => '2026', 'title' => __( 'Scaling', 'synergi' ), 'note' => '' ),
 					),
 					'subfields'   => array(
 						array(

@@ -85,7 +85,7 @@ $syn_uid = wp_unique_id( 'syn-process-' );
 		<ol class="syn-process__steps syn-reveal">
 			<?php foreach ( $syn_clean as $syn_index => $syn_step ) : ?>
 				<li class="syn-process__step">
-					<span class="syn-process__number" aria-hidden="true"><?php echo esc_html( str_pad( (string) ( $syn_index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span>
+					<span class="syn-process__number" aria-hidden="true"><?php echo esc_html( syn_localize_digits( str_pad( (string) ( $syn_index + 1 ), 2, '0', STR_PAD_LEFT ) ) ); ?></span>
 					<h3 class="syn-process__step-title"><?php echo esc_html( $syn_step['title'] ); ?></h3>
 
 					<?php if ( '' !== $syn_step['description'] ) : ?>

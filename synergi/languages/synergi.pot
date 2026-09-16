@@ -15,7 +15,7 @@ msgstr ""
 msgid "The link may be out of date. Here is the way back."
 msgstr ""
 
-#: 404.php:34 footer.php:147 parts/footer-links.php:19
+#: 404.php:34 inc/footer-menu.php:297 parts/footer-links.php:19
 msgid "About Us"
 msgstr ""
 
@@ -27,11 +27,11 @@ msgstr ""
 msgid "Our Blog"
 msgstr ""
 
-#: 404.php:37 footer.php:151
+#: 404.php:37 inc/footer-menu.php:302
 msgid "Contact Us"
 msgstr ""
 
-#: archive.php:43 footer.php:158
+#: archive.php:43 inc/footer-menu.php:309
 msgid "Blog"
 msgstr ""
 
@@ -47,111 +47,27 @@ msgstr ""
 msgid "There are no posts here yet."
 msgstr ""
 
-#: footer.php:36
+#: footer.php:34
 msgid "Synergi is a boutique BPO partner delivering personalized, high-impact business solutions"
 msgstr ""
 
-#: footer.php:81
+#: footer.php:79
 msgid "Synergi on %s"
 msgstr ""
 
-#: footer.php:117
-msgid "Services"
-msgstr ""
-
-#: footer.php:119 sections/services.php:96
-msgid "Human Resources"
-msgstr ""
-
-#: footer.php:120 sections/ribbon.php:52 sections/services.php:129
-msgid "Technology & AI"
-msgstr ""
-
-#: footer.php:121 sections/services.php:81 sections/shared-services.php:125
-msgid "Accounting"
-msgstr ""
-
-#: footer.php:122 parts/consent.php:99 sections/ribbon.php:54 sections/services.php:147 sections/shared-services.php:141
-msgid "Marketing"
-msgstr ""
-
-#: footer.php:123 sections/ribbon.php:53 sections/services.php:113 sections/shared-services.php:133
-msgid "Procurement"
-msgstr ""
-
-#: footer.php:124 sections/ribbon.php:55 sections/services.php:165
-msgid "Project Management"
-msgstr ""
-
-#: footer.php:135 inc/solution-fields.php:51
-msgid "Solutions"
-msgstr ""
-
-#: footer.php:137 sections/ribbon.php:56 sections/shared-services.php:110
-msgid "Shared Services"
-msgstr ""
-
-#: footer.php:138
-msgid "Build-Operate-Transfer"
-msgstr ""
-
-#: footer.php:139
-msgid "Systems Implementation"
-msgstr ""
-
-#: footer.php:140
-msgid "Carve-Out & Integration"
-msgstr ""
-
-#: footer.php:141
-msgid "Fractional Leadership"
-msgstr ""
-
-#: footer.php:145 parts/footer-links.php:18
-msgid "Company"
-msgstr ""
-
-#: footer.php:148
-msgid "Engagement Team"
-msgstr ""
-
-#: footer.php:149
-msgid "Global Locations"
-msgstr ""
-
-#: footer.php:150 inc/homepage-fields.php:240 inc/market-fields.php:56 inc/market-fields.php:212
-msgid "Markets"
-msgstr ""
-
-#: footer.php:155 inc/blog-fields.php:77 inc/market-fields.php:697
-msgid "Insights"
-msgstr ""
-
-#: footer.php:157
-msgid "Case Studies"
-msgstr ""
-
-#: footer.php:159
-msgid "Executive Podcast"
-msgstr ""
-
-#: footer.php:160 inc/media-fields.php:41 inc/podcast-fields.php:117
-msgid "Media"
-msgstr ""
-
-#: footer.php:177
+#: footer.php:109
 msgid "Copyright © %1$s %2$s. All Rights Reserved."
 msgstr ""
 
-#: footer.php:185
+#: footer.php:117
 msgid "Terms & Conditions"
 msgstr ""
 
-#: footer.php:186 parts/consent.php:74
+#: footer.php:118 parts/consent.php:74
 msgid "Privacy Policy"
 msgstr ""
 
-#: footer.php:188
+#: footer.php:120
 msgid "Cookie settings"
 msgstr ""
 
@@ -235,6 +151,22 @@ msgstr ""
 msgid "Add paragraph"
 msgstr ""
 
+#: inc/about-fields.php:141
+msgid "Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven “Shared Services as-a-service (SSaaS)” provider."
+msgstr ""
+
+#: inc/about-fields.php:142
+msgid "Incepted in the GCC, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries."
+msgstr ""
+
+#: inc/about-fields.php:143 inc/careers-fields.php:246
+msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
+msgstr ""
+
+#: inc/about-fields.php:144 inc/careers-fields.php:238
+msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
+msgstr ""
+
 #: inc/about-fields.php:158
 msgid "Mission and vision"
 msgstr ""
@@ -245,6 +177,22 @@ msgstr ""
 
 #: inc/about-fields.php:160 inc/market-fields.php:298
 msgid "Add statement"
+msgstr ""
+
+#: inc/about-fields.php:166
+msgid "Our Mission"
+msgstr ""
+
+#: inc/about-fields.php:167
+msgid "At Synergi, our mission is to empower our clients to concentrate on their core activities, ensuring they realize cost savings, benefit from enhanced operational efficiency, and witness a marked improvement in their overall business performance. With us, you are not just thriving; you’re leading."
+msgstr ""
+
+#: inc/about-fields.php:170
+msgid "Our Vision"
+msgstr ""
+
+#: inc/about-fields.php:171
+msgid "At Synergi, we’re dedicated to aiding our clients in their journey of growth and profitability. By aligning our expertise with their ambitions, we strive to make every partnership a success story. Your growth and profit are the benchmarks of our own success."
 msgstr ""
 
 #: inc/about-fields.php:178 inc/homepage-fields.php:177 inc/homepage-fields.php:211 inc/homepage-fields.php:297 inc/homepage-fields.php:392 inc/homepage-fields.php:444 inc/homepage-fields.php:485 inc/homepage-fields.php:525 inc/market-fields.php:307 inc/records.php:891 inc/records.php:920 inc/records.php:974
@@ -287,6 +235,30 @@ msgstr ""
 msgid "Add stage"
 msgstr ""
 
+#: inc/about-fields.php:253
+msgid "An AI-driven assessment"
+msgstr ""
+
+#: inc/about-fields.php:254
+msgid "Our AI-driven support services assessment reads a function against its own data rather than against opinion. It returns a business case and financial model, a location and operating model, a process evaluation with recommendations, and a technology enablement roadmap."
+msgstr ""
+
+#: inc/about-fields.php:257
+msgid "Milestone-led project management"
+msgstr ""
+
+#: inc/about-fields.php:258
+msgid "From global SAP implementations to running a transformation office, we lead execution end to end — so a recommendation becomes a dated plan with an owner, rather than a report on a shelf."
+msgstr ""
+
+#: inc/about-fields.php:261
+msgid "The combined expertise of the team"
+msgstr ""
+
+#: inc/about-fields.php:262
+msgid "The work is then run by partners across HR, accounting, procurement, marketing, technology and project management — delivered as consulting, manpower augmentation or full BPO, with one accountable lead across all of them."
+msgstr ""
+
 #: inc/about-fields.php:275 inc/service-fields.php:227 inc/solution-fields.php:361
 msgid "What happens"
 msgstr ""
@@ -323,6 +295,54 @@ msgstr ""
 msgid "Add value"
 msgstr ""
 
+#: inc/about-fields.php:327
+msgid "Agility"
+msgstr ""
+
+#: inc/about-fields.php:328
+msgid "In an ever-changing world, our adaptability ensures we stay ahead, making swift decisions to benefit our clients."
+msgstr ""
+
+#: inc/about-fields.php:331 inc/careers-fields.php:249
+msgid "Expertise"
+msgstr ""
+
+#: inc/about-fields.php:332 inc/careers-fields.php:250
+msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
+msgstr ""
+
+#: inc/about-fields.php:335
+msgid "Customer Service"
+msgstr ""
+
+#: inc/about-fields.php:336
+msgid "We put our clients at the heart of all we do, ensuring their satisfaction is our primary measure of success."
+msgstr ""
+
+#: inc/about-fields.php:339
+msgid "Efficiency"
+msgstr ""
+
+#: inc/about-fields.php:340
+msgid "Our processes are streamlined, ensuring that every effort is maximized for the best possible outcomes."
+msgstr ""
+
+#: inc/about-fields.php:343
+msgid "Cost-effectiveness"
+msgstr ""
+
+#: inc/about-fields.php:344
+msgid "We value every bit of your money and work diligently to ensure the best returns on your investment through our services."
+msgstr ""
+
+#: inc/about-fields.php:347
+msgid "Quality"
+msgstr ""
+
+#: inc/about-fields.php:348
+msgid "Excellence isn’t just an aim; it’s a standard. We ensure every service provided is top-notch, meeting and exceeding expectations."
+msgstr ""
+
 #: inc/about-fields.php:355 inc/about-fields.php:570 inc/homepage-fields.php:314 inc/records.php:640 inc/solution-fields.php:63
 msgid "Name"
 msgstr ""
@@ -357,6 +377,38 @@ msgstr ""
 
 #: inc/about-fields.php:423
 msgid "Add milestone"
+msgstr ""
+
+#: inc/about-fields.php:428
+msgid "Ideation"
+msgstr ""
+
+#: inc/about-fields.php:429 sections/shared-services.php:96
+msgid "UAE"
+msgstr ""
+
+#: inc/about-fields.php:430
+msgid "Romania"
+msgstr ""
+
+#: inc/about-fields.php:431 sections/locations.php:115
+msgid "Lebanon"
+msgstr ""
+
+#: inc/about-fields.php:432
+msgid "New structure"
+msgstr ""
+
+#: inc/about-fields.php:433 sections/locations.php:101
+msgid "Qatar"
+msgstr ""
+
+#: inc/about-fields.php:434 sections/shared-services.php:98
+msgid "KSA"
+msgstr ""
+
+#: inc/about-fields.php:435
+msgid "Scaling"
 msgstr ""
 
 #: inc/about-fields.php:441
@@ -455,6 +507,10 @@ msgstr ""
 msgid "The small label above the heading."
 msgstr ""
 
+#: inc/blog-fields.php:77 inc/footer-menu.php:306 inc/market-fields.php:697
+msgid "Insights"
+msgstr ""
+
 #: inc/blog-fields.php:84
 msgid "One or two sentences under the heading. Leave it empty and the page falls back to this page’s excerpt, which is where the sentence used to come from."
 msgstr ""
@@ -479,7 +535,7 @@ msgstr ""
 msgid "Corporate"
 msgstr ""
 
-#: inc/careers-fields.php:88 sections/positions.php:167
+#: inc/careers-fields.php:88 sections/positions.php:183
 msgid "Still available"
 msgstr ""
 
@@ -583,10 +639,6 @@ msgstr ""
 msgid "Home-grown in the GCC"
 msgstr ""
 
-#: inc/careers-fields.php:238
-msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
-msgstr ""
-
 #: inc/careers-fields.php:241
 msgid "Experience across multiple markets"
 msgstr ""
@@ -597,18 +649,6 @@ msgstr ""
 
 #: inc/careers-fields.php:245
 msgid "A tech company at its core"
-msgstr ""
-
-#: inc/careers-fields.php:246
-msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
-msgstr ""
-
-#: inc/careers-fields.php:249
-msgid "Expertise"
-msgstr ""
-
-#: inc/careers-fields.php:250
-msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
 msgstr ""
 
 #: inc/careers-fields.php:257 inc/podcast-fields.php:65 inc/service-fields.php:141
@@ -627,7 +667,7 @@ msgstr ""
 msgid "One row per role. A row with no title is skipped. Remove a row when the role is filled; with no rows at all the band invites an open application instead."
 msgstr ""
 
-#: inc/careers-fields.php:290 sections/positions.php:69
+#: inc/careers-fields.php:290 sections/positions.php:85
 msgid "Open positions"
 msgstr ""
 
@@ -719,31 +759,39 @@ msgstr ""
 msgid "Optional. Shown on the role, and needed for the listing to appear in Google Jobs."
 msgstr ""
 
-#: inc/careers-fields.php:392
-msgid "No openings — heading"
-msgstr ""
-
-#: inc/careers-fields.php:393
-msgid "No open roles at the moment"
-msgstr ""
-
-#: inc/careers-fields.php:399
-msgid "No openings — text"
-msgstr ""
-
-#: inc/careers-fields.php:400
-msgid "Get in touch if you would like to be considered for future roles."
+#: inc/careers-fields.php:406
+msgid "Closes on"
 msgstr ""
 
 #: inc/careers-fields.php:407
+msgid "Optional but strongly recommended. The last day applications are open. Google uses it to drop the listing from Google Jobs automatically — without it a filled role can keep attracting applicants for months."
+msgstr ""
+
+#: inc/careers-fields.php:414
+msgid "No openings — heading"
+msgstr ""
+
+#: inc/careers-fields.php:415
+msgid "No open roles at the moment"
+msgstr ""
+
+#: inc/careers-fields.php:421
+msgid "No openings — text"
+msgstr ""
+
+#: inc/careers-fields.php:422
+msgid "Get in touch if you would like to be considered for future roles."
+msgstr ""
+
+#: inc/careers-fields.php:429
 msgid "No openings — button"
 msgstr ""
 
-#: inc/careers-fields.php:408
+#: inc/careers-fields.php:430
 msgid "Leave the address empty and the button goes to Contact Us."
 msgstr ""
 
-#: inc/careers-fields.php:411 sections/positions.php:88
+#: inc/careers-fields.php:433 sections/positions.php:104
 msgid "Get in touch"
 msgstr ""
 
@@ -1275,6 +1323,90 @@ msgstr ""
 
 #: inc/fields.php:1943
 msgid "Some of what you entered had to be changed:"
+msgstr ""
+
+#: inc/footer-menu.php:274
+msgid "Services"
+msgstr ""
+
+#: inc/footer-menu.php:276 sections/services.php:96
+msgid "Human Resources"
+msgstr ""
+
+#: inc/footer-menu.php:277 sections/ribbon.php:52 sections/services.php:129
+msgid "Technology & AI"
+msgstr ""
+
+#: inc/footer-menu.php:278 sections/services.php:81 sections/shared-services.php:125
+msgid "Accounting"
+msgstr ""
+
+#: inc/footer-menu.php:279 parts/consent.php:99 sections/ribbon.php:54 sections/services.php:147 sections/shared-services.php:141
+msgid "Marketing"
+msgstr ""
+
+#: inc/footer-menu.php:280 sections/ribbon.php:53 sections/services.php:113 sections/shared-services.php:133
+msgid "Procurement"
+msgstr ""
+
+#: inc/footer-menu.php:281 sections/ribbon.php:55 sections/services.php:165
+msgid "Project Management"
+msgstr ""
+
+#: inc/footer-menu.php:285 inc/solution-fields.php:51
+msgid "Solutions"
+msgstr ""
+
+#: inc/footer-menu.php:287 sections/ribbon.php:56 sections/shared-services.php:110
+msgid "Shared Services"
+msgstr ""
+
+#: inc/footer-menu.php:288
+msgid "Build-Operate-Transfer"
+msgstr ""
+
+#: inc/footer-menu.php:289
+msgid "Systems Implementation"
+msgstr ""
+
+#: inc/footer-menu.php:290
+msgid "Carve-Out & Integration"
+msgstr ""
+
+#: inc/footer-menu.php:291
+msgid "Fractional Leadership"
+msgstr ""
+
+#: inc/footer-menu.php:295 parts/footer-links.php:17
+msgid "Company"
+msgstr ""
+
+#: inc/footer-menu.php:298
+msgid "Engagement Team"
+msgstr ""
+
+#: inc/footer-menu.php:299
+msgid "Global Locations"
+msgstr ""
+
+#: inc/footer-menu.php:300 inc/homepage-fields.php:240 inc/market-fields.php:56 inc/market-fields.php:212
+msgid "Markets"
+msgstr ""
+
+#: inc/footer-menu.php:301
+msgid "Careers"
+msgstr ""
+
+#: inc/footer-menu.php:308
+msgid "Case Studies"
+msgstr ""
+
+#: inc/footer-menu.php:310
+msgid "Executive Podcast"
+msgstr ""
+
+#: inc/footer-menu.php:311 inc/media-fields.php:41 inc/podcast-fields.php:117
+msgid "Media"
 msgstr ""
 
 #: inc/global-locations-fields.php:35
@@ -1897,7 +2029,7 @@ msgstr ""
 msgid "Delivered"
 msgstr ""
 
-#: inc/market-fields.php:606 inc/service-fields.php:301 inc/solution-fields.php:444 sections/blog.php:167
+#: inc/market-fields.php:606 inc/service-fields.php:301 inc/solution-fields.php:444 sections/blog.php:255
 msgid "Read more"
 msgstr ""
 
@@ -2461,6 +2593,38 @@ msgstr ""
 msgid "Add step"
 msgstr ""
 
+#: inc/service-fields.php:201
+msgid "Assess"
+msgstr ""
+
+#: inc/service-fields.php:202
+msgid "An assessment and process evaluation of the function as it runs today."
+msgstr ""
+
+#: inc/service-fields.php:205 sections/shared-services.php:82
+msgid "Design"
+msgstr ""
+
+#: inc/service-fields.php:206
+msgid "Target operating model, location strategy and a technology enablement report."
+msgstr ""
+
+#: inc/service-fields.php:209
+msgid "Build"
+msgstr ""
+
+#: inc/service-fields.php:210
+msgid "Business case and financial model, then the team, tooling and governance to deliver it."
+msgstr ""
+
+#: inc/service-fields.php:213
+msgid "Operate"
+msgstr ""
+
+#: inc/service-fields.php:214
+msgid "Milestone-led execution with reporting, and a transfer path when you want it back."
+msgstr ""
+
 #: inc/service-fields.php:221
 msgid "Step name"
 msgstr ""
@@ -2779,19 +2943,19 @@ msgstr[1] ""
 msgid "Nothing matched that search. Try a different wording, or browse the blog."
 msgstr ""
 
-#: sections/blog.php:77
+#: sections/blog.php:160
 msgid "Showing articles starting with %s."
 msgstr ""
 
-#: sections/blog.php:100 sections/case-studies.php:151 sections/industries.php:118 sections/instagram.php:105
+#: sections/blog.php:183 sections/case-studies.php:151 sections/industries.php:118 sections/instagram.php:105
 msgid "carousel"
 msgstr ""
 
-#: sections/blog.php:103
+#: sections/blog.php:186
 msgid "Show previous articles"
 msgstr ""
 
-#: sections/blog.php:174
+#: sections/blog.php:262
 msgid "Show next articles"
 msgstr ""
 
@@ -3023,10 +3187,6 @@ msgstr ""
 msgid "Doha"
 msgstr ""
 
-#: sections/locations.php:101
-msgid "Qatar"
-msgstr ""
-
 #: sections/locations.php:107
 msgid "Riyadh"
 msgstr ""
@@ -3037,10 +3197,6 @@ msgstr ""
 
 #: sections/locations.php:114
 msgid "Beirut"
-msgstr ""
-
-#: sections/locations.php:115
-msgid "Lebanon"
 msgstr ""
 
 #: sections/locations.php:121
@@ -3103,7 +3259,7 @@ msgstr ""
 msgid "direct savings"
 msgstr ""
 
-#: sections/numbers.php:140
+#: sections/numbers.php:147
 msgid "Synergi company figures"
 msgstr ""
 
@@ -3155,33 +3311,33 @@ msgstr ""
 msgid "Explore the Podcast"
 msgstr ""
 
-#: sections/positions.php:194
+#: sections/positions.php:210
 msgid "%s open role"
 msgid_plural "%s open roles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: sections/positions.php:205
+#: sections/positions.php:221
 msgid "No open roles right now"
 msgstr ""
 
-#: sections/positions.php:239
+#: sections/positions.php:255
 msgid "Application: %s"
 msgstr ""
 
-#: sections/positions.php:310
+#: sections/positions.php:326
 msgid "Posted %s"
 msgstr ""
 
-#: sections/positions.php:319
+#: sections/positions.php:335
 msgid "Mail us at"
 msgstr ""
 
-#: sections/positions.php:322
+#: sections/positions.php:338
 msgid "Apply at"
 msgstr ""
 
-#: sections/positions.php:325
+#: sections/positions.php:341
 msgid "Get in touch about this role"
 msgstr ""
 
@@ -3485,10 +3641,6 @@ msgstr ""
 msgid "Understand"
 msgstr ""
 
-#: sections/shared-services.php:82
-msgid "Design"
-msgstr ""
-
 #: sections/shared-services.php:86
 msgid "Deliver"
 msgstr ""
@@ -3497,16 +3649,8 @@ msgstr ""
 msgid "Discover Shared Services"
 msgstr ""
 
-#: sections/shared-services.php:96
-msgid "UAE"
-msgstr ""
-
 #: sections/shared-services.php:97
 msgid "GCC"
-msgstr ""
-
-#: sections/shared-services.php:98
-msgid "KSA"
 msgstr ""
 
 #: sections/shared-services.php:102
@@ -3641,11 +3785,11 @@ msgstr ""
 msgid "Showing reason %1$s: %2$s."
 msgstr ""
 
-#: sections/why.php:182
+#: sections/why.php:189
 msgid "%s reasons to choose Synergi. Use the arrow keys to change the featured card."
 msgstr ""
 
-#: sections/why.php:253
+#: sections/why.php:260
 msgid "Show reason %1$s: %2$s"
 msgstr ""
 

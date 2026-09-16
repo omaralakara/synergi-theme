@@ -198,20 +198,20 @@ function syn_register_service_fields() {
 					'max_rows'  => 6,
 					'default'   => array(
 						array(
-							'title'       => 'Assess',
-							'description' => 'An assessment and process evaluation of the function as it runs today.',
+							'title'       => __( 'Assess', 'synergi' ),
+							'description' => __( 'An assessment and process evaluation of the function as it runs today.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Design',
-							'description' => 'Target operating model, location strategy and a technology enablement report.',
+							'title'       => __( 'Design', 'synergi' ),
+							'description' => __( 'Target operating model, location strategy and a technology enablement report.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Build',
-							'description' => 'Business case and financial model, then the team, tooling and governance to deliver it.',
+							'title'       => __( 'Build', 'synergi' ),
+							'description' => __( 'Business case and financial model, then the team, tooling and governance to deliver it.', 'synergi' ),
 						),
 						array(
-							'title'       => 'Operate',
-							'description' => 'Milestone-led execution with reporting, and a transfer path when you want it back.',
+							'title'       => __( 'Operate', 'synergi' ),
+							'description' => __( 'Milestone-led execution with reporting, and a transfer path when you want it back.', 'synergi' ),
 						),
 					),
 					'subfields' => array(

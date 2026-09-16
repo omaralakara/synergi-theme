@@ -45,69 +45,6 @@ msgstr "سينرجي شريك متخصص في التعهيد يقدّم حلول
 msgid "Synergi on %s"
 msgstr "سينرجي على %s"
 
-msgid "Services"
-msgstr "الخدمات"
-
-msgid "Human Resources"
-msgstr "الموارد البشرية"
-
-msgid "Technology & AI"
-msgstr "التقنية والذكاء الاصطناعي"
-
-msgid "Accounting"
-msgstr "المحاسبة"
-
-msgid "Marketing"
-msgstr "التسويق"
-
-msgid "Procurement"
-msgstr "المشتريات"
-
-msgid "Project Management"
-msgstr "إدارة المشاريع"
-
-msgid "Solutions"
-msgstr "الحلول"
-
-msgid "Shared Services"
-msgstr "الخدمات المشتركة"
-
-msgid "Build-Operate-Transfer"
-msgstr "البناء والتشغيل والنقل"
-
-msgid "Systems Implementation"
-msgstr "تنفيذ الأنظمة"
-
-msgid "Carve-Out & Integration"
-msgstr "الفصل والدمج"
-
-msgid "Fractional Leadership"
-msgstr "القيادة التنفيذية بدوام جزئي"
-
-msgid "Company"
-msgstr "الشركة"
-
-msgid "Engagement Team"
-msgstr "فريق العمل"
-
-msgid "Global Locations"
-msgstr "مواقعنا حول العالم"
-
-msgid "Markets"
-msgstr "الأسواق"
-
-msgid "Insights"
-msgstr "رؤى"
-
-msgid "Case Studies"
-msgstr "دراسات الحالة"
-
-msgid "Executive Podcast"
-msgstr "البودكاست التنفيذي"
-
-msgid "Media"
-msgstr "الإعلام"
-
 msgid "Copyright © %1$s %2$s. All Rights Reserved."
 msgstr "حقوق النشر © %1$s %2$s. جميع الحقوق محفوظة."
 
@@ -180,6 +117,18 @@ msgstr ""
 msgid "Add paragraph"
 msgstr ""
 
+msgid "Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven “Shared Services as-a-service (SSaaS)” provider."
+msgstr "سينرجي مزوّد متخصص لخدمات تعهيد العمليات، يحمل طموحًا جريئًا: أن يتحول إلى مزوّد للخدمات المشتركة كخدمة (SSaaS) يقوم على التقنية."
+
+msgid "Incepted in the GCC, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries."
+msgstr "انطلقنا من الخليج، ورؤيتنا أن نرقمن تقديم الخدمات وأن نصبح الوجهة المتكاملة لقطاعات متعددة، من الضيافة والرعاية الصحية إلى التقنية المالية والتقنية وغيرها."
+
+msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
+msgstr "نتطلع إلى أن نكون أكثر من مزوّد لخدمات التعهيد: شركة تقنية في جوهرها، تجمع بين الأنظمة والأتمتة والذكاء الاصطناعي والبنية السحابية وبين الإبداع البشري، لتحقيق التميز التشغيلي على نطاق واسع."
+
+msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
+msgstr "نشأنا في الخليج ولدينا مراكز تنفيذ داخل المنطقة وخارجها."
+
 msgid "Mission and vision"
 msgstr ""
 
@@ -188,6 +137,18 @@ msgstr ""
 
 msgid "Add statement"
 msgstr ""
+
+msgid "Our Mission"
+msgstr "رسالتنا"
+
+msgid "At Synergi, our mission is to empower our clients to concentrate on their core activities, ensuring they realize cost savings, benefit from enhanced operational efficiency, and witness a marked improvement in their overall business performance. With us, you are not just thriving; you’re leading."
+msgstr "رسالتنا في سينرجي أن نمكّن عملاءنا من التركيز على أنشطتهم الأساسية، مع تحقيق وفورات في التكاليف، ورفع الكفاءة التشغيلية، وتحسين ملموس في أداء أعمالهم. معنا لا تنمو أعمالكم فحسب، بل تتصدر."
+
+msgid "Our Vision"
+msgstr "رؤيتنا"
+
+msgid "At Synergi, we’re dedicated to aiding our clients in their journey of growth and profitability. By aligning our expertise with their ambitions, we strive to make every partnership a success story. Your growth and profit are the benchmarks of our own success."
+msgstr "نكرّس جهودنا في سينرجي لمساندة عملائنا في رحلة نموهم وتعزيز ربحيتهم. وبمواءمة خبراتنا مع طموحاتهم، نحرص على أن تكون كل شراكة قصة نجاح؛ فنموكم وربحيتكم هما مقياس نجاحنا."
 
 msgid "Heading"
 msgstr ""
@@ -219,6 +180,24 @@ msgstr ""
 msgid "Add stage"
 msgstr ""
 
+msgid "An AI-driven assessment"
+msgstr "تقييم مدعوم بالذكاء الاصطناعي"
+
+msgid "Our AI-driven support services assessment reads a function against its own data rather than against opinion. It returns a business case and financial model, a location and operating model, a process evaluation with recommendations, and a technology enablement roadmap."
+msgstr "يقرأ تقييمنا لخدمات الدعم، المدعوم بالذكاء الاصطناعي، أداء الوظيفة من واقع بياناتها هي لا من واقع الآراء. ويخرج بدراسة جدوى ونموذج مالي، ونموذج تشغيلي وتحديد للموقع، وتقييم للعمليات مع التوصيات، وخارطة طريق للتمكين التقني."
+
+msgid "Milestone-led project management"
+msgstr "إدارة مشاريع وفق معالم محددة"
+
+msgid "From global SAP implementations to running a transformation office, we lead execution end to end — so a recommendation becomes a dated plan with an owner, rather than a report on a shelf."
+msgstr "من تنفيذ أنظمة SAP على مستوى عالمي إلى إدارة مكتب التحول، نقود التنفيذ من بدايته إلى نهايته، فتتحول التوصية إلى خطة لها تواريخ ومسؤول، لا إلى تقرير يُركن على الرف."
+
+msgid "The combined expertise of the team"
+msgstr "خبرات الفريق مجتمعة"
+
+msgid "The work is then run by partners across HR, accounting, procurement, marketing, technology and project management — delivered as consulting, manpower augmentation or full BPO, with one accountable lead across all of them."
+msgstr "ثم يتولى العمل شركاء في الموارد البشرية والمحاسبة والمشتريات والتسويق والتقنية وإدارة المشاريع، ويُقدَّم استشاراتٍ أو توفيرًا للكوادر أو تعهيدًا كاملًا، بقيادة مسؤول واحد عنها جميعًا."
+
 msgid "What happens"
 msgstr ""
 
@@ -246,6 +225,42 @@ msgstr ""
 msgid "Add value"
 msgstr ""
 
+msgid "Agility"
+msgstr "المرونة"
+
+msgid "In an ever-changing world, our adaptability ensures we stay ahead, making swift decisions to benefit our clients."
+msgstr "في عالم دائم التغير، تبقينا قدرتنا على التكيّف في المقدمة، فنتخذ قرارات سريعة تصب في مصلحة عملائنا."
+
+msgid "Expertise"
+msgstr "الخبرة"
+
+msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
+msgstr "نعتز بعمق معرفتنا وخبرتنا، بما يضمن تنفيذ كل مهمة بدقة واحترافية."
+
+msgid "Customer Service"
+msgstr "خدمة العملاء"
+
+msgid "We put our clients at the heart of all we do, ensuring their satisfaction is our primary measure of success."
+msgstr "نضع عملاءنا في صميم كل ما نقوم به، ورضاهم هو مقياسنا الأول للنجاح."
+
+msgid "Efficiency"
+msgstr "الكفاءة"
+
+msgid "Our processes are streamlined, ensuring that every effort is maximized for the best possible outcomes."
+msgstr "عملياتنا مُبسّطة ومُحكمة، بما يضمن استثمار كل جهد لبلوغ أفضل النتائج."
+
+msgid "Cost-effectiveness"
+msgstr "فعالية التكلفة"
+
+msgid "We value every bit of your money and work diligently to ensure the best returns on your investment through our services."
+msgstr "نُقدّر قيمة كل ما تنفقونه، ونعمل بجد لضمان أفضل عائد على استثماركم من خلال خدماتنا."
+
+msgid "Quality"
+msgstr "الجودة"
+
+msgid "Excellence isn’t just an aim; it’s a standard. We ensure every service provided is top-notch, meeting and exceeding expectations."
+msgstr "التميّز ليس هدفًا نسعى إليه فحسب، بل معيار نلتزم به. نحرص على أن تكون كل خدمة نقدمها في أعلى مستوى، تلبي التوقعات وتتجاوزها."
+
 msgid "Name"
 msgstr ""
 
@@ -272,6 +287,30 @@ msgstr ""
 
 msgid "Add milestone"
 msgstr ""
+
+msgid "Ideation"
+msgstr "الفكرة"
+
+msgid "UAE"
+msgstr "الإمارات"
+
+msgid "Romania"
+msgstr "رومانيا"
+
+msgid "Lebanon"
+msgstr "لبنان"
+
+msgid "New structure"
+msgstr "هيكل جديد"
+
+msgid "Qatar"
+msgstr "قطر"
+
+msgid "KSA"
+msgstr "السعودية"
+
+msgid "Scaling"
+msgstr "التوسّع"
 
 msgid "Year"
 msgstr ""
@@ -344,6 +383,9 @@ msgstr ""
 
 msgid "The small label above the heading."
 msgstr ""
+
+msgid "Insights"
+msgstr "رؤى"
 
 msgid "One or two sentences under the heading. Leave it empty and the page falls back to this page’s excerpt, which is where the sentence used to come from."
 msgstr ""
@@ -441,9 +483,6 @@ msgstr ""
 msgid "Home-grown in the GCC"
 msgstr "نشأنا في الخليج"
 
-msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
-msgstr "نشأنا في الخليج ولدينا مراكز تنفيذ داخل المنطقة وخارجها."
-
 msgid "Experience across multiple markets"
 msgstr "خبرة عبر أسواق متعددة"
 
@@ -452,15 +491,6 @@ msgstr "يوجّه السياق الإقليمي طريقة تصميم الفر�
 
 msgid "A tech company at its core"
 msgstr "شركة تقنية في جوهرها"
-
-msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
-msgstr "نتطلع إلى أن نكون أكثر من مزوّد لخدمات التعهيد: شركة تقنية في جوهرها، تجمع بين الأنظمة والأتمتة والذكاء الاصطناعي والبنية السحابية وبين الإبداع البشري، لتحقيق التميز التشغيلي على نطاق واسع."
-
-msgid "Expertise"
-msgstr "الخبرة"
-
-msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
-msgstr "نعتز بعمق معرفتنا وخبرتنا، بما يضمن تنفيذ كل مهمة بدقة واحترافية."
 
 msgid "Title"
 msgstr ""
@@ -541,6 +571,12 @@ msgid "Posted on"
 msgstr ""
 
 msgid "Optional. Shown on the role, and needed for the listing to appear in Google Jobs."
+msgstr ""
+
+msgid "Closes on"
+msgstr ""
+
+msgid "Optional but strongly recommended. The last day applications are open. Google uses it to drop the listing from Google Jobs automatically — without it a filled role can keep attracting applicants for months."
 msgstr ""
 
 msgid "No openings — heading"
@@ -965,6 +1001,69 @@ msgstr ""
 
 msgid "Some of what you entered had to be changed:"
 msgstr ""
+
+msgid "Services"
+msgstr "الخدمات"
+
+msgid "Human Resources"
+msgstr "الموارد البشرية"
+
+msgid "Technology & AI"
+msgstr "التقنية والذكاء الاصطناعي"
+
+msgid "Accounting"
+msgstr "المحاسبة"
+
+msgid "Marketing"
+msgstr "التسويق"
+
+msgid "Procurement"
+msgstr "المشتريات"
+
+msgid "Project Management"
+msgstr "إدارة المشاريع"
+
+msgid "Solutions"
+msgstr "الحلول"
+
+msgid "Shared Services"
+msgstr "الخدمات المشتركة"
+
+msgid "Build-Operate-Transfer"
+msgstr "البناء والتشغيل والنقل"
+
+msgid "Systems Implementation"
+msgstr "تنفيذ الأنظمة"
+
+msgid "Carve-Out & Integration"
+msgstr "الفصل والدمج"
+
+msgid "Fractional Leadership"
+msgstr "القيادة التنفيذية بدوام جزئي"
+
+msgid "Company"
+msgstr "الشركة"
+
+msgid "Engagement Team"
+msgstr "فريق العمل"
+
+msgid "Global Locations"
+msgstr "مواقعنا حول العالم"
+
+msgid "Markets"
+msgstr "الأسواق"
+
+msgid "Careers"
+msgstr ""
+
+msgid "Case Studies"
+msgstr "دراسات الحالة"
+
+msgid "Executive Podcast"
+msgstr "البودكاست التنفيذي"
+
+msgid "Media"
+msgstr "الإعلام"
 
 msgid "Global Locations — the page"
 msgstr ""
@@ -1854,6 +1953,30 @@ msgstr ""
 msgid "Add step"
 msgstr ""
 
+msgid "Assess"
+msgstr "التقييم"
+
+msgid "An assessment and process evaluation of the function as it runs today."
+msgstr "تقييم للوظيفة ولعملياتها كما تُدار اليوم."
+
+msgid "Design"
+msgstr "التصميم"
+
+msgid "Target operating model, location strategy and a technology enablement report."
+msgstr "نموذج التشغيل المستهدف، واستراتيجية الموقع، وتقرير للتمكين التقني."
+
+msgid "Build"
+msgstr "البناء"
+
+msgid "Business case and financial model, then the team, tooling and governance to deliver it."
+msgstr "دراسة الجدوى والنموذج المالي، ثم الفريق والأدوات والحوكمة اللازمة للتنفيذ."
+
+msgid "Operate"
+msgstr "التشغيل"
+
+msgid "Milestone-led execution with reporting, and a transfer path when you want it back."
+msgstr "تنفيذ وفق معالم محددة مع التقارير، ومسار لإعادة الخدمة إليكم متى أردتم."
+
 msgid "Step name"
 msgstr ""
 
@@ -2280,9 +2403,6 @@ msgstr "الإمارات العربية المتحدة"
 msgid "Doha"
 msgstr "الدوحة"
 
-msgid "Qatar"
-msgstr "قطر"
-
 msgid "Riyadh"
 msgstr "الرياض"
 
@@ -2291,9 +2411,6 @@ msgstr "المملكة العربية السعودية"
 
 msgid "Beirut"
 msgstr "بيروت"
-
-msgid "Lebanon"
-msgstr "لبنان"
 
 msgid "Damascus"
 msgstr "دمشق"
@@ -2631,23 +2748,14 @@ msgstr "في أسواقنا"
 msgid "Understand"
 msgstr "الفهم"
 
-msgid "Design"
-msgstr "التصميم"
-
 msgid "Deliver"
 msgstr "التنفيذ"
 
 msgid "Discover Shared Services"
 msgstr "اكتشف الخدمات المشتركة"
 
-msgid "UAE"
-msgstr "الإمارات"
-
 msgid "GCC"
 msgstr "دول الخليج"
-
-msgid "KSA"
-msgstr "السعودية"
 
 msgid "Cost Savings"
 msgstr "توفير التكاليف"
