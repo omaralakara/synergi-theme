@@ -295,8 +295,9 @@
  * compositor and costs nothing per frame.
  *
  * transform-origin has no logical form, so `0 50%` is the inline start only
- * while the page is left-to-right. The Arabic phase needs `100% 50%` here; it
- * is the one line in this file that will not mirror on its own (CLAUDE.md §2.11).
+ * while the page is left-to-right. It is the one line in this file that will
+ * not mirror on its own (CLAUDE.md §2.11), so the rule after this one sets it
+ * for right-to-left.
  */
 .syn-locations__city {
 	margin: 0 0 0.2rem;
@@ -309,6 +310,15 @@
 	transform-origin: 0 50%;
 	transition: transform var(--syn-locations-duration) var(--syn-ease-out);
 	will-change: transform;
+}
+
+/*
+ * The inline start is the right edge in Arabic. Left at `0 50%`, the scale
+ * grew from the far side of a name set against the right edge, and the name
+ * slid across the card on hover instead of growing in place (16 Sep).
+ */
+html[dir="rtl"] .syn-locations__city {
+	transform-origin: 100% 50%;
 }
 
 .syn-locations__card:hover .syn-locations__city,
