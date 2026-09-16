@@ -384,6 +384,28 @@ function syn_register_careers_fields() {
 							'label'       => __( 'Posted on', 'synergi' ),
 							'description' => __( 'Optional. Shown on the role, and needed for the listing to appear in Google Jobs.', 'synergi' ),
 						),
+						/*
+						 * THE EXPIRY DATE, added 16 Sep with inc/careers-schema.php.
+						 * Google keeps a job listing alive until the date in
+						 * validThrough passes, so a posting with no closing date
+						 * stays in Google Jobs after the role is gone, collecting
+						 * applications nobody reads. That is the most common way a
+						 * site earns a manual action for job markup, and the only
+						 * cure is a date.
+						 *
+						 * Optional rather than required because the field engine
+						 * has no required leaves and inventing a date would be
+						 * worse than omitting the property — a guess that expires
+						 * a live role is a real vacancy taken off Google early.
+						 * The schema simply omits validThrough when this is blank,
+						 * and the admin screen nags for it instead.
+						 */
+						array(
+							'key'         => 'valid_through',
+							'type'        => 'date',
+							'label'       => __( 'Closes on', 'synergi' ),
+							'description' => __( 'Optional but strongly recommended. The last day applications are open. Google uses it to drop the listing from Google Jobs automatically — without it a filled role can keep attracting applicants for months.', 'synergi' ),
+						),
 					),
 				),
 				array(

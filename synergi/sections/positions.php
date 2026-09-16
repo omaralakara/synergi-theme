@@ -55,10 +55,26 @@
  * colour before reading the label. Operations and Corporate take the brand
  * gradient. Written out one selector per accent in positions.css.
  *
- * JobPosting STRUCTURED DATA is emitted for every role that carries a posted
- * date, because Google requires datePosted and a listing without one is
- * rejected rather than shown. Yoast has no job block, so there is nothing to
- * stand down for — unlike the FAQ band (CLAUDE.md §8).
+ * THIS BAND EMITS NO STRUCTURED DATA, AND MUST NOT (16 Sep). It used to emit one
+ * JobPosting per dated role. That is a documented Google policy violation, not
+ * merely ineffective: "The JobPosting markup must only be used on pages that
+ * contain a single job posting. We don't allow the use of JobPosting markup in
+ * any other page" — and the troubleshooting page names the Search Console
+ * message it earns, "A list page should not include structured data for
+ * individual jobs", whose remedy is a reconsideration request. This page lists
+ * three roles, so it was a list page from the day it shipped.
+ *
+ * The markup was inert in practice — the page carries a Yoast noindex by the
+ * business's own instruction, so Google never processed it — but it would have
+ * become a live violation the hour that noindex came off, which is the one
+ * change anybody would make to this page.
+ *
+ * Google Jobs needs one URL per role. That is a syn_role post type, and
+ * inc/careers-fields.php's header has predicted it from the start ("that
+ * changes the day a position needs its own URL ... at which point it becomes a
+ * post type"). Until that is built and approved, the honest state is no markup:
+ * see docs/job-posting-schema.md for the decision and the build it specifies.
+ * Do not re-add a JobPosting block to this file.
  *
  * @package Synergi
  */
@@ -334,65 +350,4 @@ $syn_group = $syn_uid . '-group';
 		<?php endif; ?>
 
 	</div>
-
-	<?php
-	/*
-	 * One JobPosting per dated role. hiringOrganization and the page URL come
-	 * from WordPress rather than being typed, so nothing here assumes a domain
-	 * (CLAUDE.md §12). JSON_HEX_TAG is what makes the block safe against a
-	 * "</script>" inside a stored description — and esc_html() must NOT be used
-	 * on it; see sections/faq.php for the day that lesson was learned.
-	 */
-	$syn_postings = array();
-
-	foreach ( $syn_clean as $syn_item ) {
-		if ( '' === $syn_item['posted'] || '' === $syn_item['description'] ) {
-			continue;
-		}
-
-		$syn_posting = array(
-			'@context'           => 'https://schema.org',
-			'@type'              => 'JobPosting',
-			'title'              => $syn_item['title'],
-			'description'        => wp_kses_post( $syn_item['description'] ),
-			'datePosted'         => $syn_item['posted'],
-			'hiringOrganization' => array(
-				'@type'  => 'Organization',
-				'name'   => get_bloginfo( 'name' ),
-				'sameAs' => home_url( '/' ),
-			),
-			'url'                => get_permalink() . '#positions',
-		);
-
-		if ( '' !== $syn_item['type'] ) {
-			$syn_posting['employmentType'] = strtoupper( $syn_item['type'] );
-		}
-
-		if ( '' !== $syn_item['location'] ) {
-			$syn_posting['jobLocation'] = array(
-				'@type'   => 'Place',
-				'address' => array(
-					'@type'           => 'PostalAddress',
-					'addressLocality' => $syn_item['location'],
-				),
-			);
-		}
-
-		if ( '' !== $syn_item['department_name'] ) {
-			$syn_posting['occupationalCategory'] = $syn_item['department_name'];
-		}
-
-		$syn_postings[] = $syn_posting;
-	}
-
-	if ( $syn_postings ) {
-		printf(
-			'<script type="application/ld+json">%s</script>',
-			wp_json_encode(
-				1 === count( $syn_postings ) ? $syn_postings[0] : $syn_postings,
-				JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-			)
-		);
-	}
-	?>
 </section>
