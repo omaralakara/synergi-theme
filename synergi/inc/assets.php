@@ -81,6 +81,17 @@ function syn_enqueue_part_assets() {
 	// banner on every page, and only its script knows whether to show it.
 	$parts = array( 'header', 'footer', 'consent' );
 
+	/*
+	 * The one template that calls neither get_header() nor get_footer():
+	 * /connect/, the QR code's page (16 Sep). It still prints the consent
+	 * dialog, so consent stays; the chrome's stylesheets would style nothing.
+	 */
+	$syn_standalone = is_page_template( 'templates/connect.php' );
+
+	if ( $syn_standalone ) {
+		$parts = array( 'consent' );
+	}
+
 	// Every view that renders the title band: singular pages and posts, plus
 	// the listing templates, which put the archive title in the same band.
 	$syn_has_band = ( is_singular() && ! is_front_page() )
@@ -101,7 +112,7 @@ function syn_enqueue_part_assets() {
 	 */
 	$syn_hero_templates = array( 'templates/homepage.php' );
 
-	if ( $syn_has_band && ! in_array( get_page_template_slug(), $syn_hero_templates, true ) ) {
+	if ( $syn_has_band && ! $syn_standalone && ! in_array( get_page_template_slug(), $syn_hero_templates, true ) ) {
 		$parts[] = 'page-header';
 	}
 

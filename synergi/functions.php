@@ -114,6 +114,10 @@ require_once SYN_DIR . 'inc/media-fields.php';
 // it loads after records.php like everything else here.
 require_once SYN_DIR . 'inc/careers-fields.php';
 
+// /connect/, the QR code's link page: its words, its buttons, and the two
+// helpers that turn a button's address into a link and an icon.
+require_once SYN_DIR . 'inc/connect-fields.php';
+
 // Reads the Instagram plugin's own cache so the band can draw its own cards.
 require_once SYN_DIR . 'inc/instagram.php';
 

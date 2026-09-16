@@ -252,6 +252,14 @@ function syn_inline_icon( $slug, $class = '' ) {
 		 * 3 Sep for the keyword ribbon, where it separates the phrases.
 		 */
 		'mark',
+
+		/*
+		 * The envelope and the globe on the /connect/ buttons, for the two that
+		 * are not a platform (16 Sep). Line drawings in currentColor, the same
+		 * weight as the chevron beside them.
+		 */
+		'connect-email',
+		'connect-website',
 	);
 
 	if ( ! in_array( $slug, $allowed, true ) ) {
