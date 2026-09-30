@@ -7,6 +7,17 @@ Checked against
 [Google Search Central: JobPosting structured data](https://developers.google.com/search/docs/appearance/structured-data/job-posting)
 as revised **8 September 2026**. Re-check it before building; this page moves.
 
+> **Overtaken on 30 September 2026.** The one-URL-per-role build below was
+> not done as a `syn_role` post type. The portal team's **Synergi Careers**
+> plugin gives every role published in the portal its own page at
+> `/careers/<title>-<id>/` and emits the `JobPosting` there; the theme keeps
+> the markup through `inc/careers-feed.php` and
+> `synergi-careers/single-vacancy.php`. The policy analysis and the property
+> mapping below still stand and were used to review the plugin's markup —
+> the gaps found (hiring organisation, `directApply`, `datePosted`, country)
+> are in `careers-feed-vendor-findings.md`. The repeater remains the source
+> only when the plugin is absent.
+
 ---
 
 ## What was there, and why it is gone
