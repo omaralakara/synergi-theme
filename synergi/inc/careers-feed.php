@@ -152,6 +152,17 @@ function syn_careers_feed_item( $vacancy ) {
 	 */
 	$lang = function_exists( 'syn_language_is_default' ) && ! syn_language_is_default() ? 'en' : '';
 
+	/*
+	 * The portal writes "Synergi" in hiringFor for its own roles. "Hiring on
+	 * behalf of Synergi" on a Synergi page is noise, so only another employer
+	 * is worth a line — the same test the plugin's own template applies.
+	 */
+	$hiring_for = $text( 'hiringFor' );
+
+	if ( 0 === strcasecmp( $hiring_for, 'Synergi' ) ) {
+		$hiring_for = '';
+	}
+
 	return array(
 		'title'       => $text( 'title' ),
 		'department'  => $department,
@@ -165,7 +176,7 @@ function syn_careers_feed_item( $vacancy ) {
 		'apply_email' => isset( $application['email'] ) && is_email( $application['email'] ) ? $application['email'] : '',
 		'apply_url'   => '',
 		'permalink'   => $permalink,
-		'hiring_for'  => $text( 'hiringFor' ),
+		'hiring_for'  => $hiring_for,
 		'mode'        => syn_careers_feed_mode( $text( 'workMode' ) ),
 		'salary'      => syn_careers_feed_salary( $vacancy['salary'] ?? null ),
 		'lang'        => $lang,
