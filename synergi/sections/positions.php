@@ -23,14 +23,33 @@
  *                           description string The role. Editor HTML, sanitised on
  *                                              save with wp_kses_post() and again here.
  *                           posted      string Optional. YYYY-MM-DD.
+ *                           closing     string Optional. YYYY-MM-DD, the last day
+ *                                              to apply. The repeater's valid_through
+ *                                              column is read under this name too.
  *                           apply_email string The address this role's CVs go to.
  *                           apply_url   string Optional. A form or job board page;
  *                                              used instead of the email when set.
+ *                           permalink   string Optional. The role's own page. A
+ *                                              portal role has one; a repeater
+ *                                              row never does.
+ *                           hiring_for  string Optional. Who the role is for when
+ *                                              it is not Synergi ("a client in …").
+ *                           mode        string Optional. A work-mode chip: Hybrid,
+ *                                              Remote. On-site prints none.
+ *                           salary      string Optional. A salary chip, worded.
+ *                           lang        string Optional. "en" when the role's copy
+ *                                              is not in the page's language.
  *   apply_url     string  Where Apply goes when a role has neither an email nor
  *                         a link. Defaults to the contact page.
  *   empty_heading string  Shown when there are no roles.
  *   empty_text    string  Shown under it.
  *   empty_cta     array   url and label for the empty state's button.
+ *   single        bool    Optional. The role page: one item, drawn as a card
+ *                         that is already open, with no head and no <details>.
+ *                         The page's <h1> is parts/page-header.php's, so the
+ *                         card does not repeat the title.
+ *   back          array   Optional, single mode. url and label for the button
+ *                         under the card that returns to the careers page.
  *
  * EVERY ROLE HAS ITS OWN ADDRESS (14 Sep). There is no page-wide inbox: the
  * business wants a role's applications to land with the person hiring for it,
@@ -43,6 +62,13 @@
  *
  * Example:
  *   syn_section( 'positions', array( 'items' => syn_field_rows( 'careers_positions_list' ) ) );
+ *
+ * TWO SOURCES, ONE MARKUP (30 Sep). templates/careers.php hands this band
+ * either the page's repeater rows or the portal's feed through
+ * inc/careers-feed.php, in the same shape; the band cannot tell and must not
+ * try. The permalink, the hiring-for line, the closing date, the mode and
+ * salary chips and the "new" tag arrived with the feed, and the single mode
+ * is what synergi-careers/single-vacancy.php draws a role's own page with.
  *
  * THE BAND NEVER SKIPS ITSELF. Every other list section returns when it has
  * nothing, but a careers page with no vacancies still has to answer "so what
@@ -64,17 +90,11 @@
  * individual jobs", whose remedy is a reconsideration request. This page lists
  * three roles, so it was a list page from the day it shipped.
  *
- * The markup was inert in practice — the page carries a Yoast noindex by the
- * business's own instruction, so Google never processed it — but it would have
- * become a live violation the hour that noindex came off, which is the one
- * change anybody would make to this page.
- *
- * Google Jobs needs one URL per role. That is a syn_role post type, and
- * inc/careers-fields.php's header has predicted it from the start ("that
- * changes the day a position needs its own URL ... at which point it becomes a
- * post type"). Until that is built and approved, the honest state is no markup:
- * see docs/job-posting-schema.md for the decision and the build it specifies.
- * Do not re-add a JobPosting block to this file.
+ * Google Jobs needs one URL per role. Since 30 Sep the Synergi Careers plugin
+ * gives every portal role one (/careers/<title>-<id>/) and emits the
+ * JobPosting there, on the page whose only content is that job. The single
+ * mode below draws that page; the markup stays the plugin's. Do not re-add a
+ * JobPosting block to this file: see docs/job-posting-schema.md.
  *
  * @package Synergi
  */
@@ -88,6 +108,8 @@ $syn_apply_url     = trim( (string) ( $args['apply_url'] ?? '' ) );
 $syn_empty_heading = trim( (string) ( $args['empty_heading'] ?? '' ) );
 $syn_empty_text    = trim( (string) ( $args['empty_text'] ?? '' ) );
 $syn_empty_cta     = (array) ( $args['empty_cta'] ?? array() );
+$syn_single        = ! empty( $args['single'] );
+$syn_back          = (array) ( $args['back'] ?? array() );
 
 if ( '' === $syn_apply_url && function_exists( 'syn_contact_url' ) ) {
 	$syn_apply_url = syn_contact_url();
@@ -102,6 +124,13 @@ if ( '' === $syn_empty_cta_url ) {
 
 if ( '' === $syn_empty_cta_label ) {
 	$syn_empty_cta_label = __( 'Get in touch', 'synergi' );
+}
+
+$syn_back_url   = trim( (string) ( $syn_back['url'] ?? '' ) );
+$syn_back_label = trim( (string) ( $syn_back['label'] ?? '' ) );
+
+if ( '' === $syn_back_label ) {
+	$syn_back_label = __( 'See all open positions', 'synergi' );
 }
 
 $syn_departments = function_exists( 'syn_careers_department_choices' ) ? syn_careers_department_choices() : array();
@@ -135,6 +164,7 @@ foreach ( (array) ( $args['items'] ?? array() ) as $syn_row ) {
 	$syn_department = sanitize_key( $syn_row['department'] ?? '' );
 	$syn_type       = sanitize_key( $syn_row['type'] ?? '' );
 	$syn_posted     = trim( (string) ( $syn_row['posted'] ?? '' ) );
+	$syn_closing    = trim( (string) ( $syn_row['closing'] ?? ( $syn_row['valid_through'] ?? '' ) ) );
 	$syn_role_url   = trim( (string) ( $syn_row['apply_url'] ?? '' ) );
 	$syn_role_email = trim( (string) ( $syn_row['apply_email'] ?? '' ) );
 
@@ -174,23 +204,84 @@ foreach ( (array) ( $args['items'] ?? array() ) as $syn_row ) {
 		'summary'         => trim( (string) ( $syn_row['summary'] ?? '' ) ),
 		'description'     => trim( (string) ( $syn_row['description'] ?? '' ) ),
 		// A date the picker did not produce is not a date. Dropped rather
-		// than printed, so the schema never carries a string Google rejects.
+		// than printed, so nothing downstream ever carries a string that is
+		// not a date.
 		'posted'          => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $syn_posted ) ? $syn_posted : '',
+		'closing'         => preg_match( '/^\d{4}-\d{2}-\d{2}$/', $syn_closing ) ? $syn_closing : '',
 		'apply_url'       => $syn_role_apply,
 		'apply_kind'      => $syn_role_kind,
 		'apply_email'     => $syn_role_email,
 		'status'          => $syn_status,
 		'status_name'     => $syn_statuses[ $syn_status ] ?? __( 'Still available', 'synergi' ),
+		'permalink'       => trim( (string) ( $syn_row['permalink'] ?? '' ) ),
+		'hiring_for'      => trim( (string) ( $syn_row['hiring_for'] ?? '' ) ),
+		'mode'            => trim( (string) ( $syn_row['mode'] ?? '' ) ),
+		'salary'          => trim( (string) ( $syn_row['salary'] ?? '' ) ),
+		// A language code the theme itself chose (inc/careers-feed.php),
+		// reduced to a key so nothing else can ever land in the attribute.
+		'lang'            => sanitize_key( $syn_row['lang'] ?? '' ),
 	);
 }
 
 $syn_count = count( $syn_clean );
 $syn_uid   = wp_unique_id( 'syn-positions-' );
 $syn_group = $syn_uid . '-group';
+
+/*
+ * The single mode draws exactly one role. A second item would be a caller's
+ * mistake, so it is reported under SYN_DEBUG and only the first is drawn —
+ * the page must never show two roles under one <h1>.
+ */
+if ( $syn_single && $syn_count > 1 ) {
+	if ( SYN_DEBUG ) {
+		echo "\n<!-- syn-section positions: single mode was given " . (int) $syn_count . " roles; drawing the first -->\n";
+	}
+
+	$syn_clean = array_slice( $syn_clean, 0, 1 );
+	$syn_count = 1;
+}
+
+/**
+ * The chip row under a role's title, in both modes.
+ *
+ * A closure at the partial's scope, never a named function: this partial can
+ * render twice on one request and a named function would be a fatal
+ * "cannot redeclare" the second time (see syn_youtube_id() in inc/sections.php).
+ *
+ * @param array $item One normalised row.
+ * @return string Escaped markup.
+ */
+$syn_chips = static function ( $item ) {
+	$out = '';
+
+	if ( '' !== $item['department_name'] ) {
+		$out .= '<span class="syn-positions__chip syn-positions__chip--department">' . esc_html( $item['department_name'] ) . '</span>';
+	}
+
+	if ( '' !== $item['location'] ) {
+		$out .= '<span class="syn-positions__chip"' . ( '' !== $item['lang'] ? ' lang="' . esc_attr( $item['lang'] ) . '"' : '' ) . '>'
+			. '<svg class="syn-positions__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
+			. '<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>'
+			. esc_html( $item['location'] ) . '</span>';
+	}
+
+	foreach ( array( $item['type_name'], $item['mode'], $item['salary'] ) as $chip ) {
+		if ( '' !== $chip ) {
+			$out .= '<span class="syn-positions__chip">' . esc_html( $chip ) . '</span>';
+		}
+	}
+
+	return $out;
+};
 ?>
+<?php if ( $syn_single ) : ?>
+<section class="syn-positions syn-positions--single syn-section">
+<?php else : ?>
 <section class="syn-positions syn-section" id="positions" aria-labelledby="<?php echo esc_attr( $syn_uid ); ?>-title">
+<?php endif; ?>
 	<div class="syn-container syn-container--narrow">
 
+		<?php if ( ! $syn_single ) : ?>
 		<div class="syn-positions__head syn-reveal">
 			<?php if ( '' !== $syn_eyebrow ) : ?>
 				<p class="syn-eyebrow"><?php echo esc_html( $syn_eyebrow ); ?></p>
@@ -214,6 +305,7 @@ $syn_group = $syn_uid . '-group';
 				</p>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 
 		<?php if ( ! $syn_count ) : ?>
 
@@ -232,7 +324,9 @@ $syn_group = $syn_uid . '-group';
 
 		<?php else : ?>
 
+			<?php if ( ! $syn_single ) : ?>
 			<div class="syn-positions__list syn-reveal">
+			<?php endif; ?>
 				<?php foreach ( $syn_clean as $syn_index => $syn_item ) : ?>
 					<?php
 					/*
@@ -241,6 +335,14 @@ $syn_group = $syn_uid . '-group';
 					 * stylesheet's fallback applies without a selector for "none".
 					 */
 					$syn_accent_attr = '' !== $syn_item['accent'] ? ' data-accent="' . esc_attr( $syn_item['accent'] ) . '"' : '';
+
+					/*
+					 * The feed's copy is English on every language. lang= lets a
+					 * screen reader change voice and dir= keeps a Latin title
+					 * reading left to right inside an Arabic page; the theme has
+					 * one non-default language and it is right-to-left.
+					 */
+					$syn_lang_attr = '' !== $syn_item['lang'] ? ' lang="' . esc_attr( $syn_item['lang'] ) . '" dir="ltr"' : '';
 
 					/*
 					 * A mailto: carries the role in the subject line so an inbox
@@ -258,7 +360,7 @@ $syn_group = $syn_uid . '-group';
 					}
 
 					/*
-					 * The three tag states are written out as full class names,
+					 * The four tag states are written out as full class names,
 					 * never assembled from the key, so each can be found verbatim
 					 * in positions.css (CLAUDE.md §13, the grep rule).
 					 */
@@ -266,39 +368,54 @@ $syn_group = $syn_uid . '-group';
 						$syn_tag_class = 'syn-positions__tag syn-positions__tag--filled';
 					} elseif ( 'closing' === $syn_item['status'] ) {
 						$syn_tag_class = 'syn-positions__tag syn-positions__tag--closing';
+					} elseif ( 'new' === $syn_item['status'] ) {
+						$syn_tag_class = 'syn-positions__tag syn-positions__tag--new';
 					} else {
 						$syn_tag_class = 'syn-positions__tag';
 					}
+
+					/*
+					 * The two halves of a role. In the list the first half is the
+					 * <summary> and the second the body under it; on the role page
+					 * the first half is a plain lead (the title is the page's <h1>)
+					 * and the card is simply open.
+					 */
 					?>
+					<?php if ( $syn_single ) : ?>
+					<article class="syn-positions__item"<?php echo $syn_accent_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_attr() only. ?>>
+						<div class="syn-positions__lead">
+							<span class="<?php echo esc_attr( $syn_tag_class ); ?>"><?php echo esc_html( $syn_item['status_name'] ); ?></span>
+
+							<span class="syn-positions__meta">
+								<?php echo $syn_chips( $syn_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every leaf escaped inside the closure. ?>
+							</span>
+
+							<?php if ( '' !== $syn_item['hiring_for'] ) : ?>
+								<p class="syn-positions__hiring-for">
+									<?php
+									printf(
+										/* translators: %s: who the role is for, as the portal words it ("a client in …"). */
+										esc_html__( 'Hiring on behalf of %s.', 'synergi' ),
+										'<span' . $syn_lang_attr . '>' . esc_html( $syn_item['hiring_for'] ) . '</span>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- attribute built above from esc_attr() only.
+									);
+									?>
+								</p>
+							<?php endif; ?>
+						</div>
+					<?php else : ?>
 					<details class="syn-positions__item" name="<?php echo esc_attr( $syn_group ); ?>"<?php echo $syn_accent_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_attr() only. ?>>
 						<summary class="syn-positions__summary">
 							<span class="syn-positions__summary-copy">
 								<span class="<?php echo esc_attr( $syn_tag_class ); ?>"><?php echo esc_html( $syn_item['status_name'] ); ?></span>
 
-								<h3 class="syn-positions__role"><?php echo esc_html( $syn_item['title'] ); ?></h3>
+								<h3 class="syn-positions__role"<?php echo $syn_lang_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_attr() only. ?>><?php echo esc_html( $syn_item['title'] ); ?></h3>
 
 								<span class="syn-positions__meta">
-									<?php if ( '' !== $syn_item['department_name'] ) : ?>
-										<span class="syn-positions__chip syn-positions__chip--department"><?php echo esc_html( $syn_item['department_name'] ); ?></span>
-									<?php endif; ?>
-
-									<?php if ( '' !== $syn_item['location'] ) : ?>
-										<span class="syn-positions__chip">
-											<svg class="syn-positions__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-												<path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" />
-												<circle cx="12" cy="9.5" r="2.5" />
-											</svg>
-											<?php echo esc_html( $syn_item['location'] ); ?>
-										</span>
-									<?php endif; ?>
-
-									<?php if ( '' !== $syn_item['type_name'] ) : ?>
-										<span class="syn-positions__chip"><?php echo esc_html( $syn_item['type_name'] ); ?></span>
-									<?php endif; ?>
+									<?php echo $syn_chips( $syn_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- every leaf escaped inside the closure. ?>
 								</span>
 
 								<?php if ( '' !== $syn_item['summary'] ) : ?>
-									<span class="syn-positions__teaser"><?php echo esc_html( $syn_item['summary'] ); ?></span>
+									<span class="syn-positions__teaser"<?php echo $syn_lang_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_attr() only. ?>><?php echo esc_html( $syn_item['summary'] ); ?></span>
 								<?php endif; ?>
 							</span>
 
@@ -309,12 +426,25 @@ $syn_group = $syn_uid . '-group';
 								</svg>
 							</span>
 						</summary>
+					<?php endif; ?>
 
 						<div class="syn-positions__body">
 							<?php if ( '' !== $syn_item['description'] ) : ?>
-								<div class="syn-positions__description">
+								<div class="syn-positions__description"<?php echo $syn_lang_attr; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built above from esc_attr() only. ?>>
 									<?php echo wp_kses_post( $syn_item['description'] ); ?>
 								</div>
+							<?php endif; ?>
+
+							<?php if ( $syn_single && '' !== $syn_item['closing'] ) : ?>
+								<p class="syn-positions__closing">
+									<?php
+									printf(
+										/* translators: %s: the last day applications are open. */
+										esc_html__( 'Applications close on %s.', 'synergi' ),
+										'<time datetime="' . esc_attr( $syn_item['closing'] ) . '">' . esc_html( date_i18n( get_option( 'date_format' ), strtotime( $syn_item['closing'] ) ) ) . '</time>'
+									);
+									?>
+								</p>
 							<?php endif; ?>
 
 							<div class="syn-positions__foot">
@@ -341,11 +471,35 @@ $syn_group = $syn_uid . '-group';
 										<a class="syn-positions__mail-link" href="<?php echo esc_url( $syn_apply_href ); ?>"><?php esc_html_e( 'Get in touch about this role', 'synergi' ); ?></a>
 									<?php endif; ?>
 								</p>
+
+								<?php if ( ! $syn_single && '' !== $syn_item['permalink'] ) : ?>
+									<p class="syn-positions__permalink">
+										<a class="syn-positions__permalink-link" href="<?php echo esc_url( $syn_item['permalink'] ); ?>">
+											<?php esc_html_e( 'Open this role on its own page', 'synergi' ); ?>
+											<span aria-hidden="true"><?php echo syn_arrow(); // A fixed entity chosen by the theme, → or ←; nothing from the database. ?></span>
+										</a>
+									</p>
+								<?php endif; ?>
 							</div>
 						</div>
+					<?php if ( $syn_single ) : ?>
+					</article>
+					<?php else : ?>
 					</details>
+					<?php endif; ?>
 				<?php endforeach; ?>
+			<?php if ( ! $syn_single ) : ?>
 			</div>
+			<?php endif; ?>
+
+			<?php if ( $syn_single && '' !== $syn_back_url ) : ?>
+				<p class="syn-positions__back">
+					<a class="syn-button syn-button--outline" href="<?php echo esc_url( $syn_back_url ); ?>">
+						<span aria-hidden="true"><?php echo is_rtl() ? '&rarr;' : '&larr;'; // The arrow that points back, the reverse of syn_arrow(); a fixed entity, nothing from the database. ?></span>
+						<?php echo esc_html( $syn_back_label ); ?>
+					</a>
+				</p>
+			<?php endif; ?>
 
 		<?php endif; ?>
 

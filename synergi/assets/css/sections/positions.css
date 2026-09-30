@@ -1,12 +1,15 @@
 /*
  * positions.css — Careers: the open positions.
  * Contents: 1 shell · 2 head · 3 rows · 4 the summary, its tag, chips and
- * marker · 5 the opened role and its mail line · 6 accents · 7 the empty
- * state · 8 reduced motion · 9 narrow screens.
+ * marker · 5 the opened role, its mail line and its permalink · 6 accents ·
+ * 7 the role page (single mode) · 8 the empty state · 9 reduced motion ·
+ * 10 narrow screens.
  *
  * Loaded by inc/assets.php as "synergi-section-positions", only on pages that
- * declare the section. Markup: sections/positions.php. There is no
- * positions.js — the rows are native <details>/<summary> and need none.
+ * declare the section — the careers page and, since 30 Sep, the Synergi
+ * Careers plugin's role pages through synergi-careers/single-vacancy.php.
+ * Markup: sections/positions.php. There is no positions.js — the rows are
+ * native <details>/<summary> and need none.
  *
  * A relative of faq.css: the same disclosure rows, the same drawn marker, the
  * same paper band. What is different is the summary — a role carries a
@@ -151,9 +154,10 @@
 
 /*
  * The status tag. A dot and two words in small caps, sitting above the role
- * title. The three states differ only in colour: the success token for open,
- * the focus token (the theme's one warm colour) for closing soon, and the
- * soft text colour for filled.
+ * title. The four states differ only in colour: the success token for open,
+ * cyan for new (a portal role in its first week), the focus token (the
+ * theme's one warm colour) for closing soon, and the soft text colour for
+ * filled.
  */
 .syn-positions__tag {
 	display: inline-flex;
@@ -175,6 +179,11 @@
 	background-color: var(--syn-success);
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--syn-success) 30%, transparent);
 	content: "";
+}
+
+.syn-positions__tag--new::before {
+	background-color: var(--syn-cyan);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--syn-cyan) 30%, transparent);
 }
 
 .syn-positions__tag--closing::before {
@@ -361,6 +370,34 @@
 	color: var(--syn-cyan);
 }
 
+/*
+ * The link from a portal role to its own page. A whole line of the foot,
+ * under the date and the address, because it is the way out of the accordion
+ * rather than a third fact beside them. Quiet: the address is the action a
+ * candidate came for, and this is the shareable link they may also want.
+ */
+.syn-positions__permalink {
+	flex-basis: 100%;
+	margin: 0;
+	font-size: var(--syn-step--1);
+	line-height: 1.5;
+}
+
+.syn-positions__permalink-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	color: var(--syn-navy);
+	font-weight: 700;
+	text-decoration: underline;
+	text-decoration-color: var(--syn-cyan);
+	text-underline-offset: 0.2em;
+}
+
+.syn-positions__permalink-link:hover {
+	color: var(--syn-cyan);
+}
+
 /* ==========================================================================
    6. Accents
    The six service gradients, keyed off the same data-accent attribute the
@@ -395,7 +432,71 @@
 }
 
 /* ==========================================================================
-   7. The empty state
+   7. The role page (single mode)
+   One role at /careers/<title>-<id>/, drawn as the same card the accordion
+   opens — the same stripe, the same border, the same body — but as a plain
+   <article> that is already open. The title is the page's <h1> in the band
+   above, so the card starts at the tag and the chips. Nothing here restyles
+   the list; every rule is scoped to the --single section.
+   ========================================================================== */
+
+/* A static card: the hover lift belongs to a row that opens, and this one
+   does not, so the cyan border and the shadow are taken back here. */
+.syn-positions--single .syn-positions__item:hover {
+	border-color: var(--syn-border);
+	box-shadow: none;
+}
+
+/* The lead takes the summary's padding so the body's rule sits where the
+   accordion's does, and stacks the tag, the chips and the hiring line the
+   way the summary copy stacks. */
+.syn-positions--single .syn-positions__lead {
+	display: flex;
+	flex-direction: column;
+	gap: 0.6rem;
+	padding-block: var(--syn-space-4);
+	padding-inline: calc(var(--syn-space-4) + 5px) var(--syn-space-4);
+}
+
+/* Clear air under the chip row, so the hiring line (or the body's rule) is
+   not tight against the chips. */
+.syn-positions--single .syn-positions__meta {
+	margin-block-end: var(--syn-space-1);
+}
+
+/* "Hiring on behalf of a client in …" — a fact, not a warning, so it takes
+   the teaser's voice. */
+.syn-positions__hiring-for {
+	margin: 0;
+	color: var(--syn-text-soft);
+	font-size: var(--syn-step-0);
+	line-height: 1.6;
+	text-wrap: pretty;
+}
+
+/* "Applications close on …" — set apart from the description, in the navy,
+   because it is the one date a candidate must not miss. */
+.syn-positions__closing {
+	margin-block: var(--syn-space-4) 0;
+	color: var(--syn-navy);
+	font-size: var(--syn-step-0);
+	font-weight: 600;
+	line-height: 1.5;
+}
+
+/* The way back to the listing, under the card. */
+.syn-positions__back {
+	margin-block: var(--syn-space-5) 0;
+}
+
+.syn-positions__back .syn-button {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+/* ==========================================================================
+   8. The empty state
    A panel rather than a blank, so the page still says what to do when there
    is nothing to apply for.
    ========================================================================== */
@@ -426,7 +527,7 @@
 }
 
 /* ==========================================================================
-   8. Reduced motion
+   9. Reduced motion
    Reduced means no movement, never hidden content (CLAUDE.md §6).
    ========================================================================== */
 
@@ -440,12 +541,13 @@
 }
 
 /* ==========================================================================
-   9. Narrow screens
+   10. Narrow screens
    ========================================================================== */
 
 @media (max-width: 48rem) {
 
-	.syn-positions__summary {
+	.syn-positions__summary,
+	.syn-positions--single .syn-positions__lead {
 		align-items: flex-start;
 		gap: var(--syn-space-3);
 		padding-inline: calc(var(--syn-space-3) + 5px) var(--syn-space-3);

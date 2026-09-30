@@ -81,11 +81,16 @@ function syn_careers_department_choices() {
  * and what a row with nothing stored is treated as, so a role added before
  * this column existed reads as open rather than as blank.
  *
+ * "new" arrived with the portal feed (30 Sep): inc/careers-feed.php tags a
+ * role new in its first week, and the key is listed here so the feed and the
+ * repeater share one vocabulary and one set of labels.
+ *
  * @return array<string,string> key => label.
  */
 function syn_careers_status_choices() {
 	return array(
 		'available' => __( 'Still available', 'synergi' ),
+		'new'       => __( 'New', 'synergi' ),
 		'closing'   => __( 'Closing soon', 'synergi' ),
 		'filled'    => __( 'Filled', 'synergi' ),
 	);
