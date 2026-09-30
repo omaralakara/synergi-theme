@@ -472,5 +472,15 @@
     "Build": "البناء",
     "Business case and financial model, then the team, tooling and governance to deliver it.": "دراسة الجدوى والنموذج المالي، ثم الفريق والأدوات والحوكمة اللازمة للتنفيذ.",
     "Operate": "التشغيل",
-    "Milestone-led execution with reporting, and a transfer path when you want it back.": "تنفيذ وفق معالم محددة مع التقارير، ومسار لإعادة الخدمة إليكم متى أردتم."
+    "Milestone-led execution with reporting, and a transfer path when you want it back.": "تنفيذ وفق معالم محددة مع التقارير، ومسار لإعادة الخدمة إليكم متى أردتم.",
+    "New": "جديد",
+    "Hybrid": "هجين",
+    "Remote": "عن بُعد",
+    "%1$s %2$s–%3$s a month": "%1$s %2$s–%3$s شهريًا",
+    "Open this role on its own page": "افتح هذه الوظيفة في صفحتها الخاصة",
+    "See all open positions": "عرض جميع الوظائف الشاغرة",
+    "Hiring on behalf of %s.": "التوظيف نيابةً عن %s.",
+    "Applications close on %s.": "يُغلق باب التقديم في %s.",
+    "Our open positions are not available right now": "الوظائف الشاغرة غير متاحة حاليًا",
+    "Please check back shortly. If you would rather write to us, we will point you to the right person.": "يُرجى المحاولة مرة أخرى بعد قليل. وإن كنتم تفضّلون مراسلتنا، فسنوجّهكم إلى الشخص المناسب."
 }

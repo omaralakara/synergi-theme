@@ -399,6 +399,15 @@ msgstr ""
 msgid "Optional. Fills the band behind the heading. Without one the page falls back to this page’s Featured Image, and without that the band stays on the flat navy. Choose one with meaningful alt text already set on it."
 msgstr ""
 
+msgid "Hybrid"
+msgstr "هجين"
+
+msgid "Remote"
+msgstr "عن بُعد"
+
+msgid "%1$s %2$s–%3$s a month"
+msgstr "%1$s %2$s–%3$s شهريًا"
+
 msgid "Operations"
 msgstr "العمليات"
 
@@ -407,6 +416,9 @@ msgstr "الشركة"
 
 msgid "Still available"
 msgstr "لا يزال متاحًا"
+
+msgid "New"
+msgstr "جديد"
 
 msgid "Closing soon"
 msgstr "يُغلق قريبًا"
@@ -753,6 +765,54 @@ msgstr ""
 msgid "All case studies"
 msgstr ""
 
+msgid "Connect — the card"
+msgstr ""
+
+msgid "The whole page: the logo, the heading, one sentence and the buttons. The page has no header or footer, on purpose — it is what a printed QR code opens."
+msgstr ""
+
+msgid "Logo"
+msgstr ""
+
+msgid "The colour logo, for a white background. The site logo is white, which is why this page has its own."
+msgstr ""
+
+msgid "Connect with Synergi"
+msgstr ""
+
+msgid "Sentence under the heading"
+msgstr ""
+
+msgid "Follow our latest updates and learn more about our services."
+msgstr ""
+
+msgid "Buttons"
+msgstr ""
+
+msgid "In the order they appear. The icon follows the address: LinkedIn, Instagram, Facebook and YouTube get their own mark, an email address or the contact page gets an envelope, anything else a globe."
+msgstr ""
+
+msgid "Add button"
+msgstr ""
+
+msgid "Instagram"
+msgstr ""
+
+msgid "Contact Synergi"
+msgstr ""
+
+msgid "Visit Our Website"
+msgstr ""
+
+msgid "Words on the button"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "A full address for another site, or a path starting with / for a page on this one, e.g. /contact-us/."
+msgstr ""
+
 msgid "Social accounts"
 msgstr ""
 
@@ -934,9 +994,6 @@ msgid "Remove"
 msgstr ""
 
 msgid "The stored image is missing from the media library. Choose another."
-msgstr ""
-
-msgid "Address"
 msgstr ""
 
 msgid "Button text"
@@ -1167,12 +1224,6 @@ msgstr ""
 msgid "Word or short phrase"
 msgstr ""
 
-msgid "Buttons"
-msgstr ""
-
-msgid "Add button"
-msgstr ""
-
 msgid "Text"
 msgstr ""
 
@@ -1318,9 +1369,6 @@ msgid "Leading global platforms and regional specialists, integrated into one de
 msgstr "منصات عالمية رائدة وشركاء إقليميون متخصصون ضمن نموذج تنفيذ واحد متكامل، لتبقى الأنظمة التي تدعم عملياتكم في مقدمة فئتها دائمًا."
 
 msgid "Logos"
-msgstr ""
-
-msgid "Logo"
 msgstr ""
 
 msgid "Add logo"
@@ -2259,6 +2307,9 @@ msgstr "اقرأ دراسة الحالة"
 msgid "Show more case studies"
 msgstr "عرض المزيد من دراسات الحالة"
 
+msgid "© %1$s %2$s. All rights reserved."
+msgstr ""
+
 msgid "Play %s"
 msgstr "تشغيل %s"
 
@@ -2496,6 +2547,9 @@ msgstr "القيادة · الاستراتيجية · العمليات"
 msgid "Explore the Podcast"
 msgstr "استكشف البودكاست"
 
+msgid "See all open positions"
+msgstr "عرض جميع الوظائف الشاغرة"
+
 msgid "%s open role"
 msgid_plural "%s open roles"
 msgstr[0] "لا وظائف شاغرة"
@@ -2511,6 +2565,12 @@ msgstr "لا توجد وظائف شاغرة حاليًا"
 msgid "Application: %s"
 msgstr "التقديم: %s"
 
+msgid "Hiring on behalf of %s."
+msgstr "التوظيف نيابةً عن %s."
+
+msgid "Applications close on %s."
+msgstr "يُغلق باب التقديم في %s."
+
 msgid "Posted %s"
 msgstr "نُشرت في %s"
 
@@ -2522,6 +2582,9 @@ msgstr "قدّم عبر"
 
 msgid "Get in touch about this role"
 msgstr "تواصل معنا بشأن هذه الوظيفة"
+
+msgid "Open this role on its own page"
+msgstr "افتح هذه الوظيفة في صفحتها الخاصة"
 
 msgid "How we work"
 msgstr "كيف نعمل"
@@ -2891,6 +2954,12 @@ msgstr "ما نؤمن به"
 
 msgid "How we got here"
 msgstr "كيف وصلنا إلى هنا"
+
+msgid "Our open positions are not available right now"
+msgstr "الوظائف الشاغرة غير متاحة حاليًا"
+
+msgid "Please check back shortly. If you would rather write to us, we will point you to the right person."
+msgstr "يُرجى المحاولة مرة أخرى بعد قليل. وإن كنتم تفضّلون مراسلتنا، فسنوجّهكم إلى الشخص المناسب."
 
 msgid "Our other markets"
 msgstr "أسواقنا الأخرى"

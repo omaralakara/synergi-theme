@@ -63,11 +63,11 @@ msgstr ""
 msgid "Terms & Conditions"
 msgstr ""
 
-#: footer.php:118 parts/consent.php:74
+#: footer.php:118 parts/consent.php:74 sections/connect.php:138
 msgid "Privacy Policy"
 msgstr ""
 
-#: footer.php:120
+#: footer.php:120 sections/connect.php:141
 msgid "Cookie settings"
 msgstr ""
 
@@ -91,7 +91,7 @@ msgstr ""
 msgid "The band at the top of the page. The page title is the heading, so it is not repeated here, and the photograph is the Featured Image in the sidebar."
 msgstr ""
 
-#: inc/about-fields.php:70 inc/about-fields.php:494 inc/blog-fields.php:75 inc/careers-fields.php:140 inc/careers-fields.php:189 inc/careers-fields.php:289 inc/case-study-fields.php:282 inc/case-study-fields.php:427 inc/case-study-fields.php:456 inc/contact-fields.php:110 inc/contact-fields.php:147 inc/contact-fields.php:188 inc/contact-fields.php:242 inc/fields.php:96 inc/global-locations-fields.php:42 inc/homepage-fields.php:170 inc/homepage-fields.php:204 inc/homepage-fields.php:290 inc/homepage-fields.php:385 inc/homepage-fields.php:437 inc/homepage-fields.php:478 inc/homepage-fields.php:518 inc/market-fields.php:210 inc/market-fields.php:350 inc/market-fields.php:409 inc/market-fields.php:482 inc/market-fields.php:696 inc/media-fields.php:40 inc/podcast-fields.php:116 inc/podcast-fields.php:155 inc/podcast-fields.php:203 inc/podcast-fields.php:248 inc/records.php:884 inc/records.php:968 inc/service-fields.php:65 inc/service-fields.php:481 inc/solution-fields.php:220 inc/solution-fields.php:532
+#: inc/about-fields.php:70 inc/about-fields.php:494 inc/blog-fields.php:75 inc/careers-fields.php:145 inc/careers-fields.php:194 inc/careers-fields.php:294 inc/case-study-fields.php:282 inc/case-study-fields.php:427 inc/case-study-fields.php:456 inc/contact-fields.php:110 inc/contact-fields.php:147 inc/contact-fields.php:188 inc/contact-fields.php:242 inc/fields.php:96 inc/global-locations-fields.php:42 inc/homepage-fields.php:170 inc/homepage-fields.php:204 inc/homepage-fields.php:290 inc/homepage-fields.php:385 inc/homepage-fields.php:437 inc/homepage-fields.php:478 inc/homepage-fields.php:518 inc/market-fields.php:210 inc/market-fields.php:350 inc/market-fields.php:409 inc/market-fields.php:482 inc/market-fields.php:696 inc/media-fields.php:40 inc/podcast-fields.php:116 inc/podcast-fields.php:155 inc/podcast-fields.php:203 inc/podcast-fields.php:248 inc/records.php:884 inc/records.php:968 inc/service-fields.php:65 inc/service-fields.php:481 inc/solution-fields.php:220 inc/solution-fields.php:532
 msgid "Eyebrow"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 msgid "About Synergi"
 msgstr ""
 
-#: inc/about-fields.php:77 inc/about-fields.php:237 inc/about-fields.php:305 inc/about-fields.php:392 inc/about-fields.php:501 inc/blog-fields.php:83 inc/careers-fields.php:147 inc/careers-fields.php:203 inc/careers-fields.php:303 inc/case-study-fields.php:289 inc/case-study-fields.php:379 inc/case-study-fields.php:463 inc/contact-fields.php:117 inc/contact-fields.php:161 inc/contact-fields.php:202 inc/contact-fields.php:256 inc/global-locations-fields.php:49 inc/homepage-fields.php:532 inc/market-fields.php:218 inc/market-fields.php:364 inc/market-fields.php:496 inc/media-fields.php:47 inc/podcast-fields.php:123 inc/podcast-fields.php:217 inc/podcast-fields.php:262 inc/service-fields.php:72 inc/service-fields.php:185 inc/service-fields.php:488 inc/solution-fields.php:227 inc/solution-fields.php:336 inc/solution-fields.php:539
+#: inc/about-fields.php:77 inc/about-fields.php:237 inc/about-fields.php:305 inc/about-fields.php:392 inc/about-fields.php:501 inc/blog-fields.php:83 inc/careers-fields.php:152 inc/careers-fields.php:208 inc/careers-fields.php:308 inc/case-study-fields.php:289 inc/case-study-fields.php:379 inc/case-study-fields.php:463 inc/contact-fields.php:117 inc/contact-fields.php:161 inc/contact-fields.php:202 inc/contact-fields.php:256 inc/global-locations-fields.php:49 inc/homepage-fields.php:532 inc/market-fields.php:218 inc/market-fields.php:364 inc/market-fields.php:496 inc/media-fields.php:47 inc/podcast-fields.php:123 inc/podcast-fields.php:217 inc/podcast-fields.php:262 inc/service-fields.php:72 inc/service-fields.php:185 inc/service-fields.php:488 inc/solution-fields.php:227 inc/solution-fields.php:336 inc/solution-fields.php:539
 msgid "Opening sentence"
 msgstr ""
 
@@ -131,7 +131,7 @@ msgstr ""
 msgid "The opening story, then the mission and vision statements."
 msgstr ""
 
-#: inc/about-fields.php:127 inc/about-fields.php:230 inc/about-fields.php:298 inc/about-fields.php:385 inc/careers-fields.php:196 inc/careers-fields.php:296 inc/case-study-fields.php:372 inc/case-study-fields.php:434 inc/contact-fields.php:154 inc/contact-fields.php:195 inc/contact-fields.php:249 inc/market-fields.php:268 inc/market-fields.php:357 inc/market-fields.php:416 inc/market-fields.php:489 inc/market-fields.php:633 inc/market-fields.php:688 inc/podcast-fields.php:162 inc/podcast-fields.php:210 inc/podcast-fields.php:255 inc/service-fields.php:124 inc/service-fields.php:178 inc/service-fields.php:327 inc/solution-fields.php:275 inc/solution-fields.php:329 inc/solution-fields.php:469
+#: inc/about-fields.php:127 inc/about-fields.php:230 inc/about-fields.php:298 inc/about-fields.php:385 inc/careers-fields.php:201 inc/careers-fields.php:301 inc/case-study-fields.php:372 inc/case-study-fields.php:434 inc/contact-fields.php:154 inc/contact-fields.php:195 inc/contact-fields.php:249 inc/market-fields.php:268 inc/market-fields.php:357 inc/market-fields.php:416 inc/market-fields.php:489 inc/market-fields.php:633 inc/market-fields.php:688 inc/podcast-fields.php:162 inc/podcast-fields.php:210 inc/podcast-fields.php:255 inc/service-fields.php:124 inc/service-fields.php:178 inc/service-fields.php:327 inc/solution-fields.php:275 inc/solution-fields.php:329 inc/solution-fields.php:469
 msgid "Section heading"
 msgstr ""
 
@@ -159,11 +159,11 @@ msgstr ""
 msgid "Incepted in the GCC, our vision includes digitizing service delivery, and positioning ourselves as a “one-stop shop” across various industries like hospitality, healthcare, fintech, technology among other industries."
 msgstr ""
 
-#: inc/about-fields.php:143 inc/careers-fields.php:246
+#: inc/about-fields.php:143 inc/careers-fields.php:251
 msgid "We envision becoming more than a BPO; a tech company at its core, combining systems, automation, AI, and cloud-based infrastructure with human ingenuity and drive to deliver operational excellence at scale."
 msgstr ""
 
-#: inc/about-fields.php:144 inc/careers-fields.php:238
+#: inc/about-fields.php:144 inc/careers-fields.php:243
 msgid "We are home-grown in the GCC with delivery centres both onshore and offshore."
 msgstr ""
 
@@ -195,11 +195,11 @@ msgstr ""
 msgid "At Synergi, we’re dedicated to aiding our clients in their journey of growth and profitability. By aligning our expertise with their ambitions, we strive to make every partnership a success story. Your growth and profit are the benchmarks of our own success."
 msgstr ""
 
-#: inc/about-fields.php:178 inc/homepage-fields.php:177 inc/homepage-fields.php:211 inc/homepage-fields.php:297 inc/homepage-fields.php:392 inc/homepage-fields.php:444 inc/homepage-fields.php:485 inc/homepage-fields.php:525 inc/market-fields.php:307 inc/records.php:891 inc/records.php:920 inc/records.php:974
+#: inc/about-fields.php:178 inc/connect-fields.php:70 inc/homepage-fields.php:177 inc/homepage-fields.php:211 inc/homepage-fields.php:297 inc/homepage-fields.php:392 inc/homepage-fields.php:444 inc/homepage-fields.php:485 inc/homepage-fields.php:525 inc/market-fields.php:307 inc/records.php:891 inc/records.php:920 inc/records.php:974
 msgid "Heading"
 msgstr ""
 
-#: inc/about-fields.php:190 inc/about-fields.php:313 inc/about-fields.php:582 inc/careers-fields.php:212 inc/case-study-fields.php:298 inc/homepage-fields.php:334 inc/market-fields.php:319 inc/market-fields.php:453 inc/market-fields.php:535 inc/market-fields.php:581 inc/records.php:839 inc/records.php:941 inc/service-fields.php:81 inc/service-fields.php:279 inc/solution-fields.php:419
+#: inc/about-fields.php:190 inc/about-fields.php:313 inc/about-fields.php:582 inc/careers-fields.php:217 inc/case-study-fields.php:298 inc/homepage-fields.php:334 inc/market-fields.php:319 inc/market-fields.php:453 inc/market-fields.php:535 inc/market-fields.php:581 inc/records.php:839 inc/records.php:941 inc/service-fields.php:81 inc/service-fields.php:279 inc/solution-fields.php:419
 msgid "Photograph"
 msgstr ""
 
@@ -303,11 +303,11 @@ msgstr ""
 msgid "In an ever-changing world, our adaptability ensures we stay ahead, making swift decisions to benefit our clients."
 msgstr ""
 
-#: inc/about-fields.php:331 inc/careers-fields.php:249
+#: inc/about-fields.php:331 inc/careers-fields.php:254
 msgid "Expertise"
 msgstr ""
 
-#: inc/about-fields.php:332 inc/careers-fields.php:250
+#: inc/about-fields.php:332 inc/careers-fields.php:255
 msgid "We pride ourselves on our deep knowledge and experience, ensuring that every task is executed precisely."
 msgstr ""
 
@@ -479,7 +479,7 @@ msgstr ""
 msgid "Optional. A card without one still renders, with the person’s initials in its place."
 msgstr ""
 
-#: inc/about-fields.php:588 sections/people.php:319
+#: inc/about-fields.php:588 inc/connect-fields.php:94 sections/people.php:319
 msgid "LinkedIn"
 msgstr ""
 
@@ -519,12 +519,24 @@ msgstr ""
 msgid "Analysis and practical guidance from the teams who run these functions every day."
 msgstr ""
 
-#: inc/blog-fields.php:92 inc/careers-fields.php:157 inc/case-study-fields.php:472 inc/contact-fields.php:125 inc/global-locations-fields.php:58 inc/market-fields.php:227 inc/media-fields.php:56 inc/service-fields.php:497 inc/solution-fields.php:236 inc/solution-fields.php:548
+#: inc/blog-fields.php:92 inc/careers-fields.php:162 inc/case-study-fields.php:472 inc/contact-fields.php:125 inc/global-locations-fields.php:58 inc/market-fields.php:227 inc/media-fields.php:56 inc/service-fields.php:497 inc/solution-fields.php:236 inc/solution-fields.php:548
 msgid "Hero photograph"
 msgstr ""
 
 #: inc/blog-fields.php:93
 msgid "Optional. Fills the band behind the heading. Without one the page falls back to this page’s Featured Image, and without that the band stays on the flat navy. Choose one with meaningful alt text already set on it."
+msgstr ""
+
+#: inc/careers-feed.php:262
+msgid "Hybrid"
+msgstr ""
+
+#: inc/careers-feed.php:263
+msgid "Remote"
+msgstr ""
+
+#: inc/careers-feed.php:286
+msgid "%1$s %2$s–%3$s a month"
 msgstr ""
 
 #: inc/careers-fields.php:71
@@ -535,263 +547,267 @@ msgstr ""
 msgid "Corporate"
 msgstr ""
 
-#: inc/careers-fields.php:88 sections/positions.php:183
+#: inc/careers-fields.php:92 sections/positions.php:215
 msgid "Still available"
 msgstr ""
 
-#: inc/careers-fields.php:89
+#: inc/careers-fields.php:93
+msgid "New"
+msgstr ""
+
+#: inc/careers-fields.php:94
 msgid "Closing soon"
 msgstr ""
 
-#: inc/careers-fields.php:90
+#: inc/careers-fields.php:95
 msgid "Filled"
 msgstr ""
 
-#: inc/careers-fields.php:105
+#: inc/careers-fields.php:110
 msgid "Full-time"
 msgstr ""
 
-#: inc/careers-fields.php:106
+#: inc/careers-fields.php:111
 msgid "Part-time"
 msgstr ""
 
-#: inc/careers-fields.php:107
+#: inc/careers-fields.php:112
 msgid "Contract"
 msgstr ""
 
-#: inc/careers-fields.php:108
+#: inc/careers-fields.php:113
 msgid "Internship"
 msgstr ""
 
-#: inc/careers-fields.php:109
+#: inc/careers-fields.php:114
 msgid "Temporary"
 msgstr ""
 
-#: inc/careers-fields.php:133
+#: inc/careers-fields.php:138
 msgid "Careers — intro"
 msgstr ""
 
-#: inc/careers-fields.php:134
+#: inc/careers-fields.php:139
 msgid "The band at the top. The page title is the heading."
 msgstr ""
 
-#: inc/careers-fields.php:141
+#: inc/careers-fields.php:146
 msgid "Careers at Synergi"
 msgstr ""
 
-#: inc/careers-fields.php:150
+#: inc/careers-fields.php:155
 msgid "Synergi BPO is a boutique Business Process Outsourcing provider serving clients across the GCC region and internationally, helping organizations streamline and strengthen their support functions and shared services."
 msgstr ""
 
-#: inc/careers-fields.php:158
+#: inc/careers-fields.php:163
 msgid "Fills the band behind the page title. Without one the band stays on the flat navy."
 msgstr ""
 
-#: inc/careers-fields.php:164 inc/homepage-fields.php:125 inc/podcast-fields.php:131 inc/service-fields.php:503 inc/solution-fields.php:554
+#: inc/careers-fields.php:169 inc/connect-fields.php:87 inc/homepage-fields.php:125 inc/podcast-fields.php:131 inc/service-fields.php:503 inc/solution-fields.php:554
 msgid "Button"
 msgstr ""
 
-#: inc/careers-fields.php:165
+#: inc/careers-fields.php:170
 msgid "#positions jumps to the open positions further down this page."
 msgstr ""
 
-#: inc/careers-fields.php:168
+#: inc/careers-fields.php:173
 msgid "See open positions"
 msgstr ""
 
-#: inc/careers-fields.php:182
+#: inc/careers-fields.php:187
 msgid "Careers — why join"
 msgstr ""
 
-#: inc/careers-fields.php:183
+#: inc/careers-fields.php:188
 msgid "The reasons to work here, beside a photograph of the team."
 msgstr ""
 
-#: inc/careers-fields.php:190 inc/homepage-fields.php:479 inc/media-fields.php:108 sections/instagram.php:39
+#: inc/careers-fields.php:195 inc/homepage-fields.php:479 inc/media-fields.php:108 sections/instagram.php:39
 msgid "Life at Synergi"
 msgstr ""
 
-#: inc/careers-fields.php:197
+#: inc/careers-fields.php:202
 msgid "Why people build their careers here"
 msgstr ""
 
-#: inc/careers-fields.php:205
+#: inc/careers-fields.php:210
 msgid "Synergi is a Boutique Business Process Outsourcing (BPO) services provider with a bold ambition: to evolve into a tech-driven Shared Services as-a-service (SSaaS) provider."
 msgstr ""
 
-#: inc/careers-fields.php:213
+#: inc/careers-fields.php:218
 msgid "Shown tall beside the reasons. A picture of people at work reads better than a skyline here."
 msgstr ""
 
-#: inc/careers-fields.php:219 inc/market-fields.php:504
+#: inc/careers-fields.php:224 inc/market-fields.php:504
 msgid "Reasons"
 msgstr ""
 
-#: inc/careers-fields.php:220 inc/market-fields.php:506 inc/market-fields.php:516
+#: inc/careers-fields.php:225 inc/market-fields.php:506 inc/market-fields.php:516
 msgid "Reason"
 msgstr ""
 
-#: inc/careers-fields.php:221 inc/market-fields.php:507
+#: inc/careers-fields.php:226 inc/market-fields.php:507
 msgid "Add reason"
 msgstr ""
 
-#: inc/careers-fields.php:237
+#: inc/careers-fields.php:242
 msgid "Home-grown in the GCC"
 msgstr ""
 
-#: inc/careers-fields.php:241
+#: inc/careers-fields.php:246
 msgid "Experience across multiple markets"
 msgstr ""
 
-#: inc/careers-fields.php:242 sections/why.php:101
+#: inc/careers-fields.php:247 sections/why.php:101
 msgid "Regional context informs how teams, controls, and delivery models are designed."
 msgstr ""
 
-#: inc/careers-fields.php:245
+#: inc/careers-fields.php:250
 msgid "A tech company at its core"
 msgstr ""
 
-#: inc/careers-fields.php:257 inc/podcast-fields.php:65 inc/service-fields.php:141
+#: inc/careers-fields.php:262 inc/podcast-fields.php:65 inc/service-fields.php:141
 msgid "Title"
 msgstr ""
 
-#: inc/careers-fields.php:263
+#: inc/careers-fields.php:268
 msgid "One or two sentences"
 msgstr ""
 
-#: inc/careers-fields.php:282
+#: inc/careers-fields.php:287
 msgid "Careers — open positions"
 msgstr ""
 
-#: inc/careers-fields.php:283
+#: inc/careers-fields.php:288
 msgid "One row per role. A row with no title is skipped. Remove a row when the role is filled; with no rows at all the band invites an open application instead."
 msgstr ""
 
-#: inc/careers-fields.php:290 sections/positions.php:85
+#: inc/careers-fields.php:295 sections/positions.php:105
 msgid "Open positions"
 msgstr ""
 
-#: inc/careers-fields.php:297
+#: inc/careers-fields.php:302
 msgid "Roles we are hiring for now"
 msgstr ""
 
-#: inc/careers-fields.php:304
+#: inc/careers-fields.php:309
 msgid "Open a role to read what it involves and who it suits."
 msgstr ""
 
-#: inc/careers-fields.php:311
+#: inc/careers-fields.php:316
 msgid "Positions"
 msgstr ""
 
-#: inc/careers-fields.php:312
+#: inc/careers-fields.php:317
 msgid "Position"
 msgstr ""
 
-#: inc/careers-fields.php:313
+#: inc/careers-fields.php:318
 msgid "Add position"
 msgstr ""
 
-#: inc/careers-fields.php:322
+#: inc/careers-fields.php:327
 msgid "Role title"
 msgstr ""
 
-#: inc/careers-fields.php:328
+#: inc/careers-fields.php:333
 msgid "Department"
 msgstr ""
 
-#: inc/careers-fields.php:334 inc/records.php:749
+#: inc/careers-fields.php:339 inc/records.php:749
 msgid "Location"
 msgstr ""
 
-#: inc/careers-fields.php:335
+#: inc/careers-fields.php:340
 msgid "City and country, or \"Remote\"."
 msgstr ""
 
-#: inc/careers-fields.php:342
+#: inc/careers-fields.php:347
 msgid "Employment type"
 msgstr ""
 
-#: inc/careers-fields.php:348
+#: inc/careers-fields.php:353
 msgid "Status tag"
 msgstr ""
 
-#: inc/careers-fields.php:349
+#: inc/careers-fields.php:354
 msgid "The small tag on the role. Remove the row altogether once a role is filled and gone."
 msgstr ""
 
-#: inc/careers-fields.php:355 inc/market-fields.php:82 inc/records.php:674 inc/solution-fields.php:77
+#: inc/careers-fields.php:360 inc/market-fields.php:82 inc/records.php:674 inc/solution-fields.php:77
 msgid "One-line summary"
 msgstr ""
 
-#: inc/careers-fields.php:356
+#: inc/careers-fields.php:361
 msgid "Shown before the role is opened."
 msgstr ""
 
-#: inc/careers-fields.php:363
+#: inc/careers-fields.php:368
 msgid "The role"
 msgstr ""
 
-#: inc/careers-fields.php:364
+#: inc/careers-fields.php:369
 msgid "What the role involves and who it suits. Paragraphs and lists are fine."
 msgstr ""
 
-#: inc/careers-fields.php:370
+#: inc/careers-fields.php:375
 msgid "Applications email"
 msgstr ""
 
-#: inc/careers-fields.php:371
+#: inc/careers-fields.php:376
 msgid "Printed on the role as \"Mail us at …\", with the role title in the subject line. Left blank, the role points at Contact Us instead."
 msgstr ""
 
-#: inc/careers-fields.php:377
+#: inc/careers-fields.php:382
 msgid "Apply link instead"
 msgstr ""
 
-#: inc/careers-fields.php:378
+#: inc/careers-fields.php:383
 msgid "Optional. A form or a job board page for this role. Filled in, it is used instead of the email."
 msgstr ""
 
-#: inc/careers-fields.php:384
+#: inc/careers-fields.php:389
 msgid "Posted on"
 msgstr ""
 
-#: inc/careers-fields.php:385
+#: inc/careers-fields.php:390
 msgid "Optional. Shown on the role, and needed for the listing to appear in Google Jobs."
 msgstr ""
 
-#: inc/careers-fields.php:406
+#: inc/careers-fields.php:411
 msgid "Closes on"
 msgstr ""
 
-#: inc/careers-fields.php:407
+#: inc/careers-fields.php:412
 msgid "Optional but strongly recommended. The last day applications are open. Google uses it to drop the listing from Google Jobs automatically — without it a filled role can keep attracting applicants for months."
 msgstr ""
 
-#: inc/careers-fields.php:414
+#: inc/careers-fields.php:419
 msgid "No openings — heading"
 msgstr ""
 
-#: inc/careers-fields.php:415
+#: inc/careers-fields.php:420
 msgid "No open roles at the moment"
 msgstr ""
 
-#: inc/careers-fields.php:421
+#: inc/careers-fields.php:426
 msgid "No openings — text"
 msgstr ""
 
-#: inc/careers-fields.php:422
+#: inc/careers-fields.php:427
 msgid "Get in touch if you would like to be considered for future roles."
 msgstr ""
 
-#: inc/careers-fields.php:429
+#: inc/careers-fields.php:434
 msgid "No openings — button"
 msgstr ""
 
-#: inc/careers-fields.php:430
+#: inc/careers-fields.php:435
 msgid "Leave the address empty and the button goes to Contact Us."
 msgstr ""
 
-#: inc/careers-fields.php:433 sections/positions.php:104
+#: inc/careers-fields.php:438 sections/positions.php:126
 msgid "Get in touch"
 msgstr ""
 
@@ -997,6 +1013,70 @@ msgstr ""
 
 #: inc/case-study-post-type.php:130
 msgid "All case studies"
+msgstr ""
+
+#: inc/connect-fields.php:50
+msgid "Connect — the card"
+msgstr ""
+
+#: inc/connect-fields.php:51
+msgid "The whole page: the logo, the heading, one sentence and the buttons. The page has no header or footer, on purpose — it is what a printed QR code opens."
+msgstr ""
+
+#: inc/connect-fields.php:57 inc/homepage-fields.php:408 inc/homepage-fields.php:417
+msgid "Logo"
+msgstr ""
+
+#: inc/connect-fields.php:58
+msgid "The colour logo, for a white background. The site logo is white, which is why this page has its own."
+msgstr ""
+
+#: inc/connect-fields.php:71
+msgid "Connect with Synergi"
+msgstr ""
+
+#: inc/connect-fields.php:77
+msgid "Sentence under the heading"
+msgstr ""
+
+#: inc/connect-fields.php:78
+msgid "Follow our latest updates and learn more about our services."
+msgstr ""
+
+#: inc/connect-fields.php:85 inc/homepage-fields.php:124
+msgid "Buttons"
+msgstr ""
+
+#: inc/connect-fields.php:86
+msgid "In the order they appear. The icon follows the address: LinkedIn, Instagram, Facebook and YouTube get their own mark, an email address or the contact page gets an envelope, anything else a globe."
+msgstr ""
+
+#: inc/connect-fields.php:88 inc/homepage-fields.php:126
+msgid "Add button"
+msgstr ""
+
+#: inc/connect-fields.php:98
+msgid "Instagram"
+msgstr ""
+
+#: inc/connect-fields.php:102
+msgid "Contact Synergi"
+msgstr ""
+
+#: inc/connect-fields.php:106
+msgid "Visit Our Website"
+msgstr ""
+
+#: inc/connect-fields.php:114
+msgid "Words on the button"
+msgstr ""
+
+#: inc/connect-fields.php:120 inc/fields.php:989 inc/homepage-fields.php:140
+msgid "Address"
+msgstr ""
+
+#: inc/connect-fields.php:121
+msgid "A full address for another site, or a path starting with / for a page on this one, e.g. /contact-us/."
 msgstr ""
 
 #: inc/contact-fields.php:49
@@ -1235,10 +1315,6 @@ msgstr ""
 
 #: inc/fields.php:963
 msgid "The stored image is missing from the media library. Choose another."
-msgstr ""
-
-#: inc/fields.php:989 inc/homepage-fields.php:140
-msgid "Address"
 msgstr ""
 
 #: inc/fields.php:997 inc/homepage-fields.php:492
@@ -1545,14 +1621,6 @@ msgstr ""
 msgid "Word or short phrase"
 msgstr ""
 
-#: inc/homepage-fields.php:124
-msgid "Buttons"
-msgstr ""
-
-#: inc/homepage-fields.php:126
-msgid "Add button"
-msgstr ""
-
 #: inc/homepage-fields.php:134
 msgid "Text"
 msgstr ""
@@ -1747,10 +1815,6 @@ msgstr ""
 
 #: inc/homepage-fields.php:407
 msgid "Logos"
-msgstr ""
-
-#: inc/homepage-fields.php:408 inc/homepage-fields.php:417
-msgid "Logo"
 msgstr ""
 
 #: inc/homepage-fields.php:409
@@ -2995,6 +3059,10 @@ msgstr ""
 msgid "Show more case studies"
 msgstr ""
 
+#: sections/connect.php:131
+msgid "© %1$s %2$s. All rights reserved."
+msgstr ""
+
 #: sections/episodes.php:191
 msgid "Play %s"
 msgstr ""
@@ -3311,34 +3379,50 @@ msgstr ""
 msgid "Explore the Podcast"
 msgstr ""
 
-#: sections/positions.php:210
+#: sections/positions.php:133 synergi-careers/single-vacancy.php:88
+msgid "See all open positions"
+msgstr ""
+
+#: sections/positions.php:301
 msgid "%s open role"
 msgid_plural "%s open roles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: sections/positions.php:221
+#: sections/positions.php:313
 msgid "No open roles right now"
 msgstr ""
 
-#: sections/positions.php:255
+#: sections/positions.php:357
 msgid "Application: %s"
 msgstr ""
 
-#: sections/positions.php:326
+#: sections/positions.php:398
+msgid "Hiring on behalf of %s."
+msgstr ""
+
+#: sections/positions.php:443
+msgid "Applications close on %s."
+msgstr ""
+
+#: sections/positions.php:456
 msgid "Posted %s"
 msgstr ""
 
-#: sections/positions.php:335
+#: sections/positions.php:465
 msgid "Mail us at"
 msgstr ""
 
-#: sections/positions.php:338
+#: sections/positions.php:468
 msgid "Apply at"
 msgstr ""
 
-#: sections/positions.php:341
+#: sections/positions.php:471
 msgid "Get in touch about this role"
+msgstr ""
+
+#: sections/positions.php:478
+msgid "Open this role on its own page"
 msgstr ""
 
 #: sections/process.php:29
@@ -3831,6 +3915,14 @@ msgstr ""
 
 #: templates/about.php:141
 msgid "How we got here"
+msgstr ""
+
+#: templates/careers.php:73
+msgid "Our open positions are not available right now"
+msgstr ""
+
+#: templates/careers.php:74
+msgid "Please check back shortly. If you would rather write to us, we will point you to the right person."
 msgstr ""
 
 #: templates/market.php:384
