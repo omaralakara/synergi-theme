@@ -114,6 +114,11 @@ require_once SYN_DIR . 'inc/media-fields.php';
 // it loads after records.php like everything else here.
 require_once SYN_DIR . 'inc/careers-fields.php';
 
+// The portal's vacancies feed, read through the Synergi Careers plugin and
+// shaped for the positions band. After careers-fields.php, whose choice lists
+// it writes into; harmless when the plugin is absent.
+require_once SYN_DIR . 'inc/careers-feed.php';
+
 // /connect/, the QR code's link page: its words, its buttons, and the two
 // helpers that turn a button's address into a link and an icon.
 require_once SYN_DIR . 'inc/connect-fields.php';

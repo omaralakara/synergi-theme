@@ -6,12 +6,20 @@
  *
  * Loaded by: the page editor's Template dropdown.
  * Depends on: header.php, footer.php, inc/sections.php, inc/fields.php,
- * inc/careers-fields.php, inc/records.php, parts/page-header.php, sections/*.php.
+ * inc/careers-fields.php, inc/careers-feed.php, inc/records.php,
+ * parts/page-header.php, sections/*.php.
  *
  * TWO BANDS, BOTH THIS PAGE'S OWN. sections/perks.php is the reasons to join
  * beside a photograph of the team; sections/positions.php is the roles.
  * The title band is the one every other page uses (CLAUDE.md §4: a template
  * composes sections).
+ *
+ * WHERE THE ROLES COME FROM (30 Sep). With the Synergi Careers plugin active
+ * the roles are the portal's, read through inc/careers-feed.php and handed to
+ * the positions band in the shape it already takes; the page's own repeater
+ * is not consulted. Without the plugin the repeater is the source, exactly as
+ * it was from 14 Sep. Either way the band's markup is the theme's — the
+ * plugin's shortcode is never used (CLAUDE.md §13, one class in one file).
  *
  * WHAT WAS TAKEN OUT, AND WHY (14 Sep). The first cut also carried the
  * figures band, the hiring-steps band and the closing "send your CV" panel.
@@ -44,6 +52,35 @@ $syn_empty_cta = syn_field_link( 'careers_positions_empty_cta', $syn_id );
 
 if ( '' === trim( (string) $syn_empty_cta['url'] ) ) {
 	$syn_empty_cta['url'] = $syn_fallback_url;
+}
+
+$syn_empty_heading = syn_field( 'careers_positions_empty_heading', $syn_id );
+$syn_empty_text    = syn_field( 'careers_positions_empty_text', $syn_id );
+
+/*
+ * Three states, told apart on purpose. The plugin absent: the repeater. The
+ * portal answering: its roles, even when it says there are none — that is
+ * the page's ordinary empty panel. The portal unreachable and no copy under a
+ * day old: the same panel, but saying so, with the plugin's fallback address
+ * as the button — a visitor is never shown a role that may have closed, and
+ * never shown "no roles" when the truth is "we could not check".
+ */
+$syn_feed_active = function_exists( 'syn_careers_feed_active' ) && syn_careers_feed_active();
+$syn_items       = $syn_feed_active ? syn_careers_feed_items() : syn_field_rows( 'careers_positions_list', $syn_id );
+
+if ( $syn_feed_active && null === $syn_items ) {
+	$syn_items         = array();
+	$syn_empty_heading = __( 'Our open positions are not available right now', 'synergi' );
+	$syn_empty_text    = __( 'Please check back shortly. If you would rather write to us, we will point you to the right person.', 'synergi' );
+
+	$syn_fallback_email = syn_careers_feed_fallback_email();
+
+	if ( '' !== $syn_fallback_email ) {
+		$syn_empty_cta = array(
+			'url'   => 'mailto:' . $syn_fallback_email,
+			'label' => $syn_fallback_email,
+		);
+	}
 }
 
 /*
@@ -90,10 +127,10 @@ syn_section(
 		'eyebrow'       => syn_field( 'careers_positions_eyebrow', $syn_id ),
 		'heading'       => syn_field( 'careers_positions_heading', $syn_id ),
 		'lede'          => syn_field( 'careers_positions_lede', $syn_id ),
-		'items'         => syn_field_rows( 'careers_positions_list', $syn_id ),
+		'items'         => $syn_items,
 		'apply_url'     => $syn_fallback_url,
-		'empty_heading' => syn_field( 'careers_positions_empty_heading', $syn_id ),
-		'empty_text'    => syn_field( 'careers_positions_empty_text', $syn_id ),
+		'empty_heading' => $syn_empty_heading,
+		'empty_text'    => $syn_empty_text,
 		'empty_cta'     => $syn_empty_cta,
 	)
 );
