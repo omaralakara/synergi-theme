@@ -92,13 +92,23 @@ function syn_enqueue_part_assets() {
 		$parts = array( 'consent' );
 	}
 
+	/*
+	 * The Synergi Careers plugin's role pages (/careers/<title>-<id>/, 30 Sep)
+	 * are virtual: no post answers, so WordPress calls them the blog home.
+	 * They render the title band and nothing of the blog, so they are asked
+	 * for by name (inc/careers-feed.php) rather than left to is_home() —
+	 * which the vendor may one day stop leaving true.
+	 */
+	$syn_is_role = function_exists( 'syn_careers_is_role_page' ) && syn_careers_is_role_page();
+
 	// Every view that renders the title band: singular pages and posts, plus
 	// the listing templates, which put the archive title in the same band.
 	$syn_has_band = ( is_singular() && ! is_front_page() )
 		|| is_home()
 		|| is_archive()
 		|| is_search()
-		|| is_404();
+		|| is_404()
+		|| $syn_is_role;
 
 	/*
 	 * Except a template whose first section is a hero. The hero reserves the
@@ -118,7 +128,7 @@ function syn_enqueue_part_assets() {
 
 	// The blog's own layer: cards, pagination, post navigation. A designed page
 	// never renders any of it, so it never downloads it (CLAUDE.md §6).
-	if ( is_singular( 'post' ) || is_home() || is_archive() || is_search() || is_404() ) {
+	if ( is_singular( 'post' ) || ( is_home() && ! $syn_is_role ) || is_archive() || is_search() || is_404() ) {
 		$parts[] = 'post';
 	}
 
